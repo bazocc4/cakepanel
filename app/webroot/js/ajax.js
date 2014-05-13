@@ -32,7 +32,7 @@ function changeLocation(url)
 
 function deleteChildPic(myobj)
 {	
-	$(myobj).parents("div.photo").animate({opacity : 0 , height : 0, marginBottom : 0},1000,function(){
+	$(myobj).parents("div.photo").animate({opacity : 0 , width : 0, marginRight : 0},1000,function(){
 		$(this).detach();
 		var jumlah = parseInt($('strong#galleryCount').html());
 		$('strong#galleryCount').html((jumlah - 1)+' PICTURES');
@@ -208,6 +208,13 @@ function openRequestedSinglePopup(strUrl)
 			$('div#myPictureWrapper').append('<div class="photo"><div class="image"><img style="width:150px" title="'+imgName+'" alt="'+imgName+'" src="'+site+'img/upload/thumb/'+imgId+'.'+imgType+'" /></div><div class="description"><p>'+imgName+'</p><a href="javascript:void(0)" onclick="deleteChildPic(this);" class="icon-remove icon-white"></a></div><input type="hidden" value="'+imgId+'" name="data[Entry][image][]" /></div>');
 			var jumlah = parseInt($('strong#galleryCount').html());
 			$('strong#galleryCount').html((jumlah + 1)+' PICTURES');
+		}
+		// for input type gallery...
+		else if($('input#mycaller').val() == 'myInputWrapper')
+		{	
+			var fullkey = $('input#mediaTypeSlug').val();
+
+			$('div#'+fullkey).append('<div class="photo"><div class="image"><img style="width:150px" title="'+imgName+'" alt="'+imgName+'" src="'+site+'img/upload/thumb/'+imgId+'.'+imgType+'" /></div><div class="description"><p>'+imgName+'</p><a href="javascript:void(0)" onclick="deleteChildPic(this);" class="icon-remove icon-white"></a></div><input type="hidden" value="'+imgId+'" name="data[Entry][fieldimage]['+fullkey+'][]" /></div>');
 		}
 		// for CK Editor
 		else if($('input#mycaller').val() == 'ckeditor')

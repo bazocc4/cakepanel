@@ -10,7 +10,7 @@ class RolesController extends AppController {
 		
 		if($this->user['role_id'] > 1)
 		{
-			throw new NotFoundException(); 
+			throw new NotFoundException('Error 404 - Not Found'); 
 			return;
 		}
     }

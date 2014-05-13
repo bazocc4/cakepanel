@@ -191,7 +191,7 @@ class InstantPaymentNotificationsController extends AppController {
 					
 					if(empty($myEntry['EntryMeta']['quantity']) || $myEntry['EntryMeta']['quantity'] < $tempCart['quantity'][$key])
 					{
-						throw new NotFoundException(); 
+						throw new NotFoundException('Error 404 - Not Found'); 
 						return;
 					}
 					
@@ -216,7 +216,7 @@ class InstantPaymentNotificationsController extends AppController {
 			}
 			else
 			{
-				throw new NotFoundException(); 
+				throw new NotFoundException('Error 404 - Not Found'); 
 				return;
 			}
 		}

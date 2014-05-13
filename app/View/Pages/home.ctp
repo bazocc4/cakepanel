@@ -8,7 +8,7 @@
  */
 
 if (!Configure::read('debug')):
-	throw new NotFoundException();
+	throw new NotFoundException('Error 404 - Not Found');
 endif;
 
 App::uses('Debugger', 'Utility');

@@ -556,7 +556,7 @@ class EntriesController extends AppController {
 		}
 		if($status == 0)
 		{
-			throw new NotFoundException(); 
+			throw new NotFoundException('Error 404 - Not Found'); 
 			return;
 		}
 		// custom function for add ...
@@ -598,7 +598,7 @@ class EntriesController extends AppController {
 			
 			if($this->user['role_id'] > 1)
 			{
-				throw new NotFoundException(); 
+				throw new NotFoundException('Error 404 - Not Found'); 
 				return;
 			}
 			// manually set pages data !!
@@ -692,7 +692,7 @@ class EntriesController extends AppController {
 		}
 		if($status == 0)
 		{
-			throw new NotFoundException(); 
+			throw new NotFoundException('Error 404 - Not Found'); 
 			return;
 		}
 		// custom function for edit ...
@@ -1580,11 +1580,11 @@ class EntriesController extends AppController {
                 $newEntryId = $this->Entry->id;
                 if($data['gallery'])
                 {   
-                    $input = array();
                     foreach ($this->request->data['Entry']['image'] as $key => $value) 
                     {
                         $myImage = $this->Entry->findById($value);
                         
+                        $input = array();
                         $input['Entry']['entry_type'] = $this->request->data['Entry']['entry_type'];
                         $input['Entry']['title'] = $myImage['Entry']['title'];
                         $input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
@@ -1595,6 +1595,28 @@ class EntriesController extends AppController {
                         $this->Entry->create();
                         $this->Entry->save($input);
                     }
+                }
+
+                if(!empty($this->request->data['Entry']['fieldimage']))
+                {
+                	foreach ($this->request->data['Entry']['fieldimage'] as $fieldkey => $fieldvalue) 
+                	{
+                		foreach ($fieldvalue as $key => $value) 
+                		{
+                			$myImage = $this->Entry->findById($value);
+
+                			$input = array();                        
+	                        $input['Entry']['entry_type'] = $fieldkey;
+	                        $input['Entry']['title'] = $myImage['Entry']['title'];
+	                        $input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
+	                        $input['Entry']['main_image'] = $value;
+	                        $input['Entry']['parent_id'] = $newEntryId;
+	                        $input['Entry']['created_by'] = $this->user['id'];
+	                        $input['Entry']['modified_by'] = $this->user['id'];
+	                        $this->Entry->create();
+	                        $this->Entry->save($input);
+                		}
+                	}
                 }
 
 				//--------------------------------- firstly create count-type in EntryMeta... ----------------------------- /////
@@ -1732,17 +1754,18 @@ class EntriesController extends AppController {
 	            }
 	        }
         }
-        if($data['gallery'])
+
+        // FIRSTLY, sorting our image children !!
+        if(!empty($data['myEntry']['ChildEntry']))
         {
-            // FIRSTLY, sorting our image children !!
-            $tempChild = $this->Entry->find('all' , array(
-                'conditions' => array(
-                    'Entry.parent_id' => $myEntry['Entry']['id']
-                ),
-                'order' => array('Entry.id ASC')
-            ));
-            $data['myEntry']['ChildEntry'] = $tempChild;
-        }        
+        	$tempChild = $this->Entry->find('all' , array(
+	            'conditions' => array(
+	                'Entry.parent_id' => $myEntry['Entry']['id']
+	            ),
+	            'order' => array('Entry.id ASC')
+	        ));
+	        $data['myEntry']['ChildEntry'] = $tempChild;
+        }
         
 		if(!empty($myType))
 		{
@@ -1861,11 +1884,9 @@ class EntriesController extends AppController {
 					// ------------------------------------- end of entry details...
 					$this->Entry->id = $myEntry['Entry']['id'];
 					$this->Entry->save($this->request->data);
+					$galleryId = $myEntry['Entry']['id'];
                     if($data['gallery'])
                     {                        
-                        $galleryId = $myEntry['Entry']['id'];
-                        $input = array();
-                        
                         // delete all the child image, and then add again !!
                         $this->Entry->deleteAll(array('Entry.parent_id' => $galleryId,'Entry.entry_type' => $myEntry['Entry']['entry_type']));
                         
@@ -1873,6 +1894,7 @@ class EntriesController extends AppController {
                         {
                             $myImage = $this->Entry->findById($value);
                             
+                            $input = array();
                             $input['Entry']['entry_type'] = $myEntry['Entry']['entry_type'];
                             $input['Entry']['title'] = $myImage['Entry']['title'];
                             $input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
@@ -1884,6 +1906,31 @@ class EntriesController extends AppController {
                             $this->Entry->save($input);
                         }
                     }
+
+                    // delete all the field child image, and then add again !!
+                    $this->Entry->deleteAll(array('Entry.parent_id' => $galleryId,'Entry.entry_type LIKE' => 'form-%'));
+
+                    if(!empty($this->request->data['Entry']['fieldimage']))
+	                {
+	                	foreach ($this->request->data['Entry']['fieldimage'] as $fieldkey => $fieldvalue) 
+	                	{
+	                		foreach ($fieldvalue as $key => $value) 
+	                		{
+	                			$myImage = $this->Entry->findById($value);
+
+	                			$input = array();                        
+		                        $input['Entry']['entry_type'] = $fieldkey;
+		                        $input['Entry']['title'] = $myImage['Entry']['title'];
+		                        $input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
+		                        $input['Entry']['main_image'] = $value;
+		                        $input['Entry']['parent_id'] = $galleryId;
+		                        $input['Entry']['created_by'] = $this->user['id'];
+		                        $input['Entry']['modified_by'] = $this->user['id'];
+		                        $this->Entry->create();
+		                        $this->Entry->save($input);
+	                		}
+	                	}
+	                }
 					
 					// delete all the attributes, and then add again !!
 					$this->EntryMeta->deleteAll(array(

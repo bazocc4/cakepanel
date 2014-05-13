@@ -116,7 +116,7 @@
 				<?php				
 					echo $this->Form->create('Entry', array('action'=>'UploadHandler','type'=>'file','id'=>'fileupload','inputDefaults' => array('label' =>false , 'div' => false)));	
 				?>
-						<input type="hidden" value="<?php echo $myTypeSlug; ?>" name="data[Type][slug]" />
+						<input type="hidden" value="<?php echo $myTypeSlug; ?>" name="data[Type][slug]" id="mediaTypeSlug" />
 						<!-- The loading indicator is shown during file processing -->
 						<div class="tabs-content">
 							<div class="fileupload-progress fade">

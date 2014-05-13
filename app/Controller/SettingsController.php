@@ -15,7 +15,7 @@ class SettingsController extends AppController {
 
 	function error404()
 	{
-		throw new NotFoundException(); 
+		throw new NotFoundException('Error 404 - Not Found'); 
 		return;
 	}
 	
