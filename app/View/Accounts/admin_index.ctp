@@ -93,7 +93,6 @@
 		<div class="wrapper-empty-state">
 			<div class="pic"></div>
 			<h2>No Items Found!</h2>
-			<!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ante nisi, fermentum eu mattis id, vehicula dapibus sapien.</p>-->
 			<?php echo (empty($popup)?$this->Form->Html->link('Get Started',array('action'=>'add'),array('class'=>'btn btn-primary')):''); ?>
 		</div>
 	</div>

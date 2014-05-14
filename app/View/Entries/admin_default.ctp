@@ -127,7 +127,7 @@
 		<div class="wrapper-empty-state">
 			<div class="pic"></div>
 			<h2>No Items Found!</h2>
-			<?php echo (!($myType['Type']['slug'] == 'pages' && $user['Account']['role_id'] >= 2 || !empty($popup))?$this->Form->Html->link('Get Started',array('action'=>$myType['Type']['slug'],(empty($myEntry)?'':$myEntry['Entry']['slug'].'/').'add','?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'') ),array('class'=>'btn btn-primary')):''); ?>
+			<?php echo (!($myType['Type']['slug'] == 'pages' && $user['Account']['role_id'] >= 2 || !empty($popup))?$this->Form->Html->link('Get Started',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'add','?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'') ),array('class'=>'btn btn-primary')):''); ?>
 		</div>
 	</div>
 <?php }else{ ?>
@@ -269,7 +269,19 @@
                         echo "<td class='".$value10['TypeMeta']['key']."'>";
                         if(empty($displayValue))
                         {
-                            echo '-';
+                        	if($value10['TypeMeta']['input_type'] == 'gallery' && !empty($value['EntryMeta']['count-'.$value10['TypeMeta']['key']]))
+                        	{
+                        		$queryURL = array('anchor' => $shortkey );
+                        		if( !empty($myEntry) && $myType['Type']['slug']!=$myChildType['Type']['slug'] )
+                        		{
+                        			$queryURL['type'] = $myChildType['Type']['slug'];
+                        		}
+                        		echo '<span class="badge badge-info">'.(empty($popup)?$this->Form->Html->link($value['EntryMeta']['count-'.$value10['TypeMeta']['key']].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false,'title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$value10['TypeMeta']['key']].' <i class="icon-picture icon-white"></i>').'</span>';
+                        	}
+                        	else
+                        	{
+                        		echo '-';	
+                        	}
                         }
                         else if($value10['TypeMeta']['input_type'] == 'multibrowse')
 						{

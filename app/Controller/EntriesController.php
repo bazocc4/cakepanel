@@ -46,8 +46,7 @@ class EntriesController extends AppController {
 	{
 		// dpr($this->request->params);
 		// exit;
-		
-		$this->set("url" , $this->request->url);
+
 		$_SESSION['frontnow'] = $_SERVER['REQUEST_URI'];
 		
 		if( $this->RequestHandler->isRss() )
@@ -415,8 +414,6 @@ class EntriesController extends AppController {
 	 **/
 	function admin_index() 
 	{
-		$this->set("url" , $this->request->url);
-		
 		// DEFINE THE ORDER...
 		if(!empty($this->request->data['order_by']))
 		{	
@@ -1907,6 +1904,16 @@ class EntriesController extends AppController {
                         }
                     }
 
+                    // delete all the attributes, and then add again !!
+					$this->EntryMeta->deleteAll(array(
+						'EntryMeta.entry_id' => $myEntry['Entry']['id'] ,
+						'OR' => array(
+							array('EntryMeta.key LIKE' => 'form-%'),
+							array('EntryMeta.key LIKE' => 'id-%'),
+							array('EntryMeta.key LIKE' => 'count-form-%'),
+						)
+					));
+
                     // delete all the field child image, and then add again !!
                     $this->Entry->deleteAll(array('Entry.parent_id' => $galleryId,'Entry.entry_type LIKE' => 'form-%'));
 
@@ -1931,15 +1938,8 @@ class EntriesController extends AppController {
 	                		}
 	                	}
 	                }
-					
-					// delete all the attributes, and then add again !!
-					$this->EntryMeta->deleteAll(array(
-						'EntryMeta.entry_id' => $myEntry['Entry']['id'] ,
-						'OR' => array(
-							array('EntryMeta.key LIKE' => 'form-%'),
-							array('EntryMeta.key LIKE' => 'id-%')
-						)
-					));
+
+	                // Insert New EntryMeta ...
 					$this->request->data['EntryMeta']['entry_id'] = $myEntry['Entry']['id'];
 					foreach ($myDetails as $key => $value)
 					{	

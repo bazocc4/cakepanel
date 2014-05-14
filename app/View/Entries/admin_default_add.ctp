@@ -12,6 +12,11 @@
 				{
 					$('div.lang-selector').hide();
 				}
+
+				// focus on anchor query url IF ANY ...
+				<?php if(!empty($this->request->query['anchor'])): ?>
+					$('div#form-<?php echo $this->request->query['anchor']; ?>').prevAll('a.get-from-library:first').focus();
+				<?php endif; ?>
 			});
 		</script>
 		<?php

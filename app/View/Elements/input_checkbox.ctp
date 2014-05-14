@@ -36,7 +36,9 @@
 						break;
 					}
 				}
-				echo "<input class='".$shortkey."' ".($existed==0?'':'CHECKED')." value='".$value10['id']."' type='checkbox' name='data[".$model."][".$counter."][value][".$value10['id']."]'/><label>".$value10['name']."</label>";
+
+				$checkboxName = "data[".$model."][".$counter."][value][".$value10['id']."]";
+				echo "<input class='".$shortkey."' ".($existed==0?'':'CHECKED')." value='".$value10['id']."' type='checkbox' name='".$checkboxName."' id='".$checkboxName."'/><label for='".$checkboxName."'>".$value10['name']."</label>";
 			}
 			if(!empty($p))
 			{
