@@ -10534,3 +10534,128 @@ Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
 Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
 [main] - APP\webroot\index.php, line 108
 
+2014-05-21 15:15:36 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php, line 2269]
+Trace:
+EntriesController::meta_details() - APP\Controller\EntriesController.php, line 2269
+EntriesController::index() - APP\Controller\EntriesController.php, line 203
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-05-21 15:15:37 Error: [MissingViewException] View file "C:\xampp\htdocs\cakepanel\app\View\FrontEnds\_detail.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\xampp\\htdocs\\cakepanel\\app\\View\\FrontEnds\\_detail.ctp',
+)
+Request URL: /cakepanel/app/webroot/css/
+Stack Trace:
+#0 C:\xampp\htdocs\cakepanel\lib\Cake\View\View.php(463): View->_getViewFileName('/FrontEnds/_det...')
+#1 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(954): View->render('/FrontEnds/_det...', NULL)
+#2 C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php(247): Controller->render('/FrontEnds/_det...')
+#3 [internal function]: EntriesController->index('app', 'webroot', 'css')
+#4 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(490): ReflectionMethod->invokeArgs(Object(EntriesController), Array)
+#5 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#6 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(EntriesController), Object(CakeRequest), Object(CakeResponse))
+#7 C:\xampp\htdocs\cakepanel\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2014-05-21 15:15:47 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php, line 2269]
+Trace:
+EntriesController::meta_details() - APP\Controller\EntriesController.php, line 2269
+EntriesController::index() - APP\Controller\EntriesController.php, line 203
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-05-21 15:15:47 Error: [MissingViewException] View file "C:\xampp\htdocs\cakepanel\app\View\FrontEnds\_detail.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\xampp\\htdocs\\cakepanel\\app\\View\\FrontEnds\\_detail.ctp',
+)
+Request URL: /cakepanel/app/webroot/img/
+Stack Trace:
+#0 C:\xampp\htdocs\cakepanel\lib\Cake\View\View.php(463): View->_getViewFileName('/FrontEnds/_det...')
+#1 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(954): View->render('/FrontEnds/_det...', NULL)
+#2 C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php(247): Controller->render('/FrontEnds/_det...')
+#3 [internal function]: EntriesController->index('app', 'webroot', 'img')
+#4 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(490): ReflectionMethod->invokeArgs(Object(EntriesController), Array)
+#5 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#6 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(EntriesController), Object(CakeRequest), Object(CakeResponse))
+#7 C:\xampp\htdocs\cakepanel\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2014-05-21 15:16:13 Error: [MissingViewException] View file "C:\xampp\htdocs\cakepanel\app\View\FrontEnds\_detail.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\xampp\\htdocs\\cakepanel\\app\\View\\FrontEnds\\_detail.ctp',
+)
+Request URL: /cakepanel/app/webroot/img/
+Stack Trace:
+#0 C:\xampp\htdocs\cakepanel\lib\Cake\View\View.php(463): View->_getViewFileName('/FrontEnds/_det...')
+#1 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(954): View->render('/FrontEnds/_det...', NULL)
+#2 C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php(247): Controller->render('/FrontEnds/_det...')
+#3 [internal function]: EntriesController->index('app', 'webroot', 'img')
+#4 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(490): ReflectionMethod->invokeArgs(Object(EntriesController), Array)
+#5 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#6 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(EntriesController), Object(CakeRequest), Object(CakeResponse))
+#7 C:\xampp\htdocs\cakepanel\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2014-05-21 15:16:27 Error: [MissingViewException] View file "C:\xampp\htdocs\cakepanel\app\View\FrontEnds\img.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\xampp\\htdocs\\cakepanel\\app\\View\\FrontEnds\\img.ctp',
+)
+Request URL: /cakepanel/img/
+Stack Trace:
+#0 C:\xampp\htdocs\cakepanel\lib\Cake\View\View.php(463): View->_getViewFileName('/FrontEnds/img')
+#1 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(954): View->render('/FrontEnds/img', NULL)
+#2 C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php(247): Controller->render('/FrontEnds/img')
+#3 [internal function]: EntriesController->index('img')
+#4 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(490): ReflectionMethod->invokeArgs(Object(EntriesController), Array)
+#5 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#6 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(EntriesController), Object(CakeRequest), Object(CakeResponse))
+#7 C:\xampp\htdocs\cakepanel\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2014-05-21 15:16:53 Error: [MissingViewException] View file "C:\xampp\htdocs\cakepanel\app\View\FrontEnds\_detail.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\xampp\\htdocs\\cakepanel\\app\\View\\FrontEnds\\_detail.ctp',
+)
+Request URL: /cakepanel/app/webroot/js/
+Stack Trace:
+#0 C:\xampp\htdocs\cakepanel\lib\Cake\View\View.php(463): View->_getViewFileName('/FrontEnds/_det...')
+#1 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(954): View->render('/FrontEnds/_det...', NULL)
+#2 C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php(247): Controller->render('/FrontEnds/_det...')
+#3 [internal function]: EntriesController->index('app', 'webroot', 'js')
+#4 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(490): ReflectionMethod->invokeArgs(Object(EntriesController), Array)
+#5 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#6 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(EntriesController), Object(CakeRequest), Object(CakeResponse))
+#7 C:\xampp\htdocs\cakepanel\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2014-05-21 15:17:20 Error: [MissingViewException] View file "C:\xampp\htdocs\cakepanel\app\View\FrontEnds\img.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\xampp\\htdocs\\cakepanel\\app\\View\\FrontEnds\\img.ctp',
+)
+Request URL: /cakepanel/img/
+Stack Trace:
+#0 C:\xampp\htdocs\cakepanel\lib\Cake\View\View.php(463): View->_getViewFileName('/FrontEnds/img')
+#1 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(954): View->render('/FrontEnds/img', NULL)
+#2 C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php(247): Controller->render('/FrontEnds/img')
+#3 [internal function]: EntriesController->index('img')
+#4 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(490): ReflectionMethod->invokeArgs(Object(EntriesController), Array)
+#5 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#6 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(EntriesController), Object(CakeRequest), Object(CakeResponse))
+#7 C:\xampp\htdocs\cakepanel\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2014-05-21 15:17:50 Error: [MissingViewException] View file "C:\xampp\htdocs\cakepanel\app\View\FrontEnds\_detail.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\xampp\\htdocs\\cakepanel\\app\\View\\FrontEnds\\_detail.ctp',
+)
+Request URL: /cakepanel/app/webroot/js/
+Stack Trace:
+#0 C:\xampp\htdocs\cakepanel\lib\Cake\View\View.php(463): View->_getViewFileName('/FrontEnds/_det...')
+#1 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(954): View->render('/FrontEnds/_det...', NULL)
+#2 C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php(247): Controller->render('/FrontEnds/_det...')
+#3 [internal function]: EntriesController->index('app', 'webroot', 'js')
+#4 C:\xampp\htdocs\cakepanel\lib\Cake\Controller\Controller.php(490): ReflectionMethod->invokeArgs(Object(EntriesController), Array)
+#5 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#6 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(EntriesController), Object(CakeRequest), Object(CakeResponse))
+#7 C:\xampp\htdocs\cakepanel\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
