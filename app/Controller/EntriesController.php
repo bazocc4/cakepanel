@@ -48,26 +48,45 @@ class EntriesController extends AppController {
 		// exit;
 
 		$_SESSION['frontnow'] = $_SERVER['REQUEST_URI'];
+		$result = '';
+		$myRenderFile = '';
+		$myDetailEntryMarkFile = 'detail';
+		$this->onlyActiveEntries = TRUE;
 		
+		$temp_lang = $this->Entry->get_lang_url();
+		$language = $temp_lang['language'];
+		$indent = $temp_lang['indent'];
+
 		if( $this->RequestHandler->isRss() )
 		{
-			// view all the Type, but not Child !!
-			$myTypes = $this->Type->find('all',array(
-				'conditions' => array(
-					'Type.parent_id' => 0
-				),
-				'order' => array('Type.id')
-			));			
 			$myList = array();
-			
-			foreach ($myTypes as $key => $value) 
+			$nowType = $this->Type->findBySlug($this->request->params['pass'][$indent]);
+
+			// if certain type not found, and then query all types for rss...
+			if(empty($nowType))
 			{
-				if($value['Type']['slug'] == 'media' || $value['Type']['slug'] == 'gallery')
-				{
-					continue;
-				}				
+				// view all the Type, but not Child !!
+				$myTypes = $this->Type->find('all',array(
+					'conditions' => array(
+						'Type.parent_id' => 0
+					),
+					'order' => array('Type.id')
+				));
 				
-				$tempdata = $this->_admin_default( $value , 1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'manualset');
+				foreach ($myTypes as $key => $value) 
+				{
+					if($value['Type']['slug'] == 'media' || $value['Type']['slug'] == 'gallery')
+					{
+						continue;
+					}				
+					
+					$tempdata = $this->_admin_default( $value , 1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'manualset');
+					$myList = array_merge($myList , $tempdata['myList']);
+				}
+			}
+			else
+			{
+				$tempdata = $this->_admin_default( $nowType , 1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'manualset');
 				$myList = array_merge($myList , $tempdata['myList']);
 			}
 			
@@ -83,16 +102,6 @@ class EntriesController extends AppController {
 		{
 			$this->layout = 'frontend';
 		}
-		
-		// Tree of division beginsss !!
-		$result = '';
-		$myRenderFile = '';
-		$myDetailEntryMarkFile = 'detail';
-		$this->onlyActiveEntries = TRUE;
-		
-		$temp_lang = $this->Entry->get_lang_url();
-		$language = $temp_lang['language'];
-		$indent = $temp_lang['indent'];
 
 		// this is for redirecting home !!
 		if(empty($this->request->params['pass'][$indent]))
@@ -112,6 +121,7 @@ class EntriesController extends AppController {
 		// end of additional set to view file !!
 		// ---------------------------------- >>>
 		
+		// Tree of division beginsss !!
 		if(empty($this->request->params['pass'][$indent+1]))
 		{
 			// if this want to list all entries...
