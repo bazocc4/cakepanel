@@ -10659,3 +10659,195 @@ Stack Trace:
 #6 C:\xampp\htdocs\cakepanel\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(EntriesController), Object(CakeRequest), Object(CakeResponse))
 #7 C:\xampp\htdocs\cakepanel\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #8 {main}
+2014-06-16 10:18:50 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 160]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 160
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:18:50 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 244]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 244
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:18:50 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 244]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 244
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:18:50 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 244]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 244
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:18:50 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 244]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 244
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:18:51 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\Controller\EntriesController.php, line 1440]
+Trace:
+EntriesController::_admin_default_add() - APP\Controller\EntriesController.php, line 1440
+EntriesController::admin_index_add() - APP\Controller\EntriesController.php, line 642
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:18:52 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default_add.ctp, line 81]
+Trace:
+include - APP\View\Entries\admin_default_add.ctp, line 81
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index_add() - APP\Controller\EntriesController.php, line 659
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:18:52 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default_add.ctp, line 102]
+Trace:
+include - APP\View\Entries\admin_default_add.ctp, line 102
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index_add() - APP\Controller\EntriesController.php, line 659
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:18:52 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default_add.ctp, line 140]
+Trace:
+include - APP\View\Entries\admin_default_add.ctp, line 140
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index_add() - APP\Controller\EntriesController.php, line 659
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:19:27 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 160]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 160
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:19:27 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 244]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 244
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:19:27 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 244]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 244
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:19:27 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 244]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 244
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
+2014-06-16 10:19:27 Warning: Warning (2): Invalid argument supplied for foreach() in [C:\xampp\htdocs\cakepanel\app\View\Entries\admin_default.ctp, line 244]
+Trace:
+include - APP\View\Entries\admin_default.ctp, line 244
+View::_evaluate() - CORE\Cake\View\View.php, line 935
+View::_render() - CORE\Cake\View\View.php, line 897
+View::render() - CORE\Cake\View\View.php, line 466
+Controller::render() - CORE\Cake\Controller\Controller.php, line 954
+EntriesController::admin_index() - APP\Controller\EntriesController.php, line 528
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE\Cake\Controller\Controller.php, line 490
+Dispatcher::_invoke() - CORE\Cake\Routing\Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE\Cake\Routing\Dispatcher.php, line 160
+[main] - APP\webroot\index.php, line 108
+
