@@ -594,7 +594,7 @@ class GetHelper extends AppHelper
 				$result = "<a href='".$this->get_linkpath()."files/".$value."'>".string_unslug($path_parts['filename'])."</a>";
 				break;
 			case 'ckeditor':
-				$result = str_replace(chr(13).chr(10), "<br/>", strip_tags($value));
+				$result = strip_tags($value);
 				break;
 			case 'textarea':
 				$result = str_replace(chr(13).chr(10), "<br/>", $value);
