@@ -87,8 +87,8 @@ function validation_check(field){
 (function($){
 	$(document).ready(function()
 	{
-		$('form#TypeFormPopupForm').on("keypress",function(){
-			$('div#form-error').hide();
+		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("keypress","form#TypeFormPopupForm",function(){
+			$('div#form-error').slideUp('fast');
 		});
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("submit",'form#TypeFormPopupForm',function(e){
 			e.preventDefault();	
@@ -99,14 +99,16 @@ function validation_check(field){
 				if(data.state == 'failed')
 				{	
 					$('div#form-error').html('Invalid input.');
-					$('div#form-error').show();
-					$.colorbox.resize();
+					$('div#form-error').slideDown('fast', function(){
+						$.colorbox.resize();	
+					});
 				}
 				else if(data.state == 'minmax')
 				{
 					$('div#form-error').html('Min length must be smaller than or equal to max length.');
-					$('div#form-error').show();
-					$.colorbox.resize();
+					$('div#form-error').slideDown('fast', function(){
+						$.colorbox.resize();	
+					});
 				}
 				else
 				{
@@ -142,7 +144,8 @@ function validation_check(field){
 				}
 			},'json');
 		});
-		$('input[type=text].input_attribute').on("keyup",function(){
+
+		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("keyup","input[type=text].input_attribute",function(e){
 			if($.trim($(this).val()) == "")
 			{			
 				$(this).parent().children('input[type=checkbox].input_attribute').attr('checked' , false);
@@ -152,6 +155,7 @@ function validation_check(field){
 				$(this).parent().children('input[type=checkbox].input_attribute').attr('checked' , true);
 			}
 		});
+
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("change",'input[type=checkbox].input_attribute',function(e){
 			if(!$(this).is(':checked'))
 			{				

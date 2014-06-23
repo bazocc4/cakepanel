@@ -1,19 +1,33 @@
 <?php
 	if(is_array($data)) extract($data , EXTR_SKIP);
 	$shortkey = substr($key, 5 );
+	$validation = strtolower($validation);
 
 	$required = "";
-	if(strpos(strtolower($validation), 'not_empty') !== FALSE)
+	if(strpos($validation, 'not_empty') !== FALSE)
 	{
 		$required = 'REQUIRED';
 	}
+
+	// characters limitation !!
+	$maxchar = 0;
+	$posMaxLength = strpos($validation, 'max_length');
+	if($posMaxLength !== FALSE)
+	{
+		$tempstart = $posMaxLength+11;
+		
+		$tempend = strpos($validation, '|' , $posMaxLength) - $tempstart;
+
+		$maxchar = substr($validation, $tempstart , $tempend );
+	}
+
 ?>
 <div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>            
 	<label class="control-label" <?php echo (!empty($required)?'style="color: red;"':''); ?>>
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
-		<textarea <?php echo $required; ?> class="medium <?php echo $shortkey; ?>" type="text" placeholder="<?php echo $placeholder; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"><?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?></textarea>
+		<textarea <?php echo ($maxchar > 0?'maxlength="'.$maxchar.'"':''); ?> <?php echo $required; ?> class="medium <?php echo $shortkey; ?>" type="text" placeholder="<?php echo $placeholder; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"><?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?></textarea>
 		<?php
 			if(!empty($p))
 			{
