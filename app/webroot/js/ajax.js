@@ -107,14 +107,14 @@ function openRequestedSinglePopup(strUrl)
 
 	$.fn.refresh_ckeditor = function(){
 		// call CK editor script...
-		var instances = CKEDITOR.instances;
-		for (var z in instances) 
-		{
-			if(CKEDITOR.instances[z])
-			{				
-				delete CKEDITOR.instances[z];
-			}
-		}
+		// var instances = CKEDITOR.instances;
+		// for (var z in instances) 
+		// {
+		// 	if(CKEDITOR.instances[z])
+		// 	{				
+		// 		delete CKEDITOR.instances[z];
+		// 	}
+		// }
 		$.fn.my_ckeditor();
 	}
 	
@@ -243,74 +243,66 @@ function openRequestedSinglePopup(strUrl)
 	}
 	
 	$.fn.my_ckeditor = function (){
-		$('.btn-radio').click(function(){
-          $('.btn-radio').each(function(){
-            $(this).removeClass('active');
-          });
-          
-          $(this).addClass('active');
-        });
-        
-        // callback ckeditor
-        $('.ckeditor').ckeditor(function(e){
-        			// sidebar line
-					var content_height = $('.content').height();
-					var sidebar_height = $('.sidebar').height();
-						
-					if(sidebar_height < content_height){
-						$('.sidebar').css('height', content_height-180);
-					}
-				
-					// access popup media library from ckeditor
-					$('form table.cke_editor .cke_button_image').attr('onclick','');
-					$('form table.cke_editor .cke_button_image').click(function(){
-						var test = $(this).parents('span[class^=cke_skin_]').attr('id');
-						window.instance = test.substr(4);			
-						$.colorbox({
-							href: site+'entries/media_popup_single/1/ckeditor/'+$('input#myTypeSlug').val(),
-							onLoad: function() {
-							    $('#cboxClose').hide();
-							}
-						});
-					});
-					
-					var instances = CKEDITOR.instances;
-					for (var z in instances) {
-						CKEDITOR.instances[z].on('saveSnapshot', function(){
-							window.onbeforeunload=function()
-							{
-					             return 'You have unsaved changes. Are you sure you want to leave this page?';
-					        };
-						});
-					}
-        },{
-          toolbar : [
-						{ name: 'document', items : [ 'Source','-','Save' ] },
-						{ name: 'clipboard', items : [ "Cut", "Copy", "Paste", "PasteText", "PasteFromWord","-","Undo", "Redo", "-", "Find", "Replace" ] },
-						{ name: 'styles', items : [ "Styles", "Format","TextColor", "BGColor" ] },
-						{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-',"SelectAll",'RemoveFormat' ] },
-						{ name: 'insert', items : [ "Image", "Flash", "Table", "HorizontalRule", "Smiley", "SpecialChar", "PageBreak", "Iframe" ] },
-						{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
-						{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
-					],
-          width:"70%",
-          height:"100%",
-		  
-		  // Turn off enclosing <p> tags
-          shiftEnterMode: CKEDITOR.ENTER_BR,
+		CKEDITOR.config.toolbar = [
+			{ name: 'document', items : [ 'Source','-','Save' ] },
+			{ name: 'clipboard', items : [ "Cut", "Copy", "Paste", "PasteText", "PasteFromWord","-","Undo", "Redo", "-", "Find", "Replace" ] },
+			{ name: 'styles', items : [ "Styles", "Format","TextColor", "BGColor" ] },
+			{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-',"SelectAll",'RemoveFormat' ] },
+			{ name: 'insert', items : [ "Image", "Flash", "Table", "HorizontalRule", "Smiley", "SpecialChar", "PageBreak", "Iframe" ] },
+			{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+		];
 
-          // Copy from MS-Office(word,excel) and paste to CKEditor >>
-          pasteFromWordRemoveFontStyles: false,
-          pasteFromWordRemoveStyles: false,
+		CKEDITOR.config.width = "70%";
+		CKEDITOR.config.height = "100%";
 
-          // ---------------------------- >>
-          filebrowserBrowseUrl : site+'js/ckfinder/ckfinder.html',
-          filebrowserImageBrowseUrl : site+'js/ckfinder/ckfinder.html?Type=Images',
-          filebrowserFlashBrowseUrl : site+'js/ckfinder/ckfinder.html?Type=Flash',
-          filebrowserUploadUrl : site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-          filebrowserImageUploadUrl : site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-          filebrowserFlashUploadUrl : site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
-        });
+		// Copy from MS-Office(word,excel) and paste to CKEditor >>
+		CKEDITOR.config.pasteFromWordRemoveFontStyles= false;
+		CKEDITOR.config.pasteFromWordRemoveStyles= false;
+
+		CKEDITOR.config.filebrowserBrowseUrl = site+'js/ckfinder/ckfinder.html';
+		CKEDITOR.config.filebrowserImageBrowseUrl = site+'js/ckfinder/ckfinder.html?Type=Images';
+		CKEDITOR.config.filebrowserFlashBrowseUrl = site+'js/ckfinder/ckfinder.html?Type=Flash';
+		CKEDITOR.config.filebrowserUploadUrl = site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
+		CKEDITOR.config.filebrowserImageUploadUrl = site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
+		CKEDITOR.config.filebrowserFlashUploadUrl = site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
+
+		CKEDITOR.on("instanceReady", function(event)
+		{
+		    // update sidebar line css, if ckeditor existed ...
+			var content_height = $('.content').height();
+			var sidebar_height = $('.sidebar').height();				
+			if(sidebar_height < content_height){
+				$('.sidebar').css('height', content_height-180);
+			}
+		
+			// access popup media library from ckeditor
+			var ckImageIcon = $('form table.cke_editor .cke_button_image');
+			ckImageIcon.attr('title','');
+			ckImageIcon.attr('onclick','');
+			ckImageIcon.attr('onkeydown','');
+			ckImageIcon.attr('onfocus','');
+			ckImageIcon.attr('href',site+'entries/media_popup_single/1/ckeditor/'+$('input#myTypeSlug').val());
+			ckImageIcon.colorbox({
+				onLoad: function() {
+				    $('#cboxClose').hide();
+				}
+			});
+			ckImageIcon.click(function(){
+				var test = $(this).parents('span[class^=cke_skin_]').attr('id');
+				window.instance = test.substr(4); // contain "name" of the ckeditor element.
+			});
+
+			var instances = CKEDITOR.instances;
+			for (var z in instances) {
+				CKEDITOR.instances[z].on('saveSnapshot', function(){
+					window.onbeforeunload=function()
+					{
+			             return 'You have unsaved changes. Are you sure you want to leave this page?';
+			        };
+				});
+			}
+		});
 	}
 	
 	$.fn.del_param_lang = function(src){

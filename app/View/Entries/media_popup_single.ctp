@@ -218,8 +218,7 @@
 <!-- The localization script -->
 <script src="<?php echo $imagePath; ?>js/uploadfile/locale.js"></script>
 <!-- The main application script -->
-<script src="<?php echo $imagePath; ?>js/uploadfile/main.js"></script>			
-<!--      ----------------------------------------------------------------------------------------------------------		 -->			
+<script src="<?php echo $imagePath; ?>js/uploadfile/main.js"></script>
 		<?php
 	}
 ?>

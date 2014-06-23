@@ -16,25 +16,17 @@ $(document).ready(function(){
 	});
 	
 	// colorbox initialization !!
-	$(document).on("click" , ".get-from-library, #upload" , function(e){
-		e.preventDefault();
-		$(this).colorbox({
-			open: true,
-			onLoad: function() {
-			    $('#cboxClose').hide();
-			}
-		});
+	$(".get-from-library, #upload").colorbox({
+		onLoad: function() {
+		    $('#cboxClose').hide();
+		}
 	});
 
-	$(document).on("click" , ".get-from-table" , function(e){
-		e.preventDefault();
-		$(this).colorbox({
-			open: true,
-			reposition: false,
-			onLoad: function() {
-			    $('#cboxClose').show();
-			}
-		});
+	$(".get-from-table").colorbox({
+		reposition: false,
+		onLoad: function() {
+		    $('#cboxClose').show();
+		}
 	});
 
 	$(document).bind({
