@@ -380,6 +380,13 @@ function openRequestedSinglePopup(strUrl)
 				var p = url.indexOf('lang=');
 				$("a#lang_identifier").html(url.substr(p+5,2).toUpperCase());
 			}
+
+			// if ajax on colorbox, then resize it too ...
+			if($('#colorbox').length>0&&$('#colorbox').is(':visible'))
+			{
+				$('body').scrollTop(0);
+				$.colorbox.resize();
+			}
 		});
 	};
 	
