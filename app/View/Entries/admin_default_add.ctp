@@ -104,8 +104,18 @@
 				$value = $value['TypeMeta']; // SPECIAL CASE, COZ IT'S BEEN MODIFIED IN CONTROLLER !!
 				if(substr($value['key'], 0 , 5) == 'form-')
 				{
-					$value['optionlist'] = $value['value'];
+					// SPECIAL CHECK !!
+					if($value['key'] == 'form-subcategory' && !empty($myEntry))
+					{	
+						$subcat_optvalue = $get->meta_details($myEntry['EntryMeta']['category'] , 'category');
+						$value['optionlist'] = $subcat_optvalue['EntryMeta']['subcategory'];
+					}
+					else
+					{
+						$value['optionlist'] = $value['value'];
+					}
 					unset($value['value']);
+
 					// now get value from EntryMeta if existed !!
 					foreach ($myEntry['EntryMeta'] as $key10 => $value10) 
 					{						

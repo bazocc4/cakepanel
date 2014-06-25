@@ -427,10 +427,10 @@ function promptDownloadFile($file)
     header('Expires: 0');
     header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
     header('Pragma: public');
-    header('Content-Length: ' . getSizeFile($file));
+    if(file_exists($file))	header('Content-Length: ' . getSizeFile($file));
     ob_clean();
     flush();
-    readfile($file);
+    if(file_exists($file))	readfile($file);
 }
 
 /*

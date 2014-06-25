@@ -658,7 +658,15 @@ class Entry extends AppModel {
 					'Entry.title' => $path_parts['filename']
 				)
 			));
-			return $search_image['Entry']['id'];
+			
+			if(empty($search_image))
+			{
+				return 0;
+			}
+			else
+			{
+				return $search_image['Entry']['id'];
+			}
 		}
 		
 		$input = array();
