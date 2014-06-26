@@ -51,6 +51,49 @@
 
 		// create margin-bottom !!
 		$('div.inner-header.row-fluid > div:last > *').css('margin-bottom' , '10px');
+
+		$('#attach-checked-data').click(function(e){
+			if(!$(this).hasClass('disabled'))
+			{
+				var counter_stream = $('input#query-stream').val();
+				var targetID = "<?php echo (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']); ?>";
+				
+				$('input.check-record').each(function(i,el){
+					if($(this).attr('checked'))
+					{
+						var newTargetID = targetID + counter_stream;
+
+						// add new browse ...
+						if($('input#'+newTargetID).length == 0)
+						{
+							$('div.'+targetID+'-group').closest('div.control-group').find('a.add-raw').click();
+						}
+
+						var mytr = $('table#myTableList tr[alt='+$(this).val()+']');
+						if(mytr.find("td.form-name").length > 0)
+						{
+						    $("input#"+newTargetID).val( mytr.find("td.form-name").text()+' ('+mytr.find("h5.title-code").text()+')');
+						}
+						else
+						{
+						    $("input#"+newTargetID).val( mytr.find("h5.title-code").text() );
+						}
+
+						$("input#"+newTargetID).nextAll("input[type=hidden]").val( mytr.find("input[type=hidden].slug-code").val() );
+						$("input#"+newTargetID).change();
+
+						counter_stream++;
+					}
+				});
+
+				$.colorbox.close();
+			}
+			else
+			{
+				alert('Please check at least one item to attach first !');
+				$('input#check-all').focus();
+			}
+		});
 	});
 </script>
 
@@ -138,5 +181,11 @@
 			</span>
 			<input style="width: 160px;" id="searchMe" class="span2" type="text" placeholder="search item here...">
 		</div>
+
+		<?php if(!empty($popup) && !empty($stream)): ?>
+		<div style="margin:0 !important" class="clear"></div>
+		<button id="attach-checked-data" class="btn btn-primary right-btn fr disabled">Attach checked data</button>
+		<input type="hidden" id="query-stream" value="<?php echo $stream; ?>">
+		<?php endif; ?>
 	</div>
 </div>

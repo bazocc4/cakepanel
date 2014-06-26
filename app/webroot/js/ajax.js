@@ -384,6 +384,11 @@ function openRequestedSinglePopup(strUrl)
 			// if ajax on colorbox, then resize it too ...
 			if($('#colorbox').length>0&&$('#colorbox').is(':visible'))
 			{
+				if($('#attach-checked-data').length > 0)
+				{
+					$('#attach-checked-data').addClass('disabled');	
+				}
+
 				$('body').scrollTop(0);
 				$.colorbox.resize();
 			}

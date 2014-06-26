@@ -27,7 +27,45 @@
 	}
 ?>
 <script>
+	$.fn.updateAttachButton = function(){
+		if($('#attach-checked-data').length > 0)
+		{
+			var attach_status = false;
+			$('input.check-record').each(function(i,el){
+				if($(this).attr('checked'))
+				{
+					attach_status = true;
+					return false;
+				}
+			});
+
+			if(attach_status)
+			{
+				$('#attach-checked-data').removeClass('disabled');
+			}
+			else
+			{
+				$('#attach-checked-data').addClass('disabled');	
+			}
+		}
+	}
+
 	$(document).ready(function(){
+
+		// attach checkbox on each record...
+		if($('input#query-stream').length > 0 || <?php echo (empty($popup)?'true':'false'); ?>)
+		{
+			$('table#myTableList thead tr').prepend('<th><input type="checkbox" id="check-all" /></th>');
+			$('table#myTableList tbody tr').each(function(i,el){
+				$(this).prepend('<td style="min-width: 0px;"><input type="checkbox" class="check-record" value="'+$(this).attr('alt')+'" /></td>');
+			});
+
+			$('input#check-all').change(function(){
+				$('input.check-record').attr('checked' , $(this).attr('checked')?true:false);
+				$.fn.updateAttachButton();
+			});
+		}
+		
 		<?php if(empty($popup)): ?>
 			<?php if($isOrderChange == 1): ?>
 				// table sortable
@@ -48,11 +86,8 @@
 			<?php else: ?>
 				$('table#myTableList tr').css('cursor' , 'default');
 			<?php endif; ?>
-			
-			$('input#check-all').change(function(){
-				$('input.check-record').attr('checked' , $(this).attr('checked')?true:false);
-			});
-			
+
+			// submit bulk action checkbox !!
 			$('form#global-action').submit(function(){				
 				var records = [];
 				$('input.check-record').each(function(i,el){
@@ -90,21 +125,49 @@
 			$('div.title > h2').html('<?php echo strtoupper(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' '.$myChildType['Type']['name']); ?>');
 			
 		<?php else: ?>
-			$('table#myTableList tr').css('cursor' , 'pointer');
-			($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("click",'table#myTableList tr',function(e){
-				var targetID = "<?php echo (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']).(isset($stream)?$stream:''); ?>";
-				if($(this).find("td.form-name").length > 0)
+			$('table#myTableList tbody tr').css('cursor' , 'pointer');
+			$('input[type=checkbox]').css('cursor' , 'default');
+
+			$('table#myTableList tbody tr').click(function(e){
+				if(!$('input[type=checkbox]').is(e.target))
 				{
-				    $("input#"+targetID).val( $(this).find("td.form-name").text()+' ('+$(this).find("h5.title-code").text()+')');
+					var targetID = "<?php echo (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']); ?>"+($('input#query-stream').length > 0?$('input#query-stream').val():'');
+					if($(this).find("td.form-name").length > 0)
+					{
+					    $("input#"+targetID).val( $(this).find("td.form-name").text()+' ('+$(this).find("h5.title-code").text()+')');
+					}
+					else
+					{
+					    $("input#"+targetID).val( $(this).find("h5.title-code").text() );
+					}
+					
+					$("input#"+targetID).nextAll("input[type=hidden]").val( $(this).find("input[type=hidden].slug-code").val() );
+					$("input#"+targetID).change();
+
+					// Update the subcategory dropdown value, if existed !!
+					if($('select.subcategory').length > 0)
+					{
+						$('select.subcategory').html('');
+						
+						var catcheck = $(this).find("td.form-subcategory").html();
+						
+						if(catcheck != '-')
+						{
+							var subcat = catcheck.split('<br>');
+						
+							$.each(subcat , function(i,el){
+								$('select.subcategory').append('<option value="'+el+'">'+el+'</option>');
+							});
+						}
+						
+					}
+
+					$.colorbox.close();
 				}
 				else
 				{
-				    $("input#"+targetID).val( $(this).find("h5.title-code").text() );
+					$.fn.updateAttachButton();
 				}
-				
-				$("input#"+targetID).nextAll("input[type=hidden]").val( $(this).find("input[type=hidden].slug-code").val() );
-				$("input#"+targetID).change();
-				$.colorbox.close();
 			});
 		<?php endif; ?>
 		// ---------------------------------------------------------------------- >>>
@@ -144,11 +207,6 @@
 					$titlekey = $value['TypeMeta']['value'];
 					break;
 				}
-			}
-			
-			if(empty($popup))
-			{
-				echo '<th><input type="checkbox" id="check-all" /></th>';
 			}
 		?>
 		<th><?php echo strtoupper($titlekey); ?></th>
@@ -207,16 +265,6 @@
 		$orderlist .= $value['Entry']['sort_order'].",";
 	?>	
 	<tr class="orderlist" alt="<?php echo $value['Entry']['id']; ?>">
-		<?php
-			if(empty($popup))
-			{
-				?>
-		<td style="min-width: 0px;">
-			<input type="checkbox" class="check-record" value="<?php echo $value['Entry']['id']; ?>" />
-		</td>		
-				<?php
-			}
-		?>
 		<td class="main-title">
 			<?php
 				if($imageUsed == 1)
