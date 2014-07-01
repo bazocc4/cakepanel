@@ -421,7 +421,7 @@ class AccountsController extends AppController {
 					$body .= 'Thank you for your attention.';
 
 					try{
-						if( $Email->from(array('system@'.get_slug($this->mySetting['title']).'.com'=>'System'))
+						if( $Email->from(array('system@'.strtolower($_SERVER['SERVER_NAME'])=>'System'))
 					          ->to(array($this->request->data['Account']['email']=>$value['User']['firstname']))
 					          ->subject($this->mySetting['title'].' - Sending Recovery Account Password')
 					          ->emailFormat('html')
