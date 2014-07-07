@@ -41,13 +41,48 @@
 
 		$maxchar = substr($validation, $tempstart , $tempend );
 	}
+
+	// set specific input class !!
+	$inputsize = 'input-xlarge';
+	if($shortkey == 'discount' || $shortkey == 'weight' || $shortkey == 'qty')
+	{
+		$inputsize = 'input-mini';
+	}
+	else if($shortkey == "price")
+	{
+		$inputsize = 'input-small';
+	}
 ?>
 <div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>            
 	<label class="control-label" <?php echo (!empty($required)?'style="color: red;"':''); ?>>
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
-		<input <?php echo ($maxchar > 0?'maxlength="'.$maxchar.'"':''); ?> <?php echo ($detail_type=='number'?'step="0.01"':''); ?> <?php echo (!empty($readonly)?'readonly="true"':''); ?> <?php echo $required; ?> class="input-xlarge <?php echo $shortkey; ?> <?php echo $classtitle; ?>" type="<?php echo $detail_type; ?>" placeholder="<?php echo $placeholder; ?>" value="<?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
+		<?php
+			if($shortkey == "price")
+			{
+				echo 'Rp.';
+			}
+		?>
+		<input <?php echo ($maxchar > 0?'maxlength="'.$maxchar.'"':''); ?> <?php echo ($detail_type=='number'?'step="0.01"':''); ?> <?php echo (!empty($readonly)?'readonly="true"':''); ?> <?php echo $required; ?> class="<?php echo $inputsize.' '.$shortkey.' '.$classtitle; ?>" type="<?php echo $detail_type; ?>" placeholder="<?php echo $placeholder; ?>" value="<?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
+		<?php
+			if($shortkey == 'discount')
+			{
+				echo '% OFF';
+			}
+			else if($shortkey == "price")
+			{
+				echo ',-';
+			}
+			else if($shortkey == 'weight')
+			{
+				echo 'kg';
+			}
+			else if($shortkey == 'qty')
+			{
+				echo 'unit(s)';
+			}
+		?>
 		<p class="help-block">
             <?php echo $p; ?>
         </p>
