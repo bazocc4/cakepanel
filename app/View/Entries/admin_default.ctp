@@ -384,6 +384,10 @@
 							{
 								echo $outputResult.' kg';
 							}
+							else if($shortkey == 'discount')
+							{
+								echo $outputResult.'% OFF';
+							}
 							else
 							{
 								echo $outputResult;

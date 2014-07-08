@@ -158,13 +158,5 @@
       		</div><!--/row-->	
 	    </div><!--/.fluid-container-->		
 		<?php echo $mySetting['bottom_insert']; ?>
-
-		<!-- 		ADDITIONAL SCRIPT FOR LAYOUT -->		
-		<script>
-			$(document).ready(function(){		
-				// CSS HELPER FUNCTION FOR SIDEBAR POSITION !! * CK Editor height *
-				$("div.sidebar.span2 ul").css("padding-bottom" , (122 + parseInt($("div.container-fluid").height()) - parseInt($("div.sidebar.span2 ul").height())) + "px");
-		  	});
-		</script>
 	</body>
 </html>
