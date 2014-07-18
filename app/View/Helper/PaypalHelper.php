@@ -85,11 +85,11 @@ class PaypalHelper extends AppHelper {
 	return $kurs;
   }
   
-  function initialize($type=NULL , $data = array())
-  {
-  	$content = "";
+function initialize($type=NULL , $data = array())
+{
+  $content = "";
 	$options = array();
-  	if($type == 'cart')
+  if($type == 'cart')
 	{
 		// SPECIAL CASE PAYMENT TYPE !!
 		$options['type'] = $type;
@@ -101,7 +101,7 @@ class PaypalHelper extends AppHelper {
 		{	
 			$item['item_number'] = $value['detail']['Entry']['id'];
 			$item['item_name'] = $value['detail']['Entry']['title'];
-			$item['amount'] = $value['detail']['EntryMeta']['price'];
+			$item['amount'] = number_format($value['detail']['EntryMeta']['price'] , 2);
 			$item['quantity'] = $value['quantity'];
 			array_push($options['items'] , $item);
 		}
@@ -176,7 +176,7 @@ class PaypalHelper extends AppHelper {
 		}
 	}
 	return $content;
-  }
+}
   
   /**
     *  function button will create a complete form button to Pay Now, Donate, Add to Cart, or Subscribe using the paypal service.

@@ -257,7 +257,7 @@ class EntriesController extends AppController {
 		$this->render($this->frontEndFolder.$myRenderFile);
 	}		
 	
-	function change_status($id, $status = NULL , $localCall = NULL)
+	function change_status($id, $status = NULL , $localcall = NULL)
 	{
 		$this->autoRender = false;
 		$data = $this->Entry->findById($id);		
@@ -265,7 +265,7 @@ class EntriesController extends AppController {
 		$this->Entry->id = $id;
 		$this->Entry->saveField('status', $data_change);
 
-		if(empty($localCall))
+		if(empty($localcall))
 		{
 			if ($this->request->is('ajax'))
 			{
@@ -285,13 +285,21 @@ class EntriesController extends AppController {
 	 * @return void
 	 * @public
 	 **/
-	function delete($id = null, $localCall = NULL) 
+	function delete($id = null, $localcall = NULL) 
 	{
 		$this->autoRender = FALSE;
-		if (!$id) {
-			$this->Session->setFlash('Invalid id for entry', 'failed');
-			header("Location: ".$_SESSION['now']);
-			exit;
+		if (!$id) 
+		{
+			if(empty($localcall))
+			{
+				$this->Session->setFlash('Invalid id for entry', 'failed');
+				header("Location: ".$_SESSION['now']);
+				exit;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		
 		$title = $this->Entry->findById($id);
@@ -310,7 +318,7 @@ class EntriesController extends AppController {
 		$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $id));
 		$this->Entry->delete($id);
 		
-		if(empty($localCall))
+		if(empty($localcall))
         {
             $this->Session->setFlash($title['Entry']['title'].' has been deleted', 'success');
             header("Location: ".$_SESSION['now']);
@@ -1040,10 +1048,7 @@ class EntriesController extends AppController {
 		$datetimeActivated = '';
 		foreach ($mysql as $key => $value) 
 		{
-			foreach ($value['EntryMeta'] as $key10 => $value10) 
-			{
-				$mysql[$key]['EntryMeta'][(substr($value10['key'], 0,5)=='form-'?substr($value10['key'], 5):$value10['key'])] = $value10['value'];
-			}
+			$mysql[$key] = $value = breakEntryMetas($value);
 			// ----------------------------------------- >>>
             // ADDITIONAL FILTERING METHOD !!
             // ----------------------------------------- >>>
@@ -1771,6 +1776,12 @@ class EntriesController extends AppController {
 	            ),
 	            'order' => array('Entry.id ASC')
 	        ));
+	        
+	        foreach ($tempChild as $key => $value) 
+        	{
+        		$tempChild[$key] = breakEntryMetas($value);
+        	}
+
 	        $data['myEntry']['ChildEntry'] = $tempChild;
         }
         
@@ -2267,21 +2278,8 @@ class EntriesController extends AppController {
 		{
 			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
 		}
-        
-        // Last Decision !!
-        if(empty($options))
-        {
-            return false;
-        }
-        
-		$subject = $this->Entry->find('first',$options);
-		$myDetails = $subject['EntryMeta'];
-		foreach ($myDetails as $key => $value) 
-		{
-			$subject['EntryMeta'][(substr($value['key'], 0,5)=='form-'?substr($value['key'], 5):$value['key'])] = $value['value'];
-		}
 		
-		return $subject;
+		return (empty($options)?false:breakEntryMetas($this->Entry->find('first',$options)));
 	}
 
 	function admin_backup_restore()

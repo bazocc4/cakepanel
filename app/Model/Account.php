@@ -251,7 +251,7 @@ class Account extends AppModel {
 	 * @public
 	 **/
 	function createRandomPassword($limit = 8) {
-		$chars = "abcdefghijkmnopqrstuvwxyz023456789";
+		$chars = "abcdefghijkmnopqrstuvwxyz0123456789";
     	srand((double)microtime()*1000000);
 	    $i = 0;
 	    $pass = '';

@@ -15,12 +15,16 @@
 	if($posMaxLength !== FALSE)
 	{
 		$tempstart = $posMaxLength+11;
-		
-		$tempend = strpos($validation, '|' , $posMaxLength) - $tempstart;
-
-		$maxchar = substr($validation, $tempstart , $tempend );
+		$caripentung = strpos($validation, '|' , $posMaxLength);
+		if($caripentung === FALSE)
+		{
+			$maxchar = substr($validation, $tempstart);
+		}
+		else
+		{
+			$maxchar = substr($validation, $tempstart , $caripentung - $tempstart );
+		}
 	}
-
 ?>
 <div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>            
 	<label class="control-label" <?php echo (!empty($required)?'style="color: red;"':''); ?>>

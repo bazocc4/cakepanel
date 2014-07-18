@@ -2,6 +2,7 @@
 class InstantPaymentNotificationsController extends AppController {
 	public $layout='frontend';
 	var $name = 'InstantPaymentNotifications';	
+	public $components = array('Validation');
 	public $helpers = array('Form', 'Html', 'Js', 'Time', 'Get','Paypal');
 	
 	var $testEmail = "andy_basuki_88@yahoo.com";
@@ -358,7 +359,7 @@ Price: $'.$value['mc_gross'].' '.$currency.'<br/>
 			$email['subject'] = "&lt; Invalid PayPal payment transaction &gt;";
 			$email['message'] = '
 Hello '.$ipn['first_name'].' '.$ipn['last_name'].' !<br/>
-We are from '.$this->mySetting['title'].' would like to confirm your payment:<br/>
+We are from '.$this->mySetting['title'].' team would like to confirm your payment:<br/>
 ';
 			$email['message'] .= $total_item['message'].'
 Item Total: $'.$total_item['itemtotal'].' '.$ipn['mc_currency'].'<br/>
@@ -381,7 +382,7 @@ We are sorry for any inconvenience.<br/>
 			$email['subject'] = "&lt; Invalid PayPal payment transaction &gt;";
 			$email['message'] = '
 Hello '.$ipn['first_name'].' '.$ipn['last_name'].' !<br/>
-We are from '.$this->mySetting['title'].' would like to confirm your payment:<br/>
+We are from '.$this->mySetting['title'].' team would like to confirm your payment:<br/>
 ';
 			$email['message'] .= $total_item['message'].'
 Item Total: $'.$total_item['itemtotal'].' '.$ipn['mc_currency'].'<br/>
@@ -404,7 +405,7 @@ We are sorry for any inconvenience.<br/>
 			$email['subject'] = "&lt; Address confirmation for PayPal payment transaction &gt;";
 			$email['message'] = '
 Hello '.$ipn['first_name'].' '.$ipn['last_name'].' !<br/>
-We are from '.$this->mySetting['title'].' would like to confirm your payment:<br/>
+We are from '.$this->mySetting['title'].' team would like to confirm your payment:<br/>
 ';
 			$email['message'] .= $total_item['message'].'
 Item Total: $'.$total_item['itemtotal'].' '.$ipn['mc_currency'].'<br/>
@@ -425,7 +426,7 @@ We are sorry for any inconvenience.<br/>
 			$email['to'] = $this->testEmail;
 			$email['message'] = '
 Hello '.$ipn['first_name'].' '.$ipn['last_name'].' !<br/>
-We are from '.$this->mySetting['title'].' would like to confirm your payment:<br/>
+We are from '.$this->mySetting['title'].' team would like to confirm your payment:<br/>
 ';		
 			$email['message'] .= $total_item['message'].'
 Item Total: $'.$total_item['itemtotal'].' '.$ipn['mc_currency'].'<br/>
@@ -466,7 +467,7 @@ Payment Type: '.$ipn['payment_type'].'<br/>
 Status: '.$ipn['payment_status'].'<br/>
 <br/> 
 on '.$ipn['payment_date'].'.<br/>			
-For more detail, please see this transaction record in your <b><i>PayPal</i></b> Account.<br/>
+For more detail, please see this transaction record in your <a href="//www.paypal.com"><b><i>PayPal</i></b> Account</a>.<br/>
 ';
 			if(!empty($ipn['memo']))
 			{

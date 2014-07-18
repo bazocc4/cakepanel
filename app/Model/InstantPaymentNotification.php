@@ -22,7 +22,7 @@ class InstantPaymentNotification extends AppModel {
       */
     function isValid($data){
       if(!empty($data)){
-        App::import(array('type' => 'File', 'name' => 'PaypalIpn.PaypalIpnSource', 'file' => getAppRootPath().'Model'.DS.'datasources'.DS.'paypal_ipn_source.php'));
+        App::uses('PaypalIpnSource' , 'Model/Datasource');
         $this->paypal = new PaypalIpnSource();
         return $this->paypal->isValid($data);
       }
@@ -77,11 +77,7 @@ class InstantPaymentNotification extends AppModel {
         $options = array();
         $options['message'] = $message;
       }
-      if(isset($options['id'])){
-        $this-> id = $options['id'];
-      }
       
-      $this->read();
       $defaults = array(
         'subject' => '&lt; Thank you for your PayPal transaction &gt;',
         'sendAs' => 'html',
@@ -107,7 +103,8 @@ class InstantPaymentNotification extends AppModel {
 
       App::uses('CakeEmail', 'Network/Email');
       $Email = new CakeEmail();
-      $Email->from($options['from'])
+      try{
+        $Email->from($options['from'])
             ->to($options['to'])
             ->bcc($options['bcc'])
             ->cc($options['cc'])
@@ -115,6 +112,9 @@ class InstantPaymentNotification extends AppModel {
             ->emailFormat($options['sendAs'])
             ->template($options['template'],$options['layout'])
             ->send($options['message']);
+      } catch(Exception $e){
+        // Failure, with exception
+      }
     }
     
     /**

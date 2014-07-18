@@ -36,10 +36,15 @@
 	if($posMaxLength !== FALSE)
 	{
 		$tempstart = $posMaxLength+11;
-		
-		$tempend = strpos($validation, '|' , $posMaxLength) - $tempstart;
-
-		$maxchar = substr($validation, $tempstart , $tempend );
+		$caripentung = strpos($validation, '|' , $posMaxLength);
+		if($caripentung === FALSE)
+		{
+			$maxchar = substr($validation, $tempstart);
+		}
+		else
+		{
+			$maxchar = substr($validation, $tempstart , $caripentung - $tempstart );
+		}
 	}
 
 	// set specific input class !!

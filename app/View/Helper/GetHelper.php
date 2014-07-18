@@ -33,13 +33,13 @@ class GetHelper extends AppHelper
 	**/
 	function create($data = array())
 	{
-		$this->request->data = $data;
-		$this->request->data['mySetting'] = $this->Setting->get_settings();
+		$this->data = $data;
+		$this->data['mySetting'] = $this->Setting->get_settings();
 	}
 	
 	function getData()
 	{
-		return $this->request->data;
+		return $this->data;
 	}
 	
 	function getType($slug)
@@ -77,7 +77,7 @@ class GetHelper extends AppHelper
 		}
 		
 		$result = array();
-		foreach ($this->request->data['mySetting']['language'] as $key => $value) 
+		foreach ($this->data['mySetting']['language'] as $key => $value) 
 		{
 			$newlang = implode("/", $pecahurl);
 			$mylang = strtolower(substr($value, 0,2));
@@ -134,20 +134,7 @@ class GetHelper extends AppHelper
 			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
 		}
 
-        // Last Decision !!
-        if(empty($options))
-        {
-            return false;
-        }
-        
-		$subject = $this->Entry->find('first',$options);
-		$myDetails = $subject['EntryMeta'];
-		foreach ($myDetails as $key => $value) 
-		{
-			$subject['EntryMeta'][(substr($value['key'], 0,5)=='form-'?substr($value['key'], 5):$value['key'])] = $value['value'];
-		}
-		
-		return $subject;
+		return (empty($options)?false:breakEntryMetas($this->Entry->find('first',$options)));
 	}
 	
 	function account_name($username = NULL, $id = NULL)
@@ -222,7 +209,7 @@ class GetHelper extends AppHelper
 	
 	function isAjax()
 	{
-		return ($this->request->data['isAjax'] == 0?'no':'yes');
+		return ($this->data['isAjax'] == 0?'no':'yes');
 	}
 	
 	/**
@@ -237,7 +224,7 @@ class GetHelper extends AppHelper
 	{
 		extract($passData , EXTR_OVERWRITE);
 		$result = '';
-		foreach ($this->request->data['mySetting'] as $key10 => $value10) 
+		foreach ($this->data['mySetting'] as $key10 => $value10) 
 		{
 			if(!empty($value10[strtolower($key)]))
 			{
@@ -261,7 +248,7 @@ class GetHelper extends AppHelper
     function entry($passData)
 	{
 		extract($passData , EXTR_OVERWRITE);
-		$myEntry = (empty($order_num)?$this->request->data['myEntry']:$this->request->data['myList'][$order_num]);
+		$myEntry = (empty($order_num)?$this->data['myEntry']:$this->data['myList'][$order_num]);
 		$key = strtolower($key);
 		$result = $myEntry['Entry'][$key];
 		if(empty($result))
@@ -289,7 +276,7 @@ class GetHelper extends AppHelper
 	**/
 	function last_entry($passData)
 	{
-		$passData['order_num'] = count($this->request->data['myList'])-1;
+		$passData['order_num'] = count($this->data['myList'])-1;
 		return $this->entry($passData);
 	}
 	
@@ -297,9 +284,9 @@ class GetHelper extends AppHelper
 	function entry_detail($passData)
 	{
 		extract($passData , EXTR_OVERWRITE);
-		if($this->request->data['myEntry']['Entry']['id'] == $myEntryId)
+		if($this->data['myEntry']['Entry']['id'] == $myEntryId)
 		{
-			$data = $this->request->data;
+			$data = $this->data;
 		}
 		else
 		{	
@@ -327,9 +314,9 @@ class GetHelper extends AppHelper
 	function list_entry($passData = array())
 	{	
 		extract($passData , EXTR_OVERWRITE);
-		if( (empty($orderField) || empty($orderDirection)) && ($this->request->data['myType']['Type']['slug'] == strtolower($type) || empty($type)) && $this->request->data['language'] == strtolower($language))
+		if( (empty($orderField) || empty($orderDirection)) && ($this->data['myType']['Type']['slug'] == strtolower($type) || empty($type)) && $this->data['language'] == strtolower($language))
 		{
-			$data = $this->request->data;
+			$data = $this->data;
 		}
 		else
 		{	
@@ -400,9 +387,9 @@ class GetHelper extends AppHelper
 	function list_meta($passData)
 	{
 		extract($passData , EXTR_OVERWRITE);
-		if(($this->request->data['myType']['Type']['slug'] == strtolower($type) || empty($type)) && $this->request->data['language'] == strtolower($language))
+		if(($this->data['myType']['Type']['slug'] == strtolower($type) || empty($type)) && $this->data['language'] == strtolower($language))
 		{
-			$data = $this->request->data;
+			$data = $this->data;
 		}
 		else
 		{	
@@ -518,9 +505,9 @@ class GetHelper extends AppHelper
 	function entry_link($passData)
 	{	
 		extract($passData , EXTR_OVERWRITE);
-		if($this->request->data['myEntry']['Entry']['id'] == $id)
+		if($this->data['myEntry']['Entry']['id'] == $id)
 		{
-			$data = $this->request->data;
+			$data = $this->data;
 		}
 		else
 		{	
@@ -557,9 +544,9 @@ class GetHelper extends AppHelper
 	{
 		extract($passData , EXTR_OVERWRITE);
 		$passKey = strtolower($passKey);
-		if($this->request->data['myEntry']['Entry']['id'] == $id)
+		if($this->data['myEntry']['Entry']['id'] == $id)
 		{
-			$data = $this->request->data;
+			$data = $this->data;
 		}
 		else
 		{	
@@ -597,13 +584,13 @@ class GetHelper extends AppHelper
 				$result = strip_tags($value , '<br><br/>');
 				break;
 			case 'textarea':
-				$result = str_replace(chr(13).chr(10), "<br/>", $value);
+				$result = str_replace(chr(10), "<br/>", $value);
 				break;
 			case 'datetimepicker':
-				$result = date_converter($value, $this->request->data['mySetting']['date_format'],$this->request->data['mySetting']['time_format']);
+				$result = date_converter($value, $this->data['mySetting']['date_format'],$this->data['mySetting']['time_format']);
 				break;	
 			case 'datepicker':
-				$result = date_converter($value, $this->request->data['mySetting']['date_format']);
+				$result = date_converter($value, $this->data['mySetting']['date_format']);
 				break;
 			case 'checkbox':
 				
@@ -632,7 +619,7 @@ class GetHelper extends AppHelper
 	
 	function staggingAdd($class = NULL)
 	{
-		extract($this->request->data , EXTR_OVERWRITE);		
+		extract($this->data , EXTR_OVERWRITE);		
 		$requestUri = $_SERVER['REQUEST_URI'];
 		
 		$startMark = strpos($requestUri, '/',(isLocalhost()?1:0));
@@ -650,7 +637,7 @@ class GetHelper extends AppHelper
 
 	function staggingEdit($class = NULL)
 	{
-		extract($this->request->data , EXTR_OVERWRITE);
+		extract($this->data , EXTR_OVERWRITE);
 		$requestUri = $_SERVER['REQUEST_URI'];
 		
 		$startMark = strpos($requestUri, '/',(isLocalhost()?1:0));		
@@ -738,7 +725,7 @@ class GetHelper extends AppHelper
 		{
 			$paging = 1;
 		}
-		$data['mySetting'] = $this->request->data['mySetting'];
+		$data['mySetting'] = $this->data['mySetting'];
 		$data['myType'] = $myType;
 		$data['paging'] = $paging;
 		$data['popup'] = $popup;
@@ -795,17 +782,14 @@ class GetHelper extends AppHelper
 		$data['lastModified'] = $lastModified;
 		// end of last modified...
 		
-		$options['order'] = (empty($orderField)||empty($orderDirection)?array('Entry.sort_order ASC'):array('Entry.'.strtolower($orderField).' '.$orderDirection));
-		
+		$options['order'] = (empty($orderField)||empty($orderDirection)?array('Entry.sort_order ASC'):array('Entry.'.strtolower($orderField).' '.$orderDirection));		
 		$mysql = $this->Entry->find('all' ,$options);
+		
 		// MODIFY OUR ENTRYMETA FIRST !!
+		$mysqlTemp = array();
 		foreach ($mysql as $key => $value) 
-		{	
-			foreach ($value['EntryMeta'] as $key10 => $value10) 
-			{
-				$mysql[$key]['EntryMeta'][(substr($value10['key'], 0,5)=='form-'?substr($value10['key'], 5):$value10['key'])] = $value10['value'];
-			}
-			$mysqlTemp[] = $mysql[$key];
+		{
+			array_push($mysqlTemp, breakEntryMetas($value));
 		}
 		// SECOND FILTER GO NOW !!!
 		$offset = ($paging==0? 0 : ($paging-1) * $countPage);
@@ -894,7 +878,7 @@ class GetHelper extends AppHelper
 		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');	
 		
 		// FINAL TOUCH !!
-		$data['mySetting'] = $this->request->data['mySetting'];
+		$data['mySetting'] = $this->data['mySetting'];
 		return $data;
 	}
 	// -------------------------------------------------------------------------------------------- //

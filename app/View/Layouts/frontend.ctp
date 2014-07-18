@@ -62,6 +62,7 @@
 			// custom style !!
 			echo $this->Html->css('admin/style');
 			// echo $this->Html->css('style');
+			echo $this->Html->css('loading');
 
 			// ================================================== >>>
 			// load our JS script...

@@ -47,6 +47,23 @@ function openRequestedSinglePopup(strUrl)
 }
 
 (function($) {
+	$.fn.isOnScreen = function(){
+	    var win = $(window);
+	    
+	    var viewport = {
+	        top : win.scrollTop(),
+	        left : win.scrollLeft()
+	    };
+	    viewport.right = viewport.left + win.width();
+	    viewport.bottom = viewport.top + win.height();
+	    
+	    var bounds = this.offset();
+	    bounds.right = bounds.left + this.outerWidth();
+	    bounds.bottom = bounds.top + this.outerHeight();
+	    
+	    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+	};
+	
 	$.fn.fixedHeaderTable = function(header_class){
 		if ( $('table.fixed_body_scroll').length ) {
             var fixed_header_table=$( '<table aria-hidden="true" class="fixed_header_table table list" style="border-left: 1px solid #DDDDDD;border-right: 1px solid #DDDDDD;border-top: 1px solid #DDDDDD;margin-bottom:0px;overflow-x:hidden;"><thead><tr><th></th></tr></thead></table>' );
@@ -331,6 +348,7 @@ function openRequestedSinglePopup(strUrl)
 		var url = myobj.attr(altforurl==null?'href':'alt');
 		var spinner = '<div class="loading" style="height:'+ajax_con.height()+'px"></div>';
 		
+		// prepare ajax POST params !!
 		var ajax_params = {};
 		if(myobj.hasClass('searchMeLink'))
 		{
@@ -484,7 +502,7 @@ function openRequestedSinglePopup(strUrl)
 			e.preventDefault();
 			if(!($(this).parent("li").hasClass("disabled") || $(this).parent("li").hasClass("active")))
 			{				
-				$.fn.ajax_mylink($(this),($(this).hasClass('searchMeLink')||$(this).hasClass('langLink')?"inner-content":"ajaxed"));
+				$.fn.ajax_mylink($(this),($(this).hasClass('searchMeLink')||$(this).hasClass('langLink')?"inner-content":"ajaxed") , null , null, ($(this).attr('href')==null?'altforurl':null));
 			}
 		});
 		

@@ -624,21 +624,8 @@ class Entry extends AppModel {
 		{
 			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
 		}
-        
-        // Last Decision !!
-        if(empty($options))
-        {
-            return false;
-        }
 
-		$subject = $this->find('first',$options);
-		$myDetails = $subject['EntryMeta'];
-		foreach ($myDetails as $key => $value) 
-		{
-			$subject['EntryMeta'][(substr($value['key'], 0,5)=='form-'?substr($value['key'], 5):$value['key'])] = $value['value'];
-		}
-		
-		return $subject;
+		return (empty($options)?false:breakEntryMetas($this->find('first',$options)));
 	}
 	
 	// ---------------------------------------------- >>

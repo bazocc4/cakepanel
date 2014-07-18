@@ -586,3 +586,26 @@ function parseQueryStringUrl($url)
 	}
 	return $result;
 }
+
+function breakEntryMetas($myEntry)
+{
+	foreach ($myEntry['EntryMeta'] as $key => $value) 
+	{
+		$myEntry['EntryMeta'][(substr($value['key'], 0,5)=='form-'?substr($value['key'], 5):$value['key'])] = $value['value'];
+	}
+	return $myEntry;
+}
+
+function checkExpired($expired_date)
+{
+	if(empty($expired_date))
+	{
+		return false;
+	}
+	else
+	{
+		$expired_date = new DateTime($expired_date);
+	    $now = new DateTime(date('m/d/Y' , gmt_adjustment()));
+	    return $expired_date < $now;
+	}
+}

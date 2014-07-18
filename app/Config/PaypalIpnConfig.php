@@ -21,7 +21,7 @@ class PaypalIpnConfig {
     'item_name' => 'Paypal_IPN', //Default item name.
     'amount' => '15.00', //Default item amount.
     'return' => 'http://creazi.co.id/trial',
-    'cert_id' => 'PJV6KRCJM79QE',
+    'cert_id' => 'L6RAJVAJYSZ2U',
 //    'cancel_return' => '',
   );
   
@@ -38,7 +38,7 @@ class PaypalIpnConfig {
     'item_name' => 'Paypal_IPN',
     'amount' => '15.00',
     'return' => 'http://creazi.co.id/trial',
-    'cert_id' => 'PJV6KRCJM79QE',
+    'cert_id' => 'L6RAJVAJYSZ2U',
 //    'cancel_return' => '',
   );
 
