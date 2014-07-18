@@ -216,7 +216,8 @@
  *
  */
 	Configure::write('Session', array(
-		'defaults' => 'cake'
+		'defaults' => 'php',
+		'timeout' => '10080' // expired in 1 week
 	));
 
 /**

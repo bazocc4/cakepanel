@@ -140,8 +140,8 @@ CREATE TABLE IF NOT EXISTS `cms_settings` (
 --
 
 INSERT INTO `cms_settings` (`id`, `key`, `value`) VALUES
-(1, 'title', 'Creazi'),
-(2, 'tagline', 'Creative Business Solution'),
+(1, 'title', 'Creazi Citra Cemerlang'),
+(2, 'tagline', 'Creative , Business , Solution'),
 (3, 'description', 'Our Company Description here.'),
 (4, 'date_format', 'F d, Y'),
 (5, 'time_format', 'h:i A'),

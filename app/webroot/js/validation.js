@@ -41,6 +41,7 @@ function validation_check(field){
 		case 'color':
 		case 'datepicker':
 		case 'datetimepicker':
+		case 'timepicker':
 		case 'image':
 		case 'gallery':
 		case 'radio':
