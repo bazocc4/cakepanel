@@ -122,17 +122,22 @@ function openRequestedSinglePopup(strUrl)
         return result;
     }
 
-	$.fn.refresh_ckeditor = function(){
-		// call CK editor script...
-		// var instances = CKEDITOR.instances;
-		// for (var z in instances) 
-		// {
-		// 	if(CKEDITOR.instances[z])
-		// 	{				
-		// 		delete CKEDITOR.instances[z];
-		// 	}
-		// }
-		$.fn.my_ckeditor();
+    $.fn.refresh_ckeditor = function(){
+    	if($('textarea.ckeditor').length > 0)
+    	{
+    		// delete old instance first !!
+			var instances = CKEDITOR.instances;
+			for (var z in instances) 
+			{
+				if(CKEDITOR.instances[z])
+				{				
+					delete CKEDITOR.instances[z];
+				}
+			}
+			
+			// transform textarea to be ckeditor again !!
+			$('textarea.ckeditor').ckeditor();
+    	}
 	}
 	
 	$.fn.slug = function(src){
@@ -270,7 +275,7 @@ function openRequestedSinglePopup(strUrl)
 			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
 		];
 
-		CKEDITOR.config.width = "70%";
+		CKEDITOR.config.width = "75%";
 		CKEDITOR.config.height = "100%";
 
 		// Copy from MS-Office(word,excel) and paste to CKEditor >>

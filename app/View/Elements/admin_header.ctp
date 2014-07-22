@@ -151,7 +151,7 @@
 			{
 				?>
 		<div class="btn-group lang-selector" style="margin-right: 10px;">
-			<a id="lang_identifier" class="btn" href="#"><?php echo (empty($this->request->params['url']['lang'])?substr($mySetting['language'][0], 0,2):strtoupper($this->request->params['url']['lang'])); ?></a>
+			<a id="lang_identifier" class="btn" href="#"><?php echo (empty($this->request->query['lang'])?substr($mySetting['language'][0], 0,2):strtoupper($this->request->query['lang'])); ?></a>
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>&nbsp;</a>
 			<ul class="dropdown-menu">
 			<?php

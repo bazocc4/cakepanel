@@ -84,8 +84,15 @@
 					}
 				}
 			?>
-		</div>		
-		
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">Description</label>
+			<div class="controls">				
+				<textarea type="text" class="ckeditor Description" name="data[Entry][description]"><?php echo $myEntry['Entry']['description']; ?></textarea>
+			</div>
+		</div>
+
 	<!-- SAVE BUTTON -->
 		<div class="control-action">
 			<button type="submit" class="btn btn-primary"><?php echo $saveButton; ?></button>

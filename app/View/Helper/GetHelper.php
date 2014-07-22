@@ -50,7 +50,7 @@ class GetHelper extends AppHelper
 	/**
 	* generate url transition to other language , but still in same topic
 	* i.e. (domain.com/about <=> domain.com/id/tentang-kita)
-	* @param array $url contains source url from the controller ($this->request->params['url']['url'])
+	* @param array $url contains source url from the controller ($this->request->url)
 	* @param array $slugs contains any kind of slug that want to be converted based on their language
 	* @return array $result contains url transition for all language available in website
 	* @public
@@ -107,7 +107,7 @@ class GetHelper extends AppHelper
 		return $result;
 	}
 	
-	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL)
+	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
 	{	
 		if(!is_null($slug))
 		{
@@ -132,6 +132,10 @@ class GetHelper extends AppHelper
 		if(!is_null($lang))
 		{
 			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
+		}
+		if(!is_null($title))
+		{
+			$options['conditions']['Entry.title'] = $title;
 		}
 
 		return (empty($options)?false:breakEntryMetas($this->Entry->find('first',$options)));
@@ -641,7 +645,7 @@ class GetHelper extends AppHelper
 		$requestUri = $_SERVER['REQUEST_URI'];
 		
 		$startMark = strpos($requestUri, '/',(isLocalhost()?1:0));		
-		$endMark = strrpos($requestUri , '/' , (substr($this->request->params['url']['url'], -1) == '/'?-2:0));
+		$endMark = strrpos($requestUri , '/' , (substr($this->request->url, -1) == '/'?-2:0));
 		
 		$frontUrl = substr($requestUri, $startMark , $endMark - $startMark);
 		$rearUrl = substr($requestUri, $endMark);

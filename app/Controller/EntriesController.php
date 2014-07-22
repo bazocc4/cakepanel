@@ -117,6 +117,14 @@ class EntriesController extends AppController {
 		// additional set to view file !!
 		// ---------------------------------- >>>
 		$this->set('language' , $language);
+
+		// set additional url_lang !!
+		$url_lang = "";
+		if(substr(strtolower($this->mySetting['language'][0]), 0,2) != $language)
+		{
+			$url_lang = $language.'/';
+		}
+		$this->set('url_lang' , $url_lang);
 		// ---------------------------------- >>>
 		// end of additional set to view file !!
 		// ---------------------------------- >>>
@@ -2252,7 +2260,7 @@ class EntriesController extends AppController {
 	}
 	
 	// imported from GET Helpers !!
-	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL)
+	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
 	{
 		if(!is_null($slug))
 		{
@@ -2277,6 +2285,10 @@ class EntriesController extends AppController {
 		if(!is_null($lang))
 		{
 			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
+		}
+		if(!is_null($title))
+		{
+			$options['conditions']['Entry.title'] = $title;
 		}
 		
 		return (empty($options)?false:breakEntryMetas($this->Entry->find('first',$options)));

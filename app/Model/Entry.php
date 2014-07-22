@@ -598,7 +598,7 @@ class Entry extends AppModel {
 	}
 
 	// imported from GET Helpers !!
-	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL)
+	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
 	{
 		if(!is_null($slug))
 		{
@@ -623,6 +623,10 @@ class Entry extends AppModel {
 		if(!is_null($lang))
 		{
 			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
+		}
+		if(!is_null($title))
+		{
+			$options['conditions']['Entry.title'] = $title;
 		}
 
 		return (empty($options)?false:breakEntryMetas($this->find('first',$options)));

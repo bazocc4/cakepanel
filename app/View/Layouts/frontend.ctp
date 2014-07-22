@@ -54,7 +54,7 @@
 			// load our CSS script...
 			// ================================================== >>>
 			echo $this->Html->css('bootstrap');
-//			echo $this->Html->css('bootstrap-responsive');
+//			echo $this->Html->css('bootstrap-3');
 
 			echo $this->Html->css('smoothness/jquery-ui-1.8.18.custom');
 			echo $this->Html->css('colorbox');
@@ -68,18 +68,24 @@
 			// load our JS script...
 			// ================================================== >>>
 			echo $this->Html->script('jquery-1.7.2.min');
+			// echo $this->Html->script('jquery.mobilemenu');
+
 			echo $this->Html->script('jquery-ui-1.8.18.custom.min');
 			echo $this->Html->script('jquery-ui-timepicker-addon');
 
 			echo $this->Html->script('jquery.imagesloaded');
 			echo $this->Html->script('jquery.colorbox');
+
+			// bootstrap script !!
 			echo $this->Html->script('bootstrap.min');
+			// echo $this->Html->script('bootstrap.min-3');
 			
 			// ** Use this script to check browser support HTML-5 certain input types !!
 			// ** See http://diveintohtml5.info/detect.html for more details !!
 			// echo $this->Html->script('modernizr-2.6.1.min');
 		
 	    	// custom javascript !!
+	    	echo $this->Html->script('number_format');
 			echo $this->Html->script('admin');
 			echo $this->Html->script('ajax');
 			echo $scripts_for_layout;
