@@ -81,6 +81,22 @@ class AppController extends Controller {
 			$this->layout = 'error';
 		}
 	}
+
+	function _setFlashInvalidFields( $errMsg = array() )
+	{
+		$flashMsg = "";
+		foreach ($errMsg as $fieldkey => $fieldvalue) 
+		{
+			foreach ($fieldvalue as $key => $value) 
+			{
+				if(strpos($flashMsg, $value) === FALSE)
+				{
+					$flashMsg .= $value."<br>";
+				}	
+			}
+		}
+		$this->Session->setFlash($flashMsg,'failed');
+	}
 	
 	/**
 	* set layout title

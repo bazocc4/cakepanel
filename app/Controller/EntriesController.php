@@ -1276,16 +1276,7 @@ class EntriesController extends AppController {
 			}
 			else 
 			{
-				$errMsg = $this->Entry->invalidFields();
-				$flashMsg = "";
-				foreach ($errMsg as $key => $value) 
-				{
-					if(strpos($flashMsg, $value) === FALSE)
-					{
-						$flashMsg .= $value."<br>";
-					}
-				}
-				$this->Session->setFlash($flashMsg,'failed');
+				$this->_setFlashInvalidFields($this->Entry->invalidFields());
 				$this->redirect (array('action' => $myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) ,(empty($lang_code)?'add':'edit/'.$prefield_slug).$myChildTypeLink.(empty($lang_code)?'':$myTranslation)));
 			}
 		}
@@ -1411,16 +1402,7 @@ class EntriesController extends AppController {
 				}
 				else 
 				{	
-					$errMsg = $this->Entry->invalidFields();
-					$flashMsg = "";
-					foreach ($errMsg as $key => $value) 
-					{
-						if(strpos($flashMsg, $value) === FALSE)
-						{
-							$flashMsg .= $value."<br>";
-						}
-					}
-					$this->Session->setFlash($flashMsg,'failed');
+					$this->_setFlashInvalidFields($this->Entry->invalidFields());
 					$this->redirect (array('action' => $myType['Type']['slug'].(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']) , 'edit', $myEntry['Entry']['slug'].$myChildTypeLink));
 				}
 			}
@@ -1716,16 +1698,7 @@ class EntriesController extends AppController {
 			}
 			else 
 			{
-				$errMsg = $this->Entry->invalidFields();
-				$flashMsg = "";
-				foreach ($errMsg as $key => $value) 
-				{
-					if(strpos($flashMsg, $value) === FALSE)
-					{
-						$flashMsg .= $value."<br>";
-					}
-				}
-				$this->Session->setFlash($flashMsg,'failed');
+				$this->_setFlashInvalidFields($this->Entry->invalidFields());
 			}
 		}
 	}	
@@ -2032,16 +2005,7 @@ class EntriesController extends AppController {
 				}
 				else 
 				{	
-					$errMsg = $this->Entry->invalidFields();
-					$flashMsg = "";
-					foreach ($errMsg as $key => $value) 
-					{
-						if(strpos($flashMsg, $value) === FALSE)
-						{
-							$flashMsg .= $value."<br>";
-						}
-					}
-					$this->Session->setFlash($flashMsg,'failed');
+					$this->_setFlashInvalidFields($this->Entry->invalidFields());
 					return;
 				}
 			}

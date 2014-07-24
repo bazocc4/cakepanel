@@ -146,13 +146,11 @@ class AccountsController extends AppController {
 		{
 			$this->request->data['Account']['created_by'] = $this->user['id'];
 			$this->request->data['Account']['modified_by'] = $this->user['id'];
-			
-			swap_value($this->request->data['Account']['confirm'], $this->request->data['Account']['password']);
+
 			$this->Account->set($this->request->data);
 			if($this->Account->validates())
 			{
-				swap_value($this->request->data['Account']['confirm'], $this->request->data['Account']['password']);
-				if(Security::hash($this->request->data['Account']['confirm'],null,true)==$this->request->data['Account']['password'])
+				if($this->request->data['Account']['confirm']==$this->request->data['Account']['password'])
 				{
 					$this->Account->create();
 					$this->Account->save($this->request->data);
@@ -166,16 +164,7 @@ class AccountsController extends AppController {
 			}
 			else 
 			{
-				$errMsg = $this->Account->invalidFields();
-				$flashMsg = "";
-				foreach ($errMsg as $key => $value) 
-				{
-					if(strpos($flashMsg, $value) === FALSE)
-					{
-						$flashMsg .= $value."<br>";
-					}
-				}
-				$this->Session->setFlash($flashMsg,'failed');
+				$this->_setFlashInvalidFields($this->Account->invalidFields());
 			}
 		}
 	}
@@ -205,13 +194,9 @@ class AccountsController extends AppController {
 			$ignorePassword = (empty($this->request->data['Account']['confirm']));
 			if($ignorePassword)
 			{
-				$this->request->data['Account']['password'] = $result['Account']['password'];
+				unset($this->request->data['Account']['password']);
 			}
-			else 
-			{
-				swap_value($this->request->data['Account']['confirm'], $this->request->data['Account']['password']);
-			}
-						
+
 			$this->Account->id = $id;
 			$this->Account->set($this->request->data);
 			if($this->Account->validates())
@@ -223,8 +208,7 @@ class AccountsController extends AppController {
 				}	
 				else
 				{
-					swap_value($this->request->data['Account']['confirm'], $this->request->data['Account']['password']);
-					if(Security::hash($this->request->data['Account']['confirm'],null,true)==$this->request->data['Account']['password'])
+					if($this->request->data['Account']['confirm']==$this->request->data['Account']['password'])
 					{
 						$success = 1;
 					}
@@ -243,16 +227,7 @@ class AccountsController extends AppController {
 			}
 			else 
 			{
-				$errMsg = $this->Account->invalidFields();
-				$flashMsg = "";
-				foreach ($errMsg as $key => $value) 
-				{
-					if(strpos($flashMsg, $value) === FALSE)
-					{
-						$flashMsg .= $value."<br>";
-					}
-				}
-				$this->Session->setFlash($flashMsg,'failed');
+				$this->_setFlashInvalidFields($this->Account->invalidFields());
 			}
 		}
 	}

@@ -244,6 +244,21 @@ class Account extends AppModel {
 			'order' => ''
 		)
 	);
+
+	/**
+	 * function that be executed before save an account (automated by cakephp)
+	 * @return boolean
+	 * @public
+	 **/
+	public function beforeSave( $options = array() )
+	{
+	    parent::beforeSave($options);
+	    if (!empty($this->data[$this->alias]['password'])) 
+	    {
+	        $this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
+	    }
+	    return true;
+	}
 	
 	/**
 	 * generate a random password
