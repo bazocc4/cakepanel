@@ -609,3 +609,13 @@ function checkExpired($expired_date)
 	    return $expired_date < $now;
 	}
 }
+
+/*
+ * Convert the share url to direct download url (Google Drive) !!
+ */
+function parseGoogleDriveUrl($shareurl)
+{
+	$pecahshare = explode("/", $shareurl);
+	$id_drive = $pecahshare[count($pecahshare)-2];
+	return "https://docs.google.com/uc?export=download&id=".$id_drive;
+}

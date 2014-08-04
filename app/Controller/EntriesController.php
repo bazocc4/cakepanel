@@ -917,7 +917,7 @@ class EntriesController extends AppController {
 					$_SESSION['searchMe'] = $searchMe;
 				}
 			}
-			$_SESSION['lang'] = strtolower(empty($lang)?(empty($_SESSION['lang'])?substr($this->mySetting['language'][0], 0,2):$_SESSION['lang']):$lang);
+			$_SESSION['lang'] = strtolower(empty($lang)?(empty($_SESSION['lang'])||empty($this->request->params['admin'])?substr($this->mySetting['language'][0], 0,2):$_SESSION['lang']):$lang);
 		} 
 		else 
 		{
@@ -2276,10 +2276,10 @@ class EntriesController extends AppController {
 		}
 		else if($mode == "restore")
 		{	
-			$ext = pathinfo($this->request->data['fileurl']['name'], PATHINFO_EXTENSION);
+			$ext = pathinfo($this->request->params['form']['fileurl']['name'], PATHINFO_EXTENSION);
 			if(strtolower($ext) == "sql")
 			{
-				$message = $this->Setting->executeSql($this->get_db_host(),$this->get_db_user() , $this->get_db_password() , $this->get_db_name(),$this->request->data['fileurl']['tmp_name']);
+				$message = $this->Setting->executeSql($this->get_db_host(),$this->get_db_user() , $this->get_db_password() , $this->get_db_name(),$this->request->params['form']['fileurl']['tmp_name']);
 				if($message == "success")
 				{
 					$this->Session->setFlash('Database restoration success.', 'success');
