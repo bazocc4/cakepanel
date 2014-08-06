@@ -31,7 +31,7 @@
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
-		<textarea <?php echo ($maxchar > 0?'maxlength="'.$maxchar.'"':''); ?> <?php echo $required; ?> class="medium <?php echo $shortkey; ?>" type="text" placeholder="<?php echo $placeholder; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"><?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?></textarea>
+		<textarea rows="5" <?php echo ($maxchar > 0?'maxlength="'.$maxchar.'"':''); ?> <?php echo $required; ?> class="medium <?php echo $shortkey; ?>" type="text" placeholder="<?php echo $placeholder; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"><?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?></textarea>
 		<?php
 			if(!empty($p))
 			{
