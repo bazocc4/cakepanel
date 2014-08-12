@@ -1,4 +1,7 @@
-<?php $this->Get->create($data); ?>
+<?php
+	$this->Get->create($data);
+	extract($data , EXTR_OVERWRITE);
+?>
 <html>
 	<head>
 		<title>Front End Web</title>

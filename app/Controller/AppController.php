@@ -246,8 +246,7 @@ class AppController extends Controller {
 	
 	public function get_slug($value)
 	{
-		$str = Inflector::slug($value);
-		return str_replace('_','-', strtolower($str));
+		return get_slug($value);
 	}
 
 	public function get_view_dir()

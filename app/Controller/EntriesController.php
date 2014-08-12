@@ -2033,20 +2033,41 @@ class EntriesController extends AppController {
 		// update database...
 		if(isset($info[0]->name) && (!isset($info[0]->error)))
 		{
-			// set the type of this entry...
-			$this->request->data['Entry']['entry_type'] = 'media';
-			$this->request->data['Entry']['title'] = substr($info[0]->name, 0 , strripos($info[0]->name, '.'));
-			// generate slug from title...
-			$this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
-			// write my creator...
-			
-			$this->request->data['Entry']['created_by'] = $this->user['id'];
-			$this->request->data['Entry']['modified_by'] = $this->user['id'];
-			$this->Entry->create();
-			$this->Entry->save($this->request->data);
-			
-			$myid = $this->Entry->id;
-			$mytype = substr($info[0]->type, strpos($info[0]->type, "/") + 1);
+			$path_parts = pathinfo($info[0]->name);
+			$filename = $path_parts['filename'];
+			$mytype = strtolower($path_parts['extension']);
+
+			// CHECK FILE ALREADY EXISTS OR NOT ?
+			$checkmedia = $this->meta_details(NULL , 'media' , NULL , NULL , NULL , NULL , $filename);
+			if(!empty($checkmedia) && $checkmedia['EntryMeta']['image_type'] == $mytype)
+			{
+				$this->request->data['Entry'] = $checkmedia['Entry'];
+				$myid = $checkmedia['Entry']['id'];
+
+				// REMOVE OLD IMAGE FILE !!
+				unlink(WWW_ROOT.'img'.DS.'upload'.DS.$myid.'.'.$mytype);
+				unlink(WWW_ROOT.'img'.DS.'upload'.DS.'thumb'.DS.$myid.'.'.$mytype);
+
+				// DELETE ENTRY METAS TOO !!
+				$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $myid));
+			}
+			else // create new data !!
+			{
+				// set the type of this entry...
+				$this->request->data['Entry']['entry_type'] = 'media';
+				$this->request->data['Entry']['title'] = $filename;
+				// generate slug from title...
+				$this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
+				// write my creator...
+				
+				$this->request->data['Entry']['created_by'] = $this->user['id'];
+				$this->request->data['Entry']['modified_by'] = $this->user['id'];
+				$this->Entry->create();
+				$this->Entry->save($this->request->data);
+				
+				$myid = $this->Entry->id;
+			}
+
 			// rename the filename...
 			rename( WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$info[0]->name , WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$myid.'.'.$mytype);
 			
@@ -2276,10 +2297,10 @@ class EntriesController extends AppController {
 		}
 		else if($mode == "restore")
 		{	
-			$ext = pathinfo($this->request->params['form']['fileurl']['name'], PATHINFO_EXTENSION);
+			$ext = pathinfo($this->request->data['fileurl']['name'], PATHINFO_EXTENSION);
 			if(strtolower($ext) == "sql")
 			{
-				$message = $this->Setting->executeSql($this->get_db_host(),$this->get_db_user() , $this->get_db_password() , $this->get_db_name(),$this->request->params['form']['fileurl']['tmp_name']);
+				$message = $this->Setting->executeSql($this->get_db_host(),$this->get_db_user() , $this->get_db_password() , $this->get_db_name(),$this->request->data['fileurl']['tmp_name']);
 				if($message == "success")
 				{
 					$this->Session->setFlash('Database restoration success.', 'success');

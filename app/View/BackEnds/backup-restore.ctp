@@ -62,7 +62,7 @@
 	?>
 		<div class="control-group">
 			<div class="controls">
-				<input REQUIRED name="fileurl" type="file" onchange='checkfile(this);'>
+				<input REQUIRED name="data[fileurl]" type="file" onchange='checkfile(this);'>
 			</div>
 		</div>
 		
