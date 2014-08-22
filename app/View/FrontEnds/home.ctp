@@ -1,6 +1,6 @@
 <?php
 	$this->Get->create($data);
-	extract($data , EXTR_OVERWRITE);
+	extract($data , EXTR_SKIP);
 ?>
 <html>
 	<head>

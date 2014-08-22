@@ -59,6 +59,7 @@ class EntriesController extends AppController {
 
 		if( $this->RequestHandler->isRss() )
 		{
+			App::uses('Sanitize', 'Utility');
 			$myList = array();
 			$nowType = $this->Type->findBySlug($this->request->params['pass'][$indent]);
 
@@ -1230,46 +1231,24 @@ class EntriesController extends AppController {
 				foreach ($this->request->data['Entry']['image'] as $key => $value) 
 				{
 					$myImage = $this->Entry->findById($value);
-					$this->request->data['Entry']['entry_type'] = $galleryType;
-					$this->request->data['Entry']['title'] = $myImage['Entry']['title'];
-					$this->request->data['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
-					$this->request->data['Entry']['main_image'] = $value;
-					$this->request->data['Entry']['parent_id'] = $galleryId;
-					$this->request->data['Entry']['created_by'] = $this->user['id'];
-					$this->request->data['Entry']['modified_by'] = $this->user['id'];
+
+					$input = array();
+					$input['Entry']['entry_type'] = $galleryType;
+					$input['Entry']['title'] = $myImage['Entry']['title'];
+					$input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
+					$input['Entry']['main_image'] = $value;
+					$input['Entry']['parent_id'] = $galleryId;
+					$input['Entry']['created_by'] = $this->user['id'];
+					$input['Entry']['modified_by'] = $this->user['id'];
 					$this->Entry->create();
-					$this->Entry->save($this->request->data);
+					$this->Entry->save($input);
 					$galleryCount++;
 				}
 				
 				// add COUNT to parent Entry...
 				$this->Entry->id = $galleryId;
-				$this->Entry->saveField('count' , $galleryCount);				
-				//-------------------- firstly create count-type in EntryMeta... --------------------- /////
-/*				if($myType['Type']['parent_id'] == 0 && !empty($myEntry))
-				{
-					$updateCountType = $this->EntryMeta->find('first' , array(
-						'conditions' => array(
-							'EntryMeta.entry_id' => $myEntry['Entry']['id'],
-							'EntryMeta.key' => 'count-'.$myChildTypeSlug
-						)
-					));
-					if(!empty($updateCountType))
-					{
-						$this->EntryMeta->id = $updateCountType['EntryMeta']['id'];
-						$this->EntryMeta->saveField('value' , $updateCountType['EntryMeta']['value']+1);
-					}
-					else
-					{
-						$this->request->data['EntryMeta']['entry_id'] = $myEntry['Entry']['id'];
-						$this->request->data['EntryMeta']['key'] = 'count-'.$myChildTypeSlug;
-						$this->request->data['EntryMeta']['value'] = 1;
-						$this->EntryMeta->create();
-						$this->EntryMeta->save($this->request->data);
-					}
-				}
-*/				//--------------------------- END OF create count-type in EntryMeta... -------------------------- /////
-							
+				$this->Entry->saveField('count' , $galleryCount);
+
 				// NOW finally setFlash ^^
 				$this->Session->setFlash($galleryTitle.' has been added.','success');
 				$this->redirect (array('action' => $myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation));
@@ -1380,15 +1359,17 @@ class EntriesController extends AppController {
 					foreach ($this->request->data['Entry']['image'] as $key => $value) 
 					{
 						$myImage = $this->Entry->findById($value);
-						$this->request->data['Entry']['entry_type'] = $myEntry['Entry']['entry_type'];
-						$this->request->data['Entry']['title'] = $myImage['Entry']['title'];
-						$this->request->data['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
-						$this->request->data['Entry']['main_image'] = $value;
-						$this->request->data['Entry']['parent_id'] = $galleryId;
-						$this->request->data['Entry']['created_by'] = $this->user['id'];
-						$this->request->data['Entry']['modified_by'] = $this->user['id'];
+
+						$input = array();
+						$input['Entry']['entry_type'] = $myEntry['Entry']['entry_type'];
+						$input['Entry']['title'] = $myImage['Entry']['title'];
+						$input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
+						$input['Entry']['main_image'] = $value;
+						$input['Entry']['parent_id'] = $galleryId;
+						$input['Entry']['created_by'] = $this->user['id'];
+						$input['Entry']['modified_by'] = $this->user['id'];
 						$this->Entry->create();
-						$this->Entry->save($this->request->data);
+						$this->Entry->save($input);
 						$galleryCount++;
 					}
 					
@@ -1621,30 +1602,6 @@ class EntriesController extends AppController {
                 	}
                 }
 
-				//--------------------------------- firstly create count-type in EntryMeta... ----------------------------- /////
-/*				if($myType['Type']['parent_id'] == 0 && !empty($myEntry))
-				{
-					$updateCountType = $this->EntryMeta->find('first' , array(
-						'conditions' => array(
-							'EntryMeta.entry_id' => $myEntry['Entry']['id'],
-							'EntryMeta.key' => 'count-'.$myChildTypeSlug
-						)
-					));
-					if(!empty($updateCountType))
-					{
-						$this->EntryMeta->id = $updateCountType['EntryMeta']['id'];
-						$this->EntryMeta->saveField('value' , $updateCountType['EntryMeta']['value']+1);
-					}
-					else
-					{
-						$this->request->data['EntryMeta']['entry_id'] = $myEntry['Entry']['id'];
-						$this->request->data['EntryMeta']['key'] = 'count-'.$myChildTypeSlug;
-						$this->request->data['EntryMeta']['value'] = 1;
-						$this->EntryMeta->create();
-						$this->EntryMeta->save($this->request->data);
-					}
-				}
-*/				//------------------------------------ END OF create count-type in EntryMeta... -------------------------- /////
 				$this->request->data['EntryMeta']['entry_id'] = $newEntryId;
 				foreach ($myDetails as $key => $value)
 				{	
@@ -2265,7 +2222,7 @@ class EntriesController extends AppController {
 		}
         if(!is_null($ordering))
         {
-            $options['order'] = array('Entry.created '.$ordering);
+            $options['order'] = array('Entry.sort_order '.$ordering);
         }
 		if(!is_null($lang))
 		{

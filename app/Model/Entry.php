@@ -618,7 +618,7 @@ class Entry extends AppModel {
 		}
         if(!is_null($ordering))
         {
-            $options['order'] = array('Entry.created '.$ordering);
+            $options['order'] = array('Entry.sort_order '.$ordering);
         }
 		if(!is_null($lang))
 		{
@@ -727,7 +727,7 @@ class Entry extends AppModel {
         return $result;
     }
 
-    function getActiveComments($data , $sorted = NULL)
+    function getActiveComments($data , $sorted = NULL , $metatable = NULL)
 	{
 		if(empty($sorted))
 		{
@@ -735,18 +735,31 @@ class Entry extends AppModel {
 		}
 		else
 		{
-			$mysql = orderby_metavalue($data , NULL , 'created' , 'DESC');
+			$mysql = orderby_metavalue($data , $metatable , 'created' , 'DESC');
 		}
 
 		$result = array();
-		foreach ($mysql as $key => $value) 
+
+		if(empty($metatable))
 		{
-			if($value['status'] == 1)
+			foreach ($mysql as $key => $value) 
 			{
-				array_push($result, $value);
+				if($value['status'] == 1)
+				{
+					array_push($result, $value);
+				}
 			}
 		}
-
+		else
+		{
+			foreach ($mysql as $key => $value) 
+			{
+				if($value[$metatable]['status'] == 1)
+				{
+					array_push($result, $value);
+				}
+			}
+		}
 		return $result;
 	}
 }

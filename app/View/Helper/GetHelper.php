@@ -127,7 +127,7 @@ class GetHelper extends AppHelper
 		}
         if(!is_null($ordering))
         {
-            $options['order'] = array('Entry.created '.$ordering);
+            $options['order'] = array('Entry.sort_order '.$ordering);
         }
 		if(!is_null($lang))
 		{
@@ -226,7 +226,7 @@ class GetHelper extends AppHelper
 	**/
 	function sites($passData)
 	{
-		extract($passData , EXTR_OVERWRITE);
+		extract($passData , EXTR_SKIP);
 		$result = '';
 		foreach ($this->data['mySetting'] as $key10 => $value10) 
 		{
@@ -251,7 +251,7 @@ class GetHelper extends AppHelper
 	**/
     function entry($passData)
 	{
-		extract($passData , EXTR_OVERWRITE);
+		extract($passData , EXTR_SKIP);
 		$myEntry = (empty($order_num)?$this->data['myEntry']:$this->data['myList'][$order_num]);
 		$key = strtolower($key);
 		$result = $myEntry['Entry'][$key];
@@ -287,7 +287,7 @@ class GetHelper extends AppHelper
 	/* $myEntryId */
 	function entry_detail($passData)
 	{
-		extract($passData , EXTR_OVERWRITE);
+		extract($passData , EXTR_SKIP);
 		if($this->data['myEntry']['Entry']['id'] == $myEntryId)
 		{
 			$data = $this->data;
@@ -317,7 +317,7 @@ class GetHelper extends AppHelper
 	**/
 	function list_entry($passData = array())
 	{	
-		extract($passData , EXTR_OVERWRITE);
+		extract($passData , EXTR_SKIP);
 		if( (empty($orderField) || empty($orderDirection)) && ($this->data['myType']['Type']['slug'] == strtolower($type) || empty($type)) && $this->data['language'] == strtolower($language))
 		{
 			$data = $this->data;
@@ -390,7 +390,7 @@ class GetHelper extends AppHelper
 	**/
 	function list_meta($passData)
 	{
-		extract($passData , EXTR_OVERWRITE);
+		extract($passData , EXTR_SKIP);
 		if(($this->data['myType']['Type']['slug'] == strtolower($type) || empty($type)) && $this->data['language'] == strtolower($language))
 		{
 			$data = $this->data;
@@ -440,7 +440,7 @@ class GetHelper extends AppHelper
 	**/
 	function navigation($passData = array())
 	{
-		extract($passData , EXTR_OVERWRITE);
+		extract($passData , EXTR_SKIP);
 		$data = $this->_get_list_entry('pages',NULL,NULL,NULL,NULL,$language);
 		if(empty($raw))
 		{
@@ -470,7 +470,7 @@ class GetHelper extends AppHelper
 	**/
 	function image_link($passData)
     {
-        extract($passData , EXTR_OVERWRITE);
+        extract($passData , EXTR_SKIP);
         
         $name = '';
         $ext = '';
@@ -508,7 +508,7 @@ class GetHelper extends AppHelper
 	**/
 	function entry_link($passData)
 	{	
-		extract($passData , EXTR_OVERWRITE);
+		extract($passData , EXTR_SKIP);
 		if($this->data['myEntry']['Entry']['id'] == $id)
 		{
 			$data = $this->data;
@@ -546,7 +546,7 @@ class GetHelper extends AppHelper
 	**/
 	function meta_value($passData)
 	{
-		extract($passData , EXTR_OVERWRITE);
+		extract($passData , EXTR_SKIP);
 		$passKey = strtolower($passKey);
 		if($this->data['myEntry']['Entry']['id'] == $id)
 		{
@@ -623,7 +623,7 @@ class GetHelper extends AppHelper
 	
 	function staggingAdd($class = NULL)
 	{
-		extract($this->data , EXTR_OVERWRITE);		
+		extract($this->data , EXTR_SKIP);		
 		$requestUri = $_SERVER['REQUEST_URI'];
 		
 		$startMark = strpos($requestUri, '/',(isLocalhost()?1:0));
@@ -641,7 +641,7 @@ class GetHelper extends AppHelper
 
 	function staggingEdit($class = NULL)
 	{
-		extract($this->data , EXTR_OVERWRITE);
+		extract($this->data , EXTR_SKIP);
 		$requestUri = $_SERVER['REQUEST_URI'];
 		
 		$startMark = strpos($requestUri, '/',(isLocalhost()?1:0));		

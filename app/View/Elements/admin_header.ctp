@@ -120,7 +120,7 @@
 			}
 		?>
 		<div class="btn-group">
-			<a class="btn" href="#"><i class="icon-cog"></i>&nbsp;</a>
+			<button class="btn"><i class="icon-arrow-down"></i><i class="icon-arrow-up"></i></button>
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>&nbsp;</a>
 			<ul class="dropdown-menu">
 				<?php

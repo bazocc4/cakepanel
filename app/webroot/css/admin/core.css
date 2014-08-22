@@ -4,11 +4,14 @@
 .cb-enable, .cb-disable, .cb-enable span, .cb-disable span { background: url('../../img/switch.gif') repeat-x; }
 .extra-line{ background: url('../../img/img-extra-line.png') no-repeat; }
 .sidebar-title{
+	padding: 10px;
+}
+.container-fluid .sidebar-title{
 	background-image: url('../../img/img-extra-line.png');
 	background-position: center right;
 	background-repeat: no-repeat;
-	padding: 10px;
 }
+
 @font-face {
 	font-family: 'HelveticaNueu';
 	src: url('../../fonts/helvetica-nueu.otf') format('opentype');
@@ -207,7 +210,7 @@ table.list th{ color: black; font-weight: bold; font-size: 11px; text-align: lef
 table.list td, table.list th{ padding: 5px 5px; vertical-align: top;}
 table.list td{ color: black; font-size: 11px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
 table.list tr td > h5, table td > a{ color: black; font-size: 14px; font-weight: bold !important; margin-bottom: 0px !important; font-family: 'Helvetica' !important; }
-table.list td p{ color: black; font-size: 11px; margin-bottom: 0px;}
+table.list td p{ color: black; font-size: 11px; margin-bottom: 0px; min-height: 20px;}
 
 table.list .thumbs{ float: left; width: 50px; height: 50px; overflow: hidden; margin-right: 10px; }
 table.list .thumbs img{ max-height: 50px; }
@@ -247,15 +250,15 @@ background: white !important; padding: 20px 40px 0px 20px; width:800px;}
 
 .upload-popup .photo{ width: 120px; height: 120px; }
 .upload-popup .nav{ margin-bottom: 0px !important; }
-.upload-popup .tabs{ padding: 20px; }
+.upload-popup .tabs{ padding: 10px; }
 .upload-popup .tabs .tabs-container{ display: none; }
 .upload-popup .tabs .tabs-container:nth-child(2){ display: block; }
 
-.upload-popup .tabs .tabs-content{ float: left; border: 1px solid #DDD; padding: 10px; border-top: none; min-height: 500px; max-height: 500px; min-width: 758px; overflow-x: hidden; }
+.upload-popup .tabs .tabs-content{ float: left; border: 1px solid #DDD; padding: 10px; border-top: none; min-height: 510px; max-height: 510px; min-width: 778px; overflow-x: hidden; }
 .upload-popup .tabs form{ margin: 0px !important; }
 .upload-popup .tabs .tabs-content .photo:nth-child(6n){ margin-right: -2px; }
 
-.upload-popup .popup-action{ padding: 10px 10px 5px 10px; width: 758px; float: left; border: 1px solid #DDD; border-top: none; background: #ECECEC; margin-bottom: 20px; }
+.upload-popup .popup-action{ padding: 10px 10px 5px 10px; width: 778px; float: left; border: 1px solid #DDD; border-top: none; background: #ECECEC; margin-bottom: 20px; }
 .upload-popup .pagination{ margin: 0px; }
 .upload-popup .pagination ul{ background: #fff; }
 
@@ -282,7 +285,7 @@ background: white !important; padding: 20px 40px 0px 20px; width:800px;}
 .form-popup .popup-action{ width: auto !important; padding: 0px !important; margin-bottom: 20px; }
 
 .form-popup form .alert-info{ border-bottom: none !important; margin-bottom: 0px !important; }
-.upload-popup .layout-content{ background: white !important; float: left; -webkit-border-radius: 0px 0px 3px 3px; border-radius: 0px 0px 3px 3px; width: 100%; margin-top: -10px; }
+.upload-popup .layout-content{ background: white !important; float: left; -webkit-border-radius: 0px 0px 3px 3px; border-radius: 0px 0px 3px 3px; width: 100%; }
 
 /*form*/
 form{ width: 100%; }

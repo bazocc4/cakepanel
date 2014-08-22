@@ -66,14 +66,14 @@
 	?>	
 	<tr>
 		<td>
-			<h5><?php echo $this->Form->Html->link($value['Type']['name'],array('controller'=>'master' , 'action'=>'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'edit',$value['Type']['slug'])); ?></h5>
+			<h5 style="margin: 0;"><?php echo $this->Form->Html->link($value['Type']['name'],array('controller'=>'master' , 'action'=>'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'edit',$value['Type']['slug'])); ?></h5>
 			<p>
 				<?php
-					if(!empty($value['Type']['description'])) 
+					if(!empty($value['Type']['description']))
 					{
-						echo substr(strip_tags($value['Type']['description']),0,30);
+						$description = $value['Type']['description'];
+						echo (strlen($description) > 30? substr($description,0,30)."..." : $description);
 					}
-					echo "...";
 				?>
 			</p>
 		</td>
