@@ -306,7 +306,7 @@ table.cke_editor tr td:nth-child(1){ padding: 0px !important; }
 .cke_skin_kama .cke_focus{ outline: none !important; }
 .cke_skin_kama .cke_contents { border: 1px solid #CCC !important; -webkit-border-radius: 3px !important; -moz-border-radius: 3px !important; border-radius: 3px !important; }
 
-.radio label{ float: left; margin-right: 23px; }
+.radio label{ float: left; margin-right: 40px; }
 
 .control-image .controls:nth-child(2){ max-width: 640px; max-height:480px; overflow: auto; }
 .control-image div.info label{margin-right: 1em;font-weight: bold; color: #900;display: inline-block;}

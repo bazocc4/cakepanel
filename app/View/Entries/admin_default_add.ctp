@@ -58,7 +58,7 @@
 				$('button#save-as-draft').click(function(){
 					// set last status button as draft !!
 					$('select.status:last').val('0');
-					$(this).closest('form').submit();
+					$(this).closest('form').find('button[type=submit]:first').click();
 				});
 				
 				// save as published button !!
@@ -67,7 +67,7 @@
 					// set last status button as published !!
 					$('select.status:last').val('1');
 					<?php endif; ?>
-					$(this).closest('form').submit();
+					$(this).closest('form').find('button[type=submit]:first').click();
 				});
 			});
 		</script>
@@ -239,6 +239,9 @@
 		<input type="hidden" value="<?php echo (empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']); ?>" id="myTypeSlug"/>
 	<!-- SAVE BUTTON -->
 		<div class="control-action">
+			<!-- always use submit button to submit form -->
+			<button class="hide" type="submit"></button>
+
 			<button id="save-button" type="button" class="btn btn-primary"><?php echo $saveButton; ?></button>
 			<?php
 				if(empty($myEntry))

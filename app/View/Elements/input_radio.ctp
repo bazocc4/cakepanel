@@ -17,15 +17,16 @@
 			$pertama = 1;
 			$value = isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value;
 			foreach ($list as $key10 => $value10)
-			{	
+			{
+				$labelfor = 'data-'.$model.'-'.$counter.'-'.$value10['id'];
 				if(strtolower($value10['id']) == strtolower($value) || $pertama == 1)
 				{
 					$pertama = 0;
-					echo "<input class='".$shortkey."' ".$required." CHECKED value='".$value10['id']."' name='data[".$model."][".$counter."][value]' type='radio' /><label>".$value10['name']."</label>";
+					echo "<input id='".$labelfor."' class='".$shortkey."' ".$required." CHECKED value='".$value10['id']."' name='data[".$model."][".$counter."][value]' type='radio' /><label for='".$labelfor."'>".$value10['name']."</label>";
 				}
 				else
 				{
-					echo "<input class='".$shortkey."' ".$required." value='".$value10['id']."' name='data[".$model."][".$counter."][value]' type='radio' /><label>".$value10['name']."</label>";
+					echo "<input id='".$labelfor."' class='".$shortkey."' ".$required." value='".$value10['id']."' name='data[".$model."][".$counter."][value]' type='radio' /><label for='".$labelfor."'>".$value10['name']."</label>";
 				}
 			}
 			if(!empty($p))

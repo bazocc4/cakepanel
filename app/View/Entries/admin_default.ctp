@@ -229,7 +229,17 @@
 				{
 					if(substr($value['TypeMeta']['key'], 0,5) == 'form-')
 					{
-						echo "<th>".strtoupper(string_unslug(substr($value['TypeMeta']['key'], 5)))."</th>";
+						if($value['TypeMeta']['input_type'] == 'textarea' || $value['TypeMeta']['input_type'] == 'ckeditor')
+						{
+							echo "<th style='min-width:200px;'>";
+						}
+						else
+						{
+							echo "<th>";
+						}
+						
+						echo strtoupper(string_unslug(substr($value['TypeMeta']['key'], 5)));
+						echo "</th>";
 					}
 				}
 			}	
