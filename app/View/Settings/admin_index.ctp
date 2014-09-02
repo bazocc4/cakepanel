@@ -354,14 +354,14 @@
 					$value['value'] = $value10['Setting']['value'];
 					$value['model'] = 'Setting';
 					$value['input_type'] = 'text';
-					$initial = ($user['Account']['role_id'] <= 1?'special':'input');
+					$initial = ($user['role_id'] <= 1?'special':'input');
 					echo $this->element($initial.'_'.$value['input_type'] , $value);
 				}
 			}
 		?>
 		</div>
 		<?php
-			if($user['Account']['role_id'] <= 1)
+			if($user['role_id'] <= 1)
 			{
 				?>
 					<div class="control-group">

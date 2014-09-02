@@ -447,7 +447,7 @@ class TypesController extends AppController {
 	function get_input_types()
 	{
 		// get bunch of input types...
-		$src = $this->get_view_dir().DS.'elements';
+		$src = $this->get_view_dir().DS.'Elements';
 		$src = scandir($src);
 		foreach ($src as $key => $value) 
 		{			

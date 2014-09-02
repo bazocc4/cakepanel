@@ -35,17 +35,16 @@ class AppModel extends Model {
 	function getCurrentUser()
 	{
 		App::uses('SessionComponent' , 'Controller/Component');
-		$Session = new SessionComponent();
-		$myAccount = $Session->read('Auth');
-		
-		$User = ClassRegistry::init('User');
-		$myUser = $User->findById($myAccount['Account']['user_id']);
-		foreach ($myUser['UserMeta'] as $key => $value) 
+		$Session = new SessionComponent();		
+		$this_user = $Session->read('Auth.User');
+		if(!empty($this_user))
 		{
-			$myUser['UserMeta'][ $value['key'] ] = $value['value'];
+			$User = ClassRegistry::init('User');
+			$this_user['UserMeta'] = array();
+			$myUser = $User->findById($this_user['user_id']);
+			foreach ($myUser['UserMeta'] as $key => $value) $this_user['UserMeta'][ $value['key'] ] = $value['value'];
 		}
-		$myUser['Account'] = $myAccount['Account'];
-		return $myUser;
+		return $this_user;
 	}
 	
 	public function get_slug($value)

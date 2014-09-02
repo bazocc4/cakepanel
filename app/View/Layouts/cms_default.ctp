@@ -122,7 +122,7 @@
 				<div class="sidebar span2">
 					<ul>
 						<?php
-							if($user['Account']['role_id'] <= 1)
+							if($user['role_id'] <= 1)
 							{
 								echo "<li>";
 								echo $this->Html->link('Master',array('controller'=>'master','action'=>'types'),array('id'=>'master'));

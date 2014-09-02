@@ -247,7 +247,7 @@ class Entry extends AppModel {
 	 * @public
 	 **/
 	function beforeSave()
-	{			
+	{
 		if(!empty($this->data['Entry']['slug']))
 		{
 			$this->data['Entry']['slug'] = $this->get_valid_slug($this->data['Entry']['slug']);
@@ -413,11 +413,11 @@ class Entry extends AppModel {
 		$input['Entry']['slug'] = $this->get_slug($input['Entry']['title']);
 		// write my creator...
 		$myCreator = $this->getCurrentUser();
-		$input['Entry']['modified_by'] = $myCreator['Account']['id'];
+		$input['Entry']['modified_by'] = $myCreator['id'];
 		$input['Entry']['parent_id'] = $parentImage['Entry']['id'];
 		if(empty($data['childImageId']))
 		{
-			$input['Entry']['created_by'] = $myCreator['Account']['id'];
+			$input['Entry']['created_by'] = $myCreator['id'];
 			$this->create();
 		}
 		else
