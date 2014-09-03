@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 14, 2014 at 11:51 AM
+-- Generation Time: Sep 03, 2014 at 10:50 AM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,16 +40,17 @@ CREATE TABLE IF NOT EXISTS `cms_accounts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `cms_accounts`
 --
 
 INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `password`, `last_login`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 1, 'admin', 'admin@yahoo.com', '169e781bd52860b584879cbe117085da596238f3', '2014-05-14 11:06:04', '2013-01-04 00:00:00', 1, '2014-05-05 15:15:38', 1),
+(1, 1, 1, 'admin', 'admin@yahoo.com', '169e781bd52860b584879cbe117085da596238f3', '2014-08-18 17:27:30', '2013-01-04 00:00:00', 1, '2014-05-05 15:15:38', 1),
 (2, 2, 2, 'bazocc4', 'andy_basuki_88@yahoo.com', '62412f00317caaa6a74f790d6fc058f30cc6e8c0', '2013-11-29 16:19:31', '2013-01-15 03:42:56', 1, '2013-02-01 10:42:15', 2),
-(3, 2, 3, 'regular', 'regular@yahoo.com', '0087dfeb5776255a938d23bd71695a37e013de90', '2013-01-17 11:23:37', '2013-01-15 04:17:47', 2, '2013-01-15 04:17:47', 2);
+(3, 2, 3, 'regular1', 'regular@yahoo.com', 'd2705e541f5988c37de5ceb31735a535d5994777', '2013-01-17 11:23:37', '2013-01-15 04:17:47', 2, '2014-07-24 11:05:12', 1),
+(7, 3, 2, 'hanatania8', 'hanatania@yahoo.com', '29536df66160e1ff6a6fe6e0395dd8767140657b', '2014-07-24 11:40:17', '2014-07-24 11:06:29', 1, '2014-07-24 11:40:30', 7);
 
 -- --------------------------------------------------------
 
@@ -75,14 +76,14 @@ CREATE TABLE IF NOT EXISTS `cms_entries` (
   `lang_code` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=202 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=209 ;
 
 --
 -- Dumping data for table `cms_entries`
 --
 
 INSERT INTO `cms_entries` (`id`, `entry_type`, `title`, `slug`, `description`, `main_image`, `parent_id`, `status`, `count`, `created`, `created_by`, `modified`, `modified_by`, `sort_order`, `lang_code`) VALUES
-(1, 'pages', 'About Us', 'about-us', '<p>\r\n	This is the story of our company.<br />\r\n	Good you.</p>\r\n', 4, 0, 1, 0, '2013-01-15 04:14:04', 1, '2014-02-03 15:28:35', 1, 1, 'en-1'),
+(1, 'pages', 'About Us', 'about-us', '<p>\r\n	This is the story of our company.<br />\r\n	Good you.</p>\r\n', 4, 0, 1, 0, '2013-01-15 04:14:04', 1, '2014-07-21 10:39:30', 1, 1, 'en-1'),
 (2, 'media', 'Chrysanthemum', 'chrysanthemum', NULL, 0, 0, 1, 0, '2013-01-15 04:14:43', 2, '2013-01-15 04:14:43', 2, 2, ''),
 (4, 'media', 'Desert', 'desert', NULL, 0, 0, 1, 0, '2013-01-15 04:14:44', 2, '2013-01-15 04:14:44', 2, 4, ''),
 (40, 'media', 'darth-maul-wall', 'darth-maul-wall', NULL, 0, 0, 1, 0, '2013-01-15 06:04:17', 1, '2013-01-19 08:55:08', 1, 40, ''),
@@ -126,8 +127,8 @@ INSERT INTO `cms_entries` (`id`, `entry_type`, `title`, `slug`, `description`, `
 (61, 'books', 'Perang Dunia 2', 'perang-dunia-2', '<p>\r\n	Ini adalah kisah penuh dari perang dunia 2 di USA.</p>\r\n', 2, 0, 1, 4, '2013-01-15 06:38:44', 1, '2013-01-19 08:28:54', 1, 61, 'id-6'),
 (62, 'blogs', 'Blog Perang 4', 'blog-perang-4', '<p>\r\n	Ini adalah blog perang dunia keempat loo.</p>\r\n', 49, 61, 1, 0, '2013-01-15 08:17:03', 1, '2013-01-15 08:17:03', 1, 62, 'id-60'),
 (63, 'news', 'Kematian John', 'kematian-john', '<p>\r\n	Di tahun 1996, terjadi sebuah perang besar antara John Maxwell dan Paul Ruthridge.</p>\r\n<p>\r\n	Kemudian, John tetep berjuang demi meraih kemenangan atas musuhnya.</p>\r\n<p>\r\n	Akhirnya di tahun 1997, terjadilah sebuah interupsi yg besar terhadap perang tersebut.</p>\r\n', 7, 61, 1, 0, '2013-01-15 08:21:54', 1, '2013-01-15 08:21:54', 1, 63, 'id-9'),
-(64, 'pages', 'Contact Us', 'contact-us', '<p>\r\n	Ini adalah alamat baru perusahaan kami.</p>\r\n', 36, 0, 1, 0, '2013-01-15 10:24:31', 1, '2013-01-22 11:42:14', 1, 64, 'en-64'),
-(65, 'pages', 'Home', 'home', '<p>\r\n	Welcome to our web pages.</p>\r\n<p>\r\n	In here, you can find a lot of games entertainments.</p>\r\n', 27, 0, 1, 0, '2013-01-15 10:42:02', 1, '2013-01-22 11:42:14', 1, 65, 'en-65'),
+(64, 'pages', 'Contact Us', 'contact-us', '<p>\r\n	Ini adalah alamat baru perusahaan kami.</p>\r\n', 36, 0, 1, 0, '2013-01-15 10:24:31', 1, '2014-07-21 10:39:30', 1, 64, 'en-64'),
+(65, 'pages', 'Home', 'home', '<p>\r\n	Welcome to our web pages.</p>\r\n<p>\r\n	In here, you can find a lot of games entertainments.</p>\r\n', 27, 0, 1, 0, '2013-01-15 10:42:02', 1, '2014-07-21 10:39:30', 1, 65, 'en-65'),
 (66, 'pages', 'Beranda', 'beranda', '<p>\r\n	Selamat datang di website kami.</p>\r\n<p>\r\n	Di sini, anda semuanya dapat menemukan banyak hiburan.</p>\r\n', 27, 0, 1, 0, '2013-01-16 03:22:56', 1, '2013-01-16 03:22:57', 1, 66, 'id-65'),
 (67, 'pages', 'Tentang Kita', 'tentang-kita', '<p>\r\n	Ini adalah suatu kisah mengenai perusahaan kami.</p>\r\n', 4, 0, 1, 0, '2013-01-16 03:23:48', 1, '2013-01-16 03:23:48', 1, 67, 'id-1'),
 (68, 'news', 'Serangan Gerilya AB', 'serangan-gerilya', '<p>\r\n	telah terjadi serangan gerilya</p>\r\n', 44, 61, 1, 0, '2013-01-16 04:12:05', 1, '2013-01-16 04:12:05', 1, 68, 'id-68'),
@@ -172,7 +173,6 @@ INSERT INTO `cms_entries` (`id`, `entry_type`, `title`, `slug`, `description`, `
 (129, 'media', 'Penguins', 'penguins-2', NULL, 0, 0, 1, 0, '2013-07-09 13:51:11', 1, '2013-07-09 13:51:11', 1, 129, ''),
 (141, 'books', 'Koala', 'koala-1', NULL, 76, 70, 1, 0, '2013-11-04 17:40:17', 1, '2013-11-04 17:40:17', 1, 141, 'en-141'),
 (131, 'media', 'Tulips', 'tulips-1', NULL, 0, 0, 1, 0, '2013-07-09 13:51:13', 1, '2013-07-09 13:51:13', 1, 131, ''),
-(132, 'pages', 'test', 'test', 'blabla', 0, 0, 1, 0, '2013-08-12 12:11:21', 1, '2013-08-12 12:11:21', 1, 132, 'en-132'),
 (133, 'media', 'stock-photo-coffee-beans-in-canvas-sack-9416005', 'stock-photo-coffee-beans-in-canvas-sack-9416005-1', NULL, 0, 49, 1, 0, '2013-08-12 12:17:46', 1, '2013-11-04 18:01:30', 1, 133, 'en-133'),
 (137, 'media', 'slider', 'slider', NULL, 0, 0, 1, 0, '2013-08-16 15:24:16', 1, '2013-08-16 15:24:16', 1, 137, ''),
 (138, 'media', 'batman_by_frogbillgo-d2yoamc', 'batman-by-frogbillgo-d2yoamc-4', NULL, 0, 57, 1, 0, '2013-10-24 09:48:24', 1, '2013-11-04 18:01:31', 1, 138, 'en-138'),
@@ -189,7 +189,10 @@ INSERT INTO `cms_entries` (`id`, `entry_type`, `title`, `slug`, `description`, `
 (201, 'form-group_photo_2', 'Thursday20September2012014818slide1', 'thursday20september2012014818slide1-1', NULL, 117, 145, 1, 0, '2014-05-14 11:49:23', 1, '2014-05-14 11:49:23', 1, 201, 'en-201'),
 (197, 'form-group_photo', 'avengers_vs_x_men_babies_by_skottieyoung-d4raoid', 'avengers-vs-x-men-babies-by-skottieyoung-d4raoid-3', NULL, 55, 145, 1, 0, '2014-05-14 11:49:22', 1, '2014-05-14 11:49:22', 1, 197, 'en-197'),
 (198, 'form-group_photo', 'Penguins', 'penguins-4', NULL, 129, 145, 1, 0, '2014-05-14 11:49:22', 1, '2014-05-14 11:49:22', 1, 198, 'en-198'),
-(199, 'form-group_photo', 'Chrysanthemum', 'chrysanthemum-2', NULL, 90, 145, 1, 0, '2014-05-14 11:49:22', 1, '2014-05-14 11:49:22', 1, 199, 'en-199');
+(199, 'form-group_photo', 'Chrysanthemum', 'chrysanthemum-2', NULL, 90, 145, 1, 0, '2014-05-14 11:49:22', 1, '2014-05-14 11:49:22', 1, 199, 'en-199'),
+(206, 'slideshow', 'slider library', 'slider-library', '', 29, 0, 1, 0, '2014-09-03 10:44:11', 1, '2014-09-03 10:44:11', 1, 206, 'en-206'),
+(207, 'slideshow', 'slider coffee', 'slider-coffee', '', 43, 0, 1, 0, '2014-09-03 10:46:56', 1, '2014-09-03 10:46:56', 1, 207, 'en-207'),
+(208, 'slideshow', 'slider traffic', 'slider-traffic', '', 46, 0, 1, 0, '2014-09-03 10:47:43', 1, '2014-09-03 10:47:43', 1, 208, 'en-208');
 
 -- --------------------------------------------------------
 
@@ -203,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=819 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=836 ;
 
 --
 -- Dumping data for table `cms_entry_metas`
@@ -365,8 +368,7 @@ INSERT INTO `cms_entry_metas` (`id`, `entry_id`, `key`, `value`) VALUES
 (502, 85, 'image_x', '246.63333129882812'),
 (498, 84, 'form-publish_date', '1/18/2013'),
 (357, 89, 'image_height', '238'),
-(378, 109, 'image_size', '100605'),
-(377, 109, 'image_type', 'jpeg'),
+(831, 109, 'image_type', 'jpg'),
 (376, 108, 'image_size', '100674'),
 (375, 108, 'image_type', 'jpeg'),
 (680, 138, 'image_type', 'jpeg'),
@@ -435,7 +437,11 @@ INSERT INTO `cms_entry_metas` (`id`, `entry_id`, `key`, `value`) VALUES
 (815, 145, 'count-form-group_photo', '3'),
 (816, 145, 'count-form-group_photo_2', '2'),
 (817, 145, 'form-books', 'Dark Magic|World War II Cont'),
-(811, 84, 'count-news', '0');
+(811, 84, 'count-news', '0'),
+(832, 109, 'image_size', '117376'),
+(833, 206, 'form-url_link', 'http://www.facebook.com'),
+(834, 207, 'form-url_link', 'http://www.google.com'),
+(835, 208, 'form-url_link', 'http://www.twitter.com');
 
 -- --------------------------------------------------------
 
@@ -518,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `cms_types` (
   `modified_by` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `cms_types`
@@ -529,8 +535,9 @@ INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `coun
 (2, 'Gallery', 'gallery', 'Our Gallery Projects.', 0, 0, '2013-01-15 03:37:26', 1, '2013-01-15 03:37:26', 1),
 (3, 'Books', 'books', 'All the books story.', 0, 2, '2013-01-15 04:39:42', 1, '2013-11-21 15:38:20', 1),
 (4, 'News', 'news', 'News inside the books.', 3, 0, '2013-01-15 04:43:04', 1, '2013-12-09 16:19:08', 1),
-(5, 'Blogs', 'blogs', 'People''s Blogs.', 3, 0, '2013-01-15 04:46:35', 1, '2013-11-18 11:34:47', 1),
-(11, 'Magazine', 'magazine', 'Zpanel Magazine Library.', 0, 0, '2013-12-09 16:16:50', 1, '2014-05-14 11:20:07', 1);
+(5, 'Blogs', 'blogs', 'People''s Blogs.', 3, 0, '2013-01-15 04:46:35', 1, '2014-06-26 10:01:50', 1),
+(11, 'Magazine', 'magazine', 'Zpanel Magazine Library.', 0, 0, '2013-12-09 16:16:50', 1, '2014-06-25 14:58:15', 1),
+(12, 'Slideshow', 'slideshow', 'Home slideshow with details.', 0, 0, '2014-09-03 10:42:57', 1, '2014-09-03 10:42:57', 1);
 
 -- --------------------------------------------------------
 
@@ -547,7 +554,7 @@ CREATE TABLE IF NOT EXISTS `cms_type_metas` (
   `validation` text,
   `instruction` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=359 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=413 ;
 
 --
 -- Dumping data for table `cms_type_metas`
@@ -558,7 +565,6 @@ INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `va
 (322, 3, 'form-publisher', '', 'text', '', ''),
 (321, 3, 'form-publish_date', '', 'datepicker', 'not_empty|', ''),
 (7, 4, 'stagging', 'enable', NULL, NULL, NULL),
-(289, 5, 'form-action', 'Comment\r\nShare\r\nLike\r\nUnlike that damn bloG', 'checkbox', '', 'More Action about the blogs.'),
 (320, 3, 'form-author', '', 'text', '', ''),
 (319, 3, 'form-weight', '', 'text', 'not_empty|is_numeric|', 'Product weight in kg.'),
 (318, 3, 'form-quantity', '', 'text', 'not_empty|is_numeric|', ''),
@@ -570,15 +576,22 @@ INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `va
 (254, 3, 'title_key', 'Books Name', NULL, NULL, NULL),
 (325, 3, 'form-added_image', '', 'image', '', ''),
 (324, 3, 'form-background', '', 'image', '', 'Background of the book'),
-(290, 5, 'form-background', '', 'image', '', ''),
+(409, 5, 'form-action', 'Comment\r\nShare\r\nLike\r\nUnlike that damn bloG', 'checkbox', '', 'More Action about the blogs.'),
 (327, 3, 'form-filename2', '', 'file', '', 'This is just a test file.'),
 (333, 4, 'form-books', '', 'multibrowse', 'not_empty|', 'Test New Type again.'),
 (332, 4, 'form-news_file', '', 'file', 'not_empty|', ''),
 (334, 4, 'form-magazine', '', 'multibrowse', '', 'Zpanel Famous Magazine.'),
-(356, 11, 'form-group_photo', '', 'gallery', 'not_empty|', 'just a test field gallery.'),
-(357, 11, 'form-dropme', 'drop satu\r\ndrop dua\r\ndrop tiga', 'dropdown', '', ''),
-(358, 11, 'form-group_photo_2', '', 'gallery', '', ''),
-(355, 11, 'form-books', '', 'checkbox', 'browse_module|', 'browse books for checkbox.');
+(402, 11, 'form-group_photo', '', 'gallery', 'not_empty|', 'just a test field gallery.'),
+(403, 11, 'form-dropme', 'drop satu\r\ndrop dua\r\ndrop tiga', 'dropdown', '', ''),
+(404, 11, 'form-group_photo_2', '', 'gallery', '', ''),
+(405, 11, 'form-fake_ckeditor', '', 'ckeditor', '', 'just a test additional ckeditor.'),
+(406, 11, 'form-biggy_text', '', 'textarea', 'max_length_25|', ''),
+(407, 11, 'form-normal_text', '', 'text', 'max_length_30|', ''),
+(408, 11, 'form-single_browse', '', 'browse', '', ''),
+(401, 11, 'form-books', '', 'checkbox', 'browse_module|', 'browse books for checkbox.'),
+(410, 5, 'form-background', '', 'image', '', ''),
+(411, 5, 'form-books', '', 'browse', '', ''),
+(412, 12, 'form-url_link', '', 'text', 'is_url|', 'Example: http://www.yourdomain.com');
 
 -- --------------------------------------------------------
 

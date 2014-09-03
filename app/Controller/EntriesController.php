@@ -150,6 +150,13 @@ class EntriesController extends AppController {
 				swap_value($tempdata, $this->request->data);
 				$result = $this->_admin_default_edit(NULL , $myEntry);
 				swap_value($tempdata, $this->request->data);
+
+				if($myEntrySlug == 'home')
+				{
+					// load slider data !!
+					$slideshow = $this->_admin_default( $this->Type->findBySlug('slideshow') , 0 , NULL , NULL , NULL ,NULL,NULL,NULL, NULL , 'manualset');
+					$this->set('slideshow', $slideshow['myList']);
+				}
 				
 				// convert render file name to its parent language !!
 				if(substr(strtolower($this->mySetting['language'][0]), 0,2) != $language)
