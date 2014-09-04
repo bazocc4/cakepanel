@@ -577,6 +577,8 @@ class GetHelper extends AppHelper
 	
 	function outputConverter($inputType , $value , $myImageTypeList = NULL)
 	{
+		$maxLength = 100;
+		$maxLineBreak = 5;
 		$result = '';
 		switch ($inputType) 
 		{
@@ -585,10 +587,24 @@ class GetHelper extends AppHelper
 				$result = "<a href='".$this->get_linkpath()."files/".$value."'>".string_unslug($path_parts['filename'])."</a>";
 				break;
 			case 'ckeditor':
-				$result = strip_tags($value , '<br><br/>');
-				break;
 			case 'textarea':
-				$result = str_replace(chr(10), "<br/>", $value);
+				if($inputType == 'ckeditor')
+				{
+					$value = strip_tags($value , '<br><br/>');
+					$value = str_replace( array('<br>','<br/>') , chr(10) , $value );
+				}
+
+				// set $maxLineBreak !!
+				$lineBreak = array_filter(explode(chr(10), $value));
+				array_splice($lineBreak, $maxLineBreak );
+				$result = implode(chr(10), $lineBreak);
+
+				// set $maxLength !!
+				if(strlen($result) > $maxLength)
+				{
+					$result = substr($result,0,$maxLength)."...";
+				}
+				$result = str_replace(chr(10), '<br/>' , $result);
 				break;
 			case 'datetimepicker':
 				$result = date_converter($value, $this->data['mySetting']['date_format'],$this->data['mySetting']['time_format']);

@@ -73,8 +73,10 @@
 			echo $this->Html->script('jquery-ui-1.8.18.custom.min');
 			echo $this->Html->script('jquery-ui-timepicker-addon');
 
-			echo $this->Html->script('jquery.imagesloaded');
+			echo $this->Html->script('jquery.imagesloaded');			
 			echo $this->Html->script('jquery.colorbox');
+			// use this script to make colorbox responsive !!
+			echo $this->Html->script('colorbox_resize');
 
 			// bootstrap script !!
 			echo $this->Html->script('bootstrap.min');
