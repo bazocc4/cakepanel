@@ -50,5 +50,7 @@
 			
 			echo $this->Paypal->button($paypal_param);			
 		?>
+
+		<a class="btn btn-primary" href="<?php echo $imagePath; ?>recaptcha">Go to reCAPTCHA</a>
 	</body>
 </html>

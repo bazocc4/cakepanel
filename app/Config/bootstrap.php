@@ -516,54 +516,6 @@ function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts
     return $url;
 }
 
-/**
- * generate captcha image to the browser.
- */
-function captcha()
-{
-    App::import('Vendor', 'securimage/securimage');
-    $img = new Securimage();
-    
-    //$img->ttf_file        = './Quiff.ttf';        
-    //$img->captcha_type    = Securimage::SI_CAPTCHA_MATHEMATIC; // show a simple math problem instead of text
-    //$img->image_height    = 90;                                // height in pixels of the image
-    //$img->image_width     = $img->image_height * M_E;          // a good formula for image size based on the height
-    //$img->perturbation    = 1.75;                               // 1.0 = high distortion, higher numbers = more distortion
-    //$img->num_lines       = 8;                                 // how many lines to draw over the image
-    //$img->image_type      = SI_IMAGE_JPEG;                     // render as a jpeg image
-    
-    $img->case_sensitive  = false;                              // true to use case sensitve codes - not recommended
-    $img->image_bg_color  = new Securimage_Color(rand(0, 255),
-                                                 rand(0, 255),
-                                                 rand(0, 255));   // image background color
-    $img->text_color      = new Securimage_Color(rand(0, 255),
-                                                 rand(0, 255),
-                                                 rand(0, 255));   // captcha text color
-    $img->line_color      = new Securimage_Color(rand(0, 255),
-                                                 rand(0, 255),
-                                                 rand(0, 255));   // color of lines over the image
-    $img->signature_color = new Securimage_Color(rand(0, 255),
-                                                 rand(0, 255),
-                                                 rand(0, 255));  // random signature color
-    
-    // see securimage.php for more options that can be set
-    
-    $img->show();  // outputs the image and content headers to the browser
-}
-
-/**
- * Check a submitted code against the stored value
- * @param string $code  The captcha code to check
- * @return boolean containing true or false result.
- */
-function checkCaptchaCode($code)
-{
-	if(empty($code)) {return false;}
-    App::import('Vendor', 'securimage/securimage');
-    $securimage = new Securimage();
-    return $securimage->check($code);
-}
-
 /*
  * New Function in CakePHP 2.x
  */
