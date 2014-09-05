@@ -781,11 +781,13 @@ class Entry extends AppModel {
 			));
 
 			$countLang = count($mySetting['language']);
-			return ($temp < $countLang);
+
+			if($temp < $countLang)
+			{
+				return $entry['Entry']['slug'];
+			}
 		}
-		else
-		{
-			return false;
-		}
+		
+		return false;
 	}
 }

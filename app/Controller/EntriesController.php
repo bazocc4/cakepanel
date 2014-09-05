@@ -1652,9 +1652,21 @@ class EntriesController extends AppController {
 
 				// NOW finally setFlash ^^
 				$this->Session->setFlash($this->request->data['Entry']['title'].' has been added.','success');
-				if(!$this->Entry->checkRemainingLang($newEntryId , $this->mySetting))
+				if($this->request->params['admin']==1)
 				{
-					$this->redirect($this->request->params['admin']==1?array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation):redirectSessionNow($_SESSION['now']));
+					$newEntrySlug = $this->Entry->checkRemainingLang($newEntryId , $this->mySetting);
+					if($newEntrySlug)
+					{
+						$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']) , 'edit' , $newEntrySlug ));
+					}
+					else
+					{
+						$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation));
+					}
+				}
+				else
+				{
+					$this->redirect( redirectSessionNow($_SESSION['now']) );
 				}
 			}
 			else 
@@ -1962,9 +1974,21 @@ class EntriesController extends AppController {
 						array('EntryMeta.value'=>$myEntry['Entry']['title'])
 					);
 */					$this->Session->setFlash($this->request->data['Entry']['title'].' has been updated.','success');
-					if(!$this->Entry->checkRemainingLang($myEntry['Entry']['id'] , $this->mySetting))
+					if($this->request->params['admin']==1)
 					{
-						$this->redirect($this->request->params['admin']==1?array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']).$myChildTypeLink.$myTranslation):redirectSessionNow($_SESSION['now']));
+						$newEntrySlug = $this->Entry->checkRemainingLang($myEntry['Entry']['id'] , $this->mySetting);
+						if($newEntrySlug)
+						{
+							$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']) , 'edit' , $newEntrySlug ));
+						}
+						else
+						{
+							$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']).$myChildTypeLink.$myTranslation));
+						}
+					}
+					else
+					{
+						$this->redirect( redirectSessionNow($_SESSION['now']) );
 					}
 				}
 				else 
