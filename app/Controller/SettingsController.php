@@ -71,7 +71,7 @@ class SettingsController extends AppController {
 			
 			$this->Session->setFlash('Settings has been updated.','success');
 			
-			return $this->redirect('/admin/settings');
+			$this->redirect('/admin/settings');
 		}
 	}
 

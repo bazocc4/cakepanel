@@ -227,7 +227,7 @@ class AppController extends Controller {
 				if($this->user['role_id'] > 2)
 				{	
 					$this->Session->setFlash(__('Authorized access is required.'),'default',array() , 'auth');
-					return $this->redirect($this->Auth->logout());
+					$this->redirect($this->Auth->logout());
 				}
 			}
 		}

@@ -181,7 +181,7 @@ class AccountsController extends AppController {
 		
 		if (!$id && empty($this->request->data)) {
 			$this->Session->setFlash('Invalid account', 'failed');
-			return $this->redirect(array('action' => 'index'));
+			$this->redirect(array('action' => 'index'));
 		}
 
 		$this->set('id',$id);
@@ -235,22 +235,22 @@ class AccountsController extends AppController {
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash('Invalid id for user account', 'failed');
-			return $this->redirect(array('action'=>'index','admin'=>true));
+			$this->redirect(array('action'=>'index','admin'=>true));
 		}		
 		$this->Account->delete($id);
 		$this->Session->setFlash('User account has been deleted', 'success');
-		return $this->redirect(array('action'=>'index','admin'=>true));
+		$this->redirect(array('action'=>'index','admin'=>true));
 	}
 
 	function redirect_login()
 	{
 		if($this->Auth->login())
 		{
-			return $this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
+			$this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
 		}
 		else 
 		{
-			return $this->redirect('/admin/login');
+			$this->redirect('/admin/login');
 		}
 	}
 
@@ -268,22 +268,22 @@ class AccountsController extends AppController {
 			{
 				if(!empty($this->request->query['resource']))
 				{
-					return $this->redirect('/admin'.$this->request->query['resource']);
+					$this->redirect('/admin'.$this->request->query['resource']);
 				}
 				else // default landing page after login !!
 				{
-					return $this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
+					$this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
 				}
 			}
 			else // at frontend !!
 			{
 				if(!empty($this->request->query['resource']))
 				{
-					return $this->redirect($this->request->query['resource']);
+					$this->redirect($this->request->query['resource']);
 				}
 				else // default landing page after login !!
 				{
-					return $this->redirect('/');
+					$this->redirect('/');
 				}
 			}
 		}
@@ -318,14 +318,14 @@ class AccountsController extends AppController {
     {
     	$this->Session->destroy();
     	$this->Session->setFlash('You have been logout.','forget_success');
-    	return $this->redirect($this->Auth->logout());
+    	$this->redirect($this->Auth->logout());
     }
 	
 	function admin_logout()
 	{
 		$this->Session->destroy();
 		$this->Session->setFlash('You have been logout.','forget_success');
-		return $this->redirect('/admin/login');
+		$this->redirect('/admin/login');
 	}
 	
 	function __validateLoginStatus()
@@ -334,7 +334,7 @@ class AccountsController extends AppController {
         {
             if($this->Session->check('Account') == false)
             {
-                return $this->redirect('login');
+                $this->redirect('login');
                 $this->Session->setFlash('The URL you\'ve followed requires you login.');
             }
         }
@@ -346,11 +346,11 @@ class AccountsController extends AppController {
 		{
 			if(substr($this->request->url, 0,5) == 'admin')
 			{
-				return $this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
+				$this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
 			}
 			else
 			{
-				return $this->redirect('/');
+				$this->redirect('/');
 			}
 		}
 		
@@ -406,7 +406,7 @@ class AccountsController extends AppController {
 							$this->Account->id = $value['Account']['id'];
 							$this->Account->saveField('password' , Security::hash($newpassword,null,true));
 							$this->Session->setFlash('New password has been sent to your inbox!','forget_success');
-							return $this->redirect((empty($is_admin)?'':'/admin').'/login');
+							$this->redirect((empty($is_admin)?'':'/admin').'/login');
 						}
 						else // Failure, without any exceptions
 						{

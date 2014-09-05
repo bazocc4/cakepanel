@@ -291,13 +291,13 @@ class UsersController extends AppController {
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash('Invalid id for user', 'failed');
-			return $this->redirect(array('action'=>'index','admin'=>true));
+			$this->redirect(array('action'=>'index','admin'=>true));
 		}		
 		$this->User->delete($id);
 		$this->UserMeta->deleteAll(array('UserMeta.user_id' => $id));
 		$this->Account->deleteAll(array('Account.user_id' => $id));
 		
 		$this->Session->setFlash('User has been deleted', 'success');
-		return $this->redirect(array('action'=>'index','admin'=>true));
+		$this->redirect(array('action'=>'index','admin'=>true));
 	}	
 }

@@ -11,7 +11,7 @@ class UserMetasController extends AppController {
 	function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid user detail'));
-			return $this->redirect(array('action' => 'index'));
+			$this->redirect(array('action' => 'index'));
 		}
 		$this->set('userDetail', $this->UserDetail->read(null, $id));
 	}
@@ -21,7 +21,7 @@ class UserMetasController extends AppController {
 			$this->UserDetail->create();
 			if ($this->UserDetail->save($this->request->data)) {
 				$this->Session->setFlash(__('The user detail has been saved'));
-				return $this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The user detail could not be saved. Please, try again.'));
 			}
@@ -34,12 +34,12 @@ class UserMetasController extends AppController {
 	function edit($id = null) {
 		if (!$id && empty($this->request->data)) {
 			$this->Session->setFlash(__('Invalid user detail'));
-			return $this->redirect(array('action' => 'index'));
+			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->request->data)) {
 			if ($this->UserDetail->save($this->request->data)) {
 				$this->Session->setFlash(__('The user detail has been saved'));
-				return $this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The user detail could not be saved. Please, try again.'));
 			}
@@ -55,13 +55,13 @@ class UserMetasController extends AppController {
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for user detail'));
-			return $this->redirect(array('action'=>'index'));
+			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->UserDetail->delete($id)) {
 			$this->Session->setFlash(__('User detail deleted'));
-			return $this->redirect(array('action'=>'index'));
+			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('User detail was not deleted'));
-		return $this->redirect(array('action' => 'index'));
+		$this->redirect(array('action' => 'index'));
 	}
 }

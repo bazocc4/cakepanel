@@ -9,8 +9,8 @@
 App::import('Vendor', 'recaptchalib');
 
 // Get a key from https://www.google.com/recaptcha/admin/create
-$publickey = "6LdCrfASAAAAAH0cuh3xbTHlgqGgyTBsNHosWCWk";
-$privatekey = "6LdCrfASAAAAAIwNCE5xTGNUoJwohf3IJo1wTi2m";
+$publickey = RECAPTCHA_PUBLIC_KEY;
+$privatekey = RECAPTCHA_PRIVATE_KEY;
 
 # the response from reCAPTCHA
 $resp = null;

@@ -32,7 +32,7 @@ class InstantPaymentNotificationsController extends AppController {
 				break;
 			}
 		}
-		return $this->redirect('/shoppingcart/step1');
+		$this->redirect('/shoppingcart/step1');
 	}
 	
 	function ajaxcost()
@@ -241,7 +241,7 @@ class InstantPaymentNotificationsController extends AppController {
 		  $this->log($notification,'paypal_ipn');
 		  $this->__processTransaction($notification);
 	  }
-	  return $this->redirect('/');
+	  $this->redirect('/');
 	}
 	
 	/**

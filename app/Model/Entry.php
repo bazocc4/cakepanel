@@ -762,4 +762,30 @@ class Entry extends AppModel {
 		}
 		return $result;
 	}
+
+	/*
+	Check if this entry data has already have all of language version or not.
+	- return true if there is still exist language that has not been translated yet, otherwise false.
+	*/
+	function checkRemainingLang($id , $mySetting)
+	{
+		$entry = $this->findById($id);
+		$langcode = explode('-', $entry['Entry']['lang_code']);
+
+		if(!empty($langcode[1]) && is_numeric($langcode[1]))
+		{
+			$temp = $this->find('count' , array(
+				'conditions' => array(
+					'Entry.lang_code LIKE' => '%-'.$langcode[1]
+				)
+			));
+
+			$countLang = count($mySetting['language']);
+			return ($temp < $countLang);
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

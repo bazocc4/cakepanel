@@ -40,6 +40,12 @@ define("RECAPTCHA_API_SECURE_SERVER", "https://www.google.com/recaptcha/api");
 define("RECAPTCHA_VERIFY_SERVER", "www.google.com");
 
 /**
+ * The reCAPTCHA config keys
+ */
+define("RECAPTCHA_PUBLIC_KEY","6LdCrfASAAAAAH0cuh3xbTHlgqGgyTBsNHosWCWk");
+define("RECAPTCHA_PRIVATE_KEY","6LdCrfASAAAAAIwNCE5xTGNUoJwohf3IJo1wTi2m");
+
+/**
  * Encodes the given data into a query string format
  * @param $data - array of string elements to be encoded
  * @return string - encoded request

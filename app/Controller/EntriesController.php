@@ -111,7 +111,7 @@ class EntriesController extends AppController {
 		}
 		else if(strtolower($this->request->params['pass'][$indent]) == 'home')
 		{
-			return $this->redirect('/'.(empty($indent)?'':$language.'/'));
+			$this->redirect('/'.(empty($indent)?'':$language.'/'));
 		}
 		
 		// ---------------------------------- >>>
@@ -1650,15 +1650,12 @@ class EntriesController extends AppController {
 					}
 				}
 
-				// add COUNT to parent Entry...
-/*				if(!empty($myEntry))
-				{
-					$this->Entry->id = $myEntry['Entry']['id'];
-					$this->Entry->saveField('count' , $myEntry['Entry']['count'] + 1);
-				}
-*/				// NOW finally setFlash ^^
+				// NOW finally setFlash ^^
 				$this->Session->setFlash($this->request->data['Entry']['title'].' has been added.','success');
-				return $this->redirect($this->request->params['admin']==1?array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation):redirectSessionNow($_SESSION['now']));
+				if(!$this->Entry->checkRemainingLang($newEntryId , $this->mySetting))
+				{
+					$this->redirect($this->request->params['admin']==1?array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation):redirectSessionNow($_SESSION['now']));
+				}
 			}
 			else 
 			{
@@ -1965,7 +1962,10 @@ class EntriesController extends AppController {
 						array('EntryMeta.value'=>$myEntry['Entry']['title'])
 					);
 */					$this->Session->setFlash($this->request->data['Entry']['title'].' has been updated.','success');
-					return $this->redirect($this->request->params['admin']==1?array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']).$myChildTypeLink.$myTranslation):redirectSessionNow($_SESSION['now']));
+					if(!$this->Entry->checkRemainingLang($myEntry['Entry']['id'] , $this->mySetting))
+					{
+						$this->redirect($this->request->params['admin']==1?array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']).$myChildTypeLink.$myTranslation):redirectSessionNow($_SESSION['now']));
+					}
 				}
 				else 
 				{	
