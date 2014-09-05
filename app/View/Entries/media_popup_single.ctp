@@ -13,7 +13,7 @@
 <input type="hidden" value="<?php echo $crop; ?>" id="updateChildPicCrop" />
 <div id="upload-popup" class="media upload-popup">
 	<div class="layout-header">
-		<div class="sidebar-title">
+		<div class="sidebar-title" style="background: none;">
 			<h4>Media Library</h4>
 			<a href="javascript:void(0);" class="close"><i class="icon-remove icon-white"></i></a>
 		</div>
@@ -159,6 +159,12 @@
 		</div>
 	</div>
 	<input type="hidden" value="<?php echo $mycaller; ?>" id="mycaller" />
+	<?php
+		if($mycaller == 'ckeditor')
+		{
+			echo '<input type="hidden" value="'.$_GET["CKEditorFuncNum"].'" id="CKEditorFuncNum" />';
+		}
+	?>
 </div>
 
 <!-- The template to display files available for upload -->

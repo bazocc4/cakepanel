@@ -14,7 +14,6 @@
 	<link rel="shortcut icon" href="<?php echo $imagePath."images/favicon.ico"; ?>" type="image/x-icon" />	
 		<?php
 			echo $this->Html->css('bootstrap');
-//			echo $this->Html->css('bootstrap-responsive');
 			echo $this->Html->css('admin/style');
 			
 			echo $this->Html->script('jquery-1.7.2.min');

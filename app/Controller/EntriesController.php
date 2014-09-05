@@ -2081,21 +2081,15 @@ class EntriesController extends AppController {
 	 **/
 	public function media_popup_single($paging = NULL , $mycaller = NULL , $myTypeSlug = NULL)
 	{
+		$this->setTitle("Media Library");
+		$this->layout = ($this->request->is('ajax')?'ajax':'cms_blankpage');
+
 		if(is_null($paging))
         {
             $paging = 1;
         }
-		
-		$this->layout='ajax';
-		if(is_null($mycaller) && is_null($myTypeSlug)) 
-		{	
-			$this->set('isAjax' , 1);
-		} 
-		else 
-		{
-			$this->set('isAjax' , 0);
-		}
-		$this->set('paging' , $paging);
+        $this->set('paging' , $paging);
+		$this->set('isAjax' , (is_null($mycaller) && is_null($myTypeSlug)?1:0) );		
 		$this->set('myTypeSlug' , $myTypeSlug);
 		
 		// DEFINE MY TYPE CROP !!

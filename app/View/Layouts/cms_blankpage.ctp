@@ -51,8 +51,7 @@
 		<script src="<?php echo $imagePath; ?>js/validation.js"></script>
 		<script src="<?php echo $imagePath; ?>js/script.js"></script>
 		<script src="<?php echo $imagePath; ?>js/media.js"></script>
-		<script src="<?php echo $imagePath; ?>js/livedate.js"></script>
-		
+
 <!-- 		for CK Editor -->
 	    <script type="text/javascript" src="<?php echo $imagePath; ?>js/ckeditor/ckeditor.js"></script>
 	    <script type="text/javascript" src="<?php echo $imagePath; ?>js/ckeditor/adapters/jquery.js"></script>
@@ -82,115 +81,14 @@
 
 	<body>
 		<div class="container-fluid">
-      		<div class="header row-fluid">
-				<div class="span7">
-					<a alt="homepage" href="<?php echo $imagePath; ?>"><img src="<?php echo $imagePath; ?>images/logo.png" /></a>
-				</div>
-				
-				<div class="username span5">
-					Hi, <?php echo $user['User']['firstname']." ".$user['User']['lastname']; ?>! <?php echo $this->Html->link('Logout',array('controller'=>'accounts','action'=>'logout','admin'=>true), array('class' => 'btn btn-danger')); ?>
-				</div>
-			</div>
-			
-			<div class="layout-header row-fluid">
-				<div class="span12">
-					<div class="row-fluid">
-						<div class="sidebar-title span2">
-							<h4>DASHBOARD</h4>
-						</div>
-						
-						<div class="body-title span10">
-							<div class="breadcrumbs">
-								<p><?php echo $this->Html->getCrumbs(' &raquo; ',$mySetting['title']); ?></p>
-								<div class="live-time">
-									<?php echo date($mySetting['date_format'] , gmt_adjustment()); ?>
-									<i class="icon-time icon-white"></i>
-									<span id="clock"></span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="layout-body row-fluid">
-				 
-				<!--HEADER-->
-				<div class="sidebar span2">
-					<ul>
-						<?php
-							if($user['role_id'] <= 1)
-							{
-								echo "<li>";
-								echo $this->Html->link('Master',array('controller'=>'master','action'=>'types'),array('id'=>'master'));
-								echo "</li>";
-							}
-						?>
-						<li>
-							<?php									
-								echo $this->Html->link('Settings',array('controller'=>'settings','action'=>'index'),array('id'=>'settings'));
-							?>
-						</li>						
-						<li>
-							<?php 
-								echo $this->Html->link('Users',array('controller'=>'users','action'=>'index'),array('id'=>'users')); 
-							?>
-						</li>
-						<li>
-							<?php 
-								echo $this->Html->link('Accounts',array('controller'=>'accounts','action'=>'index'),array('id'=>'accounts'));
-							?>
-						</li>
-						<li>
-							<?php 
-								echo $this->Html->link('Media Library',array('controller'=>'entries','action'=>'media'),array('id'=>'media')); 
-							?>
-						</li>						
-						<li>
-							<?php 
-								echo $this->Html->link('Pages',array('controller'=>'entries','action'=>'pages'),array('id'=>'pages')); 
-							?>
-						</li>												
-												
-						<li class='separator'><?php echo $this->Html->link('Databases','#'); ?></li>
-						
-						<?php
-							foreach ($types as $key => $value) 
-							{
-								if($value['Type']['slug'] != 'media')
-								{
-									echo "<li>";
-									echo $this->Html->link($value['Type']['name'] ,array('controller'=>'entries','action'=>$value['Type']['slug']) ,array('id'=>$value['Type']['slug']));
-									echo "</li>";
-								}
-							}								
-						?>
-						
-						<li class='separator'><?php echo $this->Html->link('Others','#'); ?></li>
-						<?php
-							echo "<li>";
-							echo $this->Html->link('backup & restore' ,array('controller'=>'entries','action'=>'backup-restore') ,array('id'=>'backup-restore'));
-							echo "</li>";
-						?>
-					</ul>
-				</div>
-				
-				<!--BODY-->
-				<div class="content span10">
-					<div id="child-content" class="media inner-content">
+			<div class="layout-body" style="background: none; box-shadow: none;">
+				<div class="content" style="margin: 0;">
+					<div id="child-content" class="media inner-content" style="margin: 0;">
 						<?php echo $this->Session->flash(); ?>
 						<?php echo $content_for_layout; ?>
 					</div>
 				</div>
-      		</div><!--/row-->	
-	    </div><!--/.fluid-container-->
-		
-<!-- 		ADDITIONAL SCRIPT FOR LAYOUT -->		
-		<script>
-			$(document).ready(function(){		
-				// CSS HELPER FUNCTION FOR SIDEBAR POSITION !! * CK Editor height *
-				$("div.sidebar.span2 ul").css("padding-bottom" , (122 + parseInt($("div.container-fluid").height()) - parseInt($("div.sidebar.span2 ul").height())) + "px");
-		  	});
-		</script>
+      		</div>
+	    </div>
 	</body>
 </html>

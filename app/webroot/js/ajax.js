@@ -241,11 +241,19 @@ function openRequestedSinglePopup(strUrl)
 		// for CK Editor
 		else if($('input#mycaller').val() == 'ckeditor')
 		{
+			var imgsrc = linkpath+'img/upload/'+imgId+'.'+imgType;			
+			window.opener.CKEDITOR.tools.callFunction( $('input#CKEditorFuncNum').val() , imgsrc );
+			window.close();
+
+			/*
+			# -------------------------------------------- #
+			# OLD SCRIPT for injecting image into ckeditor #
+			# -------------------------------------------- #
 			var mytext = '<img title="'+imgName+'" alt="'+imgName+'" src="'+linkpath+'img/upload/'+imgId+'.'+imgType+'" />';
-		
 			var oEditor = CKEDITOR.instances[window.instance];
 			var newElement = CKEDITOR.dom.element.createFromHtml(mytext, oEditor.document);
 			oEditor.insertElement(newElement);
+			*/
 		}
 		
 		$.colorbox.close();
@@ -282,12 +290,12 @@ function openRequestedSinglePopup(strUrl)
 		CKEDITOR.config.pasteFromWordRemoveFontStyles= false;
 		CKEDITOR.config.pasteFromWordRemoveStyles= false;
 
-		CKEDITOR.config.filebrowserBrowseUrl = site+'js/ckfinder/ckfinder.html';
-		CKEDITOR.config.filebrowserImageBrowseUrl = site+'js/ckfinder/ckfinder.html?Type=Images';
-		CKEDITOR.config.filebrowserFlashBrowseUrl = site+'js/ckfinder/ckfinder.html?Type=Flash';
-		CKEDITOR.config.filebrowserUploadUrl = site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
-		CKEDITOR.config.filebrowserImageUploadUrl = site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
-		CKEDITOR.config.filebrowserFlashUploadUrl = site+'js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
+		// inject media URL to ckeditor config >>
+		var mediaURL = site+'entries/media_popup_single/1/ckeditor/'+$('input#myTypeSlug').val();
+		CKEDITOR.config.filebrowserBrowseUrl = mediaURL;
+		CKEDITOR.config.filebrowserUploadUrl = mediaURL;
+		CKEDITOR.config.filebrowserImageBrowseUrl = mediaURL;
+		CKEDITOR.config.filebrowserImageUploadUrl = mediaURL;
 
 		CKEDITOR.on("instanceReady", function(event)
 		{
@@ -297,8 +305,21 @@ function openRequestedSinglePopup(strUrl)
 			if(sidebar_height < content_height){
 				$('.sidebar').css('height', content_height-180);
 			}
-		
-			// access popup media library from ckeditor
+
+			// give warning from leaving page accidentally
+			var instances = CKEDITOR.instances;
+			for (var z in instances) {
+				CKEDITOR.instances[z].on('saveSnapshot', function(){
+					window.onbeforeunload=function()
+					{
+			             return 'You have unsaved changes. Are you sure you want to leave this page?';
+			        };
+				});
+			}
+/*
+			# ------------------------------------------------------ #
+			# OLD SCRIPT to access popup media library from ckeditor #
+			# ------------------------------------------------------ #
 			var ckImageIcon = $('form table.cke_editor .cke_button_image');
 			ckImageIcon.attr('title','');
 			ckImageIcon.attr('onclick','');
@@ -314,16 +335,7 @@ function openRequestedSinglePopup(strUrl)
 				var test = $(this).parents('span[class^=cke_skin_]').attr('id');
 				window.instance = test.substr(4); // contain "name" of the ckeditor element.
 			});
-
-			var instances = CKEDITOR.instances;
-			for (var z in instances) {
-				CKEDITOR.instances[z].on('saveSnapshot', function(){
-					window.onbeforeunload=function()
-					{
-			             return 'You have unsaved changes. Are you sure you want to leave this page?';
-			        };
-				});
-			}
+*/
 		});
 	}
 	
