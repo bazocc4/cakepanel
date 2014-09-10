@@ -388,7 +388,7 @@
 							}
 							else if($shortkey == 'price')
 							{
-								echo 'Rp.'.str_replace(',', '.', toMoney($outputResult  , true , true) ).',-';
+								echo 'Rp '.str_replace(',', '.', toMoney($outputResult  , true , true) ).',-';
 							}
 							else if($shortkey == 'weight')
 							{

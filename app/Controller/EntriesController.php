@@ -192,7 +192,7 @@ class EntriesController extends AppController {
 				if(is_numeric($this->request->params['pass'][$indent+1]))
 				{					
 					$myPaging = $this->request->params['pass'][$indent+1];
-					$result = $this->_admin_default($myType, $myPaging, NULL, NULL, NULL, NULL, $this->request->data['search'],NULL, $language);
+					$result = $this->_admin_default($myType, $myPaging , NULL , $this->request->query['key'] , $this->request->query['value'] ,NULL,$this->request->data['search'],NULL, $language);
 					$myRenderFile = $myTypeSlug;
 				}
 				else // if this want to view details of the entry...
@@ -1068,11 +1068,14 @@ class EntriesController extends AppController {
 			// ----------------------------------------- >>>
             // ADDITIONAL FILTERING METHOD !!
             // ----------------------------------------- >>>
-			if(false)
-			{
-				unset($mysql[$key]);
-				continue;
-			}
+            if(empty($this->request->params['admin']))
+            {
+            	if(false)
+				{
+					unset($mysql[$key]);
+					continue;
+				}
+            }
 			// ----------------------------------------- >>>
             // END OF ADDITIONAL FILTERING METHOD !!
             // ----------------------------------------- >>>

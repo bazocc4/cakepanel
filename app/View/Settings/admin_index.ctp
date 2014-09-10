@@ -341,14 +341,17 @@
 		</div>
 		<div id="inputWrapper">
 		<?php
-			// ADDITIONAL INFO ...
-			$value['validation'] = '';
+			// ADDITIONAL INFO ...			
 			foreach ($mySetting as $key10 => $value10) 
 			{
 				if(is_numeric($key10) && substr($value10['Setting']['key'], 0,7) == 'custom-')
 				{
+					// renew key ...
 					$value10['Setting']['key'] = substr($value10['Setting']['key'], 7);
-					
+
+					// prepare element data ...
+					$value = array();
+					$value['validation'] = '';					
 					$value['counter'] = $value10['Setting']['id'] - 1;
 					$value['key'] = 'form-'.string_unslug($value10['Setting']['key']);
 					$value['value'] = $value10['Setting']['value'];
