@@ -539,11 +539,23 @@ function parseQueryStringUrl($url)
 	return $result;
 }
 
-function breakEntryMetas($myEntry)
+function composeQueryStringUrl($query = array())
 {
-	foreach ($myEntry['EntryMeta'] as $key => $value) 
+	$chainUrl = '';
+	$counter = 0;
+	foreach ($query as $key => $value) 
 	{
-		$myEntry['EntryMeta'][(substr($value['key'], 0,5)=='form-'?substr($value['key'], 5):$value['key'])] = $value['value'];
+		$chainUrl .= ($counter==0?'?':'&').$key.'='.$value;
+		$counter++;
+	}
+	return $chainUrl;
+}
+
+function breakEntryMetas($myEntry , $metatable = 'EntryMeta')
+{
+	foreach ($myEntry[$metatable] as $key => $value) 
+	{
+		$myEntry[$metatable][(substr($value['key'], 0,5)=='form-'?substr($value['key'], 5):$value['key'])] = $value['value'];
 	}
 	return $myEntry;
 }
