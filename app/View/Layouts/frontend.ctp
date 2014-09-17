@@ -71,6 +71,7 @@
 			// echo $this->Html->script('jquery.mobilemenu');
 
 			echo $this->Html->script('jquery-ui-1.8.18.custom.min');
+			echo $this->Html->script('jquery.fitvids'); // make video in ckeditor being responsive !!
 			echo $this->Html->script('jquery-ui-timepicker-addon');
 
 			echo $this->Html->script('jquery.imagesloaded');			
@@ -167,5 +168,13 @@
       		</div><!--/row-->	
 	    </div><!--/.fluid-container-->		
 		<?php echo $mySetting['bottom_insert']; ?>
+
+		<!-- ADDITIONAL SCRIPT FOR LAYOUT -->
+		<script>
+			$(document).ready(function(){		
+				// Target your .container, .wrapper, .post, etc.
+    			$("body").fitVids();
+		  	});
+		</script>
 	</body>
 </html>
