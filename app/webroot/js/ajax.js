@@ -273,7 +273,7 @@ function openRequestedSinglePopup(strUrl)
 	}
 	
 	$.fn.my_ckeditor = function (){
-		CKEDITOR.config.toolbar = [
+/*		CKEDITOR.config.toolbar = [
 			{ name: 'document', items : [ 'Source','-','Save' ] },
 			{ name: 'clipboard', items : [ "Cut", "Copy", "Paste", "PasteText", "PasteFromWord","-","Undo", "Redo", "-", "Find", "Replace" ] },
 			{ name: 'styles', items : [ "Styles", "Format","TextColor", "BGColor" ] },
@@ -282,10 +282,7 @@ function openRequestedSinglePopup(strUrl)
 			{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
 			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
 		];
-
-		CKEDITOR.config.width = "75%";
-		CKEDITOR.config.height = "100%";
-
+*/
 		// Copy from MS-Office(word,excel) and paste to CKEditor >>
 		CKEDITOR.config.pasteFromWordRemoveFontStyles= false;
 		CKEDITOR.config.pasteFromWordRemoveStyles= false;

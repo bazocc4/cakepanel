@@ -257,7 +257,7 @@ function isLocalhost()
 {
 	$test = getcwd();
 
-	if(stripos($test, DS."htdocs".DS) !== FALSE || stripos($test, DS."sandbox".DS) !== FALSE)
+	if(stripos($test, DS."htdocs".DS) !== FALSE || stripos($test, DS."sandbox".DS) !== FALSE || stripos($test, DS."creazidigital".DS) !== FALSE)
     {
         return true;
     }
