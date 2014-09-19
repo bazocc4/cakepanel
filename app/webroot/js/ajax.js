@@ -242,20 +242,21 @@ function openRequestedSinglePopup(strUrl)
 		else if($('input#mycaller').val() == 'ckeditor')
 		{
 			var imgsrc = linkpath+'img/upload/'+imgId+'.'+imgType;			
-			window.opener.CKEDITOR.tools.callFunction( $('input#CKEditorFuncNum').val() , imgsrc );
+			window.opener.CKEDITOR.tools.callFunction( $('input#CKEditorFuncNum').val() , imgsrc , function(){
+			  // Get the reference to a dialog window.
+			  var element, dialog = this.getDialog();
+			  // Check if this is the Image dialog window.
+			  if (dialog.getName() == 'image') {
+			    // Get the reference to a text field that holds the "alt" attribute.
+			    element = dialog.getContentElement( 'info', 'txtAlt' );
+			    // Assign the new value.
+			    if ( element )
+			      element.setValue( imgName );
+			  }
+			});
 			window.close();
-
-			/*
-			# -------------------------------------------- #
-			# OLD SCRIPT for injecting image into ckeditor #
-			# -------------------------------------------- #
-			var mytext = '<img title="'+imgName+'" alt="'+imgName+'" src="'+linkpath+'img/upload/'+imgId+'.'+imgType+'" />';
-			var oEditor = CKEDITOR.instances[window.instance];
-			var newElement = CKEDITOR.dom.element.createFromHtml(mytext, oEditor.document);
-			oEditor.insertElement(newElement);
-			*/
 		}
-		
+
 		$.colorbox.close();
 		$("a#upload").removeClass("active");
 				
@@ -273,23 +274,6 @@ function openRequestedSinglePopup(strUrl)
 	}
 	
 	$.fn.my_ckeditor = function (){
-		CKEDITOR.config.toolbar = [
-			{ name: 'document', items : [ 'Source','-','Save' ] },
-			{ name: 'clipboard', items : [ "Cut", "Copy", "Paste", "PasteText", "PasteFromWord","-","Undo", "Redo", "-", "Find", "Replace" ] },
-			{ name: 'styles', items : [ "Styles", "Format","TextColor", "BGColor" ] },
-			{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-',"SelectAll",'RemoveFormat' ] },
-			{ name: 'insert', items : [ "Image", "Flash", "Table", "HorizontalRule", "Smiley", "SpecialChar", "PageBreak", "Iframe" ] },
-			{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
-			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
-		];
-
-		CKEDITOR.config.width = "75%";
-		CKEDITOR.config.height = "100%";
-
-		// Copy from MS-Office(word,excel) and paste to CKEditor >>
-		CKEDITOR.config.pasteFromWordRemoveFontStyles= false;
-		CKEDITOR.config.pasteFromWordRemoveStyles= false;
-
 		// inject media URL to ckeditor config >>
 		var mediaURL = site+'entries/media_popup_single/1/ckeditor/'+$('input#myTypeSlug').val();
 		CKEDITOR.config.filebrowserBrowseUrl = mediaURL;
@@ -297,11 +281,10 @@ function openRequestedSinglePopup(strUrl)
 		CKEDITOR.config.filebrowserImageBrowseUrl = mediaURL;
 		CKEDITOR.config.filebrowserImageUploadUrl = mediaURL;
 
-		CKEDITOR.on("instanceReady", function(event)
-		{
-		    // update sidebar line css, if ckeditor existed ...
+		CKEDITOR.on('instanceReady', function (event) {		
+			// update sidebar line css, if ckeditor existed ...
 			var content_height = $('.content').height();
-			var sidebar_height = $('.sidebar').height();				
+			var sidebar_height = $('.sidebar').height();
 			if(sidebar_height < content_height){
 				$('.sidebar').css('height', content_height-180);
 			}
@@ -316,26 +299,6 @@ function openRequestedSinglePopup(strUrl)
 			        };
 				});
 			}
-/*
-			# ------------------------------------------------------ #
-			# OLD SCRIPT to access popup media library from ckeditor #
-			# ------------------------------------------------------ #
-			var ckImageIcon = $('form table.cke_editor .cke_button_image');
-			ckImageIcon.attr('title','');
-			ckImageIcon.attr('onclick','');
-			ckImageIcon.attr('onkeydown','');
-			ckImageIcon.attr('onfocus','');
-			ckImageIcon.attr('href',site+'entries/media_popup_single/1/ckeditor/'+$('input#myTypeSlug').val());
-			ckImageIcon.colorbox({
-				onLoad: function() {
-				    $('#cboxClose').hide();
-				}
-			});
-			ckImageIcon.click(function(){
-				var test = $(this).parents('span[class^=cke_skin_]').attr('id');
-				window.instance = test.substr(4); // contain "name" of the ckeditor element.
-			});
-*/
 		});
 	}
 	

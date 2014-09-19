@@ -1,6 +1,6 @@
 @import url('core.css');
 
-/*CUSTOM CONFIGURATION INSERT HERE!!!!*/
+/* CUSTOM CONFIGURATION INSERT HERE !!! */
 html{ min-height: 100%; }
 body{ /*font-family: monospace,'arial','sans-serif';*/ padding-top: 10px;	/*padding-bottom: 40px;*/
 background: rgb(0,0,0); /* Old browsers */
@@ -12,6 +12,16 @@ background: -ms-linear-gradient(top, rgb(0,0,0) 0%,rgb(50,50,50) 100%); /* IE10+
 background: linear-gradient(top, rgb(0,0,0) 0%,rgb(50,50,50) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4f7fb', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 }
+
+/* responsive images */
+img{
+	max-width: 100%;
+	height : auto;
+}
+
+/* ------------------------------------- */
+/* CUSTOM CONFIGURATION INSERT HERE !!!! */
+/* ------------------------------------- */
 
 /* TOOLS */
 .clear {clear:both !important;}
