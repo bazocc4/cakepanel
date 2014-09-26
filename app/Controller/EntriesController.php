@@ -986,8 +986,30 @@ class EntriesController extends AppController {
 
 		// set page title
 		$this->setTitle(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title']);
-		// set paging session...		
-		$countPage = ($myType['Type']['slug']=='media'?$this->mediaPerPage:$this->countListPerPage);
+		
+		// set paging session...
+		$countPage = $this->countListPerPage;
+		if(!empty($paging))
+		{
+			if(empty($this->request->params['admin'])) // front-end
+			{
+				foreach ((empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']) as $key => $value) 
+				{
+					if($value['key'] == 'pagination')
+					{
+						$countPage = $value['value'];
+						break;
+					}
+				}
+			}
+			else // back-end
+			{
+				if($myType['Type']['slug']=='media')
+				{
+					$countPage = $this->mediaPerPage;
+				}
+			}
+		}
 		
 		// our list conditions... ----------------------------------------------------------------------------------////
 		$joinEntryMeta = false;

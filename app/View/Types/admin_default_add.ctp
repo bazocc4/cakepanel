@@ -104,6 +104,18 @@
 			$value['p'] = 'User defined title key name.';
 			$value['placeholder'] = "Title";
 			echo $this->element('input_'.$value['input_type'] , $value);
+
+			// Custom pagination per module ...
+			$value = array();
+			$value['counter'] = $counter++;
+			$value['key'] = 'form-Pagination';
+			$value['validation'] = 'is_numeric';
+			$value['value'] = $myType['TypeMeta']['pagination'][0];
+			$value['model'] = 'TypeMeta';
+			$value['input_type'] = 'text';
+			$value['inputsize'] = 'input-mini';
+			$value['p'] = 'How many data showing on each page (front-end)';
+			echo $this->element('input_'.$value['input_type'] , $value);
 			// ------------------------- >>>
 		?>
 		<!-- UPDATE COUNTER STARTS FROM 101 !! -->
