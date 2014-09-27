@@ -48,7 +48,11 @@
 	}
 
 	// set specific input class !!
-	$inputsize = 'input-xlarge';
+	if(empty($inputsize))
+	{
+		$inputsize = 'input-xlarge';
+	}
+	
 	if($shortkey == 'discount' || $shortkey == 'weight' || $shortkey == 'qty')
 	{
 		$inputsize = 'input-mini';

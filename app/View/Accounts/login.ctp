@@ -17,7 +17,7 @@
 						$status = $this->Session->flash('auth');
 						if($status !== FALSE)
 						{
-							echo '<div class="alert alert-error">';
+							echo '<div class="alert alert-danger">';
 							echo '<a class="close" data-dismiss="alert" href="#">X</a>';
 							echo $status;
 							echo '</div>';

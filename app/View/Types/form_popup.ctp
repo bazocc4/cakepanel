@@ -45,7 +45,7 @@
 		
 		<div class="layout-content">
 			<div class="popup-content">
-				<div style="display: none" id="form-error" class="alert alert-error"></div>
+				<div style="display: none" id="form-error" class="alert alert-danger"></div>
 				<p class="notes important" style="color: red;font-weight: bold;">* Red input MUST NOT be empty.</p>
 				
 				<fieldset>
