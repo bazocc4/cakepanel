@@ -67,7 +67,7 @@
 			// ================================================== >>>
 			// load our JS script...
 			// ================================================== >>>
-			echo $this->Html->script('jquery-1.7.2.min');
+			echo $this->Html->script('jquery-1.11.0.min');
 			// echo $this->Html->script('jquery.mobilemenu');
 
 			echo $this->Html->script('jquery-ui-1.8.18.custom.min');
