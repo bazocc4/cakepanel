@@ -88,6 +88,7 @@
 			// echo $this->Html->script('modernizr-2.6.1.min');
 		
 	    	// custom javascript !!
+	    	echo $this->Html->script('smooth_scrolling');
 	    	echo $this->Html->script('number_format');
 			echo $this->Html->script('admin');
 			echo $this->Html->script('ajax');
