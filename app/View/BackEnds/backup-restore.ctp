@@ -1,5 +1,5 @@
 <?php
-	$this->Html->addCrumb('Backup & Restore', '#');
+	$this->Html->addCrumb($myTitle, '#');
 ?>
 <script type="text/javascript">	
 	function checkfile(sender) 
@@ -20,21 +20,21 @@
 	}
 	
 	$(document).ready(function(){
-		$("a#backup-restore").addClass("active");
+		$("a#backup").addClass("active");
 
 		$("button#backup-files").click(function(){
-			var url = "admin/entries/backup-restore/backup-files"; 
+			var url = "admin/entries/backup/backup-files"; 
 			window.location = site + url;
 		});
 		
 		$("button#backup").click(function(){
-			var url = "admin/entries/backup-restore/backup"; 
+			var url = "admin/entries/backup/backup"; 
 			window.location = site + url;
 		});
 		
 		$("button#clean").click(function(){
 			var message = "Are you sure to delete your database ?\nWARNING: You cannot undo this action & please backup first !!";
-			var url = "admin/entries/backup-restore/clean"; 
+			var url = "admin/entries/backup/clean"; 
 			show_confirm(message , url);
 		});
 		
@@ -46,8 +46,8 @@
 </script>
 <div class="inner-header">
 	<div class="title">
-		<h2>BACKUP & RESTORE</h2>
-		<p class="title-description">Backup<!-- , Clean, --> or Restore your entire database.</p>
+		<h2><?php echo strtoupper($myTitle); ?></h2>
+		<p class="title-description">Backup<!-- , Clean, or Restore --> your entire database / uploaded files.</p>
 	</div>
 </div>
 	
@@ -63,7 +63,7 @@
 		</div>
 	</div>
 	<?php
-		echo $this->Form->create('Entry', array('action'=>'backup-restore/restore','id'=>'restore','enctype'=>'multipart/form-data'));
+		echo $this->Form->create('Entry', array('action'=>'backup/restore','id'=>'restore','enctype'=>'multipart/form-data','class' => 'hide'));
 	?>
 		<div class="control-group">
 			<div class="controls">

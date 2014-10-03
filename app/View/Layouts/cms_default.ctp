@@ -169,7 +169,7 @@
 						<li class='separator'><?php echo $this->Html->link('Others','#'); ?></li>
 						<?php
 							echo "<li>";
-							echo $this->Html->link('backup & restore' ,array('controller'=>'entries','action'=>'backup-restore') ,array('id'=>'backup-restore'));
+							echo $this->Html->link('backup database' ,array('controller'=>'entries','action'=>'backup') ,array('id'=>'backup'));
 							echo "</li>";
 						?>
 					</ul>
