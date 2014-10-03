@@ -21,18 +21,23 @@
 	
 	$(document).ready(function(){
 		$("a#backup-restore").addClass("active");
+
+		$("button#backup-files").click(function(){
+			var url = "admin/entries/backup-restore/backup-files"; 
+			window.location = site + url;
+		});
 		
 		$("button#backup").click(function(){
 			var url = "admin/entries/backup-restore/backup"; 
 			window.location = site + url;
-		});		
+		});
 		
-/*		$("button#clean").click(function(){
+		$("button#clean").click(function(){
 			var message = "Are you sure to delete your database ?\nWARNING: You cannot undo this action & please backup first !!";
 			var url = "admin/entries/backup-restore/clean"; 
 			show_confirm(message , url);
 		});
-*/		
+		
 		$("form#restore").submit(function(){
 			var message = "Are you sure to restore this sql database file ?\nWARNING: You cannot undo this action & please backup first !!";
 			return confirm(message);
@@ -52,11 +57,11 @@
 			<button id="backup" title="Backup all your database" type="button" class="btn btn-primary">Backup Database</button>				
 		</div>
 	</div>
-	<!-- <div class="control-group">
+	<div class="control-group hide">
 		<div class="controls">
 			<button id="clean" title="Clear your full database" type="button" class="btn btn-danger">Clean Database</button>
 		</div>
-	</div> -->
+	</div>
 	<?php
 		echo $this->Form->create('Entry', array('action'=>'backup-restore/restore','id'=>'restore','enctype'=>'multipart/form-data'));
 	?>
@@ -73,4 +78,10 @@
 		</div>
 		
 	<?php echo $this->Form->end(); ?>
+	<hr>
+	<div class="control-group">
+		<div class="controls">
+			<button id="backup-files" title="Backup all your uploaded files" type="button" class="btn btn-info">Backup Uploaded Files</button>
+		</div>
+	</div>		
 </div>
