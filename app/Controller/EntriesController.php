@@ -2309,17 +2309,29 @@ class EntriesController extends AppController {
 		return (empty($options)?false:breakEntryMetas($this->Entry->find('first',$options)));
 	}
 
-	function admin_backup_restore()
+	function admin_backup()
 	{
 		$mode = $this->request->params['mode'];
-		$this->setTitle("Backup & Restore");
+
+		$myTitle = "Backup Database & Files";
+		$this->setTitle($myTitle);
+		$this->set('myTitle' , $myTitle);
+
 		if($mode == "clean")
 		{			
 			$this->Setting->cleanDatabase();
 			$this->Session->setFlash('Database has been cleaned successfully.', 'success');
-			$this->redirect (array('action' => 'backup-restore'));
+			$this->redirect (array('action' => 'backup'));
 		}
-		else if($mode == "backup")
+		else if($mode == "backup-files") // uploaded files
+		{
+			$filename = 'files-'.get_slug($this->mySetting['title']).'-'.date('d-m-Y').'.zip';
+			if(!Zip('img/upload', $filename))
+			{
+				$this->render($this->backEndFolder."backup-restore");
+			}
+		}
+		else if($mode == "backup") // database ...
 		{
 			$this->layout = "sql";
 			$this->set('sql' , $this->Setting->backup_tables($this->get_db_host() , $this->get_db_user() , $this->get_db_password() , $this->get_db_name()));
@@ -2344,7 +2356,7 @@ class EntriesController extends AppController {
 			{
 				$this->Session->setFlash('File extension invalid.', 'failed');
 			}
-			$this->redirect (array('action' => 'backup-restore'));
+			$this->redirect (array('action' => 'backup'));
 		}
 		else // JUST VIEWING OPTIONS !!
 		{

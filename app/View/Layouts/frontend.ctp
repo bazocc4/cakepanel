@@ -67,7 +67,7 @@
 			// ================================================== >>>
 			// load our JS script...
 			// ================================================== >>>
-			echo $this->Html->script('jquery-1.7.2.min');
+			echo $this->Html->script('jquery-1.11.0.min');
 			// echo $this->Html->script('jquery.mobilemenu');
 
 			echo $this->Html->script('jquery-ui-1.8.18.custom.min');
@@ -88,6 +88,7 @@
 			// echo $this->Html->script('modernizr-2.6.1.min');
 		
 	    	// custom javascript !!
+	    	echo $this->Html->script('smooth_scrolling');
 	    	echo $this->Html->script('number_format');
 			echo $this->Html->script('admin');
 			echo $this->Html->script('ajax');

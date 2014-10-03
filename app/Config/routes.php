@@ -82,10 +82,10 @@ Router::connect(($controller == "admin"?'/admin':'').'/login', array('controller
 Router::connect(($controller == "admin"?'/admin':'').'/forget', array('controller' => 'accounts', 'action' => 'forget'));
 // ------------------------- END OF LOGIN ROUTING ------------------------------------------ //
 
-// ---------------------------- BACKUP & RESTORE ---------------------------------------------- //
-Router::connect('/admin/entries/backup-restore', array('controller' => 'entries', 'action' => 'backup_restore' , 'admin'=>true));
-Router::connect('/admin/entries/backup-restore/:mode', array('controller' => 'entries', 'action' => 'backup_restore' , 'admin'=>true));
-// ---------------------------- END OF BACKUP & RESTORE ---------------------------------------------- //
+// ---------------------------- BACKUP DATABASE ---------------------------------------------- //
+Router::connect('/admin/entries/backup', array('controller' => 'entries', 'action' => 'backup' , 'admin'=>true));
+Router::connect('/admin/entries/backup/:mode', array('controller' => 'entries', 'action' => 'backup' , 'admin'=>true));
+// ---------------------------- END OF BACKUP DATABASE ---------------------------------------------- //
 
 if(in_array($controller, $controllers))
 {

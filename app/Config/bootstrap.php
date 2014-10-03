@@ -583,3 +583,64 @@ function parseGoogleDriveUrl($shareurl)
 	$id_drive = $pecahshare[count($pecahshare)-2];
 	return "https://docs.google.com/uc?export=download&id=".$id_drive;
 }
+
+/*
+back-up project files into zip file.
+*/
+function Zip($source, $destination)
+{
+	if (!extension_loaded('zip') || !file_exists($source)) {
+		return false;
+	}
+
+	$zip = new ZipArchive();
+	if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
+		return false;
+	}
+
+	ini_set('memory_limit', '-1'); // unlimited memory limit to process backup files.
+	$source = realpath($source);
+
+	if (is_dir($source) === true)
+	{
+		$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+
+		foreach ($files as $file)
+		{
+			$file = str_replace('\\', '/', $file);
+
+			// Ignore "." and ".." folders
+			if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
+				continue;
+
+			$file = realpath($file);
+			
+			if (is_dir($file) === true)
+			{
+				$zip->addEmptyDir(str_replace($source . '\\', '', $file . '/'));
+			}
+			else if (is_file($file) === true)
+			{
+				$zip->addFromString(str_replace($source . '\\', '', $file), file_get_contents($file));
+			}
+		}
+	}
+	else if (is_file($source) === true)
+	{
+		$zip->addFromString(basename($source), file_get_contents($source));
+	}
+	
+	$zip->close();
+
+	$file = $destination;
+	if(file_exists($file)) 
+	{
+		promptDownloadFile($file);
+		unlink($file); // delete temp files.
+		exit;
+	}
+	else
+	{
+		return false;
+	} 
+}
