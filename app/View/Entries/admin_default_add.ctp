@@ -174,6 +174,16 @@
 		<!-- END OF META ATTRIBUTES -->
 		
 		<?php
+			// Our CKEditor Description Field !!
+			$value = array();
+			$value['key'] = 'form-description';
+			$value['validation'] = '';
+			$value['model'] = 'Entry';
+			$value['counter'] = 1;
+			$value['input_type'] = 'ckeditor';
+			$value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['description']);
+			echo $this->element('input_'.$value['input_type'] , $value);
+
 			// show status field if update (NEW ZPANEL FEATURE) !!
 			$value = array();
 			$value['counter'] = 3;
@@ -187,16 +197,6 @@
 			$value['list'][1]['name'] = 'Draft';
 			$value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['status']);
 			$value['display'] = (empty($myEntry)?'none':'');
-			echo $this->element('input_'.$value['input_type'] , $value);
-		
-			// Our CKEditor Description Field !!
-			$value = array();
-			$value['key'] = 'form-description';
-			$value['validation'] = '';
-			$value['model'] = 'Entry';
-			$value['counter'] = 1;
-			$value['input_type'] = 'ckeditor';
-			$value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['description']);
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
 			// is used gallery function ...
