@@ -2387,7 +2387,7 @@ class EntriesController extends AppController {
 		else if($mode == "backup-files") // uploaded files
 		{
 			$filename = 'files-'.get_slug($this->mySetting['title']).'-'.date('d-m-Y').'.zip';
-			if(!Zip('img/upload', $filename))
+			if(!Zip('img/upload', $filename)) // if zipping failed, then reload page and let the admin try again.
 			{
 				$this->render($this->backEndFolder."backup-restore");
 			}
