@@ -21,14 +21,13 @@ $(document).ready(function(){
 		    $('#cboxClose').hide();
 		}
 	});
-
 	$(".get-from-table").colorbox({
 		reposition: false,
 		onLoad: function() {
 		    $('#cboxClose').show();
 		}
 	});
-
+	
 	// --------------------------- >>
 	// on thumbnail hover - popup
 	// --------------------------- >>
