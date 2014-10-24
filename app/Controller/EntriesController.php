@@ -107,6 +107,7 @@ class EntriesController extends AppController {
 		// this is for redirecting home !!
 		if(empty($this->request->params['pass'][$indent]))
 		{
+			$thisIsHomeUrl = true;
 			$this->request->params['pass'][$indent] = 'home';
 		}
 		else if(strtolower($this->request->params['pass'][$indent]) == 'home')
@@ -298,9 +299,9 @@ class EntriesController extends AppController {
 			$this->Session->setFlash('Shopping Cart has been added. Please click <a href="'.$this->get_host_name().'shoppingcart/step1">Shopping Cart</a> menu for details.','success');
 		}
 		// END OF SHOPPING CART !!
-		
-		$this->onlyActiveEntries = FALSE;
-		$this->setTitle();
+
+		$this->onlyActiveEntries = FALSE;		
+		$this->setTitle(!empty($result['myChildType'])? $result['myChildType']['Type']['name'] : (!empty($result['myType'])? $result['myType']['Type']['name'] : ($thisIsHomeUrl?'':$myEntry['Entry']['title']) ) );
 		$this->render($this->frontEndFolder.$myRenderFile);
 	}
 
