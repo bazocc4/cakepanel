@@ -588,6 +588,12 @@ class GetHelper extends AppHelper
 				break;
 			case 'ckeditor':
 			case 'textarea':
+				if(stripos($value, '</iframe>') !== FALSE) // skip if this is iframe.
+				{
+					$result = $value;
+					break;
+				}
+
 				if($inputType == 'ckeditor')
 				{
 					$value = strip_tags($value , '<br><br/>');
