@@ -96,7 +96,7 @@ class GetHelper extends AppHelper
 					$temp_entry = $this->Entry->findByLangCode( $mylang.'-'.substr($subvalue['Entry']['lang_code'], 3) );
 					if(!empty($temp_entry))
 					{
-						$newlang = str_replace($subkey, $temp_entry['Entry']['slug'], $newlang);
+						$newlang = strrev( preg_replace('/'.strrev($subkey).'/', strrev($temp_entry['Entry']['slug']) , strrev($newlang) , 1 ) );
 					}
 				}
 			}

@@ -145,7 +145,13 @@ class EntriesController extends AppController {
 			else // if this want to view pages...
 			{
 				$myEntrySlug = $this->request->params['pass'][$indent+0];
-				$myEntry = $this->Entry->findBySlug($myEntrySlug);
+				$myEntry = $this->meta_details($myEntrySlug , 'pages');
+
+				// other language version of "homepage"
+				if($myEntrySlug == 'home' && substr(strtolower($this->mySetting['language'][0]), 0,2) != $language)
+				{
+					$myEntry = $this->Entry->findByLangCode( $language.'-'.$myEntry['Entry']['id'] );
+				}
 				
 				$tempdata = array();
 				swap_value($tempdata, $this->request->data);
@@ -155,7 +161,7 @@ class EntriesController extends AppController {
 				if($myEntrySlug == 'home')
 				{
 					// load slider data !!
-					$slideshow = $this->_admin_default( $this->Type->findBySlug('slideshow') , 0 , NULL , NULL , NULL ,NULL,NULL,NULL, NULL , 'manualset');
+					$slideshow = $this->_admin_default( $this->Type->findBySlug('slideshow') , 0 , NULL , NULL , NULL ,NULL,NULL,NULL, $language , 'manualset');
 					$this->set('slideshow', $slideshow['myList']);
 				}
 				else if($myEntrySlug == 'contact')
