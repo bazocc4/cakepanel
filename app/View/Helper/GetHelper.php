@@ -47,6 +47,35 @@ class GetHelper extends AppHelper
 		return $this->Type->findBySlug($slug);
 	}
 
+	function getRefererUrl($imagePath , $url_lang = NULL , $queryURL = array())
+	{
+		if($_SESSION['allowRefererURL']) { return $_SERVER['HTTP_REFERER']; }
+		
+		extract($this->data , EXTR_SKIP);
+        // check using pagination or not ...
+        $pagination = '';
+        foreach ((empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']) as $key => $value) 
+		{
+			if($value['TypeMeta']['key'] == 'pagination')
+			{
+				$pagination = '1';
+				break;
+			}
+		}
+		
+        $parseQueryURL = get_more_extension($queryURL);
+		if(empty($myChildType))
+		{
+			$backlink = $imagePath.$url_lang.$myType['Type']['slug'].'/'.$pagination.$parseQueryURL;
+		}
+		else
+		{
+			$backlink = $imagePath.$url_lang.$myType['Type']['slug'].'/'.$myParentEntry['Entry']['slug'].'/'.$pagination.(empty($parseQueryURL)?'?type='.$myChildType['Type']['slug']:$parseQueryURL.'&type='.$myChildType['Type']['slug']);
+		}
+
+		return $backlink;
+	}
+
 	/**
 	* generate url transition to other language , but still in same topic
 	* i.e. (domain.com/about <=> domain.com/id/tentang-kita)

@@ -47,7 +47,6 @@ class EntriesController extends AppController {
 		// dpr($this->request->params);
 		// exit;
 
-		$_SESSION['frontnow'] = $_SERVER['REQUEST_URI'];
 		$result = '';
 		$myRenderFile = '';
 		$myDetailEntryMarkFile = 'detail';
@@ -275,7 +274,7 @@ class EntriesController extends AppController {
 				
 				$tempdata = array();
 				swap_value($tempdata, $this->request->data);
-				$result = $this->_admin_default_edit($myType , $myEntry , $myParentEntry);
+				$result = $this->_admin_default_edit($myType , $myEntry , $myParentEntry , $myEntry['Entry']['entry_type']);
 				swap_value($tempdata, $this->request->data);
 				
 				$myRenderFile = $myEntry['Entry']['entry_type'].'_'.$myDetailEntryMarkFile;
@@ -316,6 +315,9 @@ class EntriesController extends AppController {
 		$this->onlyActiveEntries = FALSE;		
 		$this->setTitle(!empty($result['myChildType'])? $result['myChildType']['Type']['name'] : (!empty($result['myType'])? $result['myType']['Type']['name'] : ($thisIsHomeUrl?'':$myEntry['Entry']['title']) ) );
 		$this->render($this->frontEndFolder.$myRenderFile);
+
+		// on detail entity page, is it allow using $_SERVER['HTTP_REFERER'] page to go back onto its master page ...
+		$_SESSION['allowRefererURL'] = isset($result['myList']);
 	}
 
 	function submit_contact()
