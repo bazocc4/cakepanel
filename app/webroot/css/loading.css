@@ -4,6 +4,11 @@ img{
   height : auto;
 }
 
+/* prevent reCaptcha anomaly */
+iframe[src="about:blank"]{
+  display:none !important;
+}
+
 /* general frontend css */
 textarea{
   resize: none;
