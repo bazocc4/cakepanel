@@ -12,7 +12,7 @@
 		<meta name="description" content="<?php echo $mySetting['description']; ?>">
 		<META NAME="ROBOTS" CONTENT="NOINDEX">
 <!-- 		FAVICON IMAGE -->		
-		<link rel="shortcut icon" href="<?php echo $imagePath."images/favicon.ico"; ?>" type="image/x-icon" />
+		<link rel="shortcut icon" href="<?php echo $imagePath."favicon.ico"; ?>" type="image/x-icon" />
 		
 <!-- 		SITE & LINKPATH SETTING FOR GLOBAL JAVASCRIPT -->		
 		<script type="text/javascript">

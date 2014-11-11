@@ -9,7 +9,7 @@
 	<title><?php echo $title_for_layout; ?></title>
 
 <!-- 		FAVICON IMAGE -->
-	<link rel="shortcut icon" href="<?php echo $imagePath."images/favicon.ico"; ?>" type="image/x-icon" />		
+	<link rel="shortcut icon" href="<?php echo $imagePath."favicon.ico"; ?>" type="image/x-icon" />		
 	<?php
 		echo $this->Html->css('bootstrap');
 		echo $this->Html->css('admin/style');
