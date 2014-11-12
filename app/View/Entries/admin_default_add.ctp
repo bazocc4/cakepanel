@@ -209,7 +209,26 @@
                 echo $this->Form->Html->link('Add Picture',array('action'=>'media_popup_single',1,'myPictureWrapper',$nowTypeSlug,'admin'=>false),array('class'=>'btn btn-inverse fr get-from-library'));
                 
                 echo '<div class="inner-content pictures" id="myPictureWrapper">';
-                if(!empty($myEntry))
+                if(!empty($this->request->data['Entry']['image']) && is_array($this->request->data['Entry']['image']) )
+                {
+                	foreach ($this->request->data['Entry']['image'] as $key => $value) 
+                	{
+                		$myImage = $this->Get->meta_details(NULL , 'media' , NULL , $value);
+                		?>
+                			<div class="photo">
+                                <div class="image">
+                                    <?php echo $this->Html->image('upload/thumb/'.$myImage['Entry']['id'].'.'.$myImageTypeList[$myImage['Entry']['id']], array('width'=>150,'alt'=>$myImage['Entry']['title'],'title'=>$myImage['Entry']['title'])); ?>
+                                </div>
+                                <div class="description">
+                                    <p><?php echo $myImage['Entry']['title']; ?></p>
+                                    <a href="javascript:void(0)" onclick="javascript:deleteChildPic(this);" class="icon-remove icon-white"></a>
+                                </div>
+                                <input type="hidden" value="<?php echo $myImage['Entry']['id']; ?>" name="data[Entry][image][]" />
+                            </div>
+                		<?php
+                	}
+                }
+                else if(!empty($myEntry))
                 {
                     foreach ($myEntry['ChildEntry'] as $index => $findDetail)
                     {
