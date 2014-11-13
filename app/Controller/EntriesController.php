@@ -75,11 +75,7 @@ class EntriesController extends AppController {
 				
 				foreach ($myTypes as $key => $value) 
 				{
-					if($value['Type']['slug'] == 'media' || $value['Type']['slug'] == 'gallery')
-					{
-						continue;
-					}				
-					
+					if($value['Type']['slug'] == 'media')	{continue;}
 					$tempdata = $this->_admin_default( $value , 1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'manualset');
 					$myList = array_merge($myList , $tempdata['myList']);
 				}
@@ -180,7 +176,7 @@ class EntriesController extends AppController {
 					}
 
 					$globalresult = array();
-					$search_types = array('gallery'); // array of module to be searched
+					$search_types = array('slideshow'); // array of module to be searched
 
 					foreach ($search_types as $key => $value) 
 					{
@@ -690,15 +686,8 @@ class EntriesController extends AppController {
 			throw new NotFoundException('Error 404 - Not Found'); 
 			return;
 		}
-		// custom function for add ...
-		if($myType['Type']['slug'] == 'gallery' && empty($myChildTypeSlug) || $myChildTypeSlug == 'gallery')
-		{
-			$this->_admin_gallery_add($myType , $myEntry , $myChildTypeSlug);
-		}
-		else // this general action is one for all...
-		{	
-			$this->_admin_default_add($myType , $myEntry , $myChildTypeSlug);
-		}
+		// main add function ...
+		$this->_admin_default_add($myType , $myEntry , $myChildTypeSlug);
 		
 		$myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug).'_add';		
 		// send to each appropriate view
@@ -756,15 +745,8 @@ class EntriesController extends AppController {
 			}
 		}
 		
-		// custom function for add ...
-		if($myType['Type']['slug'] == 'gallery' && empty($myChildTypeSlug) || $myChildTypeSlug == 'gallery')
-		{
-			$this->_admin_gallery_add($myType , $myEntry , $myChildTypeSlug);
-		}
-		else // this general action is one for all...
-		{	
-			$this->_admin_default_add(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry , $myChildTypeSlug);
-		}
+		// main add function ...
+		$this->_admin_default_add(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry , $myChildTypeSlug);
 		
 		$myTemplate = ($myType['Type']['slug']=='pages'?$myEntry['Entry']['slug']:(empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug)).'_add';
 		
@@ -826,15 +808,8 @@ class EntriesController extends AppController {
 			throw new NotFoundException('Error 404 - Not Found'); 
 			return;
 		}
-		// custom function for edit ...
-		if($myType['Type']['slug'] == 'gallery' && empty($myChildTypeSlug) || $myChildTypeSlug == 'gallery')
-		{
-			$this->_admin_gallery_edit($myType , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
-		}
-		else // this general action is one for all...
-		{
-			$this->_admin_default_edit($myType , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
-		}
+		// main edit function ...
+		$this->_admin_default_edit($myType , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
 		
 		$myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug).'_add';		
 		// send to each appropriate view
@@ -889,15 +864,8 @@ class EntriesController extends AppController {
 			}
 		}
 		
-		// custom function for edit ...
-		if($myType['Type']['slug'] == 'gallery' && empty($myChildTypeSlug) || $myChildTypeSlug == 'gallery')
-		{
-			$this->_admin_gallery_edit($myType , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
-		}
-		else // this general action is one for all...
-		{
-			$this->_admin_default_edit(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
-		}
+		// main edit function ...
+		$this->_admin_default_edit(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
 		
 		$myTemplate = ($myType['Type']['slug']=='pages'?$myEntry['Entry']['slug']:(empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug)).'_add';		
 		// send to each appropriate view
@@ -1282,248 +1250,6 @@ class EntriesController extends AppController {
 			$this->set('data' , $data);
 		}
 		
-		return $data;
-	}
-	
-	/**
-	* add new gallery in gallery database 
-	* @param array $myType contains record query result of database type
-	* @param array $myEntry[optional] contains record query result of the selected Entry
-	* @param string $myChildTypeSlug[optional] contains slug of child type database (used if want to search certain child Entry)
-	* @return void
-	* @public
-	**/
-	function _admin_gallery_add($myType = array() , $myEntry = array() , $myChildTypeSlug = NULL , $lang_code = NULL , $prefield_slug = NULL)
-	{
-		$this->setTitle('Add New Gallery');
-		$data['myType'] = $myType;
-		if(!empty($myEntry))
-		{			
-			$data['myParentEntry'] = $myEntry;
-			$myChildType = $this->Type->findBySlug($myChildTypeSlug);
-			$data['myChildType'] = $myChildType;
-		}
-		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
-		if(!empty($myEntry))
-		{
-			$temp100 = $this->Entry->find('all' , array(
-				'conditions' => array(
-					'Entry.lang_code LIKE' => '%-'.substr($myEntry['Entry']['lang_code'], 3)
-				)
-			));
-			foreach ($temp100 as $key => $value) 
-			{
-				$parent_language[ substr($value['Entry']['lang_code'], 0,2) ] = $value['Entry']['slug'];
-			}
-			$data['parent_language'] = $parent_language;
-		}
-		$data['lang'] = strtolower(empty($myEntry)?(empty($_SESSION['lang'])? substr($this->mySetting['language'][0], 0,2):$_SESSION['lang']):substr($myEntry['Entry']['lang_code'], 0,2));
-		// ------------------------------------------ END OF LANGUAGE OPTION LINK -------------------------------------- //
-		// FINAL TOUCH !!
-		$this->set('data' , $data);
-		
-		// if form submit is taken...
-		if (!empty($this->request->data)) 
-		{
-			if(empty($lang_code) && !empty($myEntry) && substr($myEntry['Entry']['lang_code'], 0,2) != $this->request->data['language'])
-			{
-				$myEntry = $this->Entry->findByLangCode($this->request->data['language'].substr($myEntry['Entry']['lang_code'], 2));
-			}
-			// set the type of this entry...
-			$this->request->data['Entry']['entry_type'] = (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']);
-			// generate slug from title...			
-			$this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
-			// write my creator...
-			
-			$this->request->data['Entry']['created_by'] = $this->user['id'];
-			$this->request->data['Entry']['modified_by'] = $this->user['id'];
-			// write time created manually !!
-			$nowDate = $this->getNowDate();
-			$this->request->data['Entry']['created'] = $nowDate;
-			$this->request->data['Entry']['modified'] = $nowDate;
-			// set parent_id
-			$this->request->data['Entry']['parent_id'] = (empty($myEntry)?0:$myEntry['Entry']['id']);
-			$this->request->data['Entry']['lang_code'] = strtolower(empty($lang_code)?$this->request->data['language']:$lang_code);
-			
-			// PREPARE FOR ADDITIONAL LINK OPTIONS !!
-			$myChildTypeLink = (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?'?type='.$myChildType['Type']['slug']:'');
-			$myTranslation = (empty($myChildTypeLink)?'?':'&').'lang='.substr($this->request->data['Entry']['lang_code'], 0,2);
-			
-			// now for validation !!
-			$this->Entry->set($this->request->data);
-			if($this->Entry->validates())
-			{	
-				$this->Entry->create();
-				$this->Entry->save($this->request->data);
-				unset($this->request->data['Entry']['lang_code']);
-				$galleryId = $this->Entry->id;
-				$galleryCount = 0;
-				$galleryTitle = $this->request->data['Entry']['title'];
-				$galleryType = $this->request->data['Entry']['entry_type'];
-				foreach ($this->request->data['Entry']['image'] as $key => $value) 
-				{
-					$myImage = $this->Entry->findById($value);
-
-					$input = array();
-					$input['Entry']['entry_type'] = $galleryType;
-					$input['Entry']['title'] = $myImage['Entry']['title'];
-					$input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
-					$input['Entry']['main_image'] = $value;
-					$input['Entry']['parent_id'] = $galleryId;
-					$input['Entry']['created_by'] = $this->user['id'];
-					$input['Entry']['modified_by'] = $this->user['id'];
-					$this->Entry->create();
-					$this->Entry->save($input);
-					$galleryCount++;
-				}
-				
-				// add COUNT to parent Entry...
-				$this->Entry->id = $galleryId;
-				$this->Entry->saveField('count' , $galleryCount);
-
-				// NOW finally setFlash ^^
-				$this->Session->setFlash($galleryTitle.' has been added.','success');
-				$this->redirect (array('action' => $myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation));
-			}
-			else 
-			{
-				$this->_setFlashInvalidFields($this->Entry->invalidFields());
-				$this->redirect (array('action' => $myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) ,(empty($lang_code)?'add':'edit/'.$prefield_slug).$myChildTypeLink.(empty($lang_code)?'':$myTranslation)));
-			}
-		}
-	}
-
-	/**
-	* update gallery from gallery database 
-	* @param array $myType contains record query result of database type
-	* @param array $myEntry contains record query result of the selected Entry
-	* @param array $myParentEntry[optional] contains record query result of the parent Entry (used if want to search certain child Entry) 
-	* @param string $myChildTypeSlug[optional] contains slug of child type database (used if want to search certain child Entry)
-	* @return array $result a selected entry with all of its attributes you'd requested
-	* @public
-	**/
-	function _admin_gallery_edit($myType = array() , $myEntry = array() , $myParentEntry = array() , $myChildTypeSlug = NULL , $lang = NULL)
-	{
-		if ($this->request->is('ajax')) 
-		{	
-			$this->layout = 'ajax';
-			$data['isAjax'] = 1;
-		} 
-		else 
-		{
-			$data['isAjax'] = 0;
-		}	
-		$this->setTitle('Edit '.$myEntry['Entry']['title']);
-		$myChildType = $this->Type->findBySlug($myChildTypeSlug);
-		$data['myType'] = $myType;
-		$data['myEntry'] = $myEntry;
-		$data['myParentEntry'] = $myParentEntry;
-		$data['myChildType'] = $myChildType;
-		// FIRSTLY, sorting our image children !!
-		$tempChild = $this->Entry->find('all' , array(
-			'conditions' => array(
-				'Entry.parent_id' => $myEntry['Entry']['id']
-			),
-			'order' => array('Entry.id ASC')
-		));
-		$data['myEntry']['ChildEntry'] = $tempChild;
-		
-		// for image input type reason...
-		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');		
-		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
-		$lang_opt = $this->Entry->find('all' , array(
-			'conditions' => array(
-				'Entry.lang_code LIKE' => '%-'.substr($myEntry['Entry']['lang_code'], 3)
-			)
-		));
-		foreach ($lang_opt as $key => $value) 
-		{
-			$language_link[substr($value['Entry']['lang_code'], 0,2)] = $value['Entry']['slug'];
-		}
-		$data['language_link'] = $language_link;
-		$data['lang'] = $lang;
-		if(!empty($myParentEntry))
-		{
-			$temp100 = $this->Entry->find('all' , array(
-				'conditions' => array(
-					'Entry.lang_code LIKE' => '%-'.substr($myParentEntry['Entry']['lang_code'], 3)
-				)
-			));
-			foreach ($temp100 as $key => $value) 
-			{
-				$parent_language[ substr($value['Entry']['lang_code'], 0,2) ] = $value['Entry']['slug'];
-			}
-			$data['parent_language'] = $parent_language;
-		}
-		// ------------------------------------------ END OF LANGUAGE OPTION LINK -------------------------------------- //
-		$this->set('data' , $data);
-		
-		// if form submit is taken...
-		if (!empty($this->request->data))
-		{			
-			if(empty($lang))
-			{
-				// write my modifier ID...
-				
-				$this->request->data['Entry']['modified_by'] = $this->user['id'];
-
-				// write time modified manually !!
-				$nowDate = $this->getNowDate();
-				$this->request->data['Entry']['modified'] = $nowDate;
-				
-				// PREPARE FOR ADDITIONAL LINK OPTIONS !!
-				$myChildTypeLink = (!empty($myParentEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?'?type='.$myChildType['Type']['slug']:'');
-				$myTranslation = (empty($myChildTypeLink)?'?':'&').'lang='.substr($myEntry['Entry']['lang_code'], 0,2);
-				
-				// now for validation !!
-				$this->Entry->set($this->request->data);
-				if($this->Entry->validates())
-				{	
-					$this->Entry->id = $myEntry['Entry']['id'];
-					$this->Entry->save($this->request->data);
-					$galleryId = $this->Entry->id;
-					$galleryCount = 0;
-					$galleryTitle = $this->request->data['Entry']['title'];				
-					
-					// delete all the child image, and then add again !!
-					$this->Entry->deleteAll(array('Entry.parent_id' => $galleryId));
-					
-					foreach ($this->request->data['Entry']['image'] as $key => $value) 
-					{
-						$myImage = $this->Entry->findById($value);
-
-						$input = array();
-						$input['Entry']['entry_type'] = $myEntry['Entry']['entry_type'];
-						$input['Entry']['title'] = $myImage['Entry']['title'];
-						$input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
-						$input['Entry']['main_image'] = $value;
-						$input['Entry']['parent_id'] = $galleryId;
-						$input['Entry']['created_by'] = $this->user['id'];
-						$input['Entry']['modified_by'] = $this->user['id'];
-						$this->Entry->create();
-						$this->Entry->save($input);
-						$galleryCount++;
-					}
-					
-					// add COUNT to parent Entry...
-					$this->Entry->id = $galleryId;
-					$this->Entry->saveField('count' , $galleryCount);
-					
-					// NOW finally setFlash ^^
-					$this->Session->setFlash($galleryTitle.' has been updated.','success');
-					$this->redirect (array('action' => $myType['Type']['slug'].(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']).$myChildTypeLink.$myTranslation));
-				}
-				else 
-				{	
-					$this->_setFlashInvalidFields($this->Entry->invalidFields());
-					$this->redirect (array('action' => $myType['Type']['slug'].(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']) , 'edit', $myEntry['Entry']['slug'].$myChildTypeLink));
-				}
-			}
-			else // ADD NEW TRANSLATION LANGUAGE !!
-			{
-				$this->_admin_gallery_add($myType , $myParentEntry , $myChildTypeSlug , $lang.substr( $myEntry['Entry']['lang_code'] , 2) , $myEntry['Entry']['slug']);
-			}
-		}
 		return $data;
 	}
 

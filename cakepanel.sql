@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 03, 2014 at 10:40 AM
+-- Generation Time: Nov 13, 2014 at 12:08 PM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -143,19 +143,19 @@ INSERT INTO `cms_settings` (`id`, `key`, `value`) VALUES
 (1, 'title', 'Creazi Citra Cemerlang'),
 (2, 'tagline', 'Creative , Business , Solution'),
 (3, 'description', 'Our Company Description here.'),
-(4, 'date_format', 'F d, Y'),
+(4, 'date_format', 'd F Y'),
 (5, 'time_format', 'h:i A'),
 (6, 'header', ''),
 (7, 'top_insert', ''),
 (8, 'bottom_insert', ''),
-(9, 'google_analytics_code', 'UA-33194544-1'),
+(9, 'google_analytics_code', ''),
 (10, 'display_width', '3200'),
 (11, 'display_height', '1800'),
 (12, 'display_crop', '0'),
 (13, 'thumb_width', '120'),
 (14, 'thumb_height', '120'),
 (15, 'thumb_crop', '0'),
-(16, 'language', 'en_english\r\nid_indonesia\r\nzh_chinese'),
+(16, 'language', 'en_english'),
 (17, 'table_view', 'complex'),
 (18, 'usd_sell', '9732.00'),
 (19, 'custom-pagination', '10'),
@@ -188,7 +188,6 @@ CREATE TABLE IF NOT EXISTS `cms_types` (
 
 INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `count`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 'Media Library', 'media', 'All media image is stored here.', 0, 0, '2013-01-15 03:35:14', 1, '2013-01-15 03:35:14', 1),
-(2, 'Gallery', 'gallery', 'Our Gallery Projects.', 0, 0, '2013-01-15 03:37:26', 1, '2013-01-15 03:37:26', 1),
 (3, 'Slideshow', 'slideshow', 'Home slideshow with details.', 0, 0, '2014-09-03 10:35:08', 1, '2014-09-03 10:35:08', 1);
 
 -- --------------------------------------------------------

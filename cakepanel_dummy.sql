@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 03, 2014 at 10:50 AM
+-- Generation Time: Nov 13, 2014 at 12:03 PM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS `cms_accounts` (
 --
 
 INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `password`, `last_login`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 1, 'admin', 'admin@yahoo.com', '169e781bd52860b584879cbe117085da596238f3', '2014-08-18 17:27:30', '2013-01-04 00:00:00', 1, '2014-05-05 15:15:38', 1),
-(2, 2, 2, 'bazocc4', 'andy_basuki_88@yahoo.com', '62412f00317caaa6a74f790d6fc058f30cc6e8c0', '2013-11-29 16:19:31', '2013-01-15 03:42:56', 1, '2013-02-01 10:42:15', 2),
+(1, 1, 1, 'admin', 'admin@yahoo.com', '169e781bd52860b584879cbe117085da596238f3', '2014-11-13 10:31:23', '2013-01-04 00:00:00', 1, '2014-05-05 15:15:38', 1),
+(2, 2, 2, 'bazocc4', 'andy_basuki_88@yahoo.com', '62412f00317caaa6a74f790d6fc058f30cc6e8c0', '2014-10-07 10:14:00', '2013-01-15 03:42:56', 1, '2013-02-01 10:42:15', 2),
 (3, 2, 3, 'regular1', 'regular@yahoo.com', 'd2705e541f5988c37de5ceb31735a535d5994777', '2013-01-17 11:23:37', '2013-01-15 04:17:47', 2, '2014-07-24 11:05:12', 1),
 (7, 3, 2, 'hanatania8', 'hanatania@yahoo.com', '29536df66160e1ff6a6fe6e0395dd8767140657b', '2014-07-24 11:40:17', '2014-07-24 11:06:29', 1, '2014-07-24 11:40:30', 7);
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `cms_entries` (
   `lang_code` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=209 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=241 ;
 
 --
 -- Dumping data for table `cms_entries`
@@ -112,41 +112,41 @@ INSERT INTO `cms_entries` (`id`, `entry_type`, `title`, `slug`, `description`, `
 (46, 'media', 'resize_florian_new_02', 'resize-florian-new-02', NULL, 0, 0, 1, 0, '2013-01-15 06:04:20', 1, '2013-04-12 11:46:32', 1, 46, ''),
 (47, 'media', 'Smoke_Stock_21_by_hatestock', 'smoke-stock-21-by-hatestock', NULL, 0, 0, 1, 0, '2013-01-15 06:04:21', 1, '2013-04-12 11:46:32', 1, 47, ''),
 (48, 'media', 'Smoke-stock1191', 'smoke-stock1191', NULL, 0, 0, 1, 0, '2013-01-15 06:04:22', 1, '2013-04-12 11:46:32', 1, 48, ''),
-(49, 'media', 'stock-photo-coffee-beans-in-canvas-sack-9416005', 'stock-photo-coffee-beans-in-canvas-sack-9416005', NULL, 0, 0, 1, 0, '2013-01-15 06:04:23', 1, '2013-04-12 11:46:32', 1, 53, ''),
-(50, 'media', '20110530-061908', '20110530-061908', NULL, 0, 0, 1, 0, '2013-01-15 06:05:40', 1, '2013-04-12 11:46:32', 1, 49, ''),
-(51, 'media', '20110610-103819', '20110610-103819', NULL, 0, 0, 1, 0, '2013-01-15 06:05:40', 1, '2013-04-12 11:46:32', 1, 50, ''),
-(52, 'media', '20110610-103453', '20110610-103453', NULL, 0, 0, 1, 0, '2013-01-15 06:05:41', 1, '2013-04-12 11:46:32', 1, 54, ''),
-(53, 'media', 'beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7', 'beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7', NULL, 0, 0, 1, 0, '2013-01-15 06:05:42', 1, '2013-04-12 11:46:32', 1, 52, ''),
-(54, 'media', '6462d28e02631147cd6ee51a744db6c6', '6462d28e02631147cd6ee51a744db6c6', NULL, 0, 0, 1, 0, '2013-01-15 06:09:23', 1, '2013-04-12 11:46:32', 1, 55, ''),
-(55, 'media', 'avengers_vs_x_men_babies_by_skottieyoung-d4raoid', 'avengers-vs-x-men-babies-by-skottieyoung-d4raoid', NULL, 0, 0, 1, 0, '2013-01-15 06:09:23', 1, '2013-04-12 11:46:32', 1, 56, ''),
-(56, 'media', 'Batgirl_Issue_10_by_Artgerm', 'batgirl-issue-10-by-artgerm', NULL, 0, 0, 1, 0, '2013-01-15 06:09:24', 1, '2013-04-12 11:46:32', 1, 57, ''),
-(57, 'media', 'batman_by_frogbillgo-d2yoamc', 'batman-by-frogbillgo-d2yoamc', NULL, 0, 0, 1, 0, '2013-01-15 06:09:24', 1, '2013-04-12 11:46:32', 1, 58, ''),
-(58, 'media', 'Spiderman_by_PatC_14', 'spiderman-by-patc-14', NULL, 0, 0, 1, 0, '2013-01-15 06:09:24', 1, '2013-04-12 11:46:32', 1, 59, ''),
-(59, 'media', 'super_mario_bro_by_skottieyoung-d4nh5fb', 'super-mario-bro-by-skottieyoung-d4nh5fb', NULL, 0, 0, 1, 0, '2013-01-15 06:09:25', 1, '2013-04-12 11:46:32', 1, 51, ''),
+(49, 'media', 'stock-photo-coffee-beans-in-canvas-sack-9416005', 'stock-photo-coffee-beans-in-canvas-sack-9416005', NULL, 0, 0, 1, 0, '2013-01-15 06:04:23', 1, '2014-11-12 10:09:27', 1, 52, 'en-49'),
+(50, 'media', '20110530-061908', '20110530-061908', NULL, 0, 0, 1, 0, '2013-01-15 06:05:40', 1, '2014-11-12 10:09:27', 1, 49, 'en-50'),
+(51, 'media', '20110610-103819', '20110610-103819', NULL, 0, 0, 1, 0, '2013-01-15 06:05:40', 1, '2014-11-12 10:09:27', 1, 137, 'en-51'),
+(52, 'media', '20110610-103453', '20110610-103453', NULL, 0, 0, 1, 1, '2013-01-15 06:05:41', 1, '2014-11-13 10:40:18', 1, 53, 'en-52'),
+(53, 'media', 'beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7', 'beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7', NULL, 0, 0, 1, 0, '2013-01-15 06:05:42', 1, '2014-11-12 10:09:27', 1, 51, 'en-53'),
+(54, 'media', '6462d28e02631147cd6ee51a744db6c6', '6462d28e02631147cd6ee51a744db6c6', NULL, 0, 0, 1, 0, '2013-01-15 06:09:23', 1, '2014-11-12 10:09:27', 1, 54, 'en-54'),
+(55, 'media', 'avengers_vs_x_men_babies_by_skottieyoung-d4raoid', 'avengers-vs-x-men-babies-by-skottieyoung-d4raoid', NULL, 0, 0, 1, 0, '2013-01-15 06:09:23', 1, '2014-11-12 10:09:27', 1, 55, 'en-55'),
+(56, 'media', 'Batgirl_Issue_10_by_Artgerm', 'batgirl-issue-10-by-artgerm', NULL, 0, 0, 1, 0, '2013-01-15 06:09:24', 1, '2014-11-12 10:09:27', 1, 56, 'en-56'),
+(57, 'media', 'batman_by_frogbillgo-d2yoamc', 'batman-by-frogbillgo-d2yoamc', NULL, 0, 0, 1, 0, '2013-01-15 06:09:24', 1, '2014-11-12 10:09:27', 1, 57, 'en-57'),
+(58, 'media', 'Spiderman_by_PatC_14', 'spiderman-by-patc-14', NULL, 0, 0, 1, 0, '2013-01-15 06:09:24', 1, '2014-11-12 10:09:27', 1, 58, 'en-58'),
+(59, 'media', 'super_mario_bro_by_skottieyoung-d4nh5fb', 'super-mario-bro-by-skottieyoung-d4nh5fb', NULL, 0, 0, 1, 0, '2013-01-15 06:09:25', 1, '2014-11-12 10:09:27', 1, 50, 'en-59'),
 (60, 'blogs', 'War Blog IV', 'war-blog-iv', '<p>\r\n	This is the blog of war</p>\r\n', 49, 6, 1, 0, '2013-01-15 06:13:51', 1, '2013-01-21 11:49:08', 1, 60, 'en-60'),
 (61, 'books', 'Perang Dunia 2', 'perang-dunia-2', '<p>\r\n	Ini adalah kisah penuh dari perang dunia 2 di USA.</p>\r\n', 2, 0, 1, 4, '2013-01-15 06:38:44', 1, '2013-01-19 08:28:54', 1, 61, 'id-6'),
 (62, 'blogs', 'Blog Perang 4', 'blog-perang-4', '<p>\r\n	Ini adalah blog perang dunia keempat loo.</p>\r\n', 49, 61, 1, 0, '2013-01-15 08:17:03', 1, '2013-01-15 08:17:03', 1, 62, 'id-60'),
 (63, 'news', 'Kematian John', 'kematian-john', '<p>\r\n	Di tahun 1996, terjadi sebuah perang besar antara John Maxwell dan Paul Ruthridge.</p>\r\n<p>\r\n	Kemudian, John tetep berjuang demi meraih kemenangan atas musuhnya.</p>\r\n<p>\r\n	Akhirnya di tahun 1997, terjadilah sebuah interupsi yg besar terhadap perang tersebut.</p>\r\n', 7, 61, 1, 0, '2013-01-15 08:21:54', 1, '2013-01-15 08:21:54', 1, 63, 'id-9'),
 (64, 'pages', 'Contact Us', 'contact-us', '<p>\r\n	Ini adalah alamat baru perusahaan kami.</p>\r\n', 36, 0, 1, 0, '2013-01-15 10:24:31', 1, '2014-07-21 10:39:30', 1, 64, 'en-64'),
-(65, 'pages', 'Home', 'home', '<p>\r\n	Welcome to our web pages.</p>\r\n<p>\r\n	In here, you can find a lot of games entertainments.</p>\r\n', 27, 0, 1, 0, '2013-01-15 10:42:02', 1, '2014-07-21 10:39:30', 1, 65, 'en-65'),
-(66, 'pages', 'Beranda', 'beranda', '<p>\r\n	Selamat datang di website kami.</p>\r\n<p>\r\n	Di sini, anda semuanya dapat menemukan banyak hiburan.</p>\r\n', 27, 0, 1, 0, '2013-01-16 03:22:56', 1, '2013-01-16 03:22:57', 1, 66, 'id-65'),
+(65, 'pages', 'Home', 'home', '<p>\r\n	Welcome to our web pages.</p>\r\n<p>\r\n	In here, you can find a lot of games entertainments.</p>\r\n', 27, 0, 1, 0, '2013-01-15 10:42:02', 1, '2014-09-05 11:08:47', 1, 65, 'en-65'),
+(66, 'pages', 'Beranda', 'beranda', '<p>\r\n	Selamat datang di website kami.</p>\r\n<p>\r\n	Di sini, anda semuanya dapat menemukan banyak hiburan.</p>\r\n', 27, 0, 1, 0, '2013-01-16 03:22:56', 1, '2014-09-05 17:03:43', 1, 66, 'id-65'),
 (67, 'pages', 'Tentang Kita', 'tentang-kita', '<p>\r\n	Ini adalah suatu kisah mengenai perusahaan kami.</p>\r\n', 4, 0, 1, 0, '2013-01-16 03:23:48', 1, '2013-01-16 03:23:48', 1, 67, 'id-1'),
 (68, 'news', 'Serangan Gerilya AB', 'serangan-gerilya', '<p>\r\n	telah terjadi serangan gerilya</p>\r\n', 44, 61, 1, 0, '2013-01-16 04:12:05', 1, '2013-01-16 04:12:05', 1, 68, 'id-68'),
 (70, 'books', 'Dark Magic', 'dark-magic', '<p>\r\n	this is magic from frontend website.</p>\r\n', 56, 0, 1, 0, '2013-01-16 09:15:23', 1, '2014-05-05 15:30:23', 1, 6, 'en-70'),
 (72, 'books', 'tes buku indo', 'tes-buku-indo', '<p>\r\n	wkwkwk</p>\r\n', 37, 0, 1, 0, '2013-01-16 10:05:04', 1, '2013-01-19 08:28:54', 1, 72, 'id-72'),
 (73, 'news', 'The Resurrection', 'the-resurrection', '<p>\r\n	There&#39;s a news that exist a medicine can make human alive from death.</p>\r\n<p>\r\n	And then, [to be continue]</p>\r\n', 26, 6, 1, 0, '2013-01-16 10:18:50', 1, '2013-01-16 10:18:50', 1, 73, 'en-73'),
 (74, 'news', 'Kebangkitan', 'kebangkitan', '<p>\r\n	Tersebar berita bahwa terdapat sebuah obat yg dapat menghidupkan manusia</p>\r\n<p>\r\n	dari kematian. Lalu kemudian, [to be continue]</p>\r\n', 26, 61, 1, 0, '2013-01-16 10:30:32', 1, '2013-01-16 10:30:32', 1, 74, 'id-73'),
-(75, 'media', 'Penguins', 'penguins', NULL, 0, 0, 1, 0, '2013-01-16 10:39:46', 1, '2013-04-12 11:46:32', 1, 75, ''),
-(76, 'media', 'Koala', 'koala', NULL, 0, 0, 1, 0, '2013-01-16 10:43:31', 3, '2013-04-12 11:46:32', 3, 76, ''),
-(84, 'books', 'mario bros', 'mario-bros', '<p>\r\n	this is the best mario comic ever guys.</p>\r\n<p>\r\n	Did you know this is our first best seller comic in USA nowadays?</p>\r\n<p>\r\n	Fantastic adventure is coming soon.</p>\r\n', 59, 0, 1, 0, '2013-01-18 12:35:07', 1, '2014-05-14 11:47:54', 1, 84, 'en-84'),
-(83, 'media', 'Lighthouse', 'lighthouse-1', NULL, 0, 0, 1, 0, '2013-01-18 05:39:37', 1, '2013-04-12 11:46:32', 1, 83, ''),
-(85, 'media', '20110610-103453', '20110610-103453-1', NULL, 0, 52, 1, 0, '2013-01-18 12:35:07', 1, '2013-02-13 12:57:54', 1, 85, ''),
-(101, 'gallery', 'tes gallery 2', 'tes-gallery', NULL, 44, 0, 1, 3, '2013-01-21 07:09:54', 1, '2013-08-12 12:32:30', 1, 101, 'en-101'),
+(75, 'media', 'Penguins', 'penguins', NULL, 0, 0, 1, 0, '2013-01-16 10:39:46', 1, '2014-11-12 10:09:27', 1, 59, 'en-75'),
+(76, 'media', 'Koala', 'koala', NULL, 0, 0, 1, 0, '2013-01-16 10:43:31', 3, '2014-11-12 10:09:27', 3, 75, 'en-76'),
+(84, 'books', 'mario bros', 'mario-bros', '<p>this is the best mario comic ever guys.</p>\r\n\r\n<p>Did you know this is our first best seller comic in USA nowadays?</p>\r\n\r\n<p>Fantastic adventure is coming soon.</p>\r\n', 59, 0, 1, 3, '2013-01-18 12:35:07', 1, '2014-11-13 10:40:18', 1, 84, 'en-84'),
+(83, 'media', 'Lighthouse', 'lighthouse-1', NULL, 0, 0, 1, 0, '2013-01-18 05:39:37', 1, '2014-11-12 10:09:27', 1, 76, 'en-83'),
+(85, 'media', '20110610-103453', '20110610-103453-1', NULL, 0, 52, 1, 0, '2013-01-18 12:35:07', 1, '2014-11-13 10:40:18', 1, 85, 'en-85'),
+(238, 'books', 'Lighthouse', 'lighthouse-4', NULL, 130, 84, 1, 0, '2014-11-13 10:40:18', 1, '2014-11-13 10:40:18', 1, 238, 'en-238'),
 (144, 'magazine', 'Body Building Muscle', 'body-building-muscle', '', 37, 0, 1, 0, '2013-12-09 16:17:07', 1, '2014-01-07 13:56:10', 1, 144, 'en-144'),
 (87, 'media', 'batman_by_frogbillgo-d2yoamc', 'batman-by-frogbillgo-d2yoamc-1', NULL, 0, 57, 1, 0, '2013-01-18 12:42:49', 1, '2013-01-18 12:42:49', 1, 87, ''),
-(108, 'media', 'Hydrangeas', 'hydrangeas', NULL, 0, 0, 1, 0, '2013-01-22 11:41:10', 1, '2013-04-12 11:46:32', 1, 108, ''),
+(108, 'media', 'Hydrangeas', 'hydrangeas', NULL, 0, 0, 1, 0, '2013-01-22 11:41:10', 1, '2014-11-12 10:09:27', 1, 90, 'en-108'),
 (89, 'media', 'Lighthouse', 'lighthouse-3', NULL, 0, 83, 1, 0, '2013-01-19 04:40:24', 1, '2013-01-20 08:32:03', 1, 89, ''),
-(90, 'media', 'Chrysanthemum', 'chrysanthemum-1', NULL, 0, 0, 1, 0, '2013-01-19 05:03:37', 1, '2013-04-12 11:46:32', 1, 90, ''),
+(90, 'media', 'Chrysanthemum', 'chrysanthemum-1', NULL, 0, 0, 1, 0, '2013-01-19 05:03:37', 1, '2014-11-12 10:09:27', 1, 83, 'en-90'),
 (145, 'magazine', 'Keep Healthy Keep Fresh', 'keep-healthy-keep-fresh', '', 76, 0, 1, 5, '2013-12-09 16:17:31', 1, '2014-05-14 11:49:23', 1, 145, 'en-145'),
 (92, 'media', 'avengers_vs_x_men_babies_by_skottieyoung-d4raoid', 'avengers-vs-x-men-babies-by-skottieyoung-d4raoid-1', NULL, 0, 55, 1, 0, '2013-01-19 07:12:14', 1, '2013-01-19 08:04:08', 1, 92, ''),
 (94, 'media', 'Batgirl_Issue_10_by_Artgerm', 'batgirl-issue-10-by-artgerm-1', NULL, 0, 56, 1, 0, '2013-01-19 08:09:48', 1, '2013-01-19 08:09:48', 1, 94, ''),
@@ -154,37 +154,32 @@ INSERT INTO `cms_entries` (`id`, `entry_type`, `title`, `slug`, `description`, `
 (97, 'media', 'Organic_Coffee_Bean_Sack', 'organic-coffee-bean-sack-2', NULL, 0, 43, 1, 0, '2013-01-19 08:25:57', 1, '2013-11-06 10:11:10', 1, 97, 'en-97'),
 (98, 'media', 'batman_by_frogbillgo-d2yoamc', 'batman-by-frogbillgo-d2yoamc-3', NULL, 0, 57, 1, 0, '2013-01-19 08:25:58', 1, '2013-11-06 10:11:11', 1, 98, 'en-98'),
 (99, 'books', 'tes loro gambar', 'tes-loro-gambar', '', 0, 0, 1, 0, '2013-01-19 08:28:10', 1, '2013-01-19 08:28:54', 1, 99, 'id-96'),
-(109, 'media', 'Tulips', 'tulips', NULL, 0, 0, 1, 0, '2013-01-22 11:43:23', 1, '2013-04-12 11:46:32', 1, 109, ''),
-(136, 'gallery', '20110530-061908', '20110530-061908-1', NULL, 50, 101, 1, 0, '2013-08-12 12:32:30', 1, '2013-08-12 12:32:30', 1, 136, ''),
-(134, 'gallery', 'super_mario_bro_by_skottieyoung-d4nh5fb', 'super-mario-bro-by-skottieyoung-d4nh5fb-1', NULL, 59, 101, 1, 0, '2013-08-12 12:32:30', 1, '2013-08-12 12:32:30', 1, 134, ''),
-(135, 'gallery', '20110610-103453', '20110610-103453-2', NULL, 52, 101, 1, 0, '2013-08-12 12:32:30', 1, '2013-08-12 12:32:30', 1, 135, ''),
-(110, 'gallery', 'galeri indonesia', 'galeri-indonesia', NULL, 44, 0, 1, 3, '2013-01-22 12:04:37', 1, '2013-01-22 12:04:37', 1, 110, 'id-101'),
-(111, 'gallery', 'super_mario_bro_by_skottieyoung-d4nh5fb', 'super-mario-bro-by-skottieyoung-d4nh5fb-2', NULL, 59, 110, 1, 0, '2013-01-22 12:04:37', 1, '2013-01-22 12:04:37', 1, 111, ''),
-(112, 'gallery', '20110610-103453', '20110610-103453-3', NULL, 52, 110, 1, 0, '2013-01-22 12:04:37', 1, '2013-01-22 12:04:37', 1, 112, ''),
-(113, 'gallery', '20110530-061908', '20110530-061908-2', NULL, 50, 110, 1, 0, '2013-01-22 12:04:37', 1, '2013-01-22 12:04:37', 1, 113, ''),
+(109, 'media', 'Tulips', 'tulips', NULL, 0, 0, 1, 0, '2013-01-22 11:43:23', 1, '2014-11-12 10:09:27', 1, 108, 'en-109'),
+(239, 'books', 'super_mario_bro_by_skottieyoung-d4nh5fb', 'super-mario-bro-by-skottieyoung-d4nh5fb-1', NULL, 59, 84, 1, 0, '2014-11-13 10:40:18', 1, '2014-11-13 10:40:18', 1, 239, 'en-239'),
+(240, 'books', '20110530-061908', '20110530-061908-1', NULL, 50, 84, 1, 0, '2014-11-13 10:40:18', 1, '2014-11-13 10:40:18', 1, 240, 'en-240'),
 (114, 'media', 'stock-photo-coffee-beans-in-canvas-sack-9416005', 'stock-photo-coffee-beans-in-canvas-sack-9416005-2', NULL, 0, 49, 1, 0, '2013-02-05 09:40:18', 1, '2013-02-13 12:04:52', 1, 114, ''),
 (115, 'media', '20110530-061908', '20110530-061908-4', NULL, 0, 50, 1, 0, '2013-02-12 11:23:52', 1, '2013-11-04 17:40:17', 1, 115, 'en-115'),
-(116, 'media', 'Thursday20September2012043329slide3', 'thursday20september2012043329slide3', NULL, 0, 0, 1, 0, '2013-04-03 10:44:08', 1, '2013-04-12 11:46:32', 1, 116, ''),
-(117, 'media', 'Thursday20September2012014818slide1', 'thursday20september2012014818slide1', NULL, 0, 0, 1, 0, '2013-04-03 10:44:37', 1, '2013-04-12 11:46:32', 1, 117, ''),
-(118, 'media', 'Thursday20September2012043326slide2', 'thursday20september2012043326slide2', NULL, 0, 0, 1, 0, '2013-04-03 10:47:06', 1, '2013-04-12 11:46:32', 1, 118, ''),
-(130, 'media', 'Lighthouse', 'lighthouse-2', NULL, 0, 0, 1, 0, '2013-07-09 13:51:12', 1, '2013-07-09 13:51:12', 1, 130, ''),
+(116, 'media', 'Thursday20September2012043329slide3', 'thursday20september2012043329slide3', NULL, 0, 0, 1, 0, '2013-04-03 10:44:08', 1, '2014-11-12 10:09:27', 1, 109, 'en-116'),
+(117, 'media', 'Thursday20September2012014818slide1', 'thursday20september2012014818slide1', NULL, 0, 0, 1, 0, '2013-04-03 10:44:37', 1, '2014-11-12 10:09:27', 1, 116, 'en-117'),
+(118, 'media', 'Thursday20September2012043326slide2', 'thursday20september2012043326slide2', NULL, 0, 0, 1, 0, '2013-04-03 10:47:06', 1, '2014-11-12 10:09:27', 1, 117, 'en-118'),
+(130, 'media', 'Lighthouse', 'lighthouse-2', NULL, 0, 0, 1, 0, '2013-07-09 13:51:12', 1, '2014-11-12 10:09:27', 1, 129, 'en-130'),
 (140, 'books', 'resize_florian_new_02', 'resize-florian-new-02-2', NULL, 46, 70, 1, 0, '2013-11-04 17:40:17', 1, '2013-11-04 17:40:17', 1, 140, 'en-140'),
 (139, 'books', 'Penguins', 'penguins-1', NULL, 75, 70, 1, 0, '2013-11-04 17:40:17', 1, '2013-11-04 17:40:17', 1, 139, 'en-139'),
-(129, 'media', 'Penguins', 'penguins-2', NULL, 0, 0, 1, 0, '2013-07-09 13:51:11', 1, '2013-07-09 13:51:11', 1, 129, ''),
+(129, 'media', 'Penguins', 'penguins-2', NULL, 0, 0, 1, 0, '2013-07-09 13:51:11', 1, '2014-11-12 10:09:27', 1, 118, 'en-129'),
 (141, 'books', 'Koala', 'koala-1', NULL, 76, 70, 1, 0, '2013-11-04 17:40:17', 1, '2013-11-04 17:40:17', 1, 141, 'en-141'),
-(131, 'media', 'Tulips', 'tulips-1', NULL, 0, 0, 1, 0, '2013-07-09 13:51:13', 1, '2013-07-09 13:51:13', 1, 131, ''),
+(131, 'media', 'Tulips', 'tulips-1', NULL, 0, 0, 1, 0, '2013-07-09 13:51:13', 1, '2014-11-12 10:09:27', 1, 130, 'en-131'),
 (133, 'media', 'stock-photo-coffee-beans-in-canvas-sack-9416005', 'stock-photo-coffee-beans-in-canvas-sack-9416005-1', NULL, 0, 49, 1, 0, '2013-08-12 12:17:46', 1, '2013-11-04 18:01:30', 1, 133, 'en-133'),
-(137, 'media', 'slider', 'slider', NULL, 0, 0, 1, 0, '2013-08-16 15:24:16', 1, '2013-08-16 15:24:16', 1, 137, ''),
+(137, 'media', 'slider', 'slider', NULL, 0, 0, 1, 0, '2013-08-16 15:24:16', 1, '2014-11-12 10:09:27', 1, 131, 'en-137'),
 (138, 'media', 'batman_by_frogbillgo-d2yoamc', 'batman-by-frogbillgo-d2yoamc-4', NULL, 0, 57, 1, 0, '2013-10-24 09:48:24', 1, '2013-11-04 18:01:31', 1, 138, 'en-138'),
 (160, 'blogs', 'Morning Blog', 'morning-blog', 'just a morning blog, thx', 54, 6, 1, 0, '2014-02-04 09:01:45', 1, '2014-02-04 09:02:22', 1, 160, 'en-160'),
-(182, 'form-group_photo_2', 'Thursday20September2012043329slide3', 'thursday20september2012043329slide3-1', NULL, 116, 161, 1, 0, '2014-05-14 10:45:57', 1, '2014-05-14 10:45:58', 1, 182, 'en-182'),
-(161, 'magazine', 'cake magazine', 'cake-magazine', '', 108, 0, 1, 7, '2014-05-08 10:17:12', 1, '2014-05-14 10:45:58', 1, 161, 'en-161'),
-(183, 'form-group_photo_2', 'Penguins', 'penguins-3', NULL, 129, 161, 1, 0, '2014-05-14 10:45:58', 1, '2014-05-14 10:45:58', 1, 183, 'en-183'),
-(181, 'form-group_photo_2', 'Koala', 'koala-2', NULL, 76, 161, 1, 0, '2014-05-14 10:45:57', 1, '2014-05-14 10:45:57', 1, 181, 'en-181'),
-(180, 'form-group_photo', '20110530-061908', '20110530-061908-3', NULL, 50, 161, 1, 0, '2014-05-14 10:45:57', 1, '2014-05-14 10:45:57', 1, 180, 'en-180'),
-(177, 'form-group_photo', 'resize_3d_cartoon_pirate', 'resize-3d-cartoon-pirate-1', NULL, 44, 161, 1, 0, '2014-05-14 10:45:57', 1, '2014-05-14 10:45:57', 1, 177, 'en-177'),
-(178, 'form-group_photo', 'super_mario_bro_by_skottieyoung-d4nh5fb', 'super-mario-bro-by-skottieyoung-d4nh5fb-3', NULL, 59, 161, 1, 0, '2014-05-14 10:45:57', 1, '2014-05-14 10:45:57', 1, 178, 'en-178'),
-(179, 'form-group_photo', 'avengers_vs_x_men_babies_by_skottieyoung-d4raoid', 'avengers-vs-x-men-babies-by-skottieyoung-d4raoid-2', NULL, 55, 161, 1, 0, '2014-05-14 10:45:57', 1, '2014-05-14 10:45:57', 1, 179, 'en-179'),
+(236, 'form-group_photo_2', 'Penguins', 'penguins-3', NULL, 129, 161, 1, 0, '2014-09-22 12:04:13', 1, '2014-09-22 12:04:13', 1, 236, 'en-236'),
+(161, 'magazine', 'cake magazine', 'cake-magazine', '<p>test minum</p>\r\n\r\n<p>air jeruk segar</p>\r\n\r\n<p>alami lo</p>\r\n', 108, 0, 1, 7, '2014-05-08 10:17:12', 1, '2014-09-22 12:04:13', 1, 161, 'en-161'),
+(230, 'form-group_photo', 'resize_3d_cartoon_pirate', 'resize-3d-cartoon-pirate-1', NULL, 44, 161, 1, 0, '2014-09-22 12:04:12', 1, '2014-09-22 12:04:12', 1, 230, 'en-230'),
+(231, 'form-group_photo', 'super_mario_bro_by_skottieyoung-d4nh5fb', 'super-mario-bro-by-skottieyoung-d4nh5fb-3', NULL, 59, 161, 1, 0, '2014-09-22 12:04:12', 1, '2014-09-22 12:04:13', 1, 231, 'en-231'),
+(232, 'form-group_photo', 'avengers_vs_x_men_babies_by_skottieyoung-d4raoid', 'avengers-vs-x-men-babies-by-skottieyoung-d4raoid-2', NULL, 55, 161, 1, 0, '2014-09-22 12:04:13', 1, '2014-09-22 12:04:13', 1, 232, 'en-232'),
+(233, 'form-group_photo', '20110530-061908', '20110530-061908-3', NULL, 50, 161, 1, 0, '2014-09-22 12:04:13', 1, '2014-09-22 12:04:13', 1, 233, 'en-233'),
+(234, 'form-group_photo_2', 'Koala', 'koala-2', NULL, 76, 161, 1, 0, '2014-09-22 12:04:13', 1, '2014-09-22 12:04:13', 1, 234, 'en-234'),
+(235, 'form-group_photo_2', 'Thursday20September2012043329slide3', 'thursday20september2012043329slide3-1', NULL, 116, 161, 1, 0, '2014-09-22 12:04:13', 1, '2014-09-22 12:04:13', 1, 235, 'en-235'),
 (200, 'form-group_photo_2', 'Hydrangeas', 'hydrangeas-1', NULL, 108, 145, 1, 0, '2014-05-14 11:49:22', 1, '2014-05-14 11:49:23', 1, 200, 'en-200'),
 (201, 'form-group_photo_2', 'Thursday20September2012014818slide1', 'thursday20september2012014818slide1-1', NULL, 117, 145, 1, 0, '2014-05-14 11:49:23', 1, '2014-05-14 11:49:23', 1, 201, 'en-201'),
 (197, 'form-group_photo', 'avengers_vs_x_men_babies_by_skottieyoung-d4raoid', 'avengers-vs-x-men-babies-by-skottieyoung-d4raoid-3', NULL, 55, 145, 1, 0, '2014-05-14 11:49:22', 1, '2014-05-14 11:49:22', 1, 197, 'en-197'),
@@ -192,7 +187,8 @@ INSERT INTO `cms_entries` (`id`, `entry_type`, `title`, `slug`, `description`, `
 (199, 'form-group_photo', 'Chrysanthemum', 'chrysanthemum-2', NULL, 90, 145, 1, 0, '2014-05-14 11:49:22', 1, '2014-05-14 11:49:22', 1, 199, 'en-199'),
 (206, 'slideshow', 'slider library', 'slider-library', '', 29, 0, 1, 0, '2014-09-03 10:44:11', 1, '2014-09-03 10:44:11', 1, 206, 'en-206'),
 (207, 'slideshow', 'slider coffee', 'slider-coffee', '', 43, 0, 1, 0, '2014-09-03 10:46:56', 1, '2014-09-03 10:46:56', 1, 207, 'en-207'),
-(208, 'slideshow', 'slider traffic', 'slider-traffic', '', 46, 0, 1, 0, '2014-09-03 10:47:43', 1, '2014-09-03 10:47:43', 1, 208, 'en-208');
+(208, 'slideshow', 'slider traffic', 'slider-traffic', '', 46, 0, 1, 0, '2014-09-03 10:47:43', 1, '2014-09-03 10:47:43', 1, 208, 'en-208'),
+(215, 'pages', 'Kontak kami', 'kontak-kami', '<p>\r\n	Ini adalah alamat baru perusahaan kami.</p>\r\n', 36, 0, 1, 0, '2014-09-05 17:04:25', 1, '2014-09-05 17:04:25', 1, 215, 'id-64');
 
 -- --------------------------------------------------------
 
@@ -206,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=836 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=872 ;
 
 --
 -- Dumping data for table `cms_entry_metas`
@@ -311,12 +307,11 @@ INSERT INTO `cms_entry_metas` (`id`, `entry_id`, `key`, `value`) VALUES
 (150, 75, 'image_size', '777835'),
 (151, 76, 'image_type', 'jpeg'),
 (152, 76, 'image_size', '780831'),
-(499, 84, 'form-approval', 'Approve'),
-(505, 85, 'image_height', '308'),
+(864, 84, 'form-approval', 'Approve'),
+(851, 52, 'count-media', '1'),
 (174, 83, 'image_size', '561276'),
 (173, 83, 'image_type', 'jpeg'),
 (167, 61, 'form-background', '57'),
-(506, 84, 'form-background', '85'),
 (746, 73, 'form-magazine', 'keep-healthy-keep-fresh|body-building-muscle'),
 (182, 87, 'image_type', 'jpeg'),
 (183, 87, 'image_size', '450989'),
@@ -363,10 +358,8 @@ INSERT INTO `cms_entry_metas` (`id`, `entry_id`, `key`, `value`) VALUES
 (705, 98, 'image_type', 'jpeg'),
 (745, 73, 'form-books', 'world-war-ii|mario-bros'),
 (340, 99, 'form-added_image', '98'),
-(503, 85, 'image_y', '91'),
-(504, 85, 'image_width', '451.0000000000018'),
-(502, 85, 'image_x', '246.63333129882812'),
-(498, 84, 'form-publish_date', '1/18/2013'),
+(868, 85, 'image_y', '91'),
+(869, 85, 'image_width', '393.3666687011719'),
 (357, 89, 'image_height', '238'),
 (831, 109, 'image_type', 'jpg'),
 (376, 108, 'image_size', '100674'),
@@ -379,11 +372,8 @@ INSERT INTO `cms_entry_metas` (`id`, `entry_id`, `key`, `value`) VALUES
 (660, 115, 'image_y', '76'),
 (659, 115, 'image_x', '124.63333129882812'),
 (655, 70, 'form-publisher', 'Tony Shawn'),
-(497, 84, 'form-weight', '3.27'),
-(496, 84, 'form-quantity', '7'),
-(501, 85, 'image_size', '33115'),
-(500, 85, 'image_type', 'jpeg'),
-(495, 84, 'form-price', '35'),
+(863, 84, 'form-publish_date', '1/18/2013'),
+(862, 84, 'form-weight', '3.35'),
 (651, 70, 'form-quantity', '53'),
 (662, 115, 'image_height', '266'),
 (650, 70, 'form-price', '14'),
@@ -427,13 +417,12 @@ INSERT INTO `cms_entry_metas` (`id`, `entry_id`, `key`, `value`) VALUES
 (703, 97, 'image_height', '132'),
 (710, 98, 'image_height', '322'),
 (818, 145, 'form-dropme', 'drop tiga'),
-(783, 161, 'count-form-group_photo', '4'),
+(840, 161, 'form-books', 'mario bros|World War II Cont'),
 (758, 144, 'form-books', 'Dark Magic|mario bros|World War II Cont'),
 (779, 160, 'form-action', 'Comment|Share'),
 (780, 160, 'form-background', '58'),
-(793, 161, 'form-books', 'mario bros|World War II Cont'),
-(784, 161, 'count-form-group_photo_2', '3'),
-(794, 161, 'form-dropme', 'drop dua'),
+(839, 161, 'count-form-group_photo_2', '3'),
+(838, 161, 'count-form-group_photo', '4'),
 (815, 145, 'count-form-group_photo', '3'),
 (816, 145, 'count-form-group_photo_2', '2'),
 (817, 145, 'form-books', 'Dark Magic|World War II Cont'),
@@ -441,7 +430,18 @@ INSERT INTO `cms_entry_metas` (`id`, `entry_id`, `key`, `value`) VALUES
 (832, 109, 'image_size', '117376'),
 (833, 206, 'form-url_link', 'http://www.facebook.com'),
 (834, 207, 'form-url_link', 'http://www.google.com'),
-(835, 208, 'form-url_link', 'http://www.twitter.com');
+(835, 208, 'form-url_link', 'http://www.twitter.com'),
+(841, 161, 'form-dropme', 'drop dua'),
+(842, 161, 'form-fake_ckeditor', '<p>makan nasi goreng</p>\r\n'),
+(843, 161, 'form-warnaku', '#ff00ff'),
+(867, 85, 'image_x', '246.63333129882812'),
+(861, 84, 'form-quantity', '7'),
+(866, 85, 'image_size', '29625'),
+(865, 85, 'image_type', 'jpeg'),
+(860, 84, 'form-price', '35'),
+(859, 84, 'count-books', '3'),
+(870, 85, 'image_height', '308'),
+(871, 84, 'form-background', '85');
 
 -- --------------------------------------------------------
 
@@ -532,11 +532,10 @@ CREATE TABLE IF NOT EXISTS `cms_types` (
 
 INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `count`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 'Media Library', 'media', 'All media image is stored here.', 0, 0, '2013-01-15 03:35:14', 1, '2013-01-15 03:35:14', 1),
-(2, 'Gallery', 'gallery', 'Our Gallery Projects.', 0, 0, '2013-01-15 03:37:26', 1, '2013-01-15 03:37:26', 1),
 (3, 'Books', 'books', 'All the books story.', 0, 2, '2013-01-15 04:39:42', 1, '2013-11-21 15:38:20', 1),
 (4, 'News', 'news', 'News inside the books.', 3, 0, '2013-01-15 04:43:04', 1, '2013-12-09 16:19:08', 1),
 (5, 'Blogs', 'blogs', 'People''s Blogs.', 3, 0, '2013-01-15 04:46:35', 1, '2014-06-26 10:01:50', 1),
-(11, 'Magazine', 'magazine', 'Zpanel Magazine Library.', 0, 0, '2013-12-09 16:16:50', 1, '2014-06-25 14:58:15', 1),
+(11, 'Magazine', 'magazine', 'Zpanel Magazine Library.', 0, 0, '2013-12-09 16:16:50', 1, '2014-11-13 11:55:53', 1),
 (12, 'Slideshow', 'slideshow', 'Home slideshow with details.', 0, 0, '2014-09-03 10:42:57', 1, '2014-09-03 10:42:57', 1);
 
 -- --------------------------------------------------------
@@ -554,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `cms_type_metas` (
   `validation` text,
   `instruction` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=413 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=460 ;
 
 --
 -- Dumping data for table `cms_type_metas`
@@ -581,17 +580,20 @@ INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `va
 (333, 4, 'form-books', '', 'multibrowse', 'not_empty|', 'Test New Type again.'),
 (332, 4, 'form-news_file', '', 'file', 'not_empty|', ''),
 (334, 4, 'form-magazine', '', 'multibrowse', '', 'Zpanel Famous Magazine.'),
-(402, 11, 'form-group_photo', '', 'gallery', 'not_empty|', 'just a test field gallery.'),
-(403, 11, 'form-dropme', 'drop satu\r\ndrop dua\r\ndrop tiga', 'dropdown', '', ''),
-(404, 11, 'form-group_photo_2', '', 'gallery', '', ''),
-(405, 11, 'form-fake_ckeditor', '', 'ckeditor', '', 'just a test additional ckeditor.'),
-(406, 11, 'form-biggy_text', '', 'textarea', 'max_length_25|', ''),
-(407, 11, 'form-normal_text', '', 'text', 'max_length_30|', ''),
-(408, 11, 'form-single_browse', '', 'browse', '', ''),
-(401, 11, 'form-books', '', 'checkbox', 'browse_module|', 'browse books for checkbox.'),
+(451, 11, 'form-books', '', 'checkbox', 'browse_module|', 'browse books for checkbox.'),
+(452, 11, 'form-group_photo', '', 'gallery', 'not_empty|', 'just a test field gallery.'),
+(453, 11, 'form-dropme', 'drop satu\r\ndrop dua\r\ndrop tiga', 'dropdown', '', ''),
+(454, 11, 'form-group_photo_2', '', 'gallery', '', ''),
+(455, 11, 'form-fake_ckeditor', '', 'ckeditor', 'not_empty|', 'just a test additional ckeditor.'),
+(456, 11, 'form-biggy_text', '', 'textarea', 'max_length_25|', ''),
 (410, 5, 'form-background', '', 'image', '', ''),
 (411, 5, 'form-books', '', 'browse', '', ''),
-(412, 12, 'form-url_link', '', 'text', 'is_url|', 'Example: http://www.yourdomain.com');
+(412, 12, 'form-url_link', '', 'text', 'is_url|', 'Example: http://www.yourdomain.com'),
+(457, 11, 'form-normal_text', '', 'text', 'max_length_30|', ''),
+(440, 11, 'pagination', '7', NULL, NULL, NULL),
+(458, 11, 'form-single_browse', '', 'browse', '', ''),
+(459, 11, 'form-warnaku', '', 'color', 'not_empty|', 'test warna'),
+(450, 11, 'gallery', 'enable', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

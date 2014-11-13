@@ -52,6 +52,8 @@
 				if($("div#myPictureWrapper").length > 0)
 				{
 					$("div#myPictureWrapper").sortable({ opacity: 0.6, cursor: 'move'});
+					// print total pictures...
+					$('div#myPictureWrapper').prevAll('.galleryCount:first').find('span').html( $('div#myPictureWrapper').find('div.photo').length );
 				}
 				
 				// save as draft button !!
@@ -202,10 +204,9 @@
 			// is used gallery function ...
             if($gallery)
             {
-                echo '<strong>Gallery Pictures</strong>';
-                
-                $nowTypeSlug = (empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']);
-                
+                echo '<strong class="galleryCount">Gallery Pictures (<span></span>)</strong>';
+
+                $nowTypeSlug = (empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']);                
                 echo $this->Form->Html->link('Add Picture',array('action'=>'media_popup_single',1,'myPictureWrapper',$nowTypeSlug,'admin'=>false),array('class'=>'btn btn-inverse fr get-from-library'));
                 
                 echo '<div class="inner-content pictures" id="myPictureWrapper">';

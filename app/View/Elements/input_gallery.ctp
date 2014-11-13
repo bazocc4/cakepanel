@@ -10,8 +10,11 @@
 ?>
 <script>
 	$(document).ready(function(){
-		<?php if(!empty($required)): ?>
+        // print total pictures...
+        $('div#<?php echo $key; ?>').prevAll('.galleryCount:first').find('span').html( $('div#<?php echo $key; ?>').find('div.photo').length );
 
+        // cek validation ...
+		<?php if(!empty($required)): ?>
 		$('form').submit(function(e){
 			if( !$.trim($('div#<?php echo $key; ?>').html()) )
 			{
@@ -20,12 +23,11 @@
 				return false;
 			}
 		});
-
 		<?php endif; ?>		
 	});
 </script>
 <?php
-	echo '<span '.(!empty($required)?'style="color: red;"':'').'>'.string_unslug($shortkey).' Pictures</span>';
+	echo '<span class="galleryCount" '.(!empty($required)?'style="color: red;"':'').'>'.string_unslug($shortkey).' Pictures (<span></span>)</span>';
     echo $this->Form->Html->link('Add Picture',array('action'=>'media_popup_single',1,'myInputWrapper',$key,'admin'=>false),array('class'=>'btn btn-inverse fr get-from-library'));
 
     if(!empty($p))
