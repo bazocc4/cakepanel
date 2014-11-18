@@ -133,7 +133,14 @@ class EntriesController extends AppController {
 			if(substr($this->request->url, strlen($this->request->url)-1) == '/' && $this->request->params['pass'][$indent+0] != 'home')
 			{
 				$myTypeSlug = $this->request->params['pass'][$indent+0];
-				$myType = $this->Type->findBySlug($myTypeSlug);				
+				$myType = $this->Type->findBySlug($myTypeSlug);                
+                // check if Type has pagination field, then redirect to its first page ...
+                foreach($myType['TypeMeta'] as $key => $value){
+                    if($value['key'] == 'pagination')
+                    {
+                        $this->redirect('/'.$this->request->url.'1'.get_more_extension($this->request->query));
+                    }
+                }
 				$result = $this->_admin_default($myType, 0 , NULL , $this->request->query['key'] , $this->request->query['value'] ,NULL,$this->request->data['search'],NULL, $language);
 				$myRenderFile = $myTypeSlug;
 			}
@@ -222,6 +229,13 @@ class EntriesController extends AppController {
 				$myEntry = $this->Entry->findBySlug($myEntrySlug);
 				
 				$result = $this->_admin_default($myType, 0 , $myEntry , $this->request->query['key'], $this->request->query['value'], $this->request->query['type'] , $this->request->data['search'],NULL, $language);
+                // check if ChildType has pagination field, then redirect to its first page ...
+                foreach($result['myChildType']['TypeMeta'] as $key => $value){
+                    if($value['key'] == 'pagination')
+                    {
+                        $this->redirect('/'.$this->request->url.'1'.get_more_extension($this->request->query));
+                    }
+                }                
 				$myRenderFile = $this->request->query['type'];
 			}
 			else
