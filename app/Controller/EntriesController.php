@@ -358,8 +358,21 @@ class EntriesController extends AppController {
 
 		    $mybody = "<strong>Message from ".$this->mySetting['title']." Website Guest</strong><br/><br/>";
             $mybody .= "Name : ".$_POST['namecontact']."<br/>";
+            // Upload File !!
+            if(isset($_FILES['filecontact']))
+            {
+                $Email->attachments(array(
+                    $_FILES['filecontact']['name'] => array(
+                        'file' => $_FILES['filecontact']['tmp_name'],
+                        'mimetype' => $_FILES['filecontact']['type']
+                    )
+                ));
+                
+                $mybody .= "Reference Image Upload : (attached)<br/>";
+            }
             $mybody .= "<br/>Content :<br/>".$_POST['pesancontact']."<br/>";
 
+            // Execute E-mail ...
 			try{
 				if( $Email->from(array($_POST['emailcontact']=>$_POST['namecontact']))
 			          ->to(array($this->mySetting['custom-email_contact']=>$this->mySetting['title']))
