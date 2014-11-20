@@ -1,13 +1,25 @@
 <?php
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
+    // initialize $extensionPaging for URL Query ...
+    $extensionPaging = array();	
+	if(!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug'])
+	{
+		$extensionPaging['type'] = $myChildType['Type']['slug'];
+	}
 	if(empty($popup))
 	{
 		$_SESSION['now'] = str_replace('&amp;','&',htmlentities($_SERVER['REQUEST_URI']));
 	}
+    else
+    {
+        $extensionPaging['popup'] = 'ajax';
+    }
+    // end of initialize $extensionPaging ...
+
 	if($isAjax == 0)
 	{
-		echo $this->element('admin_header');
+		echo $this->element('admin_header', array('extensionPaging' => $extensionPaging));
 		echo '<div class="inner-content '.(empty($popup)?'':'layout-content-popup').'" id="inner-content">';
 		echo '<div class="autoscroll" id="ajaxed">';
 	}
@@ -198,6 +210,8 @@
 	<thead>
 	<tr>
 		<?php
+            $sortASC = '&#9650;';
+            $sortDESC = '&#9660;';
 			$myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
 			$titlekey = "Title";
 			foreach ($myAutomatic as $key => $value)
@@ -209,7 +223,11 @@
 				}
 			}
 		?>
-		<th><?php echo strtoupper($titlekey).' ('.$totalList.')'; ?></th>
+		<th>
+		    <?php
+                echo $this->Form->Html->link($titlekey.' ('.$totalList.')'.($_SESSION['order_by'] == 'title ASC'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == 'title DESC'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$_SESSION['order_by'] == 'title ASC'?"z_to_a":"a_to_z"));
+            ?>
+		</th>
 		
 		<?php
 			// if this is a parent Entry !!
@@ -217,7 +235,7 @@
 			{
 				foreach ($myType['ChildType'] as $key10 => $value10)
 				{
-					echo '<th>'.strtoupper($value10['name']).'</th>';
+					echo '<th>'.$value10['name'].'</th>';
 				}
 			}
 			
@@ -237,15 +255,26 @@
 						{
 							echo "<th>";
 						}
-						
-						echo strtoupper(string_unslug(substr($value['TypeMeta']['key'], 5)));
+                        
+                        $entityTitle = $value['TypeMeta']['key'];
+                        echo $this->Form->Html->link(string_unslug(substr($entityTitle, 5)).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
 						echo "</th>";
 					}
 				}
 			}	
 		?>		
-		<th>LAST MODIFIED</th>
-		<th>STATUS</th>
+		<th>
+            <?php
+                $entityTitle = "modified";
+                echo $this->Form->Html->link('last '.string_unslug($entityTitle).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
+            ?>
+        </th>
+		<th>
+		    <?php
+                $entityTitle = "status";
+                echo $this->Form->Html->link(string_unslug($entityTitle).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
+            ?>
+		</th>
 		<?php
 			if(empty($popup))
 			{

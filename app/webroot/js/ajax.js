@@ -356,7 +356,7 @@ function openRequestedSinglePopup(strUrl)
 			ajax_params['search_by'] = ($('input#searchMe').val().length==0?' ':$('input#searchMe').val());
 		}
 		
-		if(myobj.attr('alt') != null &&  myobj.attr('alt').length>0 && altforurl==null)
+		if(myobj.attr('alt') != null && myobj.attr('alt').length>0 && altforurl==null)
 		{
 			ajax_params['order_by'] = myobj.attr('alt');
 		}
@@ -390,9 +390,8 @@ function openRequestedSinglePopup(strUrl)
 			if(myobj.attr('alt')!=null && altforurl==null)
 			{	
 				$('a.order_by').each(function(){
-					$(this).html(string_unslug($(this).attr('alt')));
+					$(this).html( string_unslug($(this).attr('alt')) + (myobj.attr('alt')==$(this).attr('alt')?' <i class="icon-ok"></i>':'') );
 				});
-				myobj.html(string_unslug(myobj.attr('alt'))+' <i class="icon-ok"></i>');
 			}
 			else if(myobj.hasClass("langLink"))
 			{

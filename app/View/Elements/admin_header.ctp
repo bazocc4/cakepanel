@@ -5,16 +5,6 @@
 	{
 		$this->Html->addCrumb($myEntry['Entry']['title'], '/admin/entries/'.$myType['Type']['slug'].'/'.$myEntry['Entry']['slug'].($myType['Type']['slug']!=$myChildType['Type']['slug']?'?type='.$myChildType['Type']['slug']:''));
 	}
-
-	$extensionPaging = array();	
-	if(!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug'])
-	{
-		$extensionPaging['type'] = $myChildType['Type']['slug'];
-	}
-	if(!empty($popup))
-	{
-		$extensionPaging['popup'] = 'ajax';
-	}
 ?>
 <script type="text/javascript">
 	$(document).ready(function(){

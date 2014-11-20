@@ -576,6 +576,9 @@ class EntriesController extends AppController {
 		{	
 			switch ($this->request->data['order_by']) 
 			{
+                case 'by_order':
+                    unset($_SESSION['order_by']);
+                    break;
 				case 'z_to_a':
 					$_SESSION['order_by'] = 'title DESC';
 					break;
@@ -583,15 +586,13 @@ class EntriesController extends AppController {
 					$_SESSION['order_by'] = 'title ASC';
 					break;
 				case 'latest_first':
-					// $_SESSION['order_by'] = 'modified DESC';
 					$_SESSION['order_by'] = 'created DESC';
 					break;
 				case 'oldest_first':
-					// $_SESSION['order_by'] = 'modified ASC';
 					$_SESSION['order_by'] = 'created ASC';
 					break;	
 				default:
-					unset($_SESSION['order_by']);
+					$_SESSION['order_by'] = $this->request->data['order_by'];
 					break;
 			}
 		}		
@@ -1046,7 +1047,7 @@ class EntriesController extends AppController {
 				),
 				'order' => array('TypeMeta.id ASC')
 			));
-			if(empty($myEntry))
+            if(empty($myEntry))
 			{
 				$data['myType']['TypeMeta'] = $metaOrder;
 			}
@@ -1054,6 +1055,24 @@ class EntriesController extends AppController {
 			{
 				$data['myChildType']['TypeMeta'] = $metaOrder;
 			}
+            
+            // $_SESSION['order_by'] Validation !!
+            if(substr($_SESSION['order_by'] , 0 , 5) == 'form-')
+            {
+                $innerFieldMeta = FALSE;
+                foreach($metaOrder as $key => $value)
+                {
+                    if(stripos($_SESSION['order_by'] , $value['TypeMeta']['key'] ) !== FALSE)
+                    {
+                        $innerFieldMeta = TRUE;
+                        break;
+                    }                    
+                }
+                if(!$innerFieldMeta)
+                {
+                    unset($_SESSION['order_by']);
+                }
+            }
 		}
 
 		// set page title
@@ -1079,6 +1098,7 @@ class EntriesController extends AppController {
 				if($myType['Type']['slug']=='media')
 				{
 					$countPage = $this->mediaPerPage;
+                    unset($_SESSION['order_by']);
 				}
 			}
 		}
@@ -1174,11 +1194,10 @@ class EntriesController extends AppController {
 		// ========================================= >>
 		// EXECUTE MAIN QUERY !!
 		// ========================================= >>
-		$options['order'] = array('Entry.'.(empty($_SESSION['order_by'])||empty($this->request->params['admin'])?'sort_order DESC':$_SESSION['order_by']));
+		$options['order'] = array('Entry.'.(isset($innerFieldMeta)||empty($_SESSION['order_by'])||empty($this->request->params['admin'])?'sort_order DESC':$_SESSION['order_by']));
 		$mysql = $this->Entry->find('all' ,$options);
 		
-		// MODIFY OUR ENTRYMETA FIRST !!
-		$datetimeActivated = '';
+		// MODIFY OUR ENTRYMETA FIRST !!		
 		foreach ($mysql as $key => $value) 
 		{
 			$mysql[$key] = $value = breakEntryMetas($value);
@@ -1196,17 +1215,16 @@ class EntriesController extends AppController {
 			// ----------------------------------------- >>>
             // END OF ADDITIONAL FILTERING METHOD !!
             // ----------------------------------------- >>>
-			if(empty($datetimeActivated))
-			{
-				if(isset($mysql[$key]['EntryMeta']['date_time']))    $datetimeActivated = 'date_time';
-				else if(isset($mysql[$key]['EntryMeta']['date_posted']))    $datetimeActivated = 'date_posted';
-			}
 		}
 		$mysql = array_values($mysql);
 		
 		// Final Sort based on certain criteria !!
-		$mysql = (!empty($datetimeActivated)?orderby_metavalue( $mysql , 'EntryMeta', $datetimeActivated , 'DESC'):$mysql);
-
+        if($innerFieldMeta)
+        {
+            $explodeSorting = explode(' ', $_SESSION['order_by']);
+            $mysql = orderby_metavalue( $mysql , 'EntryMeta', substr($explodeSorting[0] , 5) , $explodeSorting[1] );
+        }
+        
 		// SECOND FILTER GO NOW !!!
 		$offset = ($paging==0? 0 : ($paging-1) * $countPage);
 		$endset = $offset + $countPage;				
@@ -2018,7 +2036,7 @@ class EntriesController extends AppController {
 		$resultTotalList = $this->Entry->find('count' , $options);
 		$this->set('totalList' , $resultTotalList);
 		
-		$options['order'] = array('Entry.created DESC');
+		$options['order'] = array('Entry.sort_order DESC');
 		$options['offset'] = ($paging-1) * $countPage;
 		$options['limit'] = $countPage;
 		$mysql = $this->Entry->find('all' ,$options);
