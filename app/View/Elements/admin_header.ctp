@@ -11,6 +11,9 @@
 		var orderFlag = '';
 		switch('<?php echo $_SESSION['order_by']; ?>')
 		{
+            case '': // empty var ...
+                orderFlag = 'by_order';
+				break;
 			case 'title DESC':
 				orderFlag = 'z_to_a';
 				break;
@@ -18,18 +21,16 @@
 				orderFlag = 'a_to_z';
 				break;
 			case 'created DESC':
-			case 'modified DESC':
 				orderFlag = 'latest_first';
 				break;
-			case 'created ASC':	
-			case 'modified ASC':
+			case 'created ASC':
 				orderFlag = 'oldest_first';
 				break;
-			default:
-				orderFlag = 'by_order';
-				break;
 		}
-		$('a[alt='+orderFlag+'].order_by').html(string_unslug(orderFlag)+' <i class="icon-ok"></i>');
+		if(orderFlag.length > 0)
+        {
+            $('a[alt='+orderFlag+'].order_by').html(string_unslug(orderFlag)+' <i class="icon-ok"></i>');
+        }
 		
 		if("<?php echo (empty($popup)?'kosong':'berisi'); ?>"=="kosong")
 		{
