@@ -1064,7 +1064,7 @@ class EntriesController extends AppController {
                 {
                     if(stripos($_SESSION['order_by'] , $value['TypeMeta']['key'] ) !== FALSE)
                     {
-                        $innerFieldMeta = TRUE;
+                        $innerFieldMeta = $value['TypeMeta']['input_type'];
                         break;
                     }                    
                 }
@@ -1222,7 +1222,7 @@ class EntriesController extends AppController {
         if($innerFieldMeta)
         {
             $explodeSorting = explode(' ', $_SESSION['order_by']);
-            $mysql = orderby_metavalue( $mysql , 'EntryMeta', substr($explodeSorting[0] , 5) , $explodeSorting[1] );
+            $mysql = orderby_metavalue( $mysql , 'EntryMeta', substr($explodeSorting[0] , 5) , $explodeSorting[1] , $innerFieldMeta );
         }
         
 		// SECOND FILTER GO NOW !!!

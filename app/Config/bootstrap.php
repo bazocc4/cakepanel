@@ -310,9 +310,9 @@ function swap_value(&$a , &$b)
 	$b = $temp;
 }
 
-function orderby_metavalue($data = array() , $metatable = NULL , $metakey , $sortorder = NULL)
+function orderby_metavalue($data = array() , $metatable = NULL , $metakey , $sortorder = NULL , $input_type = NULL)
 {
-	if(empty($sortorder))
+    if(empty($sortorder))
 	{
 		$sortorder = "ASC";
 	}
@@ -333,6 +333,11 @@ function orderby_metavalue($data = array() , $metatable = NULL , $metakey , $sor
 	}
 	else
 	{
+        if($input_type == 'gallery')
+        {
+            $metakey = 'count-form-'.$metakey;
+        }
+        
 		foreach ($data as $key => $value) 
 		{
 			array_push($keysort , $key);
@@ -343,7 +348,7 @@ function orderby_metavalue($data = array() , $metatable = NULL , $metakey , $sor
 			$temptime = strtotime($tempvalue);
 			if($temptime !== FALSE)
 			{
-				$tempvalue = date('Y-m-d' , $temptime);
+				$tempvalue = date('Y-m-d H:i:s' , $temptime);
 			}
 					
 			array_push($valuesort , $tempvalue);
