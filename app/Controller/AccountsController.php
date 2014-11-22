@@ -328,18 +328,6 @@ class AccountsController extends AppController {
 		$this->redirect('/admin/login');
 	}
 	
-	function __validateLoginStatus()
-    {
-        if($this->request->action != 'login' && $this->request->action != 'logout')
-        {
-            if($this->Session->check('Account') == false)
-            {
-                $this->redirect('login');
-                $this->Session->setFlash('The URL you\'ve followed requires you login.');
-            }
-        }
-    }
-	
 	function forget()
     {
     	if($this->Auth->login())
