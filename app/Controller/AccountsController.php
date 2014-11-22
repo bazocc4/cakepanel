@@ -355,7 +355,7 @@ class AccountsController extends AppController {
 		}
 		
 		$is_admin = 0;
-		$this->setTitle('Forgot Password');
+		$this->setTitle('Forget Password');
 		if(substr($this->request->url, 0,5) == 'admin')
 		{
 			$this->layout = 'login_default';
