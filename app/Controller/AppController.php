@@ -194,6 +194,10 @@ class AppController extends Controller {
 			if(!empty($myurl[0]) && strtolower($myurl[0]) != 'login')
 			{
 				$urlext = "?resource=%2F".implode("%2F" , $myurl);
+                if(!empty($this->request->query))
+                {
+                    $urlext .= urlencode(get_more_extension($this->request->query));
+                }
 			}
 		}
 

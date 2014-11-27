@@ -66,7 +66,7 @@
 	?>	
 	<tr>
 		<td>
-			<h5 style="margin: 0;"><?php echo $this->Form->Html->link($value['Type']['name'],array('controller'=>'master' , 'action'=>'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'edit',$value['Type']['slug'])); ?></h5>
+			<h5><?php echo $this->Form->Html->link($value['Type']['name'],array('controller'=>'master' , 'action'=>'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'edit',$value['Type']['slug'])); ?></h5>
 			<p>
 				<?php
 					if(!empty($value['Type']['description']))

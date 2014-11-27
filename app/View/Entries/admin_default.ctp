@@ -134,7 +134,7 @@
 			$('p#id-title-description').css('display','<?php echo (empty($totalList)?'none':'block'); ?>');
 			
 			// UPDATE TITLE HEADER !!
-			$('div.title > h2').html('<?php echo strtoupper(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' '.$myChildType['Type']['name']); ?>');
+			$('div.title > h2').html('<?php echo strtoupper(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' - '.$myChildType['Type']['name']); ?>');
 			
 		<?php else: ?>
 			$('table#myTableList tbody tr').css('cursor' , 'pointer');
@@ -263,7 +263,7 @@
 				}
 			}	
 		?>		
-		<th>
+		<th class="date-field">
             <?php
                 $entityTitle = "modified";
                 echo $this->Form->Html->link('last '.string_unslug($entityTitle).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
@@ -314,7 +314,7 @@
 				}
 			?>
 			<input class="slug-code" type="hidden" value="<?php echo $value['Entry']['slug']; ?>" />
-			<h5 style="margin: 0;" class="title-code"><?php echo (empty($popup)?$this->Form->Html->link($value['Entry']['title'],array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'edit',$value['Entry']['slug'] ,'?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'')   )  ):$value['Entry']['title']); ?></h5>
+			<h5 class="title-code"><?php echo (empty($popup)?$this->Form->Html->link($value['Entry']['title'],array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'edit',$value['Entry']['slug'] ,'?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'')   )  ):$value['Entry']['title']); ?></h5>
 			<p>
 				<?php
 					if($descriptionUsed == 1 && !empty($value['Entry']['description']))
@@ -402,7 +402,7 @@
 							else
 							{
 								$outputResult = (empty($entrydetail['EntryMeta']['name'])?$entrydetail['Entry']['title']:$entrydetail['EntryMeta']['name']);
-								echo '<h5 style="margin: 0;">'.(empty($popup)?$this->Form->Html->link($outputResult,array("controller"=>"entries","action"=>$entrydetail['Entry']['entry_type']."/edit/".$entrydetail['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</h5>';							
+								echo '<h5>'.(empty($popup)?$this->Form->Html->link($outputResult,array("controller"=>"entries","action"=>$entrydetail['Entry']['entry_type']."/edit/".$entrydetail['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</h5>';							
                             	$description = strip_tags($entrydetail['Entry']['description']);
                             	echo '<p>'.(strlen($description) > 30? substr($description,0,30)."..." : $description).'</p>';
 							}
@@ -427,6 +427,10 @@
 							{
 								echo $outputResult.'% OFF';
 							}
+                            else if($shortkey == 'stock')
+                            {
+                                echo '<h5>'.$outputResult.'</h5>';
+                            }
 							else
 							{
 								echo $outputResult;

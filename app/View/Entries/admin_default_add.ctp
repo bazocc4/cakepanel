@@ -109,7 +109,7 @@
 					// SPECIAL CHECK !!
 					if($value['key'] == 'form-subcategory' && !empty($myEntry))
 					{	
-						$subcat_optvalue = $get->meta_details($myEntry['EntryMeta']['category'] , 'category');
+						$subcat_optvalue = $this->Get->meta_details($myEntry['EntryMeta']['category'] , 'category');
 						$value['optionlist'] = $subcat_optvalue['EntryMeta']['subcategory'];
 					}
 					else

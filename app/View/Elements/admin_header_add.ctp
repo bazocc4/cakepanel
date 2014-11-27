@@ -71,14 +71,13 @@
 		<?php
 			if(empty($myEntry))
 			{
-				echo '<h2>ADD '.(empty($myChildType)?(empty($myType)?'PAGES':$myType['Type']['name']):$myParentEntry['Entry']['title'].' '.$myChildType['Type']['name']).'</h2>';
+				echo '<h2>ADD '.(empty($myChildType)?(empty($myType)?'PAGES':$myType['Type']['name']):$myParentEntry['Entry']['title'].' - '.$myChildType['Type']['name']).'</h2>';
+                echo '<p class="title-description">'.(empty($myChildType)?$myType['Type']['description']:$myChildType['Type']['description']).'</p>';
 			}
 			else
 			{
 				echo '<h2 id="form-title-entry">'.(empty($lang)?'':'TRANSLATE (').$myEntry['Entry']['title'].(empty($lang)?'':')').'</h2>';
-				?>
-				<p id="id-title-description" class="title-description"></p>
-				<?php
+                echo '<p id="id-title-description" class="title-description"></p>';
 			}
 		?>
 		<div class="change-pic">
