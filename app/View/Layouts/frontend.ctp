@@ -54,23 +54,27 @@
 			// load our CSS script...
 			// ================================================== >>>
 			echo $this->Html->css('bootstrap');
-//			echo $this->Html->css('bootstrap-3');
-
+//			echo $this->Html->css('bootstrap-3');            
 			echo $this->Html->css('smoothness/jquery-ui-1.8.18.custom');
+
+            // Colorbox Popup CSS !!
 			echo $this->Html->css('colorbox');
 			
 			// custom style !!
 			echo $this->Html->css('admin/style');
-			// echo $this->Html->css('style');
+//			echo $this->Html->css('style');
 			echo $this->Html->css('loading');
 
 			// ================================================== >>>
 			// load our JS script...
 			// ================================================== >>>
-			echo $this->Html->script('jquery-1.11.0.min');
+
+            // jQuery (necessary for Bootstrap's JavaScript plugins)
+            echo $this->Html->script('jquery-1.11.0.min');
+            echo $this->Html->script('jquery-ui-1.8.18.custom.min');
+			
 			// echo $this->Html->script('jquery.mobilemenu');
 
-			echo $this->Html->script('jquery-ui-1.8.18.custom.min');
 			echo $this->Html->script('jquery.fitvids'); // make video in ckeditor being responsive !!
 			echo $this->Html->script('jquery-ui-timepicker-addon');
 
@@ -81,7 +85,7 @@
 
 			// bootstrap script !!
 			echo $this->Html->script('bootstrap.min');
-			// echo $this->Html->script('bootstrap.min-3');
+//			echo $this->Html->script('bootstrap.min-3');
 			
 			// ** Use this script to check browser support HTML-5 certain input types !!
 			// ** See http://diveintohtml5.info/detect.html for more details !!

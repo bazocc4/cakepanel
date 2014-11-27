@@ -124,7 +124,7 @@
 			$value['counter'] = 0;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = 'not_empty';
-			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
+			$value['value'] = htmlentities($mySetting[$value['counter']]['Setting']['value']);
 			$value['model'] = 'Setting';
 			$value['input_type'] = 'text';
 			echo $this->element('input_'.$value['input_type'] , $value);

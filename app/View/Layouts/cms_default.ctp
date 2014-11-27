@@ -101,7 +101,7 @@
 						
 						<div class="body-title span10">
 							<div class="breadcrumbs">
-								<p><?php echo $this->Html->getCrumbs(' &raquo; ',$mySetting['title']); ?></p>
+								<p><?php echo $this->Html->getCrumbs(' &raquo; ',array('text'=>$mySetting['title'] , 'escape'=>false)); ?></p>
 								<div class="live-time">
 									<?php echo date($mySetting['date_format'] , gmt_adjustment()); ?>
 									<i class="icon-time icon-white"></i>
