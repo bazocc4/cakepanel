@@ -665,9 +665,6 @@ class Entry extends AppModel {
 		$input['Entry']['title'] = $path_parts['filename'];
 		// generate slug from title...
 		$input['Entry']['slug'] = get_slug($input['Entry']['title']);
-		// write my creator...
-		$input['Entry']['created_by'] = 1;
-		$input['Entry']['modified_by'] = 1;
 		$this->create();
 		$this->save($input);
 		

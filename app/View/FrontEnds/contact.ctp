@@ -18,7 +18,7 @@ html here ...
 <script type="text/javascript">
     $(document).ready(function(){
         <?php if(isset($_POST['submitcontact'])): ?>
-            var endnote = '\n\nbest regards,\n<?php echo $mySetting['title']; ?>';
+            var endnote = '\n\nbest regards,\n<?php echo addslashes(html_entity_decode($mySetting['title'], ENT_COMPAT, 'UTF-8')); ?>';
             <?php
                 if($contact['success'] == 1)
                 {

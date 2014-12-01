@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 13, 2014 at 12:08 PM
+-- Generation Time: Dec 01, 2014 at 11:17 AM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `cms_accounts` (
   `password` varchar(500) NOT NULL,
   `last_login` datetime NOT NULL,
   `created` datetime NOT NULL,
-  `created_by` int(10) unsigned NOT NULL,
+  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(10) unsigned NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`)
@@ -66,9 +66,9 @@ CREATE TABLE IF NOT EXISTS `cms_entries` (
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `count` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
-  `created_by` int(11) NOT NULL,
+  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(11) NOT NULL,
+  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
   `sort_order` int(11) NOT NULL DEFAULT '0',
   `lang_code` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
@@ -175,9 +175,9 @@ CREATE TABLE IF NOT EXISTS `cms_types` (
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `count` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
-  `created_by` int(11) NOT NULL,
+  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(11) NOT NULL,
+  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
@@ -225,9 +225,9 @@ CREATE TABLE IF NOT EXISTS `cms_users` (
   `firstname` varchar(500) NOT NULL,
   `lastname` varchar(500) DEFAULT NULL,
   `created` datetime NOT NULL,
-  `created_by` int(11) NOT NULL,
+  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(11) NOT NULL,
+  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;

@@ -370,13 +370,13 @@ class EntriesController extends AppController {
                 
                 $mybody .= "Reference Image Upload : (attached)<br/>";
             }
-            $mybody .= "<br/>Content :<br/>".$_POST['pesancontact']."<br/>";
+            $mybody .= "Content :<br/>".str_replace(chr(10) , '<br>' , $_POST['pesancontact'])."<br/>";
 
             // Execute E-mail ...
 			try{
 				if( $Email->from(array($_POST['emailcontact']=>$_POST['namecontact']))
 			          ->to(array($this->mySetting['custom-email_contact']=>$this->mySetting['title']))
-			          ->subject($this->mySetting['title']." - Contact Message")
+			          ->subject(html_entity_decode($this->mySetting['title'], ENT_COMPAT, 'UTF-8')." - Contact Message")
 			          ->emailFormat('html')
 			          ->template('default','default')
 			          ->send($mybody) )
