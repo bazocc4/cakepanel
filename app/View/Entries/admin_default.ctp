@@ -418,6 +418,7 @@
 							else if($shortkey == 'price')
 							{
 								echo 'Rp '.str_replace(',', '.', toMoney($outputResult  , true , true) ).',-';
+                                echo '<input type="hidden" value="'.$outputResult.'">';
 							}
 							else if($shortkey == 'weight')
 							{
@@ -435,7 +436,7 @@
 							{
 								echo $outputResult;
 							}
-                        }
+                        }                        
                         echo "</td>";
 					}
 				}
