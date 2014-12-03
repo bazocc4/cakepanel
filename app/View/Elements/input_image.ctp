@@ -113,7 +113,7 @@
 				<?php
 			}
 		?>
-		<?php echo $this->Form->Html->link('Change',array('controller'=>'entries','action'=>'media_popup_single','1','myEditCoverImage_'.$counter,(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-info get-from-library'));	?>
+		<?php echo $this->Html->link('Change',array('controller'=>'entries','action'=>'media_popup_single','1','myEditCoverImage_'.$counter,(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-info get-from-library'));	?>
 		<a class="btn btn-danger" onclick="javascript : $.fn.removePicture(<?php echo $counter; ?>,<?php echo $crop; ?>);" href="javascript:void(0)">Remove</a>
 		<p class="help-block"><?php echo $p; ?></p>
 	</div>

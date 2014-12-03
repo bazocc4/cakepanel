@@ -9,10 +9,10 @@
 </script>
 <div class="inner-header">
 	<div id="child-menu">
-		<?php // echo $this->Form->Html->link('Add Role',array('controller'=>'master', 'action'=>'roles','add'),array('class'=>'btn btn-primary fr right-btn')); ?>
+		<?php // echo $this->Html->link('Add Role',array('controller'=>'master', 'action'=>'roles','add'),array('class'=>'btn btn-primary fr right-btn')); ?>
 		<div class="btn-group fr">
-			<?php echo $this->Form->Html->link('Databases',array('controller'=>'master', 'action'=>'types'), array('class'=>'btn')); ?>			
-			<?php echo $this->Form->Html->link('Roles',array('controller'=>'master', 'action'=>'roles'), array('class'=>'btn active')); ?>
+			<?php echo $this->Html->link('Databases',array('controller'=>'master', 'action'=>'types'), array('class'=>'btn')); ?>			
+			<?php echo $this->Html->link('Roles',array('controller'=>'master', 'action'=>'roles'), array('class'=>'btn active')); ?>
 		</div>
 	</div>		
 	<div class="title">
@@ -32,7 +32,7 @@
 		?>	
 		<tr>
 			<td>
-				<h5><?php echo $this->Form->Html->link($value['Role']['name'],array('controller'=>'master' , 'action'=>'roles' ,'edit',$value['Role']['id'])); ?></h5>
+				<h5><?php echo $this->Html->link($value['Role']['name'],array('controller'=>'master' , 'action'=>'roles' ,'edit',$value['Role']['id'])); ?></h5>
 				<p>
 					<?php
 						if(!empty($value['Role']['description'])) 

@@ -39,7 +39,7 @@
 			}
 		?>
 	</div>
-	<?php echo $this->Form->Html->link('Upload Image',array('action'=>'upload_popup',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-primary fr get-from-library')); ?>
+	<?php echo $this->Html->link('Upload Image',array('action'=>'upload_popup',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-primary fr get-from-library')); ?>
 </div>		
 		<?php
 		echo '<div class="inner-content">';
@@ -67,7 +67,7 @@
 	</div>
 	<div class="description">
 		<p><?php echo $p['Entry']['title']; ?></p>
-		<?php echo $this->Form->Html->link('',array('action'=>'mediaused',$p['Entry']['id'],'admin'=>false),array('class'=>'icon-remove icon-white' , 'id'=>'myDeleteMedia')); ?>			
+		<?php echo $this->Html->link('',array('action'=>'mediaused',$p['Entry']['id'],'admin'=>false),array('class'=>'icon-remove icon-white' , 'id'=>'myDeleteMedia')); ?>			
 	</div>
 	<input type='hidden' value ='<img style="width:150px" alt="<?php $p['Entry']['title']; ?>" title="<?php echo $p['Entry']['title']; ?>" src="<?php echo $imagePath; ?>img/upload/<?php echo $p['Entry']['id'].'.'.$myImageTypeList[$p['Entry']['id']]; ?>" />'>
 </div>	
@@ -95,7 +95,7 @@
 			<h2>No Items Found!</h2>
 			<!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ante nisi, fermentum eu mattis id, vehicula dapibus sapien.</p>-->
 			<?php 
-				echo $this->Form->Html->link('Get Started',array('action'=>'upload_popup',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-primary get-from-library')); 
+				echo $this->Html->link('Get Started',array('action'=>'upload_popup',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-primary get-from-library')); 
 			?>
 		</div>
 	</div>

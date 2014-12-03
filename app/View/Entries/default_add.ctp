@@ -137,7 +137,7 @@
 	<!-- SAVE BUTTON -->
 		<div class="control-action">
 			<button type="submit" class="btn btn-primary"><?php echo $saveButton; ?></button>
-			<?php echo $this->Form->Html->link('Cancel' , redirectSessionNow($_SESSION['now']) ,array('class'=>'btn')); ?>
+			<?php echo $this->Html->link('Cancel' , redirectSessionNow($_SESSION['now']) ,array('class'=>'btn')); ?>
 		</div>
 	</fieldset>
 </form>	

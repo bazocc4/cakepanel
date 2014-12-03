@@ -16,10 +16,10 @@
 		
 		<div class="inner-header">	
 			<div id="child-menu">
-				<?php echo $this->Form->Html->link('Add Database',array('controller'=>'master', 'action'=>'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'add'),array('class'=>'btn btn-primary fr right-btn')); ?>
+				<?php echo $this->Html->link('Add Database',array('controller'=>'master', 'action'=>'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'add'),array('class'=>'btn btn-primary fr right-btn')); ?>
 				<div class="btn-group fr">
-					<?php echo $this->Form->Html->link('Databases',array('controller'=>'master', 'action'=>'types'), array('class'=>'btn active')); ?>
-					<?php echo $this->Form->Html->link('Roles',array('controller'=>'master', 'action'=>'roles'), array('class'=>'btn')); ?>
+					<?php echo $this->Html->link('Databases',array('controller'=>'master', 'action'=>'types'), array('class'=>'btn active')); ?>
+					<?php echo $this->Html->link('Roles',array('controller'=>'master', 'action'=>'roles'), array('class'=>'btn')); ?>
 				</div>
 			</div>		
 			<div class="title">
@@ -66,7 +66,7 @@
 	?>	
 	<tr>
 		<td>
-			<h5><?php echo $this->Form->Html->link($value['Type']['name'],array('controller'=>'master' , 'action'=>'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'edit',$value['Type']['slug'])); ?></h5>
+			<h5><?php echo $this->Html->link($value['Type']['name'],array('controller'=>'master' , 'action'=>'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'edit',$value['Type']['slug'])); ?></h5>
 			<p>
 				<?php
 					if(!empty($value['Type']['description']))
@@ -81,7 +81,7 @@
 			<?php
 				if(empty($myParentType)) // if this is a parent Type !!
 				{
-					echo '<span class="badge badge-info">'.$this->Form->Html->link($value['Type']['count'],array('controller'=>'master', 'action'=>'types',$value['Type']['slug'])).'</span>';
+					echo '<span class="badge badge-info">'.$this->Html->link($value['Type']['count'],array('controller'=>'master', 'action'=>'types',$value['Type']['slug'])).'</span>';
 				}	
 			?>
 		</td>
@@ -111,26 +111,26 @@
 					<ul>
 						<?php
 							echo '<li id="myPagingFirst" class="'.($paging<=1?"disabled":"").'">';
-							echo $this->Form->Html->link("First",array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , 1) , array("class"=>"ajax_mypage"));
+							echo $this->Html->link("First",array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , 1) , array("class"=>"ajax_mypage"));
 							echo '</li>';
 							
 							echo '<li id="myPagingPrev" class="'.($paging<=1?"disabled":"").'">';
-							echo str_replace('amp;', '', $this->Form->Html->link("&laquo;",array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , $paging-1), array("class"=>"ajax_mypage")));
+							echo str_replace('amp;', '', $this->Html->link("&laquo;",array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , $paging-1), array("class"=>"ajax_mypage")));
 							echo '</li>';
 							
 							for ($i = $left_limit , $index = 1; $i <= $right_limit; $i++ , $index++)
 							{
 								echo '<li id="myPagingNum'.$index.'" class="'.($i==$paging?"active":"").'">';
-								echo $this->Form->Html->link($i,array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , $i) , array("class"=>"ajax_mypage"));				
+								echo $this->Html->link($i,array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , $i) , array("class"=>"ajax_mypage"));				
 								echo '</li>';
 							}
 						
 							echo '<li id="myPagingNext" class="'.($paging>=$countPage?"disabled":"").'">';
-							echo str_replace("amp;", "", $this->Form->Html->link("&raquo;",array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , $paging+1) , array("class"=>"ajax_mypage")));
+							echo str_replace("amp;", "", $this->Html->link("&raquo;",array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , $paging+1) , array("class"=>"ajax_mypage")));
 							echo '</li>';
 							
 							echo '<li id="myPagingLast" class="'.($paging>=$countPage?"disabled":"").'">';
-							echo $this->Form->Html->link("Last",array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , $countPage), array("class"=>"ajax_mypage"));
+							echo $this->Html->link("Last",array("controller"=>"master" , "action"=>"types".(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'index' , $countPage), array("class"=>"ajax_mypage"));
 							echo '</li>';
 						?>
 					</ul>

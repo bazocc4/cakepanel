@@ -37,7 +37,7 @@
 		</div>
 	</div>
 	<div class="span7">
-		<?php echo (empty($popup)?$this->Form->Html->link('Add Account',array('action'=>'add'),array('class'=>'btn btn-primary fr right-btn')):''); ?>
+		<?php echo (empty($popup)?$this->Html->link('Add Account',array('action'=>'add'),array('class'=>'btn btn-primary fr right-btn')):''); ?>
 		<div class="input-prepend" style="margin-right: 5px;">
 			<span class="add-on" style="margin-right: 3px; margin-top : 9px;">
 				<?php
@@ -46,7 +46,7 @@
 					{
 						$cakeUrl['?'] = array('popup'=>'ajax' , 'role' => $popupRole);
 					}
-					echo $this->Form->Html->link('<i class="icon-search"></i>', $cakeUrl , array("class"=>"ajax_mypage searchMeLink","escape"=>false));
+					echo $this->Html->link('<i class="icon-search"></i>', $cakeUrl , array("class"=>"ajax_mypage searchMeLink","escape"=>false));
 				?>
 			</span>
 			<input style="width: 160px;" id="searchMe" class="span2" type="text" placeholder="search item here...">
@@ -93,7 +93,7 @@
 		<div class="wrapper-empty-state">
 			<div class="pic"></div>
 			<h2>No Items Found!</h2>
-			<?php echo (empty($popup)?$this->Form->Html->link('Get Started',array('action'=>'add'),array('class'=>'btn btn-primary')):''); ?>
+			<?php echo (empty($popup)?$this->Html->link('Get Started',array('action'=>'add'),array('class'=>'btn btn-primary')):''); ?>
 		</div>
 	</div>
 <?php }else{ ?>
@@ -133,7 +133,7 @@
 					}
 					else 
 					{
-						echo $this->Form->Html->link($value['Account']['email'],array('action'=>'edit', $value['Account']['id']));
+						echo $this->Html->link($value['Account']['email'],array('action'=>'edit', $value['Account']['id']));
 					} 
 				?>
 			</h5>
@@ -193,26 +193,26 @@
 					<ul>
 						<?php
 							echo '<li id="myPagingFirst" class="'.($paging<=1?"disabled":"").'">';
-							echo $this->Form->Html->link("First",array("action"=>"index",'1','?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))) , array("class"=>"ajax_mypage"));
+							echo $this->Html->link("First",array("action"=>"index",'1','?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))) , array("class"=>"ajax_mypage"));
 							echo '</li>';
 							
 							echo '<li id="myPagingPrev" class="'.($paging<=1?"disabled":"").'">';
-							echo str_replace("amp;", "", $this->Form->Html->link("&laquo;",array("action"=>"index",($paging-1),'?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))), array("class"=>"ajax_mypage")));
+							echo str_replace("amp;", "", $this->Html->link("&laquo;",array("action"=>"index",($paging-1),'?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))), array("class"=>"ajax_mypage")));
 							echo '</li>';
 							
 							for ($i = $left_limit , $index = 1; $i <= $right_limit; $i++ , $index++)
 							{
 								echo '<li id="myPagingNum'.$index.'" class="'.($i==$paging?"active":"").'">';
-								echo $this->Form->Html->link($i,array("action"=>"index",$i,'?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))) , array("class"=>"ajax_mypage"));				
+								echo $this->Html->link($i,array("action"=>"index",$i,'?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))) , array("class"=>"ajax_mypage"));				
 								echo '</li>';
 							}
 						
 							echo '<li id="myPagingNext" class="'.($paging>=$countPage?"disabled":"").'">';
-							echo str_replace("amp;", "", $this->Form->Html->link("&raquo;",array("action"=>"index",($paging+1),'?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))) , array("class"=>"ajax_mypage")));
+							echo str_replace("amp;", "", $this->Html->link("&raquo;",array("action"=>"index",($paging+1),'?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))) , array("class"=>"ajax_mypage")));
 							echo '</li>';
 							
 							echo '<li id="myPagingLast" class="'.($paging>=$countPage?"disabled":"").'">';
-							echo $this->Form->Html->link("Last",array("action"=>"index",$countPage,'?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))), array("class"=>"ajax_mypage"));
+							echo $this->Html->link("Last",array("action"=>"index",$countPage,'?'=>(empty($popup)?'':array('popup'=>'ajax' , 'role' => $popupRole))), array("class"=>"ajax_mypage"));
 							echo '</li>';
 						?>
 					</ul>

@@ -207,7 +207,7 @@
                 echo '<strong class="galleryCount">Gallery Pictures (<span></span>)</strong>';
 
                 $nowTypeSlug = (empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']);                
-                echo $this->Form->Html->link('Add Picture',array('action'=>'media_popup_single',1,'myPictureWrapper',$nowTypeSlug,'admin'=>false),array('class'=>'btn btn-inverse fr get-from-library'));
+                echo $this->Html->link('Add Picture',array('action'=>'media_popup_single',1,'myPictureWrapper',$nowTypeSlug,'admin'=>false),array('class'=>'btn btn-inverse fr get-from-library'));
                 
                 echo '<div class="inner-content pictures" id="myPictureWrapper">';
                 if(!empty($this->request->data['Entry']['image']) && is_array($this->request->data['Entry']['image']) )

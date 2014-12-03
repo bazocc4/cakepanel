@@ -28,7 +28,7 @@
 					{
 						$extensionLang['lang'] = $this_lang;
 					}					
-					echo $this->Form->Html->link($value,(empty($myEntry)?"#":array('controller'=>$myType['Type']['slug'].(empty($myParentEntry)?'':'/'.$parent_language[$this_lang]),'action'=>'edit',(empty($language_link[$this_lang])?(empty($language_link[$default_lang])? $language_link[substr($myEntry['Entry']['lang_code'],0,2)]:$language_link[$default_lang]):$language_link[$this_lang]),'?'=>$extensionLang)),array("class"=>"ajax_myform"));
+					echo $this->Html->link($value,(empty($myEntry)?"#":array('controller'=>$myType['Type']['slug'].(empty($myParentEntry)?'':'/'.$parent_language[$this_lang]),'action'=>'edit',(empty($language_link[$this_lang])?(empty($language_link[$default_lang])? $language_link[substr($myEntry['Entry']['lang_code'],0,2)]:$language_link[$default_lang]):$language_link[$this_lang]),'?'=>$extensionLang)),array("class"=>"ajax_myform"));
 					
 					echo '</li>';
 				}
@@ -64,13 +64,13 @@
 				if( (isset($_POST['data']['Entry'][2]['value'])?$_POST['data']['Entry'][2]['value']:$myEntry['Entry']['main_image']) > 0)
 				{
 				?>
-					<a href='javascript:void(0)' class='remove' onclick='javascript : $.fn.removePicture();'>Remove /</a> <?php echo $this->Form->Html->link('Change Cover',array('action'=>'media_popup_single',1,'mySelectCoverAlbum',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'get-from-library')); ?>
+					<a href='javascript:void(0)' class='remove' onclick='javascript : $.fn.removePicture();'>Remove /</a> <?php echo $this->Html->link('Change Cover',array('action'=>'media_popup_single',1,'mySelectCoverAlbum',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'get-from-library')); ?>
 				<?php
 				}
 				else
 				{
 				?>
-					<a href='javascript:void(0)' class='remove' onclick='javascript : $.fn.removePicture();' style="display:none">Remove / </a> <?php echo $this->Form->Html->link('Select Cover',array('action'=>'media_popup_single',1,'mySelectCoverAlbum',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'get-from-library')); ?>
+					<a href='javascript:void(0)' class='remove' onclick='javascript : $.fn.removePicture();' style="display:none">Remove / </a> <?php echo $this->Html->link('Select Cover',array('action'=>'media_popup_single',1,'mySelectCoverAlbum',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'get-from-library')); ?>
 				<?php
 				}
 			?>			

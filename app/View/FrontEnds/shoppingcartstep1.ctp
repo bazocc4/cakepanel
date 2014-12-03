@@ -222,11 +222,11 @@ else:
 					<?php
 						if($myEntry['Entry']['parent_id'] == 0)
 						{
-							echo $this->Form->Html->link($myEntry['Entry']['title'] , array("controller"=>$myEntry['Entry']['entry_type'] , "action"=>$myEntry['Entry']['slug']));
+							echo $this->Html->link($myEntry['Entry']['title'] , array("controller"=>$myEntry['Entry']['entry_type'] , "action"=>$myEntry['Entry']['slug']));
 						}
 						else
 						{
-							echo $this->Form->Html->link($myEntry['Entry']['title'] , array("controller"=>$myEntry['ParentEntry']['entry_type'] , "action"=>$myEntry['ParentEntry']['slug'],$myEntry['Entry']['slug']));
+							echo $this->Html->link($myEntry['Entry']['title'] , array("controller"=>$myEntry['ParentEntry']['entry_type'] , "action"=>$myEntry['ParentEntry']['slug'],$myEntry['Entry']['slug']));
 						}
 					?>
 				</h5>

@@ -24,7 +24,7 @@
 			<ul class="nav nav-tabs">
 				<li class="active">
 					<?php
-						echo $this->Form->Html->link("Insert from Media Library (".$totalList.")","#tabs1", array("alt"=>$imagePath."entries/media_popup_single/1"));
+						echo $this->Html->link("Insert from Media Library (".$totalList.")","#tabs1", array("alt"=>$imagePath."entries/media_popup_single/1"));
 					?>
 				</li>
 				<li><a href="#tabs2">Upload from Local Disk</a></li>
@@ -81,26 +81,26 @@
 									<ul>
 										<?php
 											echo '<li id="myPagingFirst" class="'.($paging<=1?"disabled":"").'">';
-											echo $this->Form->Html->link("First",array("action"=>'media_popup_single',1) , array("class"=>"ajax_mymedia"));
+											echo $this->Html->link("First",array("action"=>'media_popup_single',1) , array("class"=>"ajax_mymedia"));
 											echo '</li>';
 											
 											echo '<li id="myPagingPrev" class="'.($paging<=1?"disabled":"").'">';
-											echo str_replace('amp;', '', $this->Form->Html->link("&laquo;",array("action"=>'media_popup_single',$paging-1), array("class"=>"ajax_mymedia")));
+											echo str_replace('amp;', '', $this->Html->link("&laquo;",array("action"=>'media_popup_single',$paging-1), array("class"=>"ajax_mymedia")));
 											echo '</li>';
 											
 											for ($i = $left_limit , $index = 1; $i <= $right_limit; $i++ , $index++)
 											{
 												echo '<li id="myPagingNum'.$index.'" class="'.($i==$paging?"active":"").'">';
-												echo $this->Form->Html->link($i,array("action"=>'media_popup_single',$i) , array("class"=>"ajax_mymedia"));				
+												echo $this->Html->link($i,array("action"=>'media_popup_single',$i) , array("class"=>"ajax_mymedia"));				
 												echo '</li>';
 											}
 										
 											echo '<li id="myPagingNext" class="'.($paging>=$countPage?"disabled":"").'">';
-											echo str_replace('amp;', '', $this->Form->Html->link("&raquo;",array("action"=>'media_popup_single',$paging+1) , array("class"=>"ajax_mymedia")));
+											echo str_replace('amp;', '', $this->Html->link("&raquo;",array("action"=>'media_popup_single',$paging+1) , array("class"=>"ajax_mymedia")));
 											echo '</li>';
 											
 											echo '<li id="myPagingLast" class="'.($paging>=$countPage?"disabled":"").'">';
-											echo $this->Form->Html->link("Last",array("action"=>'media_popup_single',$countPage), array("class"=>"ajax_mymedia"));
+											echo $this->Html->link("Last",array("action"=>'media_popup_single',$countPage), array("class"=>"ajax_mymedia"));
 											echo '</li>';
 										?>
 									</ul>

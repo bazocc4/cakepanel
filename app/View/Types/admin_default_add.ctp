@@ -215,7 +215,7 @@
 			?>	
 		</tbody>
 		</table>
-		<?php echo $this->Form->Html->link('Add New Field',array('controller'=>'types','action'=>'form_popup','add','admin'=>false),array('class'=>'btn btn-mini popup url'));	?>
+		<?php echo $this->Html->link('Add New Field',array('controller'=>'types','action'=>'form_popup','add','admin'=>false),array('class'=>'btn btn-mini popup url'));	?>
 	<!-- SAVE BUTTON -->
 		<div class="control-action">
 			<button type="submit" class="btn btn-primary"><?php echo $saveButton; ?></button>

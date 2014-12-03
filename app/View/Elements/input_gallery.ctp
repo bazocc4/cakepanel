@@ -28,7 +28,7 @@
 </script>
 <?php
 	echo '<span class="galleryCount" '.(!empty($required)?'style="color: red;"':'').'>'.string_unslug($shortkey).' Pictures (<span></span>)</span>';
-    echo $this->Form->Html->link('Add Picture',array('action'=>'media_popup_single',1,'myInputWrapper',$key,'admin'=>false),array('class'=>'btn btn-inverse fr get-from-library'));
+    echo $this->Html->link('Add Picture',array('action'=>'media_popup_single',1,'myInputWrapper',$key,'admin'=>false),array('class'=>'btn btn-inverse fr get-from-library'));
 
     if(!empty($p))
 	{
