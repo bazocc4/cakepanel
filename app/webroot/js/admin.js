@@ -2,16 +2,13 @@ var jcrop_api = new Array();
 (function($){
 	$(document).ready(function()
 	{
-		// colorbox initialization !!
-		if($('.cboxElement').length > 0)
-		{
-			$('.cboxElement').colorbox({
-		        fixed: true,
-		        reposition: false,
-		        maxWidth:'95%',
-		        maxHeight:'95%'
-		    });
-		}
+        // colorbox initialization !!
+        $('.popup-image').colorbox({
+            fixed: true,
+            reposition: false,
+            maxWidth:'95%',
+            maxHeight:'95%'
+        });
 		
 		// disable right-click for image !!
 		$('img').bind('contextmenu', function(e) {
@@ -83,8 +80,13 @@ var jcrop_api = new Array();
 						$('.select').html('Change Cover');
 						$('.remove').show();
 					}
-					// refresh colorbox image link !!
-					$('.get-from-library').colorbox({close: '<div class="icon-remove icon-white"></div>'});
+					
+                    // refresh colorbox image link !!
+                    $(".get-from-library, #upload").colorbox({ // POPUP MEDIA LIBRARY
+                        onLoad: function() {
+                            $('#cboxClose').hide();
+                        }
+                    });
 				});
 			}
 		});

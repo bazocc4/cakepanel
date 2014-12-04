@@ -659,7 +659,7 @@ class GetHelper extends AppHelper
 				
 				break;
 			case 'image':
-				$result = '<div class="thumbs">'.(empty($popup)?$this->Html->link($this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value]),'/img/upload/'.$value.'.'.$myImageTypeList[$value],array("escape"=>false,"class"=>"get-from-library")):$this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value])).'</div>';
+				$result = '<div class="thumbs">'.(empty($popup)?$this->Html->link($this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value]),'/img/upload/'.$value.'.'.$myImageTypeList[$value],array("escape"=>false,"class"=>"popup-image")):$this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value])).'</div>';
 				break;
 			case 'radio':
 			case 'dropdown':

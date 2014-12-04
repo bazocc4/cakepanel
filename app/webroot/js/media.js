@@ -14,14 +14,14 @@ $(document).ready(function(){
 	}, function(){
 		$(this).find('a.insert-into-post').css('display', 'none');
 	});
-	
-	// colorbox initialization !!
-	$(".get-from-library, #upload").colorbox({
+    
+    // colorbox initialization !!
+	$(".get-from-library, #upload").colorbox({ // POPUP MEDIA LIBRARY
 		onLoad: function() {
 		    $('#cboxClose').hide();
 		}
 	});
-	$(".get-from-table").colorbox({
+	$(".get-from-table").colorbox({ // POPUP ADMIN_DEFAULT.CTP
 		reposition: false,
 		onLoad: function() {
 		    $('#cboxClose').show();
