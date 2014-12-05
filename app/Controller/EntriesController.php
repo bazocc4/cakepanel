@@ -1029,6 +1029,7 @@ class EntriesController extends AppController {
 			unset($_SESSION['searchMe']);
 			$_SESSION['lang'] = strtolower(empty($lang)?substr($this->mySetting['language'][0], 0,2):$lang);
 		}
+        
 		$data['myType'] = $myType;
 		$data['paging'] = $paging;
 		$data['popup'] = $popup;
