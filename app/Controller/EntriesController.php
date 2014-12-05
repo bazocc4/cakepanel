@@ -1924,7 +1924,7 @@ class EntriesController extends AppController {
 
 			// CHECK FILE ALREADY EXISTS OR NOT ?
 			$checkmedia = $this->meta_details(NULL , 'media' , NULL , NULL , NULL , NULL , $filename);
-			if(!empty($checkmedia) && $checkmedia['EntryMeta']['image_type'] == $mytype)
+			if( !empty($this->mySetting['custom-overwrite_image']) && !empty($checkmedia) && $checkmedia['EntryMeta']['image_type'] == $mytype)
 			{
 				$this->request->data['Entry'] = $checkmedia['Entry'];
 				$myid = $checkmedia['Entry']['id'];

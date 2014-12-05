@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `cms_settings` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `cms_settings`
@@ -159,7 +159,8 @@ INSERT INTO `cms_settings` (`id`, `key`, `value`) VALUES
 (17, 'table_view', 'complex'),
 (18, 'usd_sell', '9732.00'),
 (19, 'custom-pagination', '10'),
-(20, 'custom-email_contact', 'andybasuki88@gmail.com');
+(20, 'custom-email_contact', 'andybasuki88@gmail.com'),
+(21, 'custom-overwrite_image', 'enable');
 
 -- --------------------------------------------------------
 

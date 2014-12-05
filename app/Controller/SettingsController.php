@@ -25,7 +25,7 @@ class SettingsController extends AppController {
 		// if form submit is taken...
 		if(!empty($this->request->data))
 		{
-			// SPECIAL CASE FOR CHECKBOX CROPPING IMAGE DATA...
+            // SPECIAL CASE FOR CHECKBOX CROPPING IMAGE DATA...
 			$this->request->data['Setting'][11]['value'] = (empty($this->request->data['Setting'][11]['value'])?0:$this->request->data['Setting'][11]['value']);
 			$this->request->data['Setting'][14]['value'] = (empty($this->request->data['Setting'][14]['value'])?0:$this->request->data['Setting'][14]['value']);
 			
@@ -63,7 +63,7 @@ class SettingsController extends AppController {
 			foreach ($myDetails as $key => $value)
 			{
 				$this->Setting->id = $key+1;
-				$this->Setting->saveField('value' , $value['value']);
+				$this->Setting->saveField('value' , is_array($value['value'])?implode('|' , $value['value']):$value['value'] );
 			}
 			
 			// DELETE LANGUAGE WHICH IS ALREADY NOT IN USE !!

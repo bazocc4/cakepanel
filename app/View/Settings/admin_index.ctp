@@ -135,7 +135,7 @@
 			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
 			$value['model'] = 'Setting';			
-			$value['input_type'] = 'text';
+			$value['input_type'] = 'textarea';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
 			// Description...
@@ -356,8 +356,27 @@
 					$value['key'] = 'form-'.string_unslug($value10['Setting']['key']);
 					$value['value'] = $value10['Setting']['value'];
 					$value['model'] = 'Setting';
-					$value['input_type'] = 'text';
-					$initial = ($user['role_id'] <= 1?'special':'input');
+                    if($value10['Setting']['key']=='overwrite_image') // custom field !!
+                    {
+                        $value['input_type'] = 'checkbox';
+                        $value['list'][0]['id'] = 'enable';
+                        $value['list'][0]['name'] = 'Enable';
+                        $value['p'] = "Uploaded image will overwrite other image with the same filename.";
+                        $initial = 'input';
+                        ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        // MOVE ELEMENT POSITION !!
+        $('#inputWrapper').prev().before( $('#inputWrapper .control-group .control-label:contains("Overwrite Image")').closest('.control-group') );
+    });
+</script>   
+                        <?php
+                    }
+                    else
+                    {
+                        $value['input_type'] = 'text';
+                        $initial = ($user['role_id'] <= 1?'special':'input');
+                    }
 					echo $this->element($initial.'_'.$value['input_type'] , $value);
 				}
 			}
