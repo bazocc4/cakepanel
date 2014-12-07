@@ -69,10 +69,8 @@
 			echo $this->Html->script('jquery.fitvids'); // make video in ckeditor being responsive !!
 
             // Colorbox !!
-			echo $this->Html->script('jquery.imagesloaded');
-			echo $this->Html->script('jquery.colorbox');
-			// use this script to make colorbox responsive !!
-			echo $this->Html->script('colorbox_resize');
+			echo $this->Html->script('jquery.colorbox');			
+			echo $this->Html->script('colorbox_resize'); // make colorbox responsive !!
 
 			// bootstrap script !!
 			echo $this->Html->script('bootstrap.min');
