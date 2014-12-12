@@ -1,5 +1,6 @@
 <?php	
 	$this->Get->create($data);
+    if(is_array($data)) extract($data , EXTR_SKIP);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,25 +19,25 @@
 		<meta name="description" content="<?php echo $mySetting['description']; ?>">
 		<?php
             // ----------------- Open Graph protocol ---------------------
-            if(!empty($data['myEntry']))
+            if(!empty($myEntry))
             {
-            	if(!empty($data['myEntry']['Entry']['title']))
+            	if(!empty($myEntry['Entry']['title']))
 	            {
-	                echo '<meta property="og:title" content="'.$data['myEntry']['Entry']['title'].'" />';
+	                echo '<meta property="og:title" content="'.$myEntry['Entry']['title'].'" />';
 	            }
 	            
-	            if(!empty($data['myEntry']['EntryMeta']['teaser']))
+	            if(!empty($myEntry['EntryMeta']['teaser']))
 	            {
-	                echo '<meta property="og:description" content="'.strip_tags($data['myEntry']['EntryMeta']['teaser']).'" />';
+	                echo '<meta property="og:description" content="'.strip_tags($myEntry['EntryMeta']['teaser']).'" />';
 	            }
-	            else if(!empty($data['myEntry']['Entry']['description']))
+	            else if(!empty($myEntry['Entry']['description']))
 	            {
-	                echo '<meta property="og:description" content="'.strip_tags($data['myEntry']['Entry']['description']).'" />';
+	                echo '<meta property="og:description" content="'.strip_tags($myEntry['Entry']['description']).'" />';
 	            }
 	            
-	            if(!empty($data['myEntry']['Entry']['main_image']))
+	            if(!empty($myEntry['Entry']['main_image']))
 	            {
-	                echo '<meta property="og:image" content="'.$this->Get->host_name().'img/upload/'.$data['myEntry']['Entry']['main_image'].'.'.$data['myImageTypeList'][$data['myEntry']['Entry']['main_image']].'" />';
+	                echo '<meta property="og:image" content="'.$this->Get->host_name().'img/upload/'.$myEntry['Entry']['main_image'].'.'.$myImageTypeList[$myEntry['Entry']['main_image']].'" />';
 	            }
             }
         ?>
@@ -168,6 +169,9 @@
 			$(document).ready(function(){		
 				// Target your .container, .wrapper, .post, etc.
     			$("body").fitVids();
+                
+                // make dynamic active menu-list !!
+                $('ul.nav li.<?php echo (!empty($myType)?$myType['Type']['slug']:(!empty($myEntry)?$myEntry['Entry']['slug']:'home')); ?>').addClass('active');
 		  	});
 		</script>
 	</body>

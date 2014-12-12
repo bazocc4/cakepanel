@@ -639,7 +639,7 @@ class GetHelper extends AppHelper
 				{
 					$result = substr($result,0,$maxLength)."...";
 				}
-				$result = str_replace(chr(10), '<br/>' , $result);
+				$result = nl2br($result);
 				break;
 			case 'datetimepicker':
 				$result = date_converter($value, $this->data['mySetting']['date_format'],$this->data['mySetting']['time_format']);

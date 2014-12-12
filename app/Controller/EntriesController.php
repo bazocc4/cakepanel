@@ -226,7 +226,7 @@ class EntriesController extends AppController {
 				$myType = $this->Type->findBySlug($myTypeSlug);
 								
 				$myEntrySlug = $this->request->params['pass'][$indent+1];
-				$myEntry = $this->Entry->findBySlug($myEntrySlug);
+				$myEntry = $this->meta_details($myEntrySlug , $myTypeSlug);
 				
 				$result = $this->_admin_default($myType, 0 , $myEntry , $this->request->query['key'], $this->request->query['value'], $this->request->query['type'] , $this->request->data['search'],NULL, $language);
                 // check if ChildType has pagination field, then redirect to its first page ...
@@ -252,7 +252,7 @@ class EntriesController extends AppController {
 				else // if this want to view details of the entry...
 				{										
 					$myEntrySlug = $this->request->params['pass'][$indent+1];
-					$myEntry = $this->meta_details($myEntrySlug);
+					$myEntry = $this->meta_details($myEntrySlug , $myTypeSlug);
 					
 					$tempdata = array();
 					swap_value($tempdata, $this->request->data);
@@ -269,7 +269,7 @@ class EntriesController extends AppController {
 			$myType = $this->Type->findBySlug($myTypeSlug);			
 			
 			$myParentEntrySlug = $this->request->params['pass'][$indent+1];
-			$myParentEntry = $this->Entry->findBySlug($myParentEntrySlug);
+			$myParentEntry = $this->meta_details($myParentEntrySlug , $myTypeSlug);
 			// if this want to list all CHILD entries with paging limitation
 			if(is_numeric($this->request->params['pass'][$indent+2]))
 			{					
@@ -280,7 +280,7 @@ class EntriesController extends AppController {
 			else // if this want to view details of the child entry...
 			{				
 				$myEntrySlug = $this->request->params['pass'][$indent+2];
-				$myEntry = $this->meta_details($myEntrySlug);
+				$myEntry = $this->meta_details($myEntrySlug , NULL , $myParentEntry['Entry']['id']);
 				
 				$tempdata = array();
 				swap_value($tempdata, $this->request->data);
@@ -370,7 +370,7 @@ class EntriesController extends AppController {
                 
                 $mybody .= "Reference Image Upload : (attached)<br/>";
             }
-            $mybody .= "Content :<br/>".str_replace(chr(10) , '<br>' , $_POST['pesancontact'])."<br/>";
+            $mybody .= "Content :<br/>".nl2br($_POST['pesancontact'])."<br/>";
 
             // Execute E-mail ...
 			try{
@@ -805,7 +805,7 @@ class EntriesController extends AppController {
 		
 		$myType = $this->Type->findBySlug($this->request->params['type']);
 		$this->Entry->recursive = 2;
-		$myEntry = $this->meta_details($this->request->params['entry']);
+		$myEntry = $this->meta_details($this->request->params['entry'] , $myType['Type']['slug'] );
 		$this->Entry->recursive = 1;
 		
 		// if this action is going to edit CHILD list...
@@ -875,7 +875,7 @@ class EntriesController extends AppController {
 			$myType = $this->Type->findBySlug($this->request->params['type']);
 		}		
 		$this->Entry->recursive = 2;
-		$myEntry = $this->meta_details($this->request->params['entry']);
+		$myEntry = $this->meta_details($this->request->params['entry'] , $myType['Type']['slug'] );
 		$this->Entry->recursive = 1;
 		
 		// if this action is going to edit CHILD list...
@@ -935,7 +935,7 @@ class EntriesController extends AppController {
 		{
 			$myType = $this->Type->findBySlug($myTypeSlug);
 		}
-		$myEntry = (empty($myEntrySlug)?NULL:$this->meta_details($myEntrySlug));
+		$myEntry = (empty($myEntrySlug)?NULL:$this->meta_details($myEntrySlug , $myType['Type']['slug']));
 		
 		$this->onlyActiveEntries = TRUE;
 		$json = $this->_admin_default($myType , 0 , $myEntry , NULL , NULL , $myChildTypeSlug);
@@ -1205,13 +1205,10 @@ class EntriesController extends AppController {
 			// ----------------------------------------- >>>
             // ADDITIONAL FILTERING METHOD !!
             // ----------------------------------------- >>>
-            if(empty($this->request->params['admin']))
+            if(!empty($myMetaKey) && empty($myMetaValue) && !empty($value['EntryMeta'][$myMetaKey]))
             {
-            	if(false)
-				{
-					unset($mysql[$key]);
-					continue;
-				}
+                unset($mysql[$key]);
+                continue;
             }
 			// ----------------------------------------- >>>
             // END OF ADDITIONAL FILTERING METHOD !!
@@ -1552,14 +1549,7 @@ class EntriesController extends AppController {
 				if($this->request->params['admin']==1)
 				{
 					$newEntrySlug = $this->Entry->checkRemainingLang($newEntryId , $this->mySetting);
-					if($newEntrySlug)
-					{
-						$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']) , 'edit' , $newEntrySlug ));
-					}
-					else
-					{
-						$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation));
-					}
+					$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']).($newEntrySlug?'/edit/'.$newEntrySlug.$myChildTypeLink:$myChildTypeLink.$myTranslation) ));
 				}
 				else
 				{
@@ -1874,14 +1864,7 @@ class EntriesController extends AppController {
 					if($this->request->params['admin']==1)
 					{
 						$newEntrySlug = $this->Entry->checkRemainingLang($myEntry['Entry']['id'] , $this->mySetting);
-						if($newEntrySlug)
-						{
-							$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']) , 'edit' , $newEntrySlug ));
-						}
-						else
-						{
-							$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']).$myChildTypeLink.$myTranslation));
-						}
+						$this->redirect(array('action' => (empty($myType)?'pages':$myType['Type']['slug']).(empty($myParentEntry)?'':'/'.$myParentEntry['Entry']['slug']).($newEntrySlug?'/edit/'.$newEntrySlug.$myChildTypeLink:$myChildTypeLink.$myTranslation) ));
 					}
 					else
 					{
