@@ -680,7 +680,7 @@ class GetHelper extends AppHelper
             case 'price':
             case 'harga_beli':
             case 'harga_jual':
-                $echothis = 'Rp '.str_replace(',', '.', toMoney($result  , true , true) ).',-';
+                $echothis = 'Rp.'.str_replace(',', '.', toMoney($result  , true , true) ).',-';
                 $echothis .= '<input type="hidden" value="'.$result.'">';
                 break;
             case 'weight':
