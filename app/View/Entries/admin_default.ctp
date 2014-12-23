@@ -250,12 +250,13 @@
 					{
 						$entityTitle = $value['TypeMeta']['key'];
                         $hideKeyQuery = '';
-                        if(!empty($popup) && $this->request->query['key'] == substr($entityTitle, 5))
+                        $shortkey = substr($entityTitle, 5);
+                        if(!empty($popup) && $this->request->query['key'] == $shortkey)
                         {
                             $hideKeyQuery = 'hide';
                         }
                         echo "<th ".($value['TypeMeta']['input_type'] == 'textarea' || $value['TypeMeta']['input_type'] == 'ckeditor'?"style='min-width:200px;'":"")." class='".$hideKeyQuery."'>";
-                        echo $this->Html->link(string_unslug(substr($entityTitle, 5)).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
+                        echo $this->Html->link(string_unslug($shortkey).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
 						echo "</th>";
 					}
 				}
