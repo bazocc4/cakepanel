@@ -1108,10 +1108,11 @@ class EntriesController extends AppController {
 		$joinEntryMeta = false;
 		if(empty($myEntry))
 		{
-			$options['conditions'] = array(
-				'Entry.entry_type' => $myType['Type']['slug'],
-				'Entry.parent_id' => 0
-			);
+			$options['conditions'] = array('Entry.entry_type' => $myType['Type']['slug']);
+            if($myType['Type']['parent_id'] <= 0)
+			{
+				$options['conditions']['Entry.parent_id'] = 0;
+			}
 		}
 		else
 		{
