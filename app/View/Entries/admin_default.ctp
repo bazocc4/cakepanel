@@ -1,6 +1,7 @@
 <?php
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
+
     // initialize $extensionPaging for URL Query ...
     $extensionPaging = $this->request->query;
     unset($extensionPaging['lang']);
