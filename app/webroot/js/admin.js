@@ -27,11 +27,10 @@ var jcrop_api = new Array();
 	    	window.onbeforeunload=function(){};
 	    });
 	    
-	    $("a.removeID").click(function(){
-	    	$(this).parents("div.control-group").find("input.targetID").val("");
-	    	$(this).parents("div.control-group").find("input.targetID").change();	    	
-	    	// $(this).parents("div.control-group").find("input.targetID").nextAll("p.help-block").html("");	    	
-	    	$(this).parents("div.control-group").find("input[type=hidden]").val("");
+	    $("a.removeID").click(function(e){            
+            e.preventDefault();            
+	    	$(this).closest("div.controls").find("input.targetID").val("").change();
+	    	$(this).closest("div.controls").find("input[type=hidden]").val("");
 	    });
 	    
 	    // AJAX IN EDIT FORM (CHANGE LANGUAGE)

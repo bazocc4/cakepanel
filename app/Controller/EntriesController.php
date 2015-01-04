@@ -807,6 +807,12 @@ class EntriesController extends AppController {
 		$this->Entry->recursive = 2;
 		$myEntry = $this->meta_details($this->request->params['entry'] , $myType['Type']['slug'] );
 		$this->Entry->recursive = 1;
+        
+        if(empty($myEntry))
+        {
+            throw new NotFoundException('Error 404 - Not Found');
+            return;
+        }
 		
 		// if this action is going to edit CHILD list...
 		if(!empty($this->request->params['entry_parent']))
@@ -877,6 +883,12 @@ class EntriesController extends AppController {
 		$this->Entry->recursive = 2;
 		$myEntry = $this->meta_details($this->request->params['entry'] , $myType['Type']['slug'] );
 		$this->Entry->recursive = 1;
+        
+        if(empty($myEntry))
+        {
+            throw new NotFoundException('Error 404 - Not Found');
+            return;
+        }
 		
 		// if this action is going to edit CHILD list...
 		if(!empty($this->request->params['entry_parent']))

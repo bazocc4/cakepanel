@@ -1,14 +1,15 @@
 <?php
 	if(is_array($data)) extract($data , EXTR_SKIP);
-	$shortkey = substr($key, 5 );
-	
+	$shortkey = substr($key, 5 );	
+
 	$browse_slug = get_slug($shortkey);
-	$metaDetails = array();
-	if(empty($_POST['data'][$model][$counter]['value']) && !empty($value))
-	{
-		$metaDetails = $this->Get->meta_details($value , $browse_slug);
-	}
-	
+    $metaDetails = array();
+    $metaslug = (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value);
+    if(!empty($metaslug))
+    {
+        $metaDetails = $this->Get->meta_details( $metaslug , $browse_slug);	
+    }
+
 	$required = "";
 	if(strpos(strtolower($validation), 'not_empty') !== FALSE)
 	{
@@ -21,7 +22,7 @@
     </label>
 	<div class="controls">
 		
-		<input <?php echo $required; ?> <?php echo (empty($display)?'id="'.$browse_slug.'"':''); ?> class="targetID input-large" placeholder="<?php echo $placeholder; ?>" value="<?php echo (isset($_POST['data'][$model][$counter]['temp'])?$_POST['data'][$model][$counter]['temp']:$metaDetails['Entry']['title']); ?>" type="text" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][temp]" readonly="true"/>
+		<input <?php echo $required; ?> <?php echo (empty($display)?'id="'.$browse_slug.'"':''); ?> class="targetID input-large" placeholder="<?php echo $placeholder; ?>" value="<?php echo $metaDetails['Entry']['title']; ?>" type="text" readonly="true"/>
         <?php
             echo $this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>array('popup'=>'init')),array('class'=>'btn btn-info get-from-table'));
         ?>

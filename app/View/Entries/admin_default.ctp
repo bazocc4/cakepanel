@@ -409,11 +409,29 @@
 								$outputResult = (empty($entrydetail['EntryMeta']['name'])?$entrydetail['Entry']['title']:$entrydetail['EntryMeta']['name']);
 								echo '<h5>'.(empty($popup)?$this->Html->link($outputResult,array("controller"=>"entries","action"=>$entrydetail['Entry']['entry_type']."/edit/".$entrydetail['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</h5>';
                                 
-                                echo '<p>';
+                                echo '<p>';                                
                                 // Try to use Primary EntryMeta first !!
-                                if(!empty($entrydetail['EntryMeta'][0]['value']))
+                                $targetMetaKey = NULL;
+                                foreach($entrydetail['EntryMeta'] as $metakey => $metavalue)
                                 {
-                                    echo $entrydetail['EntryMeta'][0]['value'];
+                                    if(substr($metavalue['key'] , 0 , 5) == 'form-')
+                                    {
+                                        $targetMetaKey = $metakey;
+                                        break;
+                                    }
+                                }
+                                
+                                if(isset($targetMetaKey))
+                                {
+                                    // test if value is a date value or not !!
+                                    if(strtotime($entrydetail['EntryMeta'][$targetMetaKey]['value']))
+                                    {
+                                        echo date_converter($entrydetail['EntryMeta'][$targetMetaKey]['value'] , $mySetting['date_format']);
+                                    }
+                                    else
+                                    {
+                                        echo $entrydetail['EntryMeta'][$targetMetaKey]['value'];
+                                    }
                                 }
                                 else
                                 {

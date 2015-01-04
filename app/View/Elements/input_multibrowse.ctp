@@ -44,14 +44,14 @@
 			// Check data POST first !!
 			if(!empty($_POST['data'][$model][$counter]['value']))
 			{
-				foreach ($_POST['data'][$model][$counter]['value'] as $salekey => $salevalue) 
+				foreach ($_POST['data'][$model][$counter]['value'] as $metakey => $metavalue) 
 				{
-					if(!empty($salevalue))
+					if(!empty($metavalue))
 					{
 						echo '<div class="row-fluid '.$browse_slug.'-detail bottom-spacer">';					
-						echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$_POST['data'][$model][$counter]['temp'][$salekey].'" readonly="true"/>';					
+						echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$_POST['data'][$model][$counter]['temp'][$metakey].'" readonly="true"/>';					
 						echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>array('popup'=>'init', 'stream'=>$raw_stream)),array('class'=>'btn btn-info get-from-table'));
-	                    echo '<input class="'.$shortkey.'" type="hidden" name="data['.$model.']['.$counter.'][value][]" value="'.$salevalue.'"/>';
+	                    echo '<input class="'.$shortkey.'" type="hidden" name="data['.$model.']['.$counter.'][value][]" value="'.$metavalue.'"/>';
 	                    echo '&nbsp;<a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';					
 						echo '</div>';
 						
@@ -61,26 +61,26 @@
 			}
 			else if(!empty($value))
 			{
-				$sale = explode('|', $value);
-				foreach ($sale as $salekey => $salevalue) 
+				$metaslugs = explode('|', $value);
+				foreach ($metaslugs as $metakey => $metavalue) 
 				{
-					$saledetail = $this->Get->meta_details($salevalue , $browse_slug);
+					$metaDetails = $this->Get->meta_details($metavalue , $browse_slug);
 					
-					if(!empty($saledetail))
+					if(!empty($metaDetails))
 					{
 						echo '<div class="row-fluid '.$browse_slug.'-detail bottom-spacer">';
 					
-						if(!empty($saledetail['EntryMeta']['name']))
+						if(!empty($metaDetails['EntryMeta']['name']))
 						{
-							echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$saledetail['EntryMeta']['name'].' ('.$saledetail['Entry']['title'].')'.'" readonly="true"/>';
+							echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$metaDetails['EntryMeta']['name'].' ('.$metaDetails['Entry']['title'].')'.'" readonly="true"/>';
 						}
 						else
 						{
-							echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$saledetail['Entry']['title'].'" readonly="true"/>';
+							echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$metaDetails['Entry']['title'].'" readonly="true"/>';
 						}
 						
 						echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>array('popup'=>'init', 'stream'=>$raw_stream)),array('class'=>'btn btn-info get-from-table'));
-	                    echo '<input class="'.$shortkey.'" type="hidden" name="data['.$model.']['.$counter.'][value][]" value="'.$saledetail['Entry']['slug'].'"/>';
+	                    echo '<input class="'.$shortkey.'" type="hidden" name="data['.$model.']['.$counter.'][value][]" value="'.$metaDetails['Entry']['slug'].'"/>';
 	                    echo '&nbsp;<a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';
 						
 						echo '</div>';

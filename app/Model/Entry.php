@@ -186,7 +186,7 @@ class Entry extends AppModel {
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'EntryMeta.id ASC',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
