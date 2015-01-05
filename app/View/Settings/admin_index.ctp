@@ -136,6 +136,7 @@
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
 			$value['model'] = 'Setting';			
 			$value['input_type'] = 'textarea';
+            $value['p'] = 'Tagline for improving website SEO (Search Engine Optimization).';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
 			// Description...
