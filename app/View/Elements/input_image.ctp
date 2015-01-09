@@ -9,9 +9,9 @@
 	$crop = -1;
 	foreach ($myType['TypeMeta'] as $key10 => $value10) 
 	{
-		if($value10['TypeMeta']['key'] == "display_crop")
+		if($value10['key'] == "display_crop")
 		{
-			$crop = $value10['TypeMeta']['value'];
+			$crop = $value10['value'];
 			break;
 		}
 	}

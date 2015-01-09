@@ -56,7 +56,7 @@ class GetHelper extends AppHelper
         $pagination = '';
         foreach ((empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']) as $key => $value) 
 		{
-			if($value['TypeMeta']['key'] == 'pagination')
+			if($value['key'] == 'pagination')
 			{
 				$pagination = '1';
 				break;
@@ -816,22 +816,6 @@ class GetHelper extends AppHelper
 			$myChildType = $this->Type->findBySlug($myChildTypeSlug);
 			$data['myChildType'] = $myChildType;
 		}
-
-		// GENERATE TYPEMETA AGAIN WITH SORT ORDER !!
-        $metaOrder = $this->TypeMeta->find('all' , array(
-            'conditions' => array(
-                'TypeMeta.type_id' => (empty($myEntry)?$myType['Type']['id']:$myChildType['Type']['id'])
-            ),
-            'order' => array('TypeMeta.id ASC')
-        ));
-        if(empty($myEntry))
-        {
-            $data['myType']['TypeMeta'] = $metaOrder;
-        }
-        else
-        {
-            $data['myChildType']['TypeMeta'] = $metaOrder;
-        }
 
 		// set paging session...		
 		$countPage = $this->countListPerPage;

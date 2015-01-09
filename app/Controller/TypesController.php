@@ -270,10 +270,7 @@ class TypesController extends AppController {
 				while(!empty($this->request->data['TypeMeta'][$i]))
 				{
 					$this->request->data['TypeMeta']['key'] = $this->request->data['TypeMeta'][$i++]['key'];
-					
-					// $this->request->data['TypeMeta']['value'] = $this->slug_option_value($this->request->data['TypeMeta'][$i++]['value']);
-					$this->request->data['TypeMeta']['value'] = $this->request->data['TypeMeta'][$i++]['value'];
-					
+					$this->request->data['TypeMeta']['value'] = $this->request->data['TypeMeta'][$i++]['value'];			
 					$this->request->data['TypeMeta']['input_type'] = $this->request->data['TypeMeta'][$i++]['input_type'];
 					$this->request->data['TypeMeta']['validation'] = $this->request->data['TypeMeta'][$i++]['validation'];
 					$this->request->data['TypeMeta']['instruction'] = $this->request->data['TypeMeta'][$i++]['instruction'];
@@ -302,17 +299,11 @@ class TypesController extends AppController {
 	function _admin_default_edit($myType = array() , $myParentType = array())
 	{	
 		$this->setTitle('Edit '.$myType['Type']['name']);
-		// GENERATE TYPEMETA AGAIN WITH SORT ORDER !!
-		$metaOrder = $this->TypeMeta->find('all' , array(
-			'conditions' => array(
-				'TypeMeta.type_id' => $myType['Type']['id']
-			),
-			'order' => array('TypeMeta.id ASC')
-		));
-		$myType['TypeMeta'] = $metaOrder;
-		foreach ($metaOrder as $key => $value) 
+        
+		// break TypeMeta value !!
+		foreach ($myType['TypeMeta'] as $key => $value) 
 		{
-			$myType['TypeMeta'][$value['TypeMeta']['key']][0] = $value['TypeMeta']['value'];
+			$myType['TypeMeta'][ $value['key'] ][0] = $value['value'];
 		}
 		$data['myType'] = $myType;
 		
@@ -422,10 +413,7 @@ class TypesController extends AppController {
 				while(!empty($this->request->data['TypeMeta'][$i]))
 				{
 					$this->request->data['TypeMeta']['key'] = $this->request->data['TypeMeta'][$i++]['key'];
-					
-					// $this->request->data['TypeMeta']['value'] = $this->slug_option_value($this->request->data['TypeMeta'][$i++]['value']);
 					$this->request->data['TypeMeta']['value'] = $this->request->data['TypeMeta'][$i++]['value'];
-					
 					$this->request->data['TypeMeta']['input_type'] = $this->request->data['TypeMeta'][$i++]['input_type'];
 					$this->request->data['TypeMeta']['validation'] = $this->request->data['TypeMeta'][$i++]['validation'];
 					$this->request->data['TypeMeta']['instruction'] = $this->request->data['TypeMeta'][$i++]['instruction'];

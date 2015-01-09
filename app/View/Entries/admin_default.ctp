@@ -218,9 +218,9 @@
 			$titlekey = "Title";
 			foreach ($myAutomatic as $key => $value)
 			{
-				if($value['TypeMeta']['key'] == 'title_key')
+				if($value['key'] == 'title_key')
 				{
-					$titlekey = $value['TypeMeta']['value'];
+					$titlekey = $value['value'];
 					break;
 				}
 			}
@@ -244,19 +244,18 @@
 			// check for simple or complex table view !!
 			if($mySetting['table_view'] == "complex")
 			{
-				$metaFields = (empty($myEntry)?$myType:$myChildType); 
-				foreach ( $metaFields['TypeMeta'] as $key => $value) 
+				foreach ( $myAutomatic as $key => $value) 
 				{
-					if(substr($value['TypeMeta']['key'], 0,5) == 'form-')
+					if(substr($value['key'], 0,5) == 'form-')
 					{
-						$entityTitle = $value['TypeMeta']['key'];
+						$entityTitle = $value['key'];
                         $hideKeyQuery = '';
                         $shortkey = substr($entityTitle, 5);
                         if(!empty($popup) && $this->request->query['key'] == $shortkey)
                         {
                             $hideKeyQuery = 'hide';
                         }
-                        echo "<th ".($value['TypeMeta']['input_type'] == 'textarea' || $value['TypeMeta']['input_type'] == 'ckeditor'?"style='min-width:200px;'":"")." class='".$hideKeyQuery."'>";
+                        echo "<th ".($value['input_type'] == 'textarea' || $value['input_type'] == 'ckeditor'?"style='min-width:200px;'":"")." class='".$hideKeyQuery."'>";
                         echo $this->Html->link(string_unslug($shortkey).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
 						echo "</th>";
 					}
@@ -346,11 +345,11 @@
 			// check for simple or complex table view !!
 			if($mySetting['table_view'] == "complex")
 			{				 
-				foreach ( $metaFields['TypeMeta'] as $key10 => $value10) 
+				foreach ( $myAutomatic as $key10 => $value10) 
 				{
-					if(substr($value10['TypeMeta']['key'], 0,5) == 'form-')
+					if(substr($value10['key'], 0,5) == 'form-')
 					{
-						$shortkey = substr($value10['TypeMeta']['key'], 5);
+						$shortkey = substr($value10['key'], 5);
                         $displayValue = $value['EntryMeta'][$shortkey];
                         $hideKeyQuery = '';
                         if(!empty($popup) && $this->request->query['key'] == $shortkey)
@@ -358,24 +357,24 @@
                             $hideKeyQuery = 'hide';
                         }
                         
-                        echo "<td class='".$value10['TypeMeta']['key']." ".$hideKeyQuery."'>";
+                        echo "<td class='".$value10['key']." ".$hideKeyQuery."'>";
                         if(empty($displayValue))
                         {
-                        	if($value10['TypeMeta']['input_type'] == 'gallery' && !empty($value['EntryMeta']['count-'.$value10['TypeMeta']['key']]))
+                        	if($value10['input_type'] == 'gallery' && !empty($value['EntryMeta']['count-'.$value10['key']]))
                         	{
                         		$queryURL = array('anchor' => $shortkey );
                         		if( !empty($myEntry) && $myType['Type']['slug']!=$myChildType['Type']['slug'] )
                         		{
                         			$queryURL['type'] = $myChildType['Type']['slug'];
                         		}
-                        		echo '<span class="badge badge-info">'.(empty($popup)?$this->Html->link($value['EntryMeta']['count-'.$value10['TypeMeta']['key']].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false,'title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$value10['TypeMeta']['key']].' <i class="icon-picture icon-white"></i>').'</span>';
+                        		echo '<span class="badge badge-info">'.(empty($popup)?$this->Html->link($value['EntryMeta']['count-'.$value10['key']].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false,'title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$value10['key']].' <i class="icon-picture icon-white"></i>').'</span>';
                         	}
                         	else
                         	{
                         		echo '-';	
                         	}
                         }
-                        else if($value10['TypeMeta']['input_type'] == 'multibrowse')
+                        else if($value10['input_type'] == 'multibrowse')
 						{
 							$browse_slug = get_slug($shortkey);
 							$displayValue = explode('|', $displayValue);
@@ -397,7 +396,7 @@
 								echo '-';
 							}
 						}
-                        else if($value10['TypeMeta']['input_type'] == 'browse')
+                        else if($value10['input_type'] == 'browse')
                         {
                         	$entrydetail = $this->Get->meta_details($displayValue , get_slug($shortkey));
 							if(empty($entrydetail))
@@ -443,7 +442,7 @@
                         }
                         else
                         {
-                        	echo $this->Get->outputConverter($value10['TypeMeta']['input_type'] , $displayValue , $myImageTypeList , $shortkey);
+                        	echo $this->Get->outputConverter($value10['input_type'] , $displayValue , $myImageTypeList , $shortkey);
                         }                        
                         echo "</td>";
 					}

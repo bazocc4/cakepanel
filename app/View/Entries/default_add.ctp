@@ -70,7 +70,6 @@
 			$myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
 			foreach ($myAutomatic as $key => $value)
 			{
-				$value = $value['TypeMeta']; // SPECIAL CASE, COZ IT'S BEEN MODIFIED IN CONTROLLER !!
 				if(substr($value['key'], 0 , 5) == 'form-')
 				{
 					$value['optionlist'] = $value['value'];
@@ -113,7 +112,6 @@
 					$broken = 1;
 					foreach ($myAutomatic as $key20 => $value20) 
 					{
-						$value20 = $value20['TypeMeta']; // SPECIAL CASE, COZ IT'S BEEN MODIFIED IN CONTROLLER !!
 						if($value['key'] == $value20['key'])
 						{
 							$broken = 0;

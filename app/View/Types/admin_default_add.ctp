@@ -184,7 +184,6 @@
 				{
 					foreach ($myType['TypeMeta'] as $key => $value) 
 					{
-						$value = $value['TypeMeta']; // SPECIAL CASE, COZ IT'S BEEN MODIFIED IN CONTROLLER !!
 						if(substr($value['key'], 0 , 5) == 'form-')
 						{
 							?>

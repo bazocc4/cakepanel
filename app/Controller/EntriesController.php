@@ -805,7 +805,7 @@ class EntriesController extends AppController {
 		
 		$myType = $this->Type->findBySlug($this->request->params['type']);
 		$this->Entry->recursive = 2;
-		$myEntry = $this->meta_details($this->request->params['entry'] , $myType['Type']['slug'] );
+		$myEntry = $this->meta_details($this->request->params['entry'] , (!empty($this->request->query['type'])?$this->request->query['type']:$myType['Type']['slug']) );
 		$this->Entry->recursive = 1;
         
         if(empty($myEntry))
@@ -881,7 +881,7 @@ class EntriesController extends AppController {
 			$myType = $this->Type->findBySlug($this->request->params['type']);
 		}		
 		$this->Entry->recursive = 2;
-		$myEntry = $this->meta_details($this->request->params['entry'] , $myType['Type']['slug'] );
+		$myEntry = $this->meta_details($this->request->params['entry'] , (!empty($this->request->query['type'])?$this->request->query['type']:$myType['Type']['slug']) );
 		$this->Entry->recursive = 1;
         
         if(empty($myEntry))
@@ -1051,42 +1051,24 @@ class EntriesController extends AppController {
 			$myChildType = $this->Type->findBySlug($myChildTypeSlug);
 			$data['myChildType'] = $myChildType;
 		}
-		if($this->mySetting['table_view']=='complex')
-		{
-			// GENERATE TYPEMETA AGAIN WITH SORT ORDER !!
-			$metaOrder = $this->TypeMeta->find('all' , array(
-				'conditions' => array(
-					'TypeMeta.type_id' => (empty($myEntry)?$myType['Type']['id']:$myChildType['Type']['id'])
-				),
-				'order' => array('TypeMeta.id ASC')
-			));
-            if(empty($myEntry))
-			{
-				$data['myType']['TypeMeta'] = $metaOrder;
-			}
-			else
-			{
-				$data['myChildType']['TypeMeta'] = $metaOrder;
-			}
-            
-            // $_SESSION['order_by'] Validation !!
-            if(substr($_SESSION['order_by'] , 0 , 5) == 'form-')
+        
+		// $_SESSION['order_by'] Validation !!
+        if($this->mySetting['table_view']=='complex' && substr($_SESSION['order_by'] , 0 , 5) == 'form-')
+        {
+            $innerFieldMeta = FALSE;
+            foreach( (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']) as $key => $value)
             {
-                $innerFieldMeta = FALSE;
-                foreach($metaOrder as $key => $value)
+                if(stripos($_SESSION['order_by'] , $value['key'] ) !== FALSE)
                 {
-                    if(stripos($_SESSION['order_by'] , $value['TypeMeta']['key'] ) !== FALSE)
-                    {
-                        $innerFieldMeta = $value['TypeMeta']['input_type'];
-                        break;
-                    }                    
-                }
-                if(!$innerFieldMeta)
-                {
-                    unset($_SESSION['order_by']);
-                }
+                    $innerFieldMeta = $value['input_type'];
+                    break;
+                }                    
             }
-		}
+            if(!$innerFieldMeta)
+            {
+                unset($_SESSION['order_by']);
+            }
+        }
 
 		// set page title
 		$this->setTitle(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title']);
@@ -1339,24 +1321,6 @@ class EntriesController extends AppController {
             }
         }
         
-		if(!empty($myType))
-		{
-			// GENERATE TYPEMETA AGAIN WITH SORT ORDER !!
-			$metaOrder = $this->TypeMeta->find('all' , array(
-				'conditions' => array(
-					'TypeMeta.type_id' => (empty($myEntry)?$myType['Type']['id']:$myChildType['Type']['id'])
-				),
-				'order' => array('TypeMeta.id ASC')
-			));
-			if(empty($myEntry))
-			{
-				$data['myType']['TypeMeta'] = $metaOrder;
-			}
-			else
-			{
-				$data['myChildType']['TypeMeta'] = $metaOrder;
-			}
-		}
 		// for image input type reason...
 		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
@@ -1621,7 +1585,7 @@ class EntriesController extends AppController {
 	        }
         }
 
-        // FIRSTLY, sorting our image children !!
+        // FIRSTLY, sorting our (image / entry) children !!
         if(!empty($data['myEntry']['ChildEntry']))
         {
         	$tempChild = $this->Entry->find('all' , array(
@@ -1639,24 +1603,6 @@ class EntriesController extends AppController {
 	        $data['myEntry']['ChildEntry'] = $tempChild;
         }
         
-		if(!empty($myType))
-		{
-			// GENERATE TYPEMETA AGAIN WITH SORT ORDER !!
-			$metaOrder = $this->TypeMeta->find('all' , array(
-				'conditions' => array(
-					'TypeMeta.type_id' => (empty($myParentEntry)?$myType['Type']['id']:$myChildType['Type']['id'])
-				),
-				'order' => array('TypeMeta.id ASC')
-			));
-			if(empty($myParentEntry))
-			{
-				$data['myType']['TypeMeta'] = $metaOrder;
-			}
-			else
-			{
-				$data['myChildType']['TypeMeta'] = $metaOrder;
-			}
-		}
 		// for image input type reason...
 		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //

@@ -87,9 +87,9 @@
 			$titlekey = "title";
 			foreach ($myAutomatic as $key => $value)
 			{
-				if($value['TypeMeta']['key'] == 'title_key')
+				if($value['key'] == 'title_key')
 				{
-					$titlekey = $value['TypeMeta']['value'];
+					$titlekey = $value['value'];
 					break;
 				}
 			}
@@ -108,7 +108,6 @@
 			$counter = 3;
 			foreach ($myAutomatic as $key => $value)
 			{
-				$value = $value['TypeMeta']; // SPECIAL CASE, COZ IT'S BEEN MODIFIED IN CONTROLLER !!
 				if(substr($value['key'], 0 , 5) == 'form-')
 				{
 					// SPECIAL CHECK !!
@@ -161,7 +160,6 @@
 					$broken = 1;
 					foreach ($myAutomatic as $key20 => $value20) 
 					{
-						$value20 = $value20['TypeMeta']; // SPECIAL CASE, COZ IT'S BEEN MODIFIED IN CONTROLLER !!
 						if($value['key'] == $value20['key'])
 						{
 							$broken = 0;
@@ -273,8 +271,18 @@
 				{
 					echo '<button id="save-as-draft" type="button" class="btn btn-inverse">Save as Draft</button>';
 				}
+
+                $langUrlCancel = '';
+                if(!empty($lang))
+                {
+                    $langUrlCancel = (empty($myChildTypeLink)?'?':'&').'lang='.$lang;
+                }
+                else if(!empty($myEntry))
+                {
+                    $langUrlCancel = (empty($myChildTypeLink)?'?':'&').'lang='.substr( $myEntry['Entry']['lang_code'] , 0,2);
+                }
 			?>
-        	<button type="button" class="btn" onclick="javascript: window.location=site+'admin/entries/<?php echo (empty($myType)?'pages':$myType['Type']['slug']).(empty($myChildType)?'':'/'.$myParentEntry['Entry']['slug']).$myChildTypeLink.(empty($myEntry)?'':(empty($myChildTypeLink)?'?':'&').'lang='.(empty($lang)?substr($myEntry['Entry']['lang_code'], 0,2):$lang)); ?>'">Cancel</button>
+        	<button type="button" class="btn" onclick="javascript: window.location=site+'admin/entries/<?php echo (empty($myType)?'pages':$myType['Type']['slug']).(empty($myChildType)?'':'/'.$myParentEntry['Entry']['slug']).$myChildTypeLink.$langUrlCancel; ?>'">Cancel</button>
 		</div>
 	</fieldset>
 <?php echo $this->Form->end(); ?>
