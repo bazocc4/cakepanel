@@ -172,6 +172,9 @@
                 
                 // make dynamic active menu-list !!
                 $('ul.nav li.<?php echo (!empty($myType)?$myType['Type']['slug']:(!empty($myEntry)?$myEntry['Entry']['slug']:'home')); ?>').addClass('active');
+                
+                // table responsive class !!
+                $('table').addClass('table').wrap('<div class="table-responsive"></div>');
 		  	});
 		</script>
 	</body>
