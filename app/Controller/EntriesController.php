@@ -6,6 +6,7 @@ class EntriesController extends AppController {
 	
 	private $frontEndFolder = '/FrontEnds/';
 	private $backEndFolder = '/BackEnds/';
+    private $generalOrder = 'sort_order DESC';
 	private $onlyActiveEntries = FALSE; // if it's in admin panel, show active/disabled, and if it's on the front, show only active pages !!
 	
 	public function beforeFilter(){
@@ -481,7 +482,7 @@ class EntriesController extends AppController {
 					'Entry.main_image' => $id,
 					'Entry.entry_type <>' => 'media'
 				),
-				'order' => array('Entry.sort_order ASC')
+				'order' => array('Entry.'.$this->generalOrder)
 			));
 			
 			foreach ($result as $key => $value) 
@@ -1190,7 +1191,7 @@ class EntriesController extends AppController {
 		// ========================================= >>
 		// EXECUTE MAIN QUERY !!
 		// ========================================= >>
-		$options['order'] = array('Entry.'.(isset($innerFieldMeta)||empty($_SESSION['order_by'])||empty($this->request->params['admin'])?'sort_order DESC':$_SESSION['order_by']));
+		$options['order'] = array('Entry.'.(isset($innerFieldMeta)||empty($_SESSION['order_by'])||empty($this->request->params['admin'])?$this->generalOrder:$_SESSION['order_by']));
 		$mysql = $this->Entry->find('all' ,$options);
 		
 		// MODIFY OUR ENTRYMETA FIRST !!		
@@ -1592,7 +1593,7 @@ class EntriesController extends AppController {
 	            'conditions' => array(
 	                'Entry.parent_id' => $myEntry['Entry']['id']
 	            ),
-	            'order' => array('Entry.id ASC')
+	            'order' => array('Entry.'.(empty($this->request->params['admin'])?$this->generalOrder:'id ASC') )
 	        ));
 	        
 	        foreach ($tempChild as $key => $value) 
@@ -1979,7 +1980,7 @@ class EntriesController extends AppController {
 		$resultTotalList = $this->Entry->find('count' , $options);
 		$this->set('totalList' , $resultTotalList);
 		
-		$options['order'] = array('Entry.sort_order DESC');
+		$options['order'] = array('Entry.'.$this->generalOrder);
 		$options['offset'] = ($paging-1) * $countPage;
 		$options['limit'] = $countPage;
 		$mysql = $this->Entry->find('all' ,$options);

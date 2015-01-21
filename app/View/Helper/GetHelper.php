@@ -847,7 +847,7 @@ class GetHelper extends AppHelper
 		$data['lastModified'] = $lastModified;
 		// end of last modified...
 		
-		$options['order'] = (empty($orderField)||empty($orderDirection)?array('Entry.sort_order ASC'):array('Entry.'.strtolower($orderField).' '.$orderDirection));		
+		$options['order'] = (empty($orderField)||empty($orderDirection)?array('Entry.sort_order DESC'):array('Entry.'.strtolower($orderField).' '.$orderDirection));		
 		$mysql = $this->Entry->find('all' ,$options);
 		
 		// MODIFY OUR ENTRYMETA FIRST !!

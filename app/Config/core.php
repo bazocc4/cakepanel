@@ -31,31 +31,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-
-/*
-    ###################
-    # Production Mode #
-    ###################
-*/
 	Configure::write('debug', 0);
-    Configure::write('Error', array(
-		'handler' => 'ErrorHandler::handleError',
-		'level' => 0,
-		'trace' => false
-	));
-/*
-    ####################
-    # Development Mode #
-    ####################
-*/    
-/*
-    Configure::write('debug', 1);
-    Configure::write('Error', array(
-		'handler' => 'ErrorHandler::handleError',
-		'level' => E_ALL & ~E_DEPRECATED,
-		'trace' => true
-	));
-*/
 
 /**
  * Configure the Error handler used to handle errors for your application. By default
@@ -71,13 +47,14 @@
  * - `trace` - boolean - Include stack traces for errors in log files.
  *
  * @see ErrorHandler for more information on error handling and configuration.
- 
-    Configure::write('Error', array(
+ */
+	Configure::write('Error', array(
 		'handler' => 'ErrorHandler::handleError',
 		'level' => E_ALL & ~E_DEPRECATED,
 		'trace' => true
 	));
- 
+
+/**
  * Configure the Exception handler used for uncaught exceptions. By default,
  * ErrorHandler::handleException() is used. It will display a HTML page for the exception, and
  * while debug > 0, framework errors like Missing Controller will be displayed. When debug = 0,
@@ -100,7 +77,7 @@
 	Configure::write('Exception', array(
 		'handler' => 'ErrorHandler::handleException',
 		'renderer' => 'ExceptionRenderer',
-		'log' => true
+		'log' => false
 	));
 
 /**
