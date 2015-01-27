@@ -463,7 +463,7 @@ class TypesController extends AppController {
 			$src['value']['option'] = trim($src['value']['option']); // SPECIAL CASE !!!
 			
 			// VALIDATE FIRST !!
-			if(empty($src['key']) || $src['value']['state'] == 'exist' && empty($src['value']['option']) && empty($src['validation']['browse_module']) || $src['validation']['min_length']['state'] == 'yes' && (empty($src['validation']['min_length']['value']) || !is_numeric($src['validation']['min_length']['value']) || $src['validation']['min_length']['value'] == 0) || $src['validation']['max_length']['state'] == 'yes' && (empty($src['validation']['max_length']['value']) || !is_numeric($src['validation']['max_length']['value']) || $src['validation']['max_length']['value'] == 0))
+			if(empty($src['key']) || $src['validation']['min_length']['state'] == 'yes' && (empty($src['validation']['min_length']['value']) || !is_numeric($src['validation']['min_length']['value']) || $src['validation']['min_length']['value'] == 0) || $src['validation']['max_length']['state'] == 'yes' && (empty($src['validation']['max_length']['value']) || !is_numeric($src['validation']['max_length']['value']) || $src['validation']['max_length']['value'] == 0))
 			{
 				$result['state'] = 'failed';
 			}
