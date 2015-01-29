@@ -142,8 +142,7 @@
 							$temp = explode(chr(13).chr(10), $value['optionlist']);
 							foreach ($temp as $key50 => $value50) 
 							{
-								$value['list'][$key50]['id'] = $value50;
-								$value['list'][$key50]['name'] = string_unslug($value50);
+								$value['list'][$key50]['id'] = $value['list'][$key50]['name'] = $value50;
 							}
 							break;
 						default:
