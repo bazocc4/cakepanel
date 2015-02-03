@@ -553,7 +553,7 @@ class Entry extends AppModel {
 		return $result;
 	}
 
-	function get_lang_url()
+	function get_lang_url($custom_referer = NULL)
 	{
 		// -------------- LANGUAGE URL POSITION ----------------------------- //
 		$lang_pos = '';
@@ -582,7 +582,16 @@ class Entry extends AppModel {
 			}
 		}
 		// NOW FOR SECOND CHECK !!
-		$url_set = explode('/', strtolower($_SERVER['REQUEST_URI']));
+        $url_set = "";
+        if(!empty($custom_referer))
+        {
+            $url_set = explode('/', strtolower($custom_referer));
+            array_splice($url_set , 0 , 2);
+        }
+        else
+        {
+            $url_set = explode('/', strtolower($_SERVER['REQUEST_URI']));
+        }		
 		foreach ($mySetting['language'] as $key => $value) 
 		{
 			if($url_set[$lang_pos] == strtolower(substr($value, 0,2)))

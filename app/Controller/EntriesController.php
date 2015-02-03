@@ -53,7 +53,7 @@ class EntriesController extends AppController {
 		$myDetailEntryMarkFile = 'detail';
 		$this->onlyActiveEntries = TRUE;
 		
-		$temp_lang = $this->Entry->get_lang_url();
+        $temp_lang = $this->Entry->get_lang_url($this->RequestHandler->isRss()&&!empty($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:NULL);
 		$language = $temp_lang['language'];
 		$indent = $temp_lang['indent'];
 
@@ -77,13 +77,13 @@ class EntriesController extends AppController {
 				foreach ($myTypes as $key => $value) 
 				{
 					if($value['Type']['slug'] == 'media')	{continue;}
-					$tempdata = $this->_admin_default( $value , 1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'manualset');
+					$tempdata = $this->_admin_default( $value , 1,NULL,NULL,NULL,NULL,NULL,NULL,$language,'manualset');
 					$myList = array_merge($myList , $tempdata['myList']);
 				}
 			}
 			else
 			{
-				$tempdata = $this->_admin_default( $nowType , 1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'manualset');
+				$tempdata = $this->_admin_default( $nowType , 1,NULL,NULL,NULL,NULL,NULL,NULL,$language,'manualset');
 				$myList = array_merge($myList , $tempdata['myList']);
 			}
 			
