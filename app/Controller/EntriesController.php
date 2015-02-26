@@ -376,7 +376,7 @@ class EntriesController extends AppController {
             // Execute E-mail ...
 			try{
 				if( $Email->from(array($_POST['emailcontact']=>$_POST['namecontact']))
-			          ->to(array($this->mySetting['custom-email_contact']=>$this->mySetting['title']))
+			          ->to( array_map("trim" , explode(',' , $this->mySetting['custom-email_contact'] )) )
 			          ->subject(html_entity_decode($this->mySetting['title'], ENT_COMPAT, 'UTF-8')." - Contact Message")
 			          ->emailFormat('html')
 			          ->template('default','default')
@@ -624,7 +624,7 @@ class EntriesController extends AppController {
 			}
 		}
 
-		// ========== FORM SUBMIT BLUK ACTION ============
+		// ========== FORM SUBMIT BULK ACTION ============
 		if(!empty($this->request->data['action']))
 		{
 			$pecah = explode(',', $this->request->data['record']);
@@ -1053,11 +1053,12 @@ class EntriesController extends AppController {
 			$data['myChildType'] = $myChildType;
 		}
         
-		// $_SESSION['order_by'] Validation !!
+        // $_SESSION['order_by'] Validation !!
+        $myAutomaticValidation = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
         if($this->mySetting['table_view']=='complex' && substr($_SESSION['order_by'] , 0 , 5) == 'form-')
         {
             $innerFieldMeta = FALSE;
-            foreach( (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']) as $key => $value)
+            foreach( $myAutomaticValidation as $key => $value)
             {
                 if(stripos($_SESSION['order_by'] , $value['key'] ) !== FALSE)
                 {
@@ -1070,7 +1071,10 @@ class EntriesController extends AppController {
                 unset($_SESSION['order_by']);
             }
         }
-
+        
+        // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
+        $data['gallery'] = $this->Entry->checkGalleryType($myAutomaticValidation);
+        
 		// set page title
 		$this->setTitle(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title']);
 		
@@ -1080,7 +1084,7 @@ class EntriesController extends AppController {
 		{
 			if(empty($this->request->params['admin'])) // front-end
 			{
-				foreach ((empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']) as $key => $value) 
+				foreach($myAutomaticValidation as $key => $value) 
 				{
 					if($value['key'] == 'pagination')
 					{
@@ -1309,18 +1313,7 @@ class EntriesController extends AppController {
         
         // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
         $myAutomaticValidation = (empty($myEntry)?$myType['TypeMeta']:$myChildType['TypeMeta']);
-        $data['gallery'] = false;
-        foreach ($myAutomaticValidation as $key => $value) 
-        {
-            if($value['key'] == 'gallery')
-            {
-                if($value['value'] == 'enable')
-                {
-                    $data['gallery'] = true;
-                }
-                break;
-            }
-        }
+        $data['gallery'] = $this->Entry->checkGalleryType($myAutomaticValidation);
         
 		// for image input type reason...
 		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');
@@ -1442,7 +1435,7 @@ class EntriesController extends AppController {
                 $newEntryId = $this->Entry->id;
                 if($data['gallery'])
                 {   
-                    foreach ($this->request->data['Entry']['image'] as $key => $value) 
+                    foreach (array_reverse($this->request->data['Entry']['image']) as $key => $value) 
                     {
                         $myImage = $this->Entry->findById($value);
                         
@@ -1570,30 +1563,16 @@ class EntriesController extends AppController {
         
         // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
         $myAutomaticValidation = (empty($myParentEntry)?$myType['TypeMeta']:$myChildType['TypeMeta']);
-        $data['gallery'] = false;
-        if(is_array($myAutomaticValidation))
-        {
-        	foreach ($myAutomaticValidation as $key => $value) 
-	        {
-	            if($value['key'] == 'gallery')
-	            {
-	                if($value['value'] == 'enable')
-	                {
-	                    $data['gallery'] = true;
-	                }
-	                break;
-	            }
-	        }
-        }
+        $data['gallery'] = $this->Entry->checkGalleryType($myAutomaticValidation);
 
         // FIRSTLY, sorting our (image / entry) children !!
         if(!empty($data['myEntry']['ChildEntry']))
         {
-        	$tempChild = $this->Entry->find('all' , array(
+            $tempChild = $this->Entry->find('all' , array(
 	            'conditions' => array(
 	                'Entry.parent_id' => $myEntry['Entry']['id']
 	            ),
-	            'order' => array('Entry.'.(empty($this->request->params['admin'])?$this->generalOrder:'id ASC') )
+	            'order' => array('Entry.'.$this->generalOrder )
 	        ));
 	        
 	        foreach ($tempChild as $key => $value) 
@@ -1679,7 +1658,6 @@ class EntriesController extends AppController {
 							$errMsg .= ( strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
 						}
 						// secondly DO checking validation from database !!!
-						$myAutomaticValidation = (empty($myParentEntry)?$myType['TypeMeta']:$myChildType['TypeMeta']);
 						foreach ($myAutomaticValidation as $key2 => $value2) // check for validation for each attribute key... 
 						{
 							if($value['key'] == $value2['key']) // if find the same key...
@@ -1709,7 +1687,7 @@ class EntriesController extends AppController {
                         // delete all the child image, and then add again !!
                         $this->Entry->deleteAll(array('Entry.parent_id' => $galleryId,'Entry.entry_type' => $myEntry['Entry']['entry_type']));
                         
-                        foreach ($this->request->data['Entry']['image'] as $key => $value) 
+                        foreach (array_reverse($this->request->data['Entry']['image']) as $key => $value) 
                         {
                             $myImage = $this->Entry->findById($value);
                             
@@ -1731,7 +1709,6 @@ class EntriesController extends AppController {
 						'EntryMeta.entry_id' => $myEntry['Entry']['id'] ,
 						'OR' => array(
 							array('EntryMeta.key LIKE' => 'form-%'),
-							array('EntryMeta.key LIKE' => 'id-%'),
 							array('EntryMeta.key LIKE' => 'count-form-%'),
 						)
 					));
@@ -1814,13 +1791,8 @@ class EntriesController extends AppController {
 							}
 						}
 					}
-
-					// UPDATE ALL ENTRY METAS USING NEW TITLE SLUG !!
-/*					$this->EntryMeta->updateAll(
-						array('EntryMeta.value'=>"'".$this->request->data['Entry']['title']."'"),
-						array('EntryMeta.value'=>$myEntry['Entry']['title'])
-					);
-*/					$this->Session->setFlash($this->request->data['Entry']['title'].' has been updated.','success');
+                    
+					$this->Session->setFlash($this->request->data['Entry']['title'].' has been updated.','success');
 					if($this->request->params['admin']==1)
 					{
 						$newEntrySlug = $this->Entry->checkRemainingLang($myEntry['Entry']['id'] , $this->mySetting);

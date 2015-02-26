@@ -260,7 +260,13 @@
 						echo "</th>";
 					}
 				}
-			}	
+			}
+        
+            // show gallery count !!
+            if($gallery)
+            {
+                echo '<th>Gallery Count</th>';
+            }
 		?>		
 		<th class="date-field">
             <?php
@@ -447,7 +453,24 @@
                         echo "</td>";
 					}
 				}
-			}	
+			}
+        
+            // show gallery count !!
+            if($gallery)
+            {
+                echo "<td>";
+                if(empty($value['EntryMeta']['count-'.$value['Entry']['entry_type']]))
+                {
+                    echo "-";
+                }
+                else
+                {
+                    echo "<span class='label label-inverse'>&nbsp;";
+                    echo $value['EntryMeta']['count-'.$value['Entry']['entry_type']]." <i class='icon-picture icon-white'></i>";
+                    echo "&nbsp;</span>";
+                }
+                echo "</td>";
+            }
 		?>
 		<td><?php echo date_converter($value['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?></td>
 		<td style='min-width: 0px;' <?php echo (empty($popup)?'':'class="offbutt"'); ?>>

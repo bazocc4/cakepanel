@@ -3,12 +3,15 @@ var jcrop_api = new Array();
 	$(document).ready(function()
 	{
         // colorbox initialization !!
-        $('.popup-image').colorbox({
-            fixed: true,
-            reposition: false,
-            maxWidth:'95%',
-            maxHeight:'95%'
-        });
+        if($('.popup-image').length > 0)
+        {
+            $('.popup-image').colorbox({
+                fixed: true,
+                reposition: false,
+                maxWidth:'95%',
+                maxHeight:'95%'
+            });
+        }
 		
 		// disable right-click for image !!
 		$('img').bind('contextmenu', function(e) {

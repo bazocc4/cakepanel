@@ -612,8 +612,7 @@ class GetHelper extends AppHelper
 		switch ($inputType) 
 		{
 			case 'file':
-				$path_parts = pathinfo($value);
-				$result = "<a href='".$this->get_linkpath()."files/".$value."'>".string_unslug($path_parts['filename'])."</a>";
+				$result = "<a title='CLICK TO DOWNLOAD FILE' href='".$this->get_linkpath()."files/".$value."'>".$value."</a>";
 				break;
 			case 'ckeditor':
 			case 'textarea':

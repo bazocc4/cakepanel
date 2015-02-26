@@ -13,9 +13,19 @@
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
+        <?php
+            if(!empty($value))
+            {
+                ?>
+        <input type="hidden" value="<?php echo $value; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
+                <?php
+                $result = "<a title='CLICK TO DOWNLOAD FILE' href='".$this->Get->get_linkpath()."files/".$value."'>".$value."</a>";
+                echo '<p>'.$result.'</p>';
+            }
+        ?>    
 		<input <?php echo $required; ?> class="<?php echo $shortkey; ?>" type="file" placeholder="<?php echo $placeholder; ?>" name="<?php echo $key; ?>"/>
 		<?php
-            if(empty($myEntry))
+            if(empty($value))
             {
                 echo '<p class="help-block">';
                 echo (empty($p)?'Upload File which is downloadable by guest.':$p);
@@ -25,6 +35,7 @@
             {
                 echo '<p class="help-block" style="color:red;">';
                 echo 'IGNORE this field if there are no any changes to the previous file.';
+                echo '<br>NB: If you add new file, old file will be overwrited!';
                 echo '</p>';
             }
         ?>

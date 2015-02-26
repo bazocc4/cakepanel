@@ -259,7 +259,7 @@ class Entry extends AppModel {
 	{
 		if($parent_id > 0)
 		{
-			//--------------------------------- firstly create count-type in EntryMeta... ----------------------------- /////
+			//------------------- firstly create count-type in EntryMeta... ---------------- /////
 			$totalchild = $this->find('count', array(
 				'conditions' => array(
 					'Entry.entry_type' => $myChildTypeSlug,
@@ -295,7 +295,7 @@ class Entry extends AppModel {
 				}
 			}
 			
-			//------------------------------------ add COUNT to parent Entry -------------------------- /////
+			//----------------------- add COUNT to parent Entry -------------------------- /////
 			$totalchild = $this->find('count', array(
 				'conditions' => array(
 					'Entry.parent_id' => $parent_id
@@ -796,4 +796,23 @@ class Entry extends AppModel {
 		
 		return false;
 	}
+    
+    /*
+    Check certain EntryType has gallery feature turn ON / OFF !!
+    */
+    function checkGalleryType($myAutomaticValidation = array())
+    {
+        foreach ($myAutomaticValidation as $key => $value) 
+        {
+            if($value['key'] == 'gallery')
+            {
+                if($value['value'] == 'enable')
+                {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
 }
