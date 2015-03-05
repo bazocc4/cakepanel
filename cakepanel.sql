@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 01, 2014 at 11:17 AM
+-- Generation Time: Mar 05, 2015 at 04:16 PM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `cms_types` (
 
 INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `count`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 'Media Library', 'media', 'All media image is stored here.', 0, 0, '2013-01-15 03:35:14', 1, '2013-01-15 03:35:14', 1),
-(3, 'Slideshow', 'slideshow', 'Home slideshow with details.', 0, 0, '2014-09-03 10:35:08', 1, '2014-09-03 10:35:08', 1);
+(3, 'Slideshow', 'slideshow', 'Home slideshow with details.', 0, 0, '2014-09-03 10:35:08', 1, '2015-03-05 16:15:35', 1);
 
 -- --------------------------------------------------------
 
@@ -206,14 +206,15 @@ CREATE TABLE IF NOT EXISTS `cms_type_metas` (
   `validation` text,
   `instruction` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `cms_type_metas`
 --
 
 INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `validation`, `instruction`) VALUES
-(1, 3, 'form-url_link', '', 'text', 'is_url|', 'Example: http://www.yourdomain.com');
+(2, 3, 'category', 'home', NULL, NULL, NULL),
+(3, 3, 'form-url_link', '', 'text', 'is_url|', 'Example: http://www.yourdomain.com');
 
 -- --------------------------------------------------------
 

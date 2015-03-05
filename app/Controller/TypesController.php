@@ -313,7 +313,7 @@ class TypesController extends AppController {
 		// if form submit is taken...
 		if (!empty($this->request->data))
 		{
-			$this->request->data['Type']['name'] = $this->request->data['Type'][0]['value'];
+            $this->request->data['Type']['name'] = $this->request->data['Type'][0]['value'];
 			$this->request->data['Type']['description'] = $this->request->data['Type'][1]['value'];
 			// write my creator...
 			

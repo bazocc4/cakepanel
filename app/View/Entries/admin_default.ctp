@@ -170,6 +170,7 @@
 							var subcat = catcheck.split('<br>');
 						
 							$.each(subcat , function(i,el){
+                                el = $.trim(el);
 								$('select.subcategory').append('<option value="'+el+'">'+el+'</option>');
 							});
 						}

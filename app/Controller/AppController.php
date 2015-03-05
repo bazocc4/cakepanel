@@ -153,7 +153,7 @@ class AppController extends Controller {
 			'conditions' => array(
 				'Type.parent_id' => 0
 			),
-			'order' => array('Type.name')
+			'order' => array('Type.id')
 		));
 		$this->set('types',$myTypes);
 		

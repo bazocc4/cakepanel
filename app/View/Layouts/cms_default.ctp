@@ -152,28 +152,50 @@
 							<?php 
 								echo $this->Html->link('Pages',array('controller'=>'entries','action'=>'pages'),array('id'=>'pages')); 
 							?>
-						</li>												
-												
-						<li class='separator'><?php echo $this->Html->link('Databases','#'); ?></li>
+						</li>
 						
 						<?php
+                            $haystack_cat = array();
 							foreach ($types as $key => $value) 
 							{
 								if($value['Type']['slug'] != 'media')
 								{
-									echo "<li>";
+                                    // begin process !!
+                                    $typecat = "";
+                                    foreach($value['TypeMeta'] as $subkey => $subvalue)
+                                    {
+                                        if($subvalue['key'] == 'category')
+                                        {
+                                            $typecat = strtolower($subvalue['value']);
+                                            array_push($haystack_cat , $typecat );
+                                            break;
+                                        }
+                                    }
+                                    
+									echo "<li class='hide database-menu'>";
 									echo $this->Html->link($value['Type']['name'] ,array('controller'=>'entries','action'=>$value['Type']['slug']) ,array('id'=>$value['Type']['slug']));
+                                    echo "<input type='hidden' value='".$typecat."'>";
 									echo "</li>";
 								}
-							}								
+							}
+                            
+                            $haystack_cat = array_unique($haystack_cat);
+                            foreach($haystack_cat as $key => $value)
+                            {
+                                // later this place will be appended by jQuery below !!
+                                echo '<li class="separator"><a class="sidebar-menu" href="#">'.$value.'</a></li>';
+                                echo '<div style="display:none;"></div>';
+                            }
 						?>
 						
-						<li class='separator'><?php echo $this->Html->link('Others','#'); ?></li>
-						<?php
-							echo "<li>";
-							echo $this->Html->link('backup data' ,array('controller'=>'entries','action'=>'backup') ,array('id'=>'backup'));
-							echo "</li>";
-						?>
+						<li class='separator'><?php echo $this->Html->link('Others','#',array('class'=>'sidebar-menu')); ?></li>
+                        <div style="display:none;">
+                            <?php
+                                echo "<li>";
+                                echo $this->Html->link('backup data' ,array('controller'=>'entries','action'=>'backup') ,array('id'=>'backup'));
+                                echo "</li>";
+                            ?>
+                        </div>
 					</ul>
 				</div>
 				
@@ -189,9 +211,36 @@
 		
 <!-- 		ADDITIONAL SCRIPT FOR LAYOUT -->		
 		<script>
-			$(document).ready(function(){		
+			$(document).ready(function(){
+                // Append each of database li menu to their suitable category place !!
+                $('li.database-menu').each(function(i,el){
+                    var typecat = $(el).find('input[type=hidden]').val();                    
+                    var $groupmenu = $('li.separator > a.sidebar-menu:contains('+typecat+')');
+                    if($groupmenu.length > 0)
+                    {
+                        $groupmenu.parent('li').next('div').append( $(el).removeClass('hide') );
+                    }
+                });                
+                
+                // Sidebar Menu Accordion !!
+                $('a.sidebar-menu').attr('data-toggle' , 'tooltip');
+                $('a.sidebar-menu').attr('data-placement' , 'right');
+                $('a.sidebar-menu').attr('title' , 'CLICK HERE TO EXPAND MENU');
+				$('a.sidebar-menu').parent('li').next("div").find('a.active').closest('div').show();
+				$('a.sidebar-menu').click(function(e){                    
+                    e.preventDefault();
+                    $('a.sidebar-menu').not(this).parent('li').next("div:visible").slideUp('fast');
+                    $(this).parent('li').next("div").slideToggle('fast');
+				});	
+                
 				// CSS HELPER FUNCTION FOR SIDEBAR POSITION !! * CK Editor height *
 				$("div.sidebar.span2 ul").css("padding-bottom" , (122 + parseInt($("div.container-fluid").height()) - parseInt($("div.sidebar.span2 ul").height())) + "px");
+                
+                // initialize bootstrap tooltip !!
+                $('[data-toggle=tooltip]').tooltip();
+                $('[data-toggle=tooltip]').each(function(){
+                    $(this).attr('title' , $(this).attr('alt') );
+                });
 		  	});
 		</script>
 	</body>

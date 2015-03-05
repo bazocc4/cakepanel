@@ -58,13 +58,24 @@
 			$value['p'] = 'Keep it short and simple. Ex: Projects.';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
-			$value = array();
+            $value = array();
 			$value['counter'] = $counter++;
 			$value['key'] = 'form-Description';
 			$value['validation'] = '';
 			$value['value'] = $myType['Type']['description'];
 			$value['model'] = 'Type';
 			$value['input_type'] = 'textarea';
+			echo $this->element('input_'.$value['input_type'] , $value);
+
+            // NEW FEATURE : Categorize the database !!
+            $value = array();
+			$value['counter'] = $counter++;
+			$value['key'] = 'form-Category';
+            $value['validation'] = 'not_empty';
+			$value['value'] = $myType['TypeMeta']['category'][0];
+			$value['model'] = 'TypeMeta';
+			$value['input_type'] = 'text';
+			$value['p'] = 'Type the category title that suitable for this database.';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
 			// STAGGING place here ...
