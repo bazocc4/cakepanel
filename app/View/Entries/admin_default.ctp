@@ -64,10 +64,21 @@
 		}
 	}
 
-	$(document).ready(function(){
+	$(document).ready(function(){        
+        // ADD & DELETE BUTTON have the same life fate !!
+        if($('a.get-started').length == 0)
+        {
+            $('form#global-action > select > option[value=delete]').detach();
+            $('i.icon-trash').parent('a').detach();
+
+            if($('form#global-action > select > option').length == 1)
+            {
+                $('form#global-action').detach();
+            }
+        }
 
 		// attach checkbox on each record...
-		if($('input#query-stream').length > 0 || <?php echo (empty($popup)?'true':'false'); ?>)
+		if($('form#global-action').length > 0 && ($('input#query-stream').length > 0 || <?php echo (empty($popup)?'true':'false'); ?>) )
 		{
 			$('table#myTableList thead tr').prepend('<th><input type="checkbox" id="check-all" /></th>');
 			$('table#myTableList tbody tr').each(function(i,el){
@@ -93,7 +104,8 @@
 						$.ajaxSetup({cache: false});
 						$.post(site+'entries/reorder_list',{
 							src_order: $('input[type=hidden]#determine').val(),
-							dst_order: tmp
+							dst_order: tmp,
+                            lang: $('a#lang_identifier').text().toLowerCase()
 						});
 					}
 				});
@@ -289,8 +301,15 @@
 			<form id="global-action" style="margin: 0;" action="#" accept-charset="utf-8" method="post" enctype="multipart/form-data">
 				<select REQUIRED name="data[action]" class="input-small">
 					<option style="font-weight: bold;" value="">Action :</option>
-					<option value="active">Publish</option>
-					<option value="disable">Draft</option>
+					<?php
+                        if($myType['Type']['slug'] != 'pages')
+                        {
+                            ?>
+                    <option value="active">Publish</option>
+					<option value="disable">Draft</option>                            
+                            <?php
+                        }
+                    ?>
 					<option value="delete">Delete</option>
 				</select>
 				<input type="hidden" name="data[record]" id="action-records" />
@@ -502,12 +521,9 @@
 						echo '<a href="javascript:void(0)" onclick="show_confirm(\''.$confirm.'\',\''.$targetURL.'\')" class="btn btn-warning"><i class="icon-ban-circle icon-white"></i></a>';
 					}
 				}
-				if(!($myType['Type']['slug'] == 'pages' && $user['role_id'] >= 2))
-				{
-					?>
-						<a href="javascript:void(0)" onclick="show_confirm('Are you sure want to delete <?php echo strtoupper($value['Entry']['title']); ?> ?','entries/delete/<?php echo $value['Entry']['id']; ?>')" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
-					<?php
-				}
+				?>
+            <a href="javascript:void(0)" onclick="show_confirm('Are you sure want to delete <?php echo strtoupper($value['Entry']['title']); ?> ?','entries/delete/<?php echo $value['Entry']['id']; ?>')" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
+				<?php
 				echo "</td>";
 			}				
 		?>

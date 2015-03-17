@@ -195,28 +195,9 @@ function lang_unslug($str)
 	**/
 function get_list_lang($src = array())
 {
-	$langlist[] = 'en_english';
-	$langlist[] = 'id_indonesia';
-	$langlist[] = 'zh_chinese';
-	
-	$existlang = explode(chr(13).chr(10), $src);
-	foreach ($existlang as $key => $value) 
-	{
-		$state = 0;
-		foreach ($langlist as $key10 => $value10) 
-		{
-			if($value == $value10)
-			{
-				$state = 1;
-				break;
-			}
-		}
-		if($state == 0)
-		{
-			$langlist[] = $value;
-		}
-	}
-	return $langlist;
+    $langlist = array('en_english', 'id_indonesia', 'zh_chinese');
+	$existlang = array_map('trim' , explode(chr(10), $src) );
+    return array_unique( array_merge( $langlist , $existlang ) );
 }
 function parse_lang($src = array())
 {

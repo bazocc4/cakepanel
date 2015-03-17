@@ -65,28 +65,11 @@ class SettingsController extends AppController {
 				$this->Setting->id = $key+1;
 				$this->Setting->saveField('value' , is_array($value['value'])?implode('|' , $value['value']):$value['value'] );
 			}
-			
-			// DELETE LANGUAGE WHICH IS ALREADY NOT IN USE !!
-			$this->del_lang($setting[15]['Setting']['value'], $myDetails[15]['value']);
-			
-			$this->Session->setFlash('Settings has been updated.','success');
-			
+			$this->Session->setFlash('Settings has been updated.','success');			
 			$this->redirect('/admin/settings');
 		}
 	}
-
-	function del_lang($src , $dst)
-	{
-		$temp = explode(chr(13).chr(10), $src);
-		foreach ($temp as $key => $value) 
-		{
-			if(strpos($dst, $value) === FALSE)
-			{
-				$this->Entry->deleteAll(array('Entry.lang_code LIKE' => substr($value, 0,2).'-%'));
-			}
-		}
-	}
-
+    
 	function add() 
 	{
 		$this->autoRender = FALSE;

@@ -199,8 +199,8 @@
 			$value['list'][0]['name'] = 'Published';
 			$value['list'][1]['id'] = '0';
 			$value['list'][1]['name'] = 'Draft';
-			$value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['status']);
-			$value['display'] = (empty($myEntry)?'none':'');
+            $value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['status']);
+			$value['display'] = (empty($myEntry)||empty($myType)?'none':'');
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
 			// is used gallery function ...

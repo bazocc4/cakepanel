@@ -8,7 +8,7 @@
 		$required = 'REQUIRED';
 	}
 ?>
-<div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>            
+<div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>
 	<label class="control-label" <?php echo (!empty($required)?'style="color: red;"':''); ?>>
         <?php echo string_unslug($shortkey); ?>
     </label>

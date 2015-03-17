@@ -127,6 +127,11 @@ class GetHelper extends AppHelper
 					{
 						$newlang = strrev( preg_replace('/'.strrev($subkey).'/', strrev($temp_entry['Entry']['slug']) , strrev($newlang) , 1 ) );
 					}
+                    else // if entry not found, then throw url link to home !!
+                    {
+                        unset($newlang);
+                        break;
+                    }
 				}
 			}
 			
@@ -138,36 +143,7 @@ class GetHelper extends AppHelper
 	
 	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
 	{	
-		if(!is_null($slug))
-		{
-			$options['conditions']['Entry.slug'] = $slug;
-		}		
-		if(!is_null($entry_type))
-		{
-			$options['conditions']['Entry.entry_type'] = $entry_type;
-		}
-		if(!is_null($parentId))
-		{
-			$options['conditions']['Entry.parent_id'] = $parentId;
-		}
-		if(!is_null($id))
-		{
-			$options['conditions']['Entry.id'] = $id;
-		}
-        if(!is_null($ordering))
-        {
-            $options['order'] = array('Entry.sort_order '.$ordering);
-        }
-		if(!is_null($lang))
-		{
-			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
-		}
-		if(!is_null($title))
-		{
-			$options['conditions']['Entry.title'] = $title;
-		}
-
-		return (empty($options)?false:breakEntryMetas($this->Entry->find('first',$options)));
+		return $this->Entry->meta_details($slug , $entry_type , $parentId , $id , $ordering , $lang , $title);
 	}
 	
 	function account_name($username = NULL, $id = NULL)

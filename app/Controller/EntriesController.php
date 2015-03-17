@@ -147,7 +147,7 @@ class EntriesController extends AppController {
 			}
 			else // if this want to view pages...
 			{
-				$myEntrySlug = $this->request->params['pass'][$indent+0];
+				$myEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+0]);
 				$myEntry = $this->meta_details($myEntrySlug , 'pages');
 
 				// other language version of "homepage"
@@ -226,7 +226,7 @@ class EntriesController extends AppController {
 				$myTypeSlug = $this->request->params['pass'][$indent+0];
 				$myType = $this->Type->findBySlug($myTypeSlug);
 								
-				$myEntrySlug = $this->request->params['pass'][$indent+1];
+				$myEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+1]);
 				$myEntry = $this->meta_details($myEntrySlug , $myTypeSlug);
 				
 				$result = $this->_admin_default($myType, 0 , $myEntry , $this->request->query['key'], $this->request->query['value'], $this->request->query['type'] , $this->request->data['search'],NULL, $language);
@@ -252,7 +252,7 @@ class EntriesController extends AppController {
 				}
 				else // if this want to view details of the entry...
 				{										
-					$myEntrySlug = $this->request->params['pass'][$indent+1];
+					$myEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+1]);
 					$myEntry = $this->meta_details($myEntrySlug , $myTypeSlug);
 					
 					$tempdata = array();
@@ -269,7 +269,7 @@ class EntriesController extends AppController {
 			$myTypeSlug = $this->request->params['pass'][$indent+0];
 			$myType = $this->Type->findBySlug($myTypeSlug);			
 			
-			$myParentEntrySlug = $this->request->params['pass'][$indent+1];
+			$myParentEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+1]);
 			$myParentEntry = $this->meta_details($myParentEntrySlug , $myTypeSlug);
 			// if this want to list all CHILD entries with paging limitation
 			if(is_numeric($this->request->params['pass'][$indent+2]))
@@ -280,7 +280,7 @@ class EntriesController extends AppController {
 			}
 			else // if this want to view details of the child entry...
 			{				
-				$myEntrySlug = $this->request->params['pass'][$indent+2];
+				$myEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+2]);
 				$myEntry = $this->meta_details($myEntrySlug , NULL , $myParentEntry['Entry']['id']);
 				
 				$tempdata = array();
@@ -1360,8 +1360,7 @@ class EntriesController extends AppController {
 			$this->request->data['Entry']['entry_type'] = (empty($myEntry)?(empty($myType)?'pages':$myType['Type']['slug']):$myChildType['Type']['slug']);
 			// generate slug from title...			
 			$this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
-			// write my creator...
-			
+			// write my creator...			
 			$this->request->data['Entry']['created_by'] = $this->user['id'];
 			$this->request->data['Entry']['modified_by'] = $this->user['id'];
 			// write time created manually !!
@@ -1514,7 +1513,13 @@ class EntriesController extends AppController {
 						}
 					}
 				}
-
+                
+                // reorder Entry.sort_order that just be translated !!
+                if(!empty($lang_code))
+                {
+                    $this->Entry->_reorderAfterTranslate($lang_code);
+                }
+                
 				// NOW finally setFlash ^^
 				$this->Session->setFlash($this->request->data['Entry']['title'].' has been added.','success');
 				if($this->request->params['admin']==1)
@@ -1619,6 +1624,11 @@ class EntriesController extends AppController {
 			if(empty($lang))
 			{
 				$this->request->data['Entry']['title'] = $this->request->data['Entry'][0]['value'];
+                // generate slug from title if title has changed...
+                if(strtolower($this->request->data['Entry']['title']) != strtolower($myEntry['Entry']['title']))
+                {
+                    $this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
+                }
 				$this->request->data['Entry']['description'] = $this->request->data['Entry'][1]['value'];
 				$this->request->data['Entry']['main_image'] = $this->request->data['Entry'][2]['value'];
 				if(isset($this->request->data['Entry'][3]['value']))
@@ -1626,8 +1636,7 @@ class EntriesController extends AppController {
 					$this->request->data['Entry']['status'] = $this->request->data['Entry'][3]['value'];
 				}
 				
-				// write my modifier ID...
-				
+				// write my modifier ID...				
 				$this->request->data['Entry']['modified_by'] = $this->user['id'];
 
 				// write time modified manually !!
@@ -2015,62 +2024,13 @@ class EntriesController extends AppController {
 	function reorder_list()
 	{
 		$this->autoRender = FALSE;
-		$src = explode(',', $this->request->data['src_order']);
-		$dst = explode(',', $this->request->data['dst_order']);
-		unset($src[count($src)-1]);
-		unset($dst[count($dst)-1]);		
-		foreach ($dst as $key => $value) 
-		{
-			$fast_dst[$value] = $src[$key];
-		}
-		
-		foreach ($src as $key => $value) 
-		{			
-			$temp = $this->Entry->findBySortOrder($value);
-			$this->Entry->id = $temp['Entry']['id'];
-			$result[$this->Entry->id] = $fast_dst[$this->Entry->id];
-		}
-		
-		foreach ($result as $key => $value) 
-		{			
-			$this->Entry->id = $key;
-			$this->Entry->saveField('sort_order' , $value);
-		}
+		$this->Entry->_reorderList( explode(',', $this->request->data['src_order'] ) , explode(',', $this->request->data['dst_order'] ) , $this->request->data['lang'] );
 	}
 	
 	// imported from GET Helpers !!
 	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
 	{
-		if(!is_null($slug))
-		{
-			$options['conditions']['Entry.slug'] = $slug;
-		}		
-		if(!is_null($entry_type))
-		{
-			$options['conditions']['Entry.entry_type'] = $entry_type;
-		}
-		if(!is_null($parentId))
-		{
-			$options['conditions']['Entry.parent_id'] = $parentId;
-		}
-		if(!is_null($id))
-		{
-			$options['conditions']['Entry.id'] = $id;
-		}
-        if(!is_null($ordering))
-        {
-            $options['order'] = array('Entry.sort_order '.$ordering);
-        }
-		if(!is_null($lang))
-		{
-			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
-		}
-		if(!is_null($title))
-		{
-			$options['conditions']['Entry.title'] = $title;
-		}
-		
-		return (empty($options)?false:breakEntryMetas($this->Entry->find('first',$options)));
+		return $this->Entry->meta_details($slug , $entry_type , $parentId , $id , $ordering , $lang , $title);
 	}
 
 	function admin_backup()

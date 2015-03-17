@@ -209,6 +209,242 @@ class Entry extends AppModel {
 		$this->EntryMeta = ClassRegistry::init('EntryMeta');
 		$this->Account = ClassRegistry::init('Account');
 	}
+    
+    function _convertEntrySlug($slug)
+    {
+        $query = $this->EntryMeta->find('first', array(
+            'conditions' => array(
+                'EntryMeta.key' => 'backup-slug',
+                'EntryMeta.value LIKE' => '%'.chr(10).$slug.chr(10).'%'
+            )
+        ));
+        
+        if(!empty($query))
+        {
+            $result = $this->findById($query['EntryMeta']['entry_id']);
+            $slug = $result['Entry']['slug'];
+        }
+        
+        return $slug;
+    }
+    
+    function _reorderAfterTranslate($lang_code)
+    {
+        $pecahlang = explode('-', $lang_code);
+        
+        $acuan = $this->findById($pecahlang[1]);
+        $bahasa_acuan = explode('-', $acuan['Entry']['lang_code']);        
+        $querysrc = $this->find('all', array(
+            'conditions' => array(
+                'Entry.entry_type' => $acuan['Entry']['entry_type'],
+                'Entry.parent_id' => $acuan['Entry']['parent_id'],
+                'Entry.lang_code LIKE' => $bahasa_acuan[0].'-%'
+            ),
+            'order' => array('Entry.sort_order DESC')
+        ));
+        
+        $target = $this->findByLangCode($lang_code);        
+        $querydst = $this->find('all', array(
+            'conditions' => array(
+                'Entry.entry_type' => $target['Entry']['entry_type'],
+                'Entry.parent_id' => $target['Entry']['parent_id'],
+                'Entry.lang_code LIKE' => $pecahlang[0].'-%'
+            ),
+            'order' => array('Entry.sort_order DESC')
+        ));
+        // INDEXING TARGET !!
+        $src = $dst = '';        
+        foreach($querydst as $key => $value)
+        {
+            $src .= $value['Entry']['sort_order'].',';            
+            $dst .= $value['Entry']['id'].',';
+            $querydst[ $value['Entry']['lang_code'] ] = $value['Entry'];
+        }
+        
+        // search acuan position !!
+        $acuankey = '';
+        foreach($querysrc as $key => $value)
+        {
+            if($value['Entry']['id'] == $acuan['Entry']['id'])
+            {
+                $acuankey = $key;
+                break;
+            }
+        }
+        
+        // BEGIN MAIN PROCESS !!
+        $counter = 2;
+        $maxlimit = count($querysrc) - 1;
+        $failedtest = 0;
+        $resultid = 0;
+        while(TRUE)
+        {
+            $key = ( $counter%2==0 ? -1 : 1 );            
+            $key *= floor($counter/2);
+            $key += $acuankey;
+            if($key >= 0 && $key <= $maxlimit) // array limit validation !!
+            {
+                $failedtest = 0;
+                $dst_lang_code = explode('-', $querysrc[$key]['Entry']['lang_code']);
+                $tempcode = $pecahlang[0].'-'.$dst_lang_code[1];
+                if(!empty($querydst[$tempcode]))
+                {
+                    $resultid = $querydst[$tempcode]['id'];
+                    break;
+                }
+            }
+            else
+            {
+                $failedtest++;
+                if($failedtest >= 2)
+                {
+                    // nothing to be sorted !!
+                    break;
+                }
+            }
+            $counter++;    
+        }
+        
+        if(!empty($resultid))
+        {
+            // turn string into array !!
+            $src = explode(',', $src );
+            $dst = explode(',', $dst );
+            
+            // moving ID element !!
+            $moving = array_splice($dst , 0 , 1);
+            array_splice($dst , array_search($resultid , $dst ) + ( $counter%2==0 ? 1 : 0 ) , 0 , $moving );
+            
+            // start reorderList !!
+            $this->_reorderList($src , $dst );
+        }
+    }
+    
+    /**
+	 * re-order entry sort_order for entries view order through ajax (cont. from Controller)
+	 * @return void
+	 * @public
+	 **/
+    function _reorderList($src = array() , $dst = array(), $lang = NULL)
+    {
+        unset($src[count($src)-1]);
+		unset($dst[count($dst)-1]);		
+		foreach ($dst as $key => $value) 
+		{
+			$fast_dst[$value] = $src[$key];
+		}
+		
+        $movedpos = array(); // helper variable for updating other language order !!
+		foreach ($src as $key => $value) 
+		{			
+			$temp = $this->findBySortOrder($value);
+            
+            if($temp['Entry']['id'] != $dst[$key])
+            {
+                $movedpos[$key] = $temp['Entry']['id'];
+            }
+            
+			$this->id = $temp['Entry']['id'];
+			$result[$this->id] = $fast_dst[$this->id];
+		}
+        
+		foreach ($result as $key => $value) 
+		{			
+			$this->id = $key;
+			$this->saveField('sort_order' , $value);
+		}
+        
+        // NEW FEATURE 2015 : Update sort_order in other language too !!
+        if(!empty($movedpos) && !empty($lang))
+        {
+            // check moving orientation !!
+            $initkey = key($movedpos);
+            $startid = current($movedpos);
+            $finishid = current(array_reverse($movedpos));
+            
+            next($movedpos);
+            
+            if(current($movedpos) != $dst[$initkey])
+            {
+                swap_value($startid , $finishid);
+            }
+            
+            $startquery = $this->findById($startid);
+            $startlang = explode('-' , $startquery['Entry']['lang_code']);
+            $startlist = $this->find('all', array(
+                'conditions' => array(
+                    'Entry.lang_code LIKE' => '%-'.$startlang[1],
+                    'Entry.id <>' => $startid
+                )
+            ));
+            
+            $finishquery = $this->findById($finishid);
+            $finishlang = explode('-', $finishquery['Entry']['lang_code']);
+            $finishlist = $this->find('all', array(
+                'conditions' => array(                    
+                    'Entry.lang_code LIKE' => '%-'.$finishlang[1],
+                    'Entry.id <>' => $finishid
+                )
+            ));
+            if(!empty($finishlist))
+            {
+                // INDEXING array !!
+                foreach($finishlist as $key => $value)
+                {
+                    $bahasa = explode('-', $value['Entry']['lang_code']);
+                    $finishlist[$bahasa[0]] = $value['Entry'];
+                }
+            }
+            
+            // BEGIN MAIN PROCESS !!
+            if(!empty($startlist))
+            {
+                foreach($startlist as $key => $value)
+                {
+                    $bahasa = explode('-', $value['Entry']['lang_code']);
+                    if(!empty( $finishlist[$bahasa[0]] ))
+                    {
+                        $so_awal = $value['Entry']['sort_order'];
+                        $so_akhir = $finishlist[$bahasa[0]]['sort_order'];
+                        
+                        $arahorder = 'ASC';
+                        if($so_akhir < $so_awal)
+                        {
+                            swap_value($so_awal , $so_akhir);
+                            $arahorder = 'DESC';
+                        }
+                        
+                        $querybetween = $this->find('all', array(
+                            'conditions' => array(
+                                'Entry.entry_type' => $value['Entry']['entry_type'],
+                                'Entry.parent_id' => $value['Entry']['parent_id'],
+                                'Entry.lang_code LIKE' => $bahasa[0].'-%',
+                                'Entry.sort_order BETWEEN ? AND ?' => array($so_awal , $so_akhir)
+                            ),
+                            'order' => array('Entry.sort_order '.$arahorder)
+                        ));
+                        
+                        $tempso = 0;
+                        foreach($querybetween as $betkey => $betvalue)
+                        {
+                            $this->id = $betvalue['Entry']['id'];
+                            if($betkey > 0)
+                            {
+                                $this->saveField('sort_order' , $tempso );
+                            }
+                            else
+                            {
+                                $this->saveField('sort_order' , $querybetween[count($querybetween)-1]['Entry']['sort_order'] );
+                            }
+                            
+                            $tempso = $betvalue['Entry']['sort_order'];
+                        }
+                    }
+                }
+            }
+            // END OF SORTING OTHER LANGUAGE PROCESS !!
+        }
+    }
 	
 	/**
 	 * to get a valid slug entry process
@@ -221,14 +457,15 @@ class Entry extends AppModel {
 	{	
 		$counter = 0;
 		$mySlug = $slug;
+        $options = array('conditions'=> array('EntryMeta.key' => 'backup-slug' ));
 		if(!empty($id))
 		{
-			$options['conditions']['Entry.id <>'] = $id;
+			$options['conditions']['EntryMeta.entry_id <>'] = $id;
 		}
 		while(TRUE)
 		{
-			$options['conditions']['Entry.slug'] = $mySlug;
-			$findSlug = $this->find('first' , $options);
+            $options['conditions']['EntryMeta.value LIKE'] = '%'.chr(10).$mySlug.chr(10).'%';
+            $findSlug = $this->EntryMeta->find('first', $options);
 			if(empty($findSlug))
 			{
 				break;
@@ -250,7 +487,7 @@ class Entry extends AppModel {
 	{
 		if(!empty($this->data['Entry']['slug']))
 		{
-			$this->data['Entry']['slug'] = $this->get_valid_slug($this->data['Entry']['slug']);
+			$this->data['Entry']['slug'] = $this->get_valid_slug($this->data['Entry']['slug'] , $this->id);
 		}
 		return true;
 	}
@@ -331,7 +568,9 @@ class Entry extends AppModel {
         $temp = $this->field('lang_code');
         if(empty($temp))
         {
-            $this->saveField('lang_code' , 'en-'.$this->id);
+            // search for default language...
+            $query = $this->Setting->findByKey('language');
+            $this->saveField('lang_code' , substr($query['Setting']['value'] , 0 , 2).'-'.$this->id);
         }
         else if(strlen($temp) == 2)
         {
@@ -339,6 +578,34 @@ class Entry extends AppModel {
         }
 		
 		$this->updateCountField($this->field('parent_id') , $this->field('entry_type'));
+        
+        // NEW FEATURE 2015 : ADD SLUG HISTORY !!
+        $query = $this->EntryMeta->find('first', array(
+            'conditions' => array(
+                'EntryMeta.entry_id' => $this->id,
+                'EntryMeta.key' => 'backup-slug'
+            )
+        ));
+        
+        if(empty($query))
+        {
+            $input = array();
+            $input['EntryMeta']['entry_id'] = $this->id;
+            $input['EntryMeta']['key'] = 'backup-slug';
+            $input['EntryMeta']['value'] = chr(10).$this->field('slug').chr(10);
+            $this->EntryMeta->create();
+            $this->EntryMeta->save($input);
+        }
+        else
+        {
+            // check if slug already existed or not !!
+            if(strpos( $query['EntryMeta']['value'] , chr(10).$this->field('slug').chr(10) ) === FALSE)
+            {
+                $query['EntryMeta']['value'] .= $this->field('slug').chr(10);
+                $this->EntryMeta->id = $query['EntryMeta']['id'];
+                $this->EntryMeta->saveField('value' , $query['EntryMeta']['value'] );
+            }
+        }
     }
 	
 	/**
@@ -609,6 +876,7 @@ class Entry extends AppModel {
 	// imported from GET Helpers !!
 	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
 	{
+        $options = array();
 		if(!is_null($slug))
 		{
 			$options['conditions']['Entry.slug'] = $slug;
@@ -637,8 +905,20 @@ class Entry extends AppModel {
 		{
 			$options['conditions']['Entry.title'] = $title;
 		}
-
-		return (empty($options)?false:breakEntryMetas($this->find('first',$options)));
+        
+        // Skip if no options parameter !!
+        if(!empty($options))
+        {
+            // just query active entry for front-end !!
+            $options['conditions']['Entry.status'] = 1;
+            
+            $result = $this->find('first',$options);            
+            if(!empty($result))
+            {
+                return breakEntryMetas($result);
+            }
+        }
+		return false;
 	}
 	
 	// ---------------------------------------------- >>

@@ -168,6 +168,19 @@ class AppController extends Controller {
 		$this->set('mySetting' , $this->mySetting);
 		parent::beforeRender();
 	}
+    
+    function _convertEntrySlug()
+    {
+        if(!empty($this->request->params['entry']))
+        {
+            $this->request->params['entry'] = $this->Entry->_convertEntrySlug($this->request->params['entry']);
+        }
+        
+        if(!empty($this->request->params['entry_parent']))
+        {
+            $this->request->params['entry_parent'] = $this->Entry->_convertEntrySlug($this->request->params['entry_parent']);
+        }
+    }
 	
 	/**
 	* set all variable before load page / controller action
@@ -175,8 +188,9 @@ class AppController extends Controller {
 	**/	
 	function beforeFilter()
 	{
-		parent::beforeFilter();		
+        parent::beforeFilter();		
 		$this->_setInitLayout();
+        $this->_convertEntrySlug();
 
 		// url redirection for login kicked out !!
 		$urlext = "";
@@ -222,17 +236,14 @@ class AppController extends Controller {
 			$myUser = $this->User->findById($this->user['user_id']);
 			foreach ($myUser['UserMeta'] as $key => $value) $this->user['UserMeta'][ $value['key'] ] = $value['value'];
 		}
-
+        
 		// check role if admin or not...
 		if( isset($this->request->params['admin']) && $this->request->params['admin'] == 1)
 		{
-			if(!empty($this->user))
-			{				
-				if($this->user['role_id'] > 2)
-				{	
-					$this->Session->setFlash(__('Authorized access is required.'),'default',array() , 'auth');
-					$this->redirect($this->Auth->logout());
-				}
+            if(empty($this->user) || $this->user['role_id'] > 2 )
+			{   
+				$this->Session->setFlash(__('Authorized access is required.'),'default',array() , 'auth');
+				$this->redirect($this->Auth->logout());
 			}
 		}
 		$temp = $this->Setting->findByKey("custom-pagination");
