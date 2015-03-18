@@ -76,6 +76,12 @@
 			$value['model'] = 'TypeMeta';
 			$value['input_type'] = 'text';
 			$value['p'] = 'Type the category title that suitable for this database.';
+            if(!empty($myParentType))
+            {
+                $value['readonly'] = 'readonly';
+                $myParentType = breakEntryMetas($myParentType, 'TypeMeta');
+                $value['value'] = $myParentType['TypeMeta']['category'];
+            }
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
 			// STAGGING place here ...

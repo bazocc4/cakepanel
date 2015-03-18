@@ -1,17 +1,21 @@
 var jcrop_api = new Array();
-(function($){
-	$(document).ready(function()
-	{
-        // colorbox initialization !!
-        if($('.popup-image').length > 0)
+(function($){    
+    // colorbox initialization !!
+    $.fn.generalColorbox = function(objclass){
+        if($('.'+objclass).length > 0)
         {
-            $('.popup-image').colorbox({
+            $('.'+objclass).colorbox({
                 fixed: true,
                 reposition: false,
                 maxWidth:'95%',
                 maxHeight:'95%'
             });
         }
+    }
+    
+	$(document).ready(function()
+	{
+        $.fn.generalColorbox('popup-image');
 		
 		// disable right-click for image !!
 		$('img').bind('contextmenu', function(e) {

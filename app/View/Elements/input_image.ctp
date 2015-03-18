@@ -7,7 +7,7 @@
 	
 	// find use manual crop or not !!
 	$crop = -1;
-	foreach ($myType['TypeMeta'] as $key10 => $value10) 
+	foreach ( (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']) as $key10 => $value10) 
 	{
 		if($value10['key'] == "display_crop")
 		{

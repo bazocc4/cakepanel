@@ -39,6 +39,7 @@ function validation_check(field){
 	// set validation type conditions
 	switch(field){
 		case 'color':
+        case 'multidate':
 		case 'datepicker':
 		case 'datetimepicker':
 		case 'timepicker':

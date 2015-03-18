@@ -622,6 +622,18 @@ class GetHelper extends AppHelper
 			case 'datepicker':
 				$result = date_converter($value, $this->data['mySetting']['date_format']);
 				break;
+            case 'multidate':
+                $value = explode('|', $value);
+                $result = "";
+                foreach($value as $outkey => $outvalue)
+                {
+                    if($outkey > 0)
+                    {
+                        $result .= '<br>';
+                    }
+                    $result .= date_converter($outvalue, $this->data['mySetting']['date_format']);
+                }
+				break;
 			case 'checkbox':
 				
 				$pecah = explode('|', $value);

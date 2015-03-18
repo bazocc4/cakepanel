@@ -1343,7 +1343,7 @@ class EntriesController extends AppController {
 		// if form submit is taken...
 		if (!empty($this->request->data)) 
 		{
-			if(empty($lang_code) && !empty($myEntry) && substr($myEntry['Entry']['lang_code'], 0,2) != $this->request->data['language'])
+            if(empty($lang_code) && !empty($myEntry) && substr($myEntry['Entry']['lang_code'], 0,2) != $this->request->data['language'])
 			{
 				$myEntry = $this->Entry->findByLangCode($this->request->data['language'].substr($myEntry['Entry']['lang_code'], 2));
 			}	
@@ -1385,8 +1385,14 @@ class EntriesController extends AppController {
                 
 				foreach ($myDetails as $key => $value) 
 				{
-					if($value['input_type']=='file')				{$value['value'] = $_FILES[$value['key']]['name'];}
-					else if($value['input_type']=='multibrowse')	{$value['value'] = array_unique(array_filter($value['value']));}
+                    if($value['input_type']=='file' && !empty($_FILES[$value['key']]['name']))
+                    {
+                        $value['value'] = $_FILES[$value['key']]['name'];
+                    }
+                    else if($value['input_type']=='multibrowse')
+                    {
+                        $value['value'] = array_unique(array_filter($value['value']));
+                    }
 
 					// firstly DO checking validation from view layout !!!
 					$myValid = explode('|', $value['validation']);
@@ -1692,7 +1698,7 @@ class EntriesController extends AppController {
 					$this->Entry->save($this->request->data);
 					$galleryId = $myEntry['Entry']['id'];
                     if($data['gallery'])
-                    {                        
+                    {
                         // delete all the child image, and then add again !!
                         $this->Entry->deleteAll(array('Entry.parent_id' => $galleryId,'Entry.entry_type' => $myEntry['Entry']['entry_type']));
                         

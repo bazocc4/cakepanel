@@ -49,8 +49,7 @@ class AppModel extends Model {
 	
 	public function get_slug($value)
 	{
-		$str = Inflector::slug($value);
-		return str_replace('_','-', strtolower($str));
+		return get_slug($value);
 	}
 	
 	/** 

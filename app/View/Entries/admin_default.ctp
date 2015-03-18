@@ -35,6 +35,8 @@
 			<script>
 				$(document).ready(function(){
 					$('#cmsAlert').css('display' , 'none');
+                    // refresh colorbox initialization !!
+                    $.fn.generalColorbox('popup-image');
 				});
 			</script>
 		<?php
@@ -268,7 +270,18 @@
                         {
                             $hideKeyQuery = 'hide';
                         }
-                        echo "<th ".($value['input_type'] == 'textarea' || $value['input_type'] == 'ckeditor'?"style='min-width:200px;'":"")." class='".$hideKeyQuery."'>";
+                        
+                        $datefield = '';
+                        switch($value['input_type'])
+                        {
+                            case 'datepicker':
+                            case 'datetimepicker':
+                            case 'multidate':
+                                $datefield = 'date-field';
+                                break;
+                        }
+                        
+                        echo "<th ".($value['input_type'] == 'textarea' || $value['input_type'] == 'ckeditor'?"style='min-width:200px;'":"")." class='".$hideKeyQuery." ".$datefield."'>";
                         echo $this->Html->link(string_unslug($shortkey).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
 						echo "</th>";
 					}

@@ -458,9 +458,10 @@ class Entry extends AppModel {
 		$counter = 0;
 		$mySlug = $slug;
         $options = array('conditions'=> array('EntryMeta.key' => 'backup-slug' ));
+        $options_entry = array(); // check for second filter !!
 		if(!empty($id))
 		{
-			$options['conditions']['EntryMeta.entry_id <>'] = $id;
+			$options['conditions']['EntryMeta.entry_id <>'] = $options_entry['conditions']['Entry.id <>'] = $id; 
 		}
 		while(TRUE)
 		{
@@ -468,12 +469,15 @@ class Entry extends AppModel {
             $findSlug = $this->EntryMeta->find('first', $options);
 			if(empty($findSlug))
 			{
-				break;
+                // second check !!
+                $options_entry['conditions']['Entry.slug'] = $mySlug;                
+                $findSlug = $this->find('first' , $options_entry);
+                if(empty($findSlug))
+                {
+                    break;
+                }
 			}
-			else
-			{
-				$mySlug = $slug.'-'.(++$counter);
-			}
+            $mySlug = $slug.'-'.(++$counter);
 		}
 		return $mySlug;
 	}
@@ -667,13 +671,10 @@ class Entry extends AppModel {
 
 	public function makeChildImageEntry($data = array() , $myType = array())
 	{
-		$parentImage = $this->findById($data['value']);
-		foreach ($parentImage['EntryMeta'] as $key => $value) 
-		{
-			$parentImage['EntryMeta'][$value['key']] = $value['value'];
-		}
-		
-		// set the type of this entry...
+		$parentImage = $this->findById($data['value']);        
+        $parentImage = breakEntryMetas($parentImage);
+        
+        // set the type of this entry...
 		$input['Entry']['entry_type'] = 'media';
 		$input['Entry']['title'] = $parentImage['Entry']['title'];
 		// generate slug from title...
