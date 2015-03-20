@@ -571,5 +571,8 @@
             	setTimeout("window.close()" , delayCloseWindow);
             }
         <?php endif; ?>
+        
+        // apply doubleScroll event !!
+        $.fn.doubleScroll('autoscroll');
     });         
 </script>
