@@ -28,12 +28,6 @@
 		<script>
 			$(document).ready(function(){
 				$('#cmsAlert').css('display' , 'none');
-                $(".get-from-table").colorbox({ // REFRESH - POPUP ADMIN_DEFAULT.CTP
-                    reposition: false,
-                    onLoad: function() {
-                        $('#cboxClose').show();
-                    }
-                });
 			});
 		</script>
 		<?php

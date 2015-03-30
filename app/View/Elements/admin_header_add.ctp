@@ -10,7 +10,7 @@
 	}
 	if(!empty($myChildType))
 	{
-		$this->Html->addCrumb($myParentEntry['Entry']['title'], '/admin/entries/'.(empty($myType)?'pages':$myType['Type']['slug']).'/'.$myParentEntry['Entry']['slug'].($myType['Type']['slug']!=$myChildType['Type']['slug']?'?type='.$myChildType['Type']['slug']:''));
+		$this->Html->addCrumb($myParentEntry['Entry']['title'], '/admin/entries/'.(empty($myType)?'pages':$myType['Type']['slug']).'/'.$myParentEntry['Entry']['slug'].'?lang='.substr($myParentEntry['Entry']['lang_code'],0,2).($myType['Type']['slug']!=$myChildType['Type']['slug']?'&type='.$myChildType['Type']['slug']:''));
 	}
 	if(empty($myEntry))
 	{

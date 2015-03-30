@@ -1238,7 +1238,7 @@ class EntriesController extends AppController {
 		}
 
 		// set New countPage
-		$newCountPage = ceil($data['totalList'] * 1.0 / $countPage);
+		$newCountPage = ceil($data['totalList'] / $countPage);
 		$data['countPage'] = $newCountPage;
 		
 		// set the paging limitation...
@@ -1461,7 +1461,7 @@ class EntriesController extends AppController {
                 {
                 	foreach ($this->request->data['Entry']['fieldimage'] as $fieldkey => $fieldvalue) 
                 	{
-                		foreach ($fieldvalue as $key => $value) 
+                		foreach (array_reverse($fieldvalue) as $key => $value) 
                 		{
                 			$myImage = $this->Entry->findById($value);
 
@@ -1735,7 +1735,7 @@ class EntriesController extends AppController {
 	                {
 	                	foreach ($this->request->data['Entry']['fieldimage'] as $fieldkey => $fieldvalue) 
 	                	{
-	                		foreach ($fieldvalue as $key => $value) 
+	                		foreach (array_reverse($fieldvalue) as $key => $value) 
 	                		{
 	                			$myImage = $this->Entry->findById($value);
 
@@ -1974,7 +1974,7 @@ class EntriesController extends AppController {
 		$this->set('myList' , $mysql);
 		
 		// set New countPage
-		$newCountPage = ceil($resultTotalList * 1.0 / $countPage);
+		$newCountPage = ceil($resultTotalList / $countPage);
 		$this->set('countPage' , $newCountPage);
 		
 		// set the paging limitation...

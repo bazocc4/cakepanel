@@ -404,11 +404,15 @@ function getSizeFile($url) {
     return $x;
 }
 
-function promptDownloadFile($file)
+function promptDownloadFile($file , $filename = NULL)
 {
+    if(empty($filename))
+	{
+		$filename = str_replace(" ", "_", basename($file) );
+	}	
 	header('Content-Description: File Transfer');
 	header('Content-Type: application/octet-stream');
-	header('Content-Disposition: attachment; filename='.str_replace(" ", "_", basename($file) ));
+	header('Content-Disposition: attachment; filename='.$filename);
 	header('Content-Transfer-Encoding: binary');
     header('Expires: 0');
     header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");

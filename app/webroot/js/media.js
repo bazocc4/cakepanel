@@ -15,22 +15,36 @@ $(document).ready(function(){
 		$(this).find('a.insert-into-post').css('display', 'none');
 	});
     
+    // ======================= >>
     // colorbox initialization !!
-	$(".get-from-library, #upload").colorbox({ // POPUP MEDIA LIBRARY
-		onLoad: function() {
-		    $('#cboxClose').hide();
-		}
-	});
-	$(".get-from-table").colorbox({ // POPUP ADMIN_DEFAULT.CTP
-		reposition: false,
-		onLoad: function() {
-		    $('#cboxClose').show();
-		},
-        onComplete: function(){
-            // apply doubleScroll event !!
-            $.fn.doubleScroll('autoscroll');
-        }
-	});
+    // ======================= >>
+    
+    // POPUP MEDIA LIBRARY
+    $(document).on('click', '.get-from-library, #upload' , function(e){
+        e.preventDefault();        
+        $.colorbox({
+            href: $(this).attr('href'),
+            onLoad: function() {
+                $('#cboxClose').hide();
+            }
+        });        
+    });
+    
+    // POPUP ADMIN_DEFAULT.CTP
+    $(document).on('click','.get-from-table',function(e){        
+        e.preventDefault();
+        $.colorbox({
+            reposition: false,
+            href: $(this).attr('href')+($('a#lang_identifier').length>0?'&lang='+$('a#lang_identifier').text().toLowerCase():''),
+            onLoad: function() {
+                $('#cboxClose').show();
+            },
+            onComplete: function(){
+                // apply doubleScroll event !!
+                $.fn.doubleScroll('autoscroll');
+            }
+        });
+    });
 	
 	// --------------------------- >>
 	// on thumbnail hover - popup
@@ -95,22 +109,23 @@ $(document).ready(function(){
 	});
 
 	$(document).bind({
+        cbox_cleanup : function(){
+            // delete temp thumbnails from blueImp.
+            if($('form#fileupload tr.template-download').length > 0)
+            {
+                $.ajaxSetup({cache: false});
+                $.get(site+'entry_metas/deleteTempThumbnails');
+            }
+        },
 		cbox_closed : function(){
-
 			// clean variable in "add field MASTER DATABASE popup"
 			this_element = '';
-
-			// delete temp thumbnails from blueImp.
-			$.ajaxSetup({cache: false});
-			$.get(site+'entry_metas/deleteTempThumbnails',function(){
-
-				// media library module
-				if($('div.sidebar ul li a#media').hasClass('active'))
-				{
-					window.location = site + 'admin/entries/'+$('input#myTypeSlug').val();
-				}	
-				
-            });
+            
+            // media library module
+            if($('div.sidebar ul li a#media').hasClass('active'))
+            {
+                window.location = site + 'admin/entries/'+$('input#myTypeSlug').val();
+            }	
 		}
 	});
 });

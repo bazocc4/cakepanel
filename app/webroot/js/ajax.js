@@ -160,6 +160,21 @@ function openRequestedSinglePopup(strUrl)
 		var c = s.split(':');
    		return parseInt(c[0],10) * 60 + parseInt(c[1],10);
 	}
+    
+    $.fn.customParseDate = function(dateObj){
+        var d = new Date(dateObj);
+        var day = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (day < 10) {
+            day = "0" + day;
+        }
+        return month + "/" + day + "/" + year;
+    }
 	
 	$.fn.convertDate = function(phpDate){
         var t = phpDate.split(/[\/ :]/);
@@ -276,12 +291,12 @@ function openRequestedSinglePopup(strUrl)
 			if($('input#mycaller').val() == 'myPictureWrapper')
 			{
 				fullkey = $('input#mycaller').val();
-				$('div#'+fullkey).append('<div class="photo"><div class="image"><img style="width:150px" title="'+imgName+'" alt="'+imgName+'" src="'+site+'img/upload/thumb/'+imgId+'.'+imgType+'" /></div><div class="description"><p>'+imgName+'</p><a href="javascript:void(0)" onclick="deleteChildPic(this);" class="icon-remove icon-white"></a></div><input type="hidden" value="'+imgId+'" name="data[Entry][image][]" /></div>');
+				$('div#'+fullkey).prepend('<div class="photo"><div class="image"><img style="width:150px" title="'+imgName+'" alt="'+imgName+'" src="'+site+'img/upload/thumb/'+imgId+'.'+imgType+'" /></div><div class="description"><p>'+imgName+'</p><a href="javascript:void(0)" onclick="deleteChildPic(this);" class="icon-remove icon-white"></a></div><input type="hidden" value="'+imgId+'" name="data[Entry][image][]" /></div>');
 			}
 			else // input type gallery...
 			{
 				fullkey = $('input#mediaTypeSlug').val();
-				$('div#'+fullkey).append('<div class="photo"><div class="image"><img style="width:150px" title="'+imgName+'" alt="'+imgName+'" src="'+site+'img/upload/thumb/'+imgId+'.'+imgType+'" /></div><div class="description"><p>'+imgName+'</p><a href="javascript:void(0)" onclick="deleteChildPic(this);" class="icon-remove icon-white"></a></div><input type="hidden" value="'+imgId+'" name="data[Entry][fieldimage]['+fullkey+'][]" /></div>');
+				$('div#'+fullkey).prepend('<div class="photo"><div class="image"><img style="width:150px" title="'+imgName+'" alt="'+imgName+'" src="'+site+'img/upload/thumb/'+imgId+'.'+imgType+'" /></div><div class="description"><p>'+imgName+'</p><a href="javascript:void(0)" onclick="deleteChildPic(this);" class="icon-remove icon-white"></a></div><input type="hidden" value="'+imgId+'" name="data[Entry][fieldimage]['+fullkey+'][]" /></div>');
 			}
 
 			// update total pictures...

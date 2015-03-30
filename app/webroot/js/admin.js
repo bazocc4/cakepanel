@@ -4,11 +4,15 @@ var jcrop_api = new Array();
     $.fn.generalColorbox = function(objclass){
         if($('.'+objclass).length > 0)
         {
-            $('.'+objclass).colorbox({
-                fixed: true,
-                reposition: false,
-                maxWidth:'95%',
-                maxHeight:'95%'
+            $(document).on('click', '.'+objclass , function(e){
+                e.preventDefault();
+                $.colorbox({
+                    href:$(this).attr('href'),
+                    fixed: true,
+                    reposition: false,
+                    maxWidth:'95%',
+                    maxHeight:'95%'
+                });
             });
         }
     }
@@ -16,7 +20,7 @@ var jcrop_api = new Array();
 	$(document).ready(function()
 	{
         $.fn.generalColorbox('popup-image');
-		
+        
 		// disable right-click for image !!
 		$('img').bind('contextmenu', function(e) {
 			return false;
@@ -34,7 +38,7 @@ var jcrop_api = new Array();
 	    	window.onbeforeunload=function(){};
 	    });
 	    
-	    $("a.removeID").click(function(e){            
+	    $(document).on('click','a.removeID',function(e){
             e.preventDefault();            
 	    	$(this).closest("div.controls").find("input.targetID").val("").change();
 	    	$(this).closest("div.controls").find("input[type=hidden]").val("");
@@ -86,13 +90,6 @@ var jcrop_api = new Array();
 						$('.select').html('Change Cover');
 						$('.remove').show();
 					}
-					
-                    // refresh colorbox image link !!
-                    $(".get-from-library, #upload").colorbox({ // POPUP MEDIA LIBRARY
-                        onLoad: function() {
-                            $('#cboxClose').hide();
-                        }
-                    });
 				});
 			}
 		});

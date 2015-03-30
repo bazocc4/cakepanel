@@ -138,7 +138,7 @@
 			</ul>
 		</div>
 		<?php
-			if(count($mySetting['language']) > 1)
+			if(count($mySetting['language']) > 1 && empty($popup))
 			{
 				?>
 		<div class="btn-group lang-selector" style="margin-right: 10px;">

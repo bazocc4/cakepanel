@@ -35,8 +35,6 @@
 			<script>
 				$(document).ready(function(){
 					$('#cmsAlert').css('display' , 'none');
-                    // refresh colorbox initialization !!
-                    $.fn.generalColorbox('popup-image');
 				});
 			</script>
 		<?php
@@ -66,21 +64,9 @@
 		}
 	}
 
-	$(document).ready(function(){        
-        // ADD & DELETE BUTTON have the same life fate !!
-        if($('a.get-started').length == 0)
-        {
-            $('form#global-action > select > option[value=delete]').detach();
-            $('i.icon-trash').parent('a').detach();
-
-            if($('form#global-action > select > option').length == 1)
-            {
-                $('form#global-action').detach();
-            }
-        }
-
+	$(document).ready(function(){
 		// attach checkbox on each record...
-		if($('form#global-action').length > 0 && ($('input#query-stream').length > 0 || <?php echo (empty($popup)?'true':'false'); ?>) )
+		if($('form#global-action').length > 0 || $('input#query-stream').length > 0 )
 		{
 			$('table#myTableList thead tr').prepend('<th><input type="checkbox" id="check-all" /></th>');
 			$('table#myTableList tbody tr').each(function(i,el){
@@ -89,11 +75,23 @@
 
 			$('input#check-all').change(function(){
 				$('input.check-record').attr('checked' , $(this).attr('checked')?true:false);
+                $('input.check-record').change(); // update background color on each TR record...
 				$.fn.updateAttachButton();
 			});
 		}
 		
 		<?php if(empty($popup)): ?>
+            // ADD & DELETE BUTTON have the same life fate !!
+            if($('a.get-started').length == 0)
+            {
+                $('form#global-action > select > option[value=delete]').detach();
+                $('table#myTableList i.icon-trash').parent('a').detach();
+                if($('form#global-action > select > option').length == 1)
+                {
+                    $('form#global-action').detach();
+                }
+            }
+        
 			<?php if($isOrderChange == 1): ?>
 				// table sortable
 				$("table.list tbody").sortable({ opacity: 0.6, cursor: 'move',
@@ -116,32 +114,35 @@
 			<?php endif; ?>
 
 			// submit bulk action checkbox !!
-			$('form#global-action').submit(function(){				
-				var records = [];
-				$('input.check-record').each(function(i,el){
-					if($(el).attr('checked'))
-					{
-						records.push($(el).val());
-					}
-				});
-				
-				if(records.length > 0)
-				{
-					if(confirm('Are you sure to execute this BULK action ?'))
-					{
-						$(this).find('input#action-records').val( records.join(',') );
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					alert('Please select the record first before doing action !!');
-					return false;
-				}
-			});
+			if($('form#global-action').length > 0)
+            {
+                $('form#global-action').submit(function(){				
+                    var records = [];
+                    $('input.check-record').each(function(i,el){
+                        if($(el).attr('checked'))
+                        {
+                            records.push($(el).val());
+                        }
+                    });
+
+                    if(records.length > 0)
+                    {
+                        if(confirm('Are you sure to execute this BULK action ?'))
+                        {
+                            $(this).find('input#action-records').val( records.join(',') );
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        alert('Please select the record first before doing action !!');
+                        return false;
+                    }
+                });
+            }
 			
 			// ---------------------------------------------------------------------- >>>
 			// FOR AJAX REASON !!
