@@ -62,12 +62,6 @@ $(document).ready(function(){
 	
 	// init bootstrap hack
 	bootstrap_hack();
-	// // copy tags function
-	// $('div#child-content').on('click', '.copy-tag', function(e){
-		// e.preventDefault();
-		// // $.fn.copyToClipboard($(this).parents('div.photo').next('input[type=button]').attr('id') , 'wakakakak');
-		// $(this).parents('div.photo').next('input[type=button]').click();
-	// });
 });
 
 // on resize

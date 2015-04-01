@@ -108,6 +108,23 @@ function openRequestedSinglePopup(strUrl)
             element.parentNode.insertBefore(scrollbar, element);
         }
     }
+    
+    /* ENABLE / DISABLE ATTACH BUTTON ON POPUP */
+    $.fn.updateAttachButton = function(){        
+        var attach_status = false;
+        var check_all = true;        
+        $('input.check-record').each(function(i,el){
+            if($(this).attr('checked'))     attach_status = true;
+            else                            check_all = false;
+        });
+        
+        $('input#check-all').attr('checked' , check_all );        
+		if($('#attach-checked-data').length > 0)
+		{
+			if(attach_status)    $('#attach-checked-data').removeClass('disabled');
+			else                 $('#attach-checked-data').addClass('disabled');	
+		}
+	}
 	
 	$.fn.fixedHeaderTable = function(header_class){
 		if ( $('table.fixed_body_scroll').length ) {
