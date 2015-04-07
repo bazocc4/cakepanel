@@ -360,7 +360,7 @@ class EntriesController extends AppController {
 		    $mybody = "<strong>Message from ".$this->mySetting['title']." Website Guest</strong><br/><br/>";
             $mybody .= "Name : ".$_POST['namecontact']."<br/>";
             // Upload File !!
-            if(isset($_FILES['filecontact']))
+            if(!empty($_FILES['filecontact']['tmp_name']))
             {
                 $Email->attachments(array(
                     $_FILES['filecontact']['name'] => array(
