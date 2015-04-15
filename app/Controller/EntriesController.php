@@ -442,27 +442,59 @@ class EntriesController extends AppController {
 			}
 		}
 		
-		$title = $this->Entry->findById($id);
-		
-		// delete all the children !!
-		$children = $this->Entry->findAllByParentId($id);
-		foreach ($children as $key => $value) 
+		$title = $this->meta_details(NULL , NULL , NULL , $id);        
+        $statushapus = true;
+        
+        // Parent Type !!
+		if($title['Entry']['parent_id'] > 0)
 		{
-			$this->EntryMeta->remove_files( $this->Type->findBySlug($value['Entry']['entry_type']) , $value );
-			$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $value['Entry']['id']));
+			if($title['Entry']['entry_type'] == '')
+			{
+                // ADDITIONAL FUNCTION HERE AFTER DELETE RECORD !!
+                // ...............
+                // ===================================================== >>
+			}
 		}
-		$this->Entry->deleteAll(array('Entry.parent_id' => $id));
-		
-		// delete the entry !!
-		$this->EntryMeta->remove_files( $this->Type->findBySlug($title['Entry']['entry_type']) , $title );
-		$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $id));
-		$this->Entry->delete($id);
-		
-		if(empty($localcall))
+		else // if this is a single / parent entry ...
+		{
+			if($title['Entry']['entry_type'] == '')
+			{
+                // ADDITIONAL FUNCTION HERE AFTER DELETE RECORD !!
+                // ...............
+                // ===================================================== >>
+			}
+		}
+        
+        if($statushapus)
         {
-            $this->Session->setFlash($title['Entry']['title'].' has been deleted', 'success');
+            // delete all the children !!
+            $children = $this->Entry->findAllByParentId($id);
+            foreach ($children as $key => $value) 
+            {
+                $this->EntryMeta->remove_files( $this->Type->findBySlug($value['Entry']['entry_type']) , $value );
+                $this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $value['Entry']['id']));
+            }
+            $this->Entry->deleteAll(array('Entry.parent_id' => $id));
+
+            // delete the entry !!
+            $this->EntryMeta->remove_files( $this->Type->findBySlug($title['Entry']['entry_type']) , $title );
+            $this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $id));
+            $this->Entry->delete($id);
+
+            if(empty($localcall))
+            {
+                $this->Session->setFlash($title['Entry']['title'].' has been deleted', 'success');
+            }
+        }
+        
+        if(empty($localcall))
+        {
             header("Location: ".$_SESSION['now']);
             exit;
+        }
+        else
+        {
+            return $statushapus;
         }
 	}
 
@@ -1526,6 +1558,9 @@ class EntriesController extends AppController {
                     $this->Entry->_reorderAfterTranslate($lang_code);
                 }
                 
+                // ---------- ADD SHIPPING ID OR SOMETHING ELSE RELATED !! ------------- //
+				$this->_add_update_id_meta($myType['Type']['slug'] , $myChildTypeSlug , $myEntry);
+                
 				// NOW finally setFlash ^^
 				$this->Session->setFlash($this->request->data['Entry']['title'].' has been added.','success');
 				if($this->request->params['admin']==1)
@@ -1543,7 +1578,19 @@ class EntriesController extends AppController {
 				$this->_setFlashInvalidFields($this->Entry->invalidFields());
 			}
 		}
-	}	
+	}
+    
+    function _add_update_id_meta($myTypeSlug , $myChildTypeSlug = NULL , $myParentEntry = array() , $myEntry = array())
+	{
+		// $this->request->data['EntryMeta']['entry_id'] => not needed to be set, coz it's already set in parent function !!
+        $this->request->data = breakEntryMetas($this->request->data);
+        $this->request->data['Entry']['id'] = $this->request->data['EntryMeta']['entry_id'];
+        $this->request->data['imagePath'] = $this->get_linkpath();
+        
+        // ADDITIONAL FUNCTION HERE AFTER INSERT / UPDATE RECORD !!
+        // ...............
+        // ===================================================== >>
+	}
 
 	/**
 	* update certain entry 
@@ -1807,6 +1854,9 @@ class EntriesController extends AppController {
 						}
 					}
                     
+                    // --------- UPDATE SHIPPING ID OR SOMETHING ELSE RELATED !! ----------- //
+				    $this->_add_update_id_meta($myType['Type']['slug'] , $myChildTypeSlug , $myParentEntry , $myEntry);
+                    
 					$this->Session->setFlash($this->request->data['Entry']['title'].' has been updated.','success');
 					if($this->request->params['admin']==1)
 					{
@@ -2036,7 +2086,7 @@ class EntriesController extends AppController {
 	// imported from GET Helpers !!
 	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
 	{
-		return $this->Entry->meta_details($slug , $entry_type , $parentId , $id , $ordering , $lang , $title);
+		return $this->Entry->meta_details($slug , $entry_type , $parentId , $id , $ordering , $lang , $title ); // default is from BACK-END called !!
 	}
 
 	function admin_backup()

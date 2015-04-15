@@ -875,7 +875,7 @@ class Entry extends AppModel {
 	}
 
 	// imported from GET Helpers !!
-	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
+	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL , $status = NULL)
 	{
         $options = array();
 		if(!is_null($slug))
@@ -910,8 +910,10 @@ class Entry extends AppModel {
         // Skip if no options parameter !!
         if(!empty($options))
         {
-            // just query active entry for front-end !!
-            $options['conditions']['Entry.status'] = 1;
+            if(!is_null($status))
+            {
+                $options['conditions']['Entry.status'] = $status;
+            }
             
             $result = $this->find('first',$options);            
             if(!empty($result))

@@ -577,7 +577,7 @@ function parseGoogleDriveUrl($shareurl)
 /*
 back-up project files into zip file.
 */
-function Zip($source, $destination, $include_dir = false)
+function Zip($source, $destination)
 {
 	ini_set('memory_limit', '-1'); // unlimited memory limit to process backup files.
 
@@ -594,27 +594,11 @@ function Zip($source, $destination, $include_dir = false)
     if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
         return false;
     }
-    $source = str_replace('\\', '/', realpath($source));
+    $source = realpath($source);
 
     if (is_dir($source) === true)
     {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
-
-        if ($include_dir) {
-
-            $arr = explode("/",$source);
-            $maindir = $arr[count($arr)- 1];
-
-            $source = "";
-            for ($i=0; $i < count($arr) - 1; $i++) { 
-                $source .= '/' . $arr[$i];
-            }
-
-            $source = substr($source, 1);
-
-            $zip->addEmptyDir($maindir);
-        }
-
         foreach ($files as $file)
         {
             $file = str_replace('\\', '/', $file);
@@ -627,11 +611,11 @@ function Zip($source, $destination, $include_dir = false)
 
             if (is_dir($file) === true)
             {
-                $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+                $zip->addEmptyDir(str_replace($source . '\\', '', $file . '/'));
             }
             else if (is_file($file) === true)
             {
-                $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+                $zip->addFromString(str_replace($source . '\\', '', $file), file_get_contents($file));
             }
         }
     }
