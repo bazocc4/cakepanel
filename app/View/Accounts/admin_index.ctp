@@ -100,7 +100,7 @@
 <table id="myTableList" class="list">
 	<thead>
 		<tr>
-			<th>USERNAME</th>
+			<th>E-MAIL ACCOUNT</th>
 			<th>NAME</th>
 			<?php
 				if(empty($popup))

@@ -57,7 +57,7 @@ class AccountsController extends AppController {
 		{	
 			$options['conditions']['Role.name NOT LIKE'] = "super admin";
 		}
-		if(!empty($popup))
+		if(!empty($popup) && !empty($popupRole))
 		{
 			$options['conditions']['Role.name'] = $popupRole;
 		}

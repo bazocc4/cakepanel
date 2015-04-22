@@ -24,14 +24,15 @@
 			<label style="color: red;" class="control-label">Username</label>
 			<div class="controls">				
 				<input REQUIRED class="input-xlarge" value="<?php echo (isset($_POST['data']['Account']['username'])?$_POST['data']['Account']['username']:$myData['Account']['username']); ?>" type="text" size="40" name="data[Account][username]"/>
+				<p class="help-block">Type as your nickname account</p>
 			</div>
 		</div>
 		
 		<div class="control-group">            
-			<label style="color: red;" class="control-label">E-mail</label>
+			<label style="color: red;" class="control-label">E-mail Login</label>
 			<div class="controls">				
 				<input REQUIRED class="input-xlarge" value="<?php echo (isset($_POST['data']['Account']['email'])?$_POST['data']['Account']['email']:$myData['Account']['email']); ?>" type="text" size="40" name="data[Account][email]"/>								
-				<p class="help-block">Please enter a valid email address.</p>								
+				<p class="help-block">Please enter a valid email address as login authentication.</p>
 			</div>
 		</div>
 		

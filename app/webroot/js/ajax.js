@@ -41,10 +41,14 @@ function deleteChildPic(myobj)
 	});
 }
 
-function openRequestedSinglePopup(strUrl) 
+function openRequestedSinglePopup(strUrl , targetName) 
 {
+    if(targetName == null)
+    {
+        targetName = "SingleSecondaryWindowName";
+    }
 	var options = "toolbar=yes,resizable=yes,scrollbars=yes,status=yes";
-	var windowObjectReference = window.open(strUrl, "SingleSecondaryWindowName",options);
+	var windowObjectReference = window.open(strUrl,targetName ,options);
 	windowObjectReference.focus();
 }
 

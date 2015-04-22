@@ -90,7 +90,7 @@
 				</div>
 				
 				<div class="username span5">
-					Hi, <?php echo $user['User']['firstname']." ".$user['User']['lastname']; ?>! <?php echo $this->Html->link('Logout',array('controller'=>'accounts','action'=>'logout','admin'=>true), array('class' => 'btn btn-danger')); ?>
+					Hi, <?= $user['username']; ?>! <?php echo $this->Html->link('Logout',array('controller'=>'accounts','action'=>'logout','admin'=>true), array('class' => 'btn btn-danger')); ?>
 				</div>
 			</div>
 			

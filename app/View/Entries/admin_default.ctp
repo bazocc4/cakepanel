@@ -414,7 +414,7 @@
                         	$entrydetail = $this->Get->meta_details($displayValue , get_slug($shortkey));
 							if(empty($entrydetail))
 							{
-								echo '-';
+								echo $displayValue;
 							}
 							else
 							{

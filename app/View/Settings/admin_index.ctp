@@ -183,7 +183,8 @@
 			unset($value['list']);
 		?>		
 <!-- 		LANGUAGE SETTINGS -->		
-		<div class="control-group" style="margin-bottom: 18px;">            
+    <div class="language-settings <?= ($user['role_id'] > 1?'hide':''); ?>">
+        <div class="control-group" style="margin-bottom: 18px;">            
 			<label style="color: red;" class="control-label">Default Language</label>
 			<div class="controls inline">
 				<select id="default_language" name="data[Setting][15][value]" class="field_type">
@@ -236,6 +237,7 @@
 				</div>
 			</div>
 		</div>
+    </div>
 <!-- 		END OF LANGUAGE SETTINGS -->
 		<?php			
 			// Google Analytics Code ...

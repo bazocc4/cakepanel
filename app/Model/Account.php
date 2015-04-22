@@ -244,6 +244,18 @@ class Account extends AppModel {
 			'order' => ''
 		)
 	);
+    
+    public function getIndexedAccount()
+    {
+        // query all user data !!
+        $userdata = $this->find('all');
+        $pic = array();
+        foreach($userdata as $key => $value)
+        {
+            $pic[$value['Account']['id']] = $value['Account']['username'];
+        }
+        return $pic;
+    }
 
 	/**
 	 * function that be executed before save an account (automated by cakephp)

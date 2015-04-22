@@ -74,9 +74,17 @@
 		if("<?php echo (empty($popup)?'kosong':'berisi'); ?>"=="berisi")
 		{	
 			$('table#myTableList tr').css('cursor' , 'pointer');
-			$("table#myTableList tr").click(function(){
-				$("input#user").val( $(this).find("h5.name-code").html().trim() );
+			$("table#myTableList tr").click(function(){                
+                var namecode = $(this).find("h5.name-code").html().trim();
+				$("input#user").val( namecode );
 				$("input#user").nextAll('input[type=hidden]').val( $(this).find("input[type=hidden].id-code").val() );
+                
+                // autofill if default is empty !!
+                if($('input.input-username').length > 0 && $('input.input-username').val().trim() == '')
+                {
+                    $('input.input-username').val(namecode);
+                }
+                
 				$.colorbox.close();
 			});
 		}

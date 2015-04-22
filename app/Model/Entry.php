@@ -493,6 +493,13 @@ class Entry extends AppModel {
 		{
 			$this->data['Entry']['slug'] = $this->get_valid_slug($this->data['Entry']['slug'] , $this->id);
 		}
+        
+        // renew the modifier !!
+        $myCreator = $this->getCurrentUser();
+        if(!empty($myCreator))
+        {
+            $this->data['Entry']['modified_by'] = $myCreator['id'];
+        }
 		return true;
 	}
 	
