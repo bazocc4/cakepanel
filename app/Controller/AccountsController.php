@@ -57,7 +57,7 @@ class AccountsController extends AppController {
 		{	
 			$options['conditions']['Role.name NOT LIKE'] = "super admin";
 		}
-		if(!empty($popup) && !empty($popupRole))
+		if(!empty($popup))
 		{
 			$options['conditions']['Role.name'] = $popupRole;
 		}
@@ -178,14 +178,20 @@ class AccountsController extends AppController {
 	function admin_edit($id) 
 	{
 		$this->setTitle('Edit Account');
-		
 		if (!$id && empty($this->request->data)) {
 			$this->Session->setFlash('Invalid account', 'failed');
 			$this->redirect(array('action' => 'index'));
 		}
-
-		$this->set('id',$id);
+        
 		$result = $this->Account->findById($id);
+        // second filter !!
+        if(!($this->user['role_id'] < $result['Account']['role_id'] || $this->user['id'] == $result['Account']['created_by'] || $this->user['email'] == $result['Account']['email']))
+        {
+            $this->Session->setFlash('Invalid account', 'failed');
+			$this->redirect(array('action' => 'index'));
+        }
+        
+        $this->set('id',$id);
 		$this->set('myData' , $result);
 		
 		if (!empty($this->request->data)) 
@@ -233,12 +239,29 @@ class AccountsController extends AppController {
 	}
 
 	function delete($id = null) {
-		if (!$id) {
-			$this->Session->setFlash('Invalid id for user account', 'failed');
-			$this->redirect(array('action'=>'index','admin'=>true));
-		}		
-		$this->Account->delete($id);
-		$this->Session->setFlash('User account has been deleted', 'success');
+        $invalid = false;        
+        if (!$id) {
+			$invalid = true;
+		}
+        else
+        {
+            $account = $this->Account->findById($id);            
+            if(!($this->user['role_id'] < $account['Account']['role_id'] || $this->user['id'] == $account['Account']['created_by']))
+            {
+                $invalid = true;
+            }
+        }
+        
+        // check decision !!
+        if($invalid)
+        {
+            $this->Session->setFlash('Invalid id for user account', 'failed');
+        }
+        else
+        {
+            $this->Account->delete($id);
+            $this->Session->setFlash('User account has been deleted', 'success');
+        }
 		$this->redirect(array('action'=>'index','admin'=>true));
 	}
 

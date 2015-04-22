@@ -120,14 +120,11 @@
 				<!--HEADER-->
 				<div class="sidebar span2">
 					<ul>
-						<?php
-							if($user['role_id'] <= 1)
-							{
-								echo "<li>";
-								echo $this->Html->link('Master',array('controller'=>'master','action'=>'types'),array('id'=>'master'));
-								echo "</li>";
-							}
-						?>
+					    <li class="<?php echo ($user['role_id'] > 1?'hide':''); ?>">
+					        <?php
+                                echo $this->Html->link('Master',array('controller'=>'master','action'=>'types'),array('id'=>'master'));
+                            ?>    
+					    </li>
 						<li>
 							<?php									
 								echo $this->Html->link('Settings',array('controller'=>'settings','action'=>'index'),array('id'=>'settings'));
@@ -148,7 +145,7 @@
 								echo $this->Html->link('Media Library',array('controller'=>'entries','action'=>'media'),array('id'=>'media')); 
 							?>
 						</li>						
-						<li>
+						<li class="<?php echo ($user['role_id'] > 1?'hide':''); ?>">
 							<?php 
 								echo $this->Html->link('Pages',array('controller'=>'entries','action'=>'pages'),array('id'=>'pages')); 
 							?>

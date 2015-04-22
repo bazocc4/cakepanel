@@ -127,13 +127,13 @@
 			<input class="id-code" type="hidden" value="<?php echo $value['Account']['id']; ?>" />
 			<h5>
 				<?php
-					if(!empty($popup))
+					if(empty($popup) && ($user['role_id'] < $value['Account']['role_id'] || $user['id'] == $value['Account']['created_by'] || $user['email'] == $value['Account']['email'] ) )
 					{
-						echo $value['Account']['email'];
+                        echo $this->Html->link($value['Account']['email'],array('action'=>'edit', $value['Account']['id']));
 					}
 					else 
 					{
-						echo $this->Html->link($value['Account']['email'],array('action'=>'edit', $value['Account']['id']));
+						echo $value['Account']['email'];
 					} 
 				?>
 			</h5>
@@ -158,16 +158,16 @@
 			?>
 		</td>
 		<td <?php echo (empty($popup)?'':'class="offbutt"'); ?>><?php echo date_converter($value['Account']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?></td>
-		<?php
-			if(empty($popup))
+		<td>
+        <?php
+			if(empty($popup) && ($user['role_id'] < $value['Account']['role_id'] || $user['id'] == $value['Account']['created_by']) )
 			{
-				echo "<td>";
-				?>
-					<a href="javascript:void(0)" onclick="show_confirm('Are you sure want to delete this account ?','accounts/delete/<?php echo $value['Account']['id']; ?>')" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>	
-				<?php
-				echo "</td>";
+                ?>
+                    <a href="javascript:void(0)" onclick="show_confirm('Are you sure want to delete this account ?','accounts/delete/<?php echo $value['Account']['id']; ?>')" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>	
+                <?php
 			}
 		?>
+		</td>		
 	</tr>	
 	<?php
 		endforeach;
