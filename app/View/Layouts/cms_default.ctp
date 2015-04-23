@@ -147,7 +147,7 @@
 						</li>						
 						<li class="<?php echo ($user['role_id'] > 1?'hide':''); ?>">
 							<?php 
-								echo $this->Html->link('Pages',array('controller'=>'entries','action'=>'pages'),array('id'=>'pages')); 
+								echo $this->Html->link('Supad Pages',array('controller'=>'entries','action'=>'pages'),array('id'=>'pages')); 
 							?>
 						</li>
 						
