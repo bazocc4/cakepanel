@@ -26,6 +26,11 @@
 			var url = "admin/entries/backup/backup-files"; 
 			window.location = site + url;
 		});
+        
+        $("button#backup-img").click(function(){
+			var url = "admin/entries/backup/backup-img"; 
+			window.location = site + url;
+		});
 		
 		$("button#backup").click(function(){
 			var url = "admin/entries/backup/backup"; 
@@ -54,7 +59,7 @@
 <div class="inner-content">
 	<div class="control-group">
 		<div class="controls">
-			<button id="backup" title="Backup all your database" type="button" class="btn btn-primary">Backup Database</button>				
+			<button id="backup" title="Backup all your database" type="button" class="btn btn-primary">Backup Database <i style="margin-top: 1px;" class="icon-th-list icon-white"></i></button>				
 		</div>
 	</div>
 	<div class="control-group hide">
@@ -81,7 +86,12 @@
 	<hr>
 	<div class="control-group">
 		<div class="controls">
-			<button id="backup-files" title="Backup all your uploaded files" type="button" class="btn btn-info">Backup Uploaded Files</button>
+			<button id="backup-files" title="Backup all your uploaded files" type="button" class="btn btn-info">Backup Uploaded Files <i style="margin-top: 1px;" class="icon-file icon-white"></i></button>
+		</div>
+	</div>		
+	<div class="control-group">
+		<div class="controls">
+			<button id="backup-img" title="Backup all your uploaded images" type="button" class="btn btn-success">Backup Uploaded Images <i style="margin-top: 1px;" class="icon-picture icon-white"></i></button>
 		</div>
 	</div>		
 </div>

@@ -59,9 +59,22 @@
 				foreach ($metaslugs as $metakey => $metavalue) 
 				{
 					$metaDetails = $this->Get->meta_details($metavalue , $browse_slug);
-					
 					if(!empty($metaDetails))
 					{
+                        // check language is matching or not !!
+                        if(!empty($lang))
+                        {
+                            $pecahlang = explode('-', $metaDetails['Entry']['lang_code']);
+                            if($lang != $pecahlang[0])
+                            {
+                                $tempDetails = $this->Get->meta_details(NULL , $browse_slug , NULL , NULL , NULL , $lang.'-'.$pecahlang[1]);
+                                if(!empty($tempDetails))
+                                {
+                                    $metaDetails = $tempDetails;
+                                }
+                            }
+                        }
+                        
 						echo '<div class="row-fluid '.$browse_slug.'-detail bottom-spacer">';
 					
 						if(!empty($metaDetails['EntryMeta']['name']))

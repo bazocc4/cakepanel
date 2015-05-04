@@ -7,7 +7,22 @@
     $metaslug = (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value);
     if(!empty($metaslug))
     {
-        $metaDetails = $this->Get->meta_details( $metaslug , $browse_slug);	
+        $metaDetails = $this->Get->meta_details( $metaslug , $browse_slug);
+        
+        // check language is matching or not !!
+        if(!empty($lang) && !empty($metaDetails))
+        {
+            $pecahlang = explode('-', $metaDetails['Entry']['lang_code']);
+            if($lang != $pecahlang[0])
+            {
+                $tempDetails = $this->Get->meta_details(NULL , $browse_slug , NULL , NULL , NULL , $lang.'-'.$pecahlang[1]);
+                if(!empty($tempDetails))
+                {
+                    $metaDetails = $tempDetails;
+                    $metaslug = $metaDetails['Entry']['slug'];
+                }
+            }
+        }
     }
 
 	$required = "";
@@ -43,7 +58,7 @@
         <?php
             echo $this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>array('popup'=>'init')),array('class'=>'btn btn-info get-from-table'));
         ?>
-        <input class="<?php echo $shortkey; ?>" type="hidden" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]" value="<?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?>"/>
+        <input class="<?php echo $shortkey; ?>" type="hidden" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]" value="<?php echo $metaslug; ?>"/>
         
         <?php if(empty($required)): ?>
             <a class="btn btn-danger removeID" href="javascript:void(0)">Clear</a>  

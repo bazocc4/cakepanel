@@ -94,6 +94,15 @@ class PhpExcelComponent extends Component {
 
         return $this;
     }
+    
+    /**
+     * Get total available sheet
+     *
+     * @return int total available sheet
+     */
+    public function getSheetCount() {
+        return $this->_xls->getSheetCount();
+    }
 
     /**
      * Set worksheet name
@@ -349,5 +358,16 @@ class PhpExcelComponent extends Component {
     public function freeMemory() {
         $this->_xls->disconnectWorksheets();
         unset($this->_xls);
+    }
+    
+    /**
+     * Delete selected Excel Column
+     *
+     * @param string $col - starting index of column to be removed (alphabetical)
+     * @param string $length - number of column to be removed
+     * @return void
+     */
+    public function removeColumn($col , $length = 1) {
+        $this->_xls->getActiveSheet()->removeColumn($col, $length);
     }
 }

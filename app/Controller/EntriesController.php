@@ -371,7 +371,7 @@ class EntriesController extends AppController {
                 
                 $mybody .= "Reference Image Upload : (attached)<br/>";
             }
-            $mybody .= "Content :<br/>".nl2br($_POST['pesancontact'])."<br/>";
+            $mybody .= "<br/>Content :<br/>".nl2br($_POST['pesancontact'])."<br/>";
 
             // Execute E-mail ...
 			try{
@@ -2106,6 +2106,14 @@ class EntriesController extends AppController {
 		else if($mode == "backup-files") // uploaded files
 		{
 			$filename = 'files-'.get_slug($this->mySetting['title']).'-'.date('d-m-Y').'.zip';
+			if(!Zip('files', $filename)) // if zipping failed, then reload page and let the admin try again.
+			{
+				$this->render($this->backEndFolder."backup-restore");
+			}
+		}
+        else if($mode == "backup-img") // uploaded img/upload...
+		{
+			$filename = 'images-'.get_slug($this->mySetting['title']).'-'.date('d-m-Y').'.zip';
 			if(!Zip('img/upload', $filename)) // if zipping failed, then reload page and let the admin try again.
 			{
 				$this->render($this->backEndFolder."backup-restore");

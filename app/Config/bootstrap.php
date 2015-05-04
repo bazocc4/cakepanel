@@ -393,6 +393,29 @@ function convertExcelVersion($inputPath,$outputPath)
     $objWriter->save($outputPath);
 }
 
+/**
+	* convert Excel Date to PHP Date Timestamp
+    * @public
+	**/
+function excelDateToDate($readDate){
+    $phpexcepDate = floor($readDate)-25569; //to offset to Unix epoch
+    return strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
+}
+
+/**
+	* parse PHP Date to Excel Date Timestamp
+    * @public
+	**/
+function parseExcelDate($inputDate){
+    // number of seconds in a day
+    $seconds_in_a_day = 86400;
+    // Unix timestamp to Excel date difference in seconds
+    $ut_to_ed_diff = $seconds_in_a_day * 25570;
+    
+    $result = ( strtotime($inputDate) + $ut_to_ed_diff) / $seconds_in_a_day;
+    return $result;
+}
+
 function getSizeFile($url) {
     if (substr($url,0,4)=='http') {
         $x = array_change_key_case(get_headers($url, 1),CASE_LOWER);

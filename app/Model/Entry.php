@@ -907,7 +907,7 @@ class Entry extends AppModel {
         }
 		if(!is_null($lang))
 		{
-			$options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
+			$options['conditions']['Entry.lang_code LIKE'] = $lang.(strpos($lang, '-') === FALSE?'-%':'');
 		}
 		if(!is_null($title))
 		{
