@@ -217,10 +217,8 @@
  */
 	Configure::write('Session', array(
         'defaults' => 'php',
-        'timeout' => 1440, // The session will timeout after 1 day of inactivity
+        'timeout' => 10080, // The session will timeout after 1 week of inactivity
         'cookieTimeout' => 10080, // The session cookie will live for at most 1 week, this does not effect session timeouts
-        'checkAgent' => false,
-        'autoRegenerate' => true, // causes the session expiration time to reset on each page load
     )); 
 
 /**
@@ -271,7 +269,7 @@
  * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+	date_default_timezone_set("Asia/Jakarta"); 
 
 /**
  * `Config.timezone` is available in which you can set users' timezone string.

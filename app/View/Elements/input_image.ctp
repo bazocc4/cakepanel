@@ -47,8 +47,8 @@
             {
               $('div#imageinfo_<?php echo $counter; ?> input').val('');
             }
-            
-            $('img#myEditCoverImage_<?php echo $counter; ?>').load(function(){
+        
+            $('img#myEditCoverImage_<?php echo $counter; ?>').one('load', function() {
                 // Activate jCrop Plugin ...
                 jcrop_api[<?php echo $counter; ?>] = $.Jcrop('img#myEditCoverImage_<?php echo $counter; ?>', {
                     onChange:   showCoords_<?php echo $counter; ?>,
@@ -83,8 +83,9 @@
                 $('input[type=text]#h_<?php echo $counter; ?>').change(function(){
                     $.fn.jCropSetSelectSize(<?php echo $counter; ?>);
                 });
+            }).each(function() {
+              if(this.complete) $(this).load();
             });
-            
 		<?php endif; ?>
 	});
 </script>

@@ -8,6 +8,31 @@
 		$required = 'REQUIRED';
 	}
 ?>
+<script>
+	$(document).ready(function(){
+        $('input[type=file].<?php echo $shortkey; ?>').change( function() {
+            //check whether browser fully supports all File API
+            if (window.File && window.FileReader && window.FileList && window.Blob)
+            {
+                //get the file size from file input field
+                var fsize = $(this)[0].files[0].size;
+                var maxsize = 2097152; // 2 mb max...
+
+                if(fsize>maxsize) //do something if file size more than 2 mb
+                {
+                    alert("Please attach file with size no more than 2 MB.");
+                }else{
+                    return true;
+                }
+            }else{
+                alert("Please upgrade your browser, because your current browser lacks some new features we need!");
+            }
+            
+            $(this).val('');
+            $(this).focus();
+        });
+	});
+</script>
 <div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>            
 	<label class="control-label" <?php echo (!empty($required)?'style="color: red;"':''); ?>>
         <?php echo string_unslug($shortkey); ?>
@@ -39,6 +64,9 @@
                 echo '</p>';
             }
         ?>
+        <p class="help-block" style="color:red;">
+            PS: Maximum File Size is 2 MB.
+        </p>
 	</div>
 	<input type="hidden" value="<?php echo $key; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][key]"/>
 	<input type="hidden" value="<?php echo $input_type; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][input_type]"/>

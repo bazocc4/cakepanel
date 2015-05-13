@@ -13,7 +13,7 @@ class Account extends AppModel {
 			),
 			'unique' => array(
 				'rule' => array('checkUnique',array('user_id' , 'role_id')),
-				'message' => 'That user already had that role. Please add different account.',
+				'message' => 'User ID has already been registered yet. Please add with different one.',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -51,7 +51,7 @@ class Account extends AppModel {
 		'email' => array(
 			'email' => array(
 				'rule' => array('email'),
-				'message' => 'Please enter valid email address. Example: "creazi@yahoo.com"',
+				'message' => 'Please enter a valid E-mail address. Example: "creazi@yahoo.com"',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -59,7 +59,7 @@ class Account extends AppModel {
 			),
 			'isUnique' => array(
 				'rule' => array('isUnique'),
-				'message' => 'Login email has already been used. Please add with different one.',
+				'message' => 'Login E-mail has already been used. Please add with different one.',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -254,7 +254,7 @@ class Account extends AppModel {
         {
             $pic[$value['Account']['id']] = $value['Account']['username'];
         }
-        return $pic;
+        return $pic; // Person In Charge identity...
     }
 
 	/**

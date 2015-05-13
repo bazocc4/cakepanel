@@ -31,8 +31,8 @@
 		<div class="control-group">            
 			<label style="color: red;" class="control-label">E-mail Login</label>
 			<div class="controls">				
-				<input REQUIRED class="input-xlarge" value="<?php echo (isset($_POST['data']['Account']['email'])?$_POST['data']['Account']['email']:$myData['Account']['email']); ?>" type="text" size="40" name="data[Account][email]"/>								
-				<p class="help-block">Please enter a valid email address as login authentication.</p>
+				<input REQUIRED class="input-xlarge" value="<?php echo (isset($_POST['data']['Account']['email'])?$_POST['data']['Account']['email']:$myData['Account']['email']); ?>" type="email" size="40" name="data[Account][email]"/>								
+				<p class="help-block">Please enter a valid E-mail address as login authentication.</p>
 			</div>
 		</div>
 		

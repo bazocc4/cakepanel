@@ -106,8 +106,6 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-date_default_timezone_set("Asia/Jakarta"); 
-
 /**
 	 * print_r text with pre html tag
 	 * @param mixed $text all kind of text want to be printed

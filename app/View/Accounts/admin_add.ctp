@@ -47,7 +47,7 @@
 			</div>
 		</div>
 		
-		<div class="control-group">            
+		<div class="control-group hide"> <!-- hide role option for default -->
 			<label style="color: red;" class="control-label">Role</label>
 			<div class="controls">
 				<select id="select-role" name="data[Account][role_id]">
@@ -71,8 +71,8 @@
 		<div class="control-group">            
 			<label style="color: red;" class="control-label">E-mail Login</label>
 			<div class="controls">				
-				<input REQUIRED class="input-xlarge" type="text" value="<?php echo $_POST['data']['Account']['email']; ?>" name="data[Account][email]"/>
-				<p class="help-block">Please enter a valid email address as login authentication.</p>
+				<input REQUIRED class="input-xlarge" type="email" value="<?php echo $_POST['data']['Account']['email']; ?>" name="data[Account][email]"/>
+				<p class="help-block">Please enter a valid E-mail address as login authentication.</p>
 			</div>
 		</div>
 		
