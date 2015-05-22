@@ -2,7 +2,4 @@ app/tmp/*
 app/[Cc]onfig/database.php
 app/webroot/files/*
 app/webroot/img/upload/*
-app/webroot/img/upload/original/*
-app/webroot/img/upload/thumb/*
-app/webroot/img/upload/thumbnails/*
 !empty
