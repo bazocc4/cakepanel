@@ -1,4 +1,5 @@
 tmp/*
+webroot/img/upload/*
 [Cc]onfig/database.php
 app/tmp/*
 app/[Cc]onfig/database.php
@@ -6,3 +7,4 @@ app/webroot/files/*
 app/webroot/img/upload/*
 !empty
 tmp
+webroot/img/upload
