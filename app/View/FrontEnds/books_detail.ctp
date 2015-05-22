@@ -1,5 +1,4 @@
 <?php 
-	$this->Get->create($data);
 	echo "Exchange Rate examples: ";
 	echo $this->Paypal->exchange_rate('USD');
 	echo "<br/>";

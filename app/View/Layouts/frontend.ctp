@@ -114,7 +114,9 @@
 	</head>
 
 	<body>
+	    <!-- very first header from database ... -->
 		<?php echo $mySetting['top_insert']; ?>
+		
 		<div class="container-fluid">
 			<div class="header row-fluid">
 				<div class="span7">
@@ -162,6 +164,8 @@
 				</div>
       		</div><!--/row-->	
 	    </div><!--/.fluid-container-->		
+	    
+	    <!-- very last footer from database ... -->
 		<?php echo $mySetting['bottom_insert']; ?>
 
 		<!-- ADDITIONAL SCRIPT FOR LAYOUT -->

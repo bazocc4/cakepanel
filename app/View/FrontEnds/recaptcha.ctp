@@ -1,6 +1,5 @@
 <?php
-	$this->Get->create($data);
-	extract($data , EXTR_SKIP);
+	if(is_array($data)) extract($data , EXTR_SKIP);
 ?>
 <html>
   <body>

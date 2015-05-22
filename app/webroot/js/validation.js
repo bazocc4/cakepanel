@@ -43,8 +43,7 @@ function validation_check(field){
 		case 'datepicker':
 		case 'datetimepicker':
 		case 'timepicker':
-		case 'image':
-		case 'gallery':
+		case 'image':		
 		case 'radio':
 		case 'dropdown':
 		case 'file':
@@ -54,7 +53,10 @@ function validation_check(field){
 			break;
 		case 'checkbox':
 			allowed_validations = ['not_empty' , 'browse_module'];
-			break;	
+			break;
+        case 'gallery':
+			allowed_validations = ['not_empty' , 'max_length'];
+			break;    
 		case 'password':
 			allowed_validations = ['is_alnum','is_numeric', 'not_empty', 'min_length', 'max_length'];
 			break;

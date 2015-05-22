@@ -1,4 +1,3 @@
-<?php $this->Get->create($data); ?>
 <html>
 	<head>
 		<title>Front End Web</title>

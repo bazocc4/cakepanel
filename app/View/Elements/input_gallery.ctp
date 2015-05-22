@@ -10,6 +10,9 @@
 ?>
 <script>
 	$(document).ready(function(){
+        // gallery sortable...
+        $('div#<?php echo $key; ?>').sortable({ opacity: 0.6, cursor: 'move'});
+        
         // print total pictures...
         $('div#<?php echo $key; ?>').prevAll('.galleryCount:first').find('span').html( $('div#<?php echo $key; ?>').find('div.photo').length );
 
@@ -23,7 +26,57 @@
 				return false;
 			}
 		});
-		<?php endif; ?>		
+		<?php endif; ?>
+        
+        // realtime max_length validation...
+        <?php
+            $posMaxLength = strpos($validation, 'max_length');
+            if($posMaxLength !== FALSE)
+            {
+                $maxchar = 0;
+                $tempstart = $posMaxLength+11;
+                $caripentung = strpos($validation, '|' , $posMaxLength);
+                if($caripentung === FALSE)
+                {
+                    $maxchar = substr($validation, $tempstart);
+                }
+                else
+                {
+                    $maxchar = substr($validation, $tempstart , $caripentung - $tempstart );
+                }
+                
+                ?>
+        $('div#<?php echo $key; ?>').bind('DOMNodeInserted DOMNodeRemoved', function(event) {
+            
+            var totalphoto = $(this).find('div.photo').length;            
+            var maxchar = <?php echo $maxchar; ?>;
+            var $obj = $(this).closest('div.gallery-group').find('a.get-from-library');
+            
+            if (event.type == 'DOMNodeRemoved') // special adjustment ...
+            {
+                totalphoto--;
+            }
+            
+            if(totalphoto < maxchar )
+            {
+                $obj.removeClass('disabled');
+                $obj.css('pointer-events' , '');
+            }
+            else
+            {
+                $obj.addClass('disabled');
+                $obj.css('pointer-events' , 'none');
+            }
+        });
+        
+        // initialize checking ...
+        if($('div#<?php echo $key; ?>').find('div.photo').length >= <?php echo $maxchar; ?> )
+        {
+            $('div#<?php echo $key; ?>').closest('div.gallery-group').find('a.get-from-library').addClass('disabled').css('pointer-events' , 'none');
+        }
+                <?php
+            }
+        ?>
 	});
 </script>
 <div class="gallery-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>
