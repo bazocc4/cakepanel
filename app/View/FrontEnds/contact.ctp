@@ -1,5 +1,6 @@
 <?php
 	App::import('Vendor', 'recaptchalib');
+	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
 ?>
 <script type="text/javascript">

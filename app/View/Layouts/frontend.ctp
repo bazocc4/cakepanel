@@ -1,5 +1,5 @@
-<?php	
-	$this->Get->create($data);
+<?php
+    if( empty( $this->Get->getData() ) )    $this->Get->create($data);
     if(is_array($data)) extract($data , EXTR_SKIP);
 ?>
 <!DOCTYPE html>
