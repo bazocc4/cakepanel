@@ -511,8 +511,8 @@ function openRequestedSinglePopup(strUrl , targetName)
 		$('li#myPagingNext a').attr("href" , address+"/"+(paging+1)+url_params);
 		
 		// set Page Numbering
-		$('div.pagination ul li').removeClass("active");
-		for(i=left_limit , index=1 ; i <= right_limit ; ++i , ++index)
+		$("li[id^='myPagingNum']").removeClass("active");
+		for(var i=left_limit , index=1 ; i <= right_limit ; ++i , ++index)
 		{	
 			$('li#myPagingNum'+index+" a").html(i);
 			$('li#myPagingNum'+index+" a").attr("href" , address+"/"+i+url_params);
@@ -523,7 +523,10 @@ function openRequestedSinglePopup(strUrl , targetName)
 		}
 		
 		// UPDATE ORDER BY LINK !!
-		$('a.order_by').attr("href" , address+"/"+paging+url_params);
+		if($('a.order_by').length > 0)
+        {
+            $('a.order_by').attr("href" , address+"/"+paging+url_params);
+        }
 	}
 	
 	$(function() {

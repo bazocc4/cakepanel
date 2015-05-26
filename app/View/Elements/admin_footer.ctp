@@ -1,6 +1,6 @@
 <?php
 	if(is_array($data)) extract($data , EXTR_SKIP);
-	if($totalList > 0)
+	if(!empty($myList) && $right_limit > $left_limit)    
 	{
 		?>
 			<div class="pagination fr">

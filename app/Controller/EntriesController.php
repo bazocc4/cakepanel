@@ -1050,7 +1050,7 @@ class EntriesController extends AppController {
 		if ($this->request->is('ajax') && empty($popup) || $popup == "ajax" || !empty($searchMe)) 
 		{	
 			$data['isAjax'] = 1;
-			if($searchMe != NULL || !empty($lang))
+			if($searchMe != NULL || !empty($lang) && !empty($this->request->params['admin']) )
 			{
 				$data['search'] = "yes";
 			}			
@@ -1164,11 +1164,20 @@ class EntriesController extends AppController {
 			$data['language'] = $_SESSION['lang'];
 		}
 
-		if(!empty($myMetaKey) && !empty($myMetaValue))
+		if( !empty($myMetaKey) )
 		{
-			$joinEntryMeta = true;
-			$options['conditions']['SUBSTR(EntryMeta.key , 6)'] = $myMetaKey;
-			$options['conditions']['REPLACE(REPLACE(EntryMeta.value , "-" , "_"),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue).'%';
+			$joinEntryMeta = true;            
+            if(!empty($myMetaValue))
+            {
+                $options['conditions']['SUBSTR(EntryMeta.key , 6)'] = $myMetaKey;
+                $options['conditions']['REPLACE(REPLACE(EntryMeta.value , "-" , "_"),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue).'%';
+            }
+            else
+            {
+                $options['conditions']['NOT'] = array(
+                    array('SUBSTR(EntryMeta.key , 6)' => $myMetaKey)
+                );
+            }
 		}
 
 		// ========================================= >>
@@ -1237,7 +1246,7 @@ class EntriesController extends AppController {
 			// ----------------------------------------- >>>
             // ADDITIONAL FILTERING METHOD !!
             // ----------------------------------------- >>>
-            if(!empty($myMetaKey) && empty($myMetaValue) && !empty($value['EntryMeta'][$myMetaKey]))
+            if(FALSE)
             {
                 unset($mysql[$key]);
                 continue;
