@@ -36,14 +36,7 @@ class AppHelper extends Helper
 {	
 	function get_http() 
 	{
-		if(!empty($_SERVER['HTTPS']))
-		{
-			return 'https://';
-		}
-		else 
-		{
-			return 'http://';
-		}
+		return 'http'.(empty($_SERVER['HTTPS'])?'':'s').'://';
     }
 	
 	function get_host_name()
@@ -53,7 +46,7 @@ class AppHelper extends Helper
 	
 	function get_slug($value)
 	{
-		return Inflector::slug( strtolower($value) , '-');
+		return get_slug($value); // using bootstrap function ...
 	}
 	
 	function get_linkpath()

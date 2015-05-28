@@ -629,14 +629,14 @@ function Zip($source, $destination)
                 continue;
 
             $file = realpath($file);
-
+            
             if (is_dir($file) === true)
             {
-                $zip->addEmptyDir(str_replace($source . '\\', '', $file . '/'));
+                $zip->addEmptyDir( substr(str_replace($source , '', $file . '/'),1) );
             }
             else if (is_file($file) === true)
             {
-                $zip->addFromString(str_replace($source . '\\', '', $file), file_get_contents($file));
+                $zip->addFromString( substr(str_replace($source , '', $file),1) , file_get_contents($file));
             }
         }
     }

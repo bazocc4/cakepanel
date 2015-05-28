@@ -467,9 +467,8 @@ class GetHelper extends AppHelper
 	}
 	
 	/**
-	* get images link based on image ID (original, display, and thumbnail)
+	* get images link based on image ID (display & thumbnail version)
 	* @param integer $id contains image id
-	* @param integer $raw[optional] result given in raw or print mode(ignore if print mode)
 	* @return array $result contains all images link from selected id 
 	* @public
 	**/
@@ -477,9 +476,7 @@ class GetHelper extends AppHelper
     {
         extract($passData , EXTR_SKIP);
         
-        $name = '';
-        $ext = '';
-        $data = '';
+        $name = $ext = '';
         if(empty($id))
         {
             $name = '0';
@@ -487,21 +484,15 @@ class GetHelper extends AppHelper
         }
         else
         {
-            $data = $this->_get_detail_entry($id);
-            $name = $data['myEntry']['Entry']['id'];
-            $ext = $data['myImageTypeList'][$data['myEntry']['Entry']['id']];
+            $name = $id;
+            $imagetype = $this->EntryMeta->findByEntryIdAndKey($id, 'image_type');
+            $ext = $imagetype['EntryMeta']['value'];
         }
         
-        if(empty($raw))
-        {
-            $result['display'] = parent::get_linkpath().'img/upload/'.$name.'.'.$ext;
-            $result['thumbnail'] = parent::get_linkpath().'img/upload/thumb/'.$name.'.'.$ext;
-        }
-        else
-        {
-            $result = $data;
-        }
-        return $result;
+        return array(
+            'display' => parent::get_linkpath().'img/upload/'.$name.'.'.$ext,
+            'thumbnail' => parent::get_linkpath().'img/upload/thumb/'.$name.'.'.$ext
+        );
     }
 	
 	/**
