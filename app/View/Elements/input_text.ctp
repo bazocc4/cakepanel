@@ -13,10 +13,12 @@
 	if(strpos($validation, 'is_email') !== FALSE)
 	{
 		$detail_type = 'email';
+        if(empty($inputsize))   $inputsize = 'input-large';
 	}
 	else if(strpos($validation, 'is_numeric') !== FALSE)
 	{
 		$detail_type = 'number';
+        if(empty($inputsize))   $inputsize = 'input-medium';
 	}
 	else if(strpos($validation, 'is_url') !== FALSE)
 	{
