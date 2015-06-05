@@ -26,9 +26,9 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `cms_accounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `role_id` tinyint(4) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `role_id` tinyint(3) unsigned NOT NULL,
   `username` varchar(500) DEFAULT NULL,
   `email` varchar(500) NOT NULL,
   `password` varchar(500) NOT NULL,
@@ -56,20 +56,20 @@ INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `pa
 --
 
 CREATE TABLE IF NOT EXISTS `cms_entries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `entry_type` varchar(500) NOT NULL,
   `title` varchar(500) NOT NULL,
   `slug` varchar(500) NOT NULL,
   `description` text,
-  `main_image` int(11) NOT NULL DEFAULT '0',
-  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `main_image` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '1',
-  `count` int(11) NOT NULL DEFAULT '0',
+  `count` int(10) unsigned NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
-  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
-  `sort_order` int(11) NOT NULL DEFAULT '0',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
+  `sort_order` int(10) unsigned NOT NULL DEFAULT '0',
   `lang_code` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
@@ -87,8 +87,8 @@ CREATE TABLE IF NOT EXISTS `cms_entries` (
 --
 
 CREATE TABLE IF NOT EXISTS `cms_entry_metas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `entry_id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `entry_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -106,10 +106,10 @@ CREATE TABLE IF NOT EXISTS `cms_entry_metas` (
 --
 
 CREATE TABLE IF NOT EXISTS `cms_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(500) NOT NULL,
   `description` text,
-  `count` int(11) DEFAULT NULL,
+  `count` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
@@ -129,7 +129,7 @@ INSERT INTO `cms_roles` (`id`, `name`, `description`, `count`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cms_settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -165,41 +165,12 @@ INSERT INTO `cms_settings` (`id`, `key`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cms_types`
---
-
-CREATE TABLE IF NOT EXISTS `cms_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(500) NOT NULL,
-  `slug` varchar(500) NOT NULL,
-  `description` text,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `count` int(11) NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL,
-  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
-  `modified` datetime NOT NULL,
-  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `cms_types`
---
-
-INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `count`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 'Media Library', 'media', 'All media image is stored here.', 0, 0, '2013-01-15 03:35:14', 1, '2013-01-15 03:35:14', 1),
-(3, 'Slideshow', 'slideshow', 'Home slideshow with details.', 0, 0, '2014-09-03 10:35:08', 1, '2015-03-05 16:15:35', 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `cms_type_metas`
 --
 
 CREATE TABLE IF NOT EXISTS `cms_type_metas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text,
   `input_type` varchar(500) DEFAULT NULL,
@@ -219,27 +190,31 @@ INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `va
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cms_users`
+-- Table structure for table `cms_types`
 --
 
-CREATE TABLE IF NOT EXISTS `cms_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(500) NOT NULL,
-  `lastname` varchar(500) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `cms_types` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(500) NOT NULL,
+  `slug` varchar(500) NOT NULL,
+  `description` text,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `count` int(10) unsigned NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
-  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
-  `status` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `cms_users`
+-- Dumping data for table `cms_types`
 --
 
-INSERT INTO `cms_users` (`id`, `firstname`, `lastname`, `created`, `created_by`, `modified`, `modified_by`, `status`) VALUES
-(1, 'admin', 'zpanel', '2013-01-04 00:00:00', 1, '2014-02-06 10:50:29', 1, 1);
+INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `count`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 'Media Library', 'media', 'All media image is stored here.', 0, 0, '2013-01-15 03:35:14', 1, '2013-01-15 03:35:14', 1),
+(3, 'Slideshow', 'slideshow', 'Home slideshow with details.', 0, 0, '2014-09-03 10:35:08', 1, '2015-03-05 16:15:35', 1);
 
 -- --------------------------------------------------------
 
@@ -248,8 +223,8 @@ INSERT INTO `cms_users` (`id`, `firstname`, `lastname`, `created`, `created_by`,
 --
 
 CREATE TABLE IF NOT EXISTS `cms_user_metas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -271,6 +246,34 @@ INSERT INTO `cms_user_metas` (`id`, `user_id`, `key`, `value`) VALUES
 (9, 1, 'job', 'Web Developer'),
 (10, 1, 'company', 'PT. Creazi'),
 (11, 1, 'company_address', 'Jl. Nginden Semolo 101');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cms_users`
+--
+
+CREATE TABLE IF NOT EXISTS `cms_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(500) NOT NULL,
+  `lastname` varchar(500) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `cms_users`
+--
+
+INSERT INTO `cms_users` (`id`, `firstname`, `lastname`, `created`, `created_by`, `modified`, `modified_by`, `status`) VALUES
+(1, 'admin', 'zpanel', '2013-01-04 00:00:00', 1, '2014-02-06 10:50:29', 1, 1);
+
+
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
