@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.21, for Win32 (x86)
 --
 -- Host: localhost    Database: cakepanel
 -- ------------------------------------------------------
--- Server version	5.6.24
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `cms_accounts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_accounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `role_id` tinyint(4) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `role_id` tinyint(3) unsigned NOT NULL,
   `username` varchar(500) DEFAULT NULL,
   `email` varchar(500) NOT NULL,
   `password` varchar(500) NOT NULL,
@@ -61,20 +61,20 @@ DROP TABLE IF EXISTS `cms_entries`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_entries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `entry_type` varchar(500) NOT NULL,
   `title` varchar(500) NOT NULL,
   `slug` varchar(500) NOT NULL,
   `description` text,
-  `main_image` int(11) NOT NULL DEFAULT '0',
-  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `main_image` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '1',
-  `count` int(11) NOT NULL DEFAULT '0',
+  `count` int(10) unsigned NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
-  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
-  `sort_order` int(11) NOT NULL DEFAULT '0',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
+  `sort_order` int(10) unsigned NOT NULL DEFAULT '0',
   `lang_code` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
@@ -261,8 +261,8 @@ DROP TABLE IF EXISTS `cms_entry_metas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_entry_metas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `entry_id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `entry_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -780,12 +780,12 @@ DROP TABLE IF EXISTS `cms_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(500) NOT NULL,
   `description` text,
-  `count` int(11) DEFAULT NULL,
+  `count` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -808,7 +808,7 @@ DROP TABLE IF EXISTS `cms_settings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -853,8 +853,8 @@ DROP TABLE IF EXISTS `cms_type_metas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_type_metas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text,
   `input_type` varchar(500) DEFAULT NULL,
@@ -922,16 +922,16 @@ DROP TABLE IF EXISTS `cms_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(500) NOT NULL,
   `slug` varchar(500) NOT NULL,
   `description` text,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `count` int(11) NOT NULL DEFAULT '0',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `count` int(10) unsigned NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
-  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
@@ -960,8 +960,8 @@ DROP TABLE IF EXISTS `cms_user_metas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_user_metas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -1013,13 +1013,13 @@ DROP TABLE IF EXISTS `cms_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `firstname` varchar(500) NOT NULL,
   `lastname` varchar(500) DEFAULT NULL,
   `created` datetime NOT NULL,
-  `created_by` int(11) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(11) unsigned NOT NULL DEFAULT '1',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -1046,4 +1046,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-04 22:14:59
+-- Dump completed on 2015-06-05 10:11:03
