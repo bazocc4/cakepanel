@@ -1092,7 +1092,7 @@ class EntriesController extends AppController {
             $innerFieldMeta = FALSE;
             foreach( $myAutomaticValidation as $key => $value)
             {
-                if(stripos($_SESSION['order_by'] , $value['key'] ) !== FALSE)
+                if(substr($value['key'],0,5) == 'form-' && stripos($_SESSION['order_by'] , $value['key'] ) !== FALSE)
                 {
                     $innerFieldMeta = $value['input_type'];
                     break;
@@ -1589,6 +1589,9 @@ class EntriesController extends AppController {
 		}
 	}
     
+    /*
+    * last action before setFlash from add/update selected Entry...
+    */
     function _add_update_id_meta($myTypeSlug , $myChildTypeSlug = NULL , $myParentEntry = array() , $myEntry = array())
 	{
 		// $this->request->data['EntryMeta']['entry_id'] => not needed to be set, coz it's already set in parent function !!
