@@ -1225,12 +1225,12 @@ class EntriesController extends AppController {
 		// ================================================================ >>
 		$tempOpt = $options;
 		$tempOpt['conditions']['LENGTH(Entry.description) >'] = 0;
-		$checkSQL = $this->Entry->find('first' , $tempOpt);
+		$checkSQL = $this->Entry->find('count' , $tempOpt);
 		$data['descriptionUsed'] = (empty($checkSQL)?0:1);
 		
 		$tempOpt = $options;
 		$tempOpt['conditions']['Entry.main_image >'] = 0;
-		$checkSQL = $this->Entry->find('first' , $tempOpt);		
+		$checkSQL = $this->Entry->find('count' , $tempOpt);		
 		$data['imageUsed'] = (empty($checkSQL)?0:1);
 
 		// ========================================= >>
