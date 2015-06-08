@@ -471,7 +471,6 @@ function openRequestedSinglePopup(strUrl , targetName)
 					$('#attach-checked-data').addClass('disabled');	
 				}
 
-				$('body').scrollTop(0);
 				$.colorbox.resize();
 			}
 		});
