@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.21, for Win32 (x86)
 --
 -- Host: localhost    Database: cakepanel
 -- ------------------------------------------------------
--- Server version	5.6.24
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -46,7 +46,7 @@ CREATE TABLE `cms_accounts` (
 
 LOCK TABLES `cms_accounts` WRITE;
 /*!40000 ALTER TABLE `cms_accounts` DISABLE KEYS */;
-INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2015-06-05 19:06:33','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
+INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2015-06-09 11:32:16','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
 INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andy_basuki_88@yahoo.com','62412f00317caaa6a74f790d6fc058f30cc6e8c0','2015-03-09 15:47:09','2013-01-15 03:42:56',1,'2013-02-01 10:42:15',2);
 INSERT INTO `cms_accounts` VALUES (3,2,3,'regular1','regular@yahoo.com','d2705e541f5988c37de5ceb31735a535d5994777','2013-01-17 11:23:37','2013-01-15 04:17:47',2,'2014-07-24 11:05:12',1);
 INSERT INTO `cms_accounts` VALUES (7,3,2,'hanatania8','hanatania@yahoo.com','29536df66160e1ff6a6fe6e0395dd8767140657b','2014-07-24 11:40:17','2014-07-24 11:06:29',1,'2014-07-24 11:40:30',7);
@@ -91,7 +91,7 @@ INSERT INTO `cms_entries` VALUES (1,'pages','About Us','about-us','<p>\r\n	This 
 INSERT INTO `cms_entries` VALUES (2,'media','Chrysanthemum','chrysanthemum',NULL,0,0,1,0,'2013-01-15 04:14:43',2,'2013-01-15 04:14:43',2,2,'');
 INSERT INTO `cms_entries` VALUES (4,'media','Desert','desert',NULL,0,0,1,0,'2013-01-15 04:14:44',2,'2013-01-15 04:14:44',2,4,'');
 INSERT INTO `cms_entries` VALUES (40,'media','darth-maul-wall','darth-maul-wall',NULL,0,0,1,0,'2013-01-15 06:04:17',1,'2013-01-19 08:55:08',1,40,'');
-INSERT INTO `cms_entries` VALUES (6,'books','World War II Cont','world-war-ii','<p>This is the full story of world war II in America.</p>\r\n',2,0,1,15,'2013-01-15 04:48:37',1,'2015-03-30 16:05:03',1,84,'en-6');
+INSERT INTO `cms_entries` VALUES (6,'books','World War II Cont','world-war-ii','<p>This is the full story of world war II in America.</p>\r\n',2,0,1,15,'2013-01-15 04:48:37',1,'2015-06-09 12:12:44',1,84,'en-6');
 INSERT INTO `cms_entries` VALUES (7,'media','Lighthouse','lighthouse',NULL,0,0,1,0,'2013-01-15 04:58:07',1,'2014-11-20 16:45:06',1,7,'en-7');
 INSERT INTO `cms_entries` VALUES (26,'media','9037147_l','9037147-l',NULL,0,0,1,0,'2013-01-15 06:02:20',1,'2013-01-15 06:02:20',1,26,'');
 INSERT INTO `cms_entries` VALUES (9,'news','The Death of John EN','the-death-of-john-en','<p>In the 1996, there was a big war between John Maxwell and Paul Ruthridge.</p>\r\n\r\n<p>And then, John struggled to won against his enemy.</p>\r\n\r\n<p>Finally in 1997, there was an intruption about this war.</p>\r\n',7,6,1,0,'2013-01-15 04:59:41',1,'2015-03-18 15:20:27',1,73,'en-9');
@@ -178,7 +178,7 @@ INSERT INTO `cms_entries` VALUES (137,'media','slider','slider',NULL,0,0,1,0,'20
 INSERT INTO `cms_entries` VALUES (138,'media','batman_by_frogbillgo-d2yoamc','batman-by-frogbillgo-d2yoamc-2',NULL,0,57,1,0,'2013-10-24 09:48:24',1,'2015-01-21 10:02:23',1,138,'en-138');
 INSERT INTO `cms_entries` VALUES (160,'blogs','Morning Blog EN','morning-blog-en','<p>just a morning blog, thx</p>\r\n',54,6,1,0,'2014-02-04 09:01:45',1,'2015-03-18 12:11:38',1,577,'en-160');
 INSERT INTO `cms_entries` VALUES (718,'form-group_photo','stock-photo-coffee-beans-in-canvas-sack-9416005','stock-photo-coffee-beans-in-canvas-sack-9416005-7',NULL,49,161,1,0,'2015-06-03 11:37:02',1,'2015-06-03 11:37:02',1,718,'en-718');
-INSERT INTO `cms_entries` VALUES (161,'magazine','cake magazine','cake-magazine','<p>test minum</p>\r\n\r\n<p>air jeruk segar</p>\r\n\r\n<p>alami lo</p>\r\n',108,0,1,18,'2014-05-08 10:17:12',1,'2015-06-03 11:37:03',1,161,'en-161');
+INSERT INTO `cms_entries` VALUES (161,'magazine','cake magazine','cake-magazine','<p>test minum</p>\r\n\r\n<p>air jeruk segar</p>\r\n\r\n<p>alami lo</p>\r\n',108,0,1,18,'2014-05-08 10:17:12',1,'2015-06-09 12:12:32',1,161,'en-161');
 INSERT INTO `cms_entries` VALUES (717,'form-group_photo','20110530-061908','20110530-061908-10',NULL,50,161,1,0,'2015-06-03 11:37:02',1,'2015-06-03 11:37:02',1,717,'en-717');
 INSERT INTO `cms_entries` VALUES (716,'form-group_photo','Batgirl_Issue_10_by_Artgerm','batgirl-issue-10-by-artgerm-9',NULL,56,161,1,0,'2015-06-03 11:37:01',1,'2015-06-03 11:37:01',1,716,'en-716');
 INSERT INTO `cms_entries` VALUES (715,'form-group_photo','resize_3d_cartoon_pirate','resize-3d-cartoon-pirate-3',NULL,44,161,1,0,'2015-06-03 11:37:01',1,'2015-06-03 11:37:01',1,715,'en-715');
@@ -1046,4 +1046,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-08 22:21:08
+-- Dump completed on 2015-06-09 16:54:57
