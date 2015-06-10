@@ -80,11 +80,8 @@
             {
                 $('form#global-action').submit(function(){				
                     var records = [];
-                    $('input.check-record').each(function(i,el){
-                        if($(el).attr('checked'))
-                        {
-                            records.push($(el).val());
-                        }
+                    $('input.check-record:checked').each(function(i,el){
+                        records.push($(el).val());
                     });
 
                     if(records.length > 0)

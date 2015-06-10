@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.21, for Win32 (x86)
 --
 -- Host: localhost    Database: cakepanel
 -- ------------------------------------------------------
--- Server version	5.6.24
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -87,7 +87,7 @@ CREATE TABLE `cms_entries` (
 
 LOCK TABLES `cms_entries` WRITE;
 /*!40000 ALTER TABLE `cms_entries` DISABLE KEYS */;
-INSERT INTO `cms_entries` VALUES (1,'pages','About Us','about-us','<p>\r\n	This is the story of our company.<br />\r\n	Good you.</p>\r\n',4,0,1,0,'2013-01-15 04:14:04',1,'2015-03-17 17:03:03',1,548,'en-1');
+INSERT INTO `cms_entries` VALUES (1,'pages','About Us','about-us','<p>\r\n	This is the story of our company.<br />\r\n	Good you.</p>\r\n',4,0,1,0,'2013-01-15 04:14:04',1,'2015-06-10 09:52:33',1,548,'en-1');
 INSERT INTO `cms_entries` VALUES (2,'media','Chrysanthemum','chrysanthemum',NULL,0,0,1,0,'2013-01-15 04:14:43',2,'2013-01-15 04:14:43',2,2,'');
 INSERT INTO `cms_entries` VALUES (4,'media','Desert','desert',NULL,0,0,1,0,'2013-01-15 04:14:44',2,'2013-01-15 04:14:44',2,4,'');
 INSERT INTO `cms_entries` VALUES (40,'media','darth-maul-wall','darth-maul-wall',NULL,0,0,1,0,'2013-01-15 06:04:17',1,'2013-01-19 08:55:08',1,40,'');
@@ -132,8 +132,8 @@ INSERT INTO `cms_entries` VALUES (61,'books','Perang Dunia 2','perang-dunia-2','
 INSERT INTO `cms_entries` VALUES (574,'blogs','Morning Blog ID','morning-blog-id','<p>just a morning blog, thx</p>\r\n',54,61,1,0,'2015-03-18 11:29:19',1,'2015-03-18 12:11:38',1,579,'id-160');
 INSERT INTO `cms_entries` VALUES (573,'media','20110530-061908','20110530-061908-7',NULL,0,50,1,0,'2015-03-18 11:26:37',1,'2015-03-18 11:29:19',1,573,'en-573');
 INSERT INTO `cms_entries` VALUES (572,'news','The Resurrection ID','the-resurrection-id','<p>There&#39;s a news that exist a medicine can make human alive from death.</p>\r\n\r\n<p>And then, [to be continue]</p>\r\n',26,61,1,0,'2015-03-18 10:13:01',1,'2015-03-18 15:20:51',1,571,'id-73');
-INSERT INTO `cms_entries` VALUES (64,'pages','Contact Us','contact-us','<p>\r\n	Ini adalah alamat baru perusahaan kami.</p>\r\n',36,0,1,0,'2013-01-15 10:24:31',1,'2015-03-17 17:03:03',1,526,'en-64');
-INSERT INTO `cms_entries` VALUES (65,'pages','Home','home','<p>\r\n	Welcome to our web pages.</p>\r\n<p>\r\n	In here, you can find a lot of games entertainments.</p>\r\n',27,0,1,0,'2013-01-15 10:42:02',1,'2015-03-17 17:03:03',1,556,'en-65');
+INSERT INTO `cms_entries` VALUES (64,'pages','Contact Us','contact-us','<p>\r\n	Ini adalah alamat baru perusahaan kami.</p>\r\n',36,0,1,0,'2013-01-15 10:24:31',1,'2015-06-10 09:52:33',1,526,'en-64');
+INSERT INTO `cms_entries` VALUES (65,'pages','Home','home','<p>\r\n	Welcome to our web pages.</p>\r\n<p>\r\n	In here, you can find a lot of games entertainments.</p>\r\n',27,0,1,0,'2013-01-15 10:42:02',1,'2015-06-10 09:52:33',1,556,'en-65');
 INSERT INTO `cms_entries` VALUES (66,'pages','Beranda','beranda','<p>\r\n	Selamat datang di website kami.</p>\r\n<p>\r\n	Di sini, anda semuanya dapat menemukan banyak hiburan.</p>\r\n',27,0,1,0,'2013-01-16 03:22:56',1,'2015-03-17 17:03:03',1,552,'id-65');
 INSERT INTO `cms_entries` VALUES (67,'pages','Tentang Kita','tentang-kita','<p>\r\n	Ini adalah suatu kisah mengenai perusahaan kami.</p>\r\n',4,0,1,0,'2013-01-16 03:23:48',1,'2015-03-17 17:03:03',1,549,'id-1');
 INSERT INTO `cms_entries` VALUES (571,'news','Serangan Gerilya ID','serangan-gerilya-id','<p>Nowadays, world is happening with &quot;Gerilya War&quot;</p>\r\n',44,61,1,0,'2015-03-18 10:00:21',1,'2015-03-18 15:20:51',1,581,'id-68');
@@ -1046,4 +1046,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-10  0:20:13
+-- Dump completed on 2015-06-10 17:43:54
