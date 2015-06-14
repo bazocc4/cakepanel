@@ -135,24 +135,27 @@
 				if(!$('input[type=checkbox]').is(e.target))
 				{
 					var targetID = ($('input#query-alias').length > 0?$('input#query-alias').val():'<?php echo (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']); ?>')+($('input#query-stream').length > 0?$('input#query-stream').val():'');
-					if($(this).find("td.form-name").length > 0)
+                    var mytr = $(this); // same var name as in admin_header.ctp element ...
+                    var richvalue = '';
+					if(mytr.find("td.form-name").length > 0)
 					{
-					    $("input#"+targetID).val( $(this).find("td.form-name").text()+' ('+$(this).find("h5.title-code").text()+')');
+					    richvalue = mytr.find("td.form-name").text()+' ('+mytr.find("h5.title-code").text()+')';
 					}
 					else
 					{
-					    $("input#"+targetID).val( $(this).find("h5.title-code").text() );
+					    richvalue = mytr.find("h5.title-code").text();
 					}
-					
-					$("input#"+targetID).nextAll("input[type=hidden]").val( $(this).find("input[type=hidden].slug-code").val() );
+                    
+                    $("input#"+targetID).val(richvalue).nextAll("input[type=hidden]").val( mytr.find("input[type=hidden].slug-code").val() );
 					$("input#"+targetID).change();
 
-					// Update the subcategory dropdown value, if existed !!
+					// update other attribute ...
+                    // Update the subcategory dropdown value, if existed !!
 					if($('select.subcategory').length > 0)
 					{
 						$('select.subcategory').html('');
 						
-						var catcheck = $(this).find("td.form-subcategory").html();
+						var catcheck = mytr.find("td.form-subcategory").html();
 						
 						if(catcheck != '-')
 						{
@@ -248,6 +251,7 @@
                             case 'datepicker':
                             case 'datetimepicker':
                             case 'multidate':
+                            case 'multibrowse':
                                 $datefield = 'date-field';
                                 break;
                         }

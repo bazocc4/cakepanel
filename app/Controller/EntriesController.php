@@ -795,7 +795,7 @@ class EntriesController extends AppController {
 		// if this action is going to add CHILD list...
 		if(!empty($this->request->params['entry']))
 		{
-			$myEntry = $this->Entry->findBySlug($this->request->params['entry']);
+			$myEntry = $this->meta_details($this->request->params['entry']);
 			if(!empty($this->request->query['type']))
 			{				
 				$myChildTypeSlug = $this->request->query['type'];
@@ -926,7 +926,7 @@ class EntriesController extends AppController {
 		// if this action is going to edit CHILD list...
 		if(!empty($this->request->params['entry_parent']))
 		{	
-			$myParentEntry = $this->Entry->findBySlug($this->request->params['entry_parent']);
+			$myParentEntry = $this->meta_details($this->request->params['entry_parent']);
 			if(!empty($this->request->query['type']))
 			{				
 				$myChildTypeSlug = $this->request->query['type'];
@@ -1266,18 +1266,8 @@ class EntriesController extends AppController {
         }
         
 		// SECOND FILTER GO NOW !!!
-		$offset = ($paging==0? 0 : ($paging-1) * $countPage);
-		$endset = $offset + $countPage;				
-		$data['totalList'] = count($mysql);
-		$data['myList'] = array();
-		for($key = $offset ; !empty($mysql[$key]) ; ++$key)
-		{
-			if(!($key < $endset || $paging==0))
-			{
-				break;
-			}
-			array_push($data['myList'] , $mysql[$key]);
-		}
+        $data['totalList'] = count($mysql);
+        $data['myList'] = ( $paging >= 1 ? array_splice($mysql , ($paging-1) * $countPage , $countPage) : $mysql );
 
 		// set New countPage
 		$newCountPage = ceil($data['totalList'] / $countPage);
@@ -1315,14 +1305,16 @@ class EntriesController extends AppController {
 		$data['isOrderChange'] = (empty($_SESSION['order_by']) || substr($_SESSION['order_by'], 0 , 10) == 'sort_order'?1:0);
 		
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
-		if(!empty($myEntry))
+		if(!empty($myEntry) && count($this->mySetting['language']) > 1)
 		{
 			$temp100 = $this->Entry->find('all' , array(
 				'conditions' => array(
 					'Entry.lang_code LIKE' => '%-'.substr($myEntry['Entry']['lang_code'], 3)
-				)
+				),
+                'recursive' => -1
 			));
-			foreach ($temp100 as $key => $value) 
+            
+            foreach ($temp100 as $key => $value) 
 			{
 				$parent_language[ substr($value['Entry']['lang_code'], 0,2) ] = $value['Entry']['slug'];
 			}
@@ -1360,12 +1352,13 @@ class EntriesController extends AppController {
 		// for image input type reason...
 		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
-		if(!empty($myEntry))
+		if(!empty($myEntry) && count($this->mySetting['language']) > 1)
 		{
 			$temp100 = $this->Entry->find('all' , array(
 				'conditions' => array(
 					'Entry.lang_code LIKE' => '%-'.substr($myEntry['Entry']['lang_code'], 3)
-				)
+				),
+                'recursive' => -1
 			));
 			foreach ($temp100 as $key => $value) 
 			{
@@ -1668,12 +1661,13 @@ class EntriesController extends AppController {
 		}
 		$data['language_link'] = $language_link;
 		$data['lang'] = $lang;
-		if(!empty($myParentEntry))
+		if(!empty($myParentEntry) && count($this->mySetting['language']) > 1)
 		{
 			$temp100 = $this->Entry->find('all' , array(
 				'conditions' => array(
 					'Entry.lang_code LIKE' => '%-'.substr($myParentEntry['Entry']['lang_code'], 3)
-				)
+				),
+                'recursive' => -1
 			));
 			foreach ($temp100 as $key => $value) 
 			{

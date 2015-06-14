@@ -61,16 +61,17 @@
 						}
 
 						var mytr = $('table#myTableList tr[alt='+$(this).val()+']');
-						if(mytr.find("td.form-name").length > 0)
+                        var richvalue = '';
+                        if(mytr.find("td.form-name").length > 0)
 						{
-						    $("input#"+newTargetID).val( mytr.find("td.form-name").text()+' ('+mytr.find("h5.title-code").text()+')');
+						    richvalue = mytr.find("td.form-name").text()+' ('+mytr.find("h5.title-code").text()+')';
 						}
 						else
 						{
-						    $("input#"+newTargetID).val( mytr.find("h5.title-code").text() );
+						    richvalue = mytr.find("h5.title-code").text();
 						}
-
-						$("input#"+newTargetID).nextAll("input[type=hidden]").val( mytr.find("input[type=hidden].slug-code").val() );
+                        
+                        $("input#"+newTargetID).val(richvalue).nextAll("input[type=hidden]").val( mytr.find("input[type=hidden].slug-code").val() );
 						$("input#"+newTargetID).change();
 
 						counter_stream++;

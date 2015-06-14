@@ -233,6 +233,7 @@
                             case 'datepicker':
                             case 'datetimepicker':
                             case 'multidate':
+                            case 'multibrowse':
                                 $datefield = 'date-field';
                                 break;
                         }
