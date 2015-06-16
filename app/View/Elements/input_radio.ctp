@@ -18,7 +18,7 @@
 			$value = isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value;
 			foreach ($list as $key10 => $value10)
 			{
-				$labelfor = 'data-'.$model.'-'.$counter.'-'.$value10['id'];
+				$labelfor = 'data-'.$model.'-'.$counter.'-'.get_slug($value10['id']);
 				if(strtolower($value10['id']) == strtolower($value) || $pertama == 1)
 				{
 					$pertama = 0;
