@@ -1,4 +1,6 @@
 <?php
+    define("staticRecordTemplate" , FALSE );
+
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
 
@@ -42,6 +44,7 @@
 ?>
 <script>
 	$(document).ready(function(){
+        <?php if(!staticRecordTemplate): ?>
 		// attach checkbox on each record...
 		if($('form#global-action').length > 0 || $('input#query-stream').length > 0 )
 		{
@@ -56,6 +59,7 @@
 				$.fn.updateAttachButton();
 			});
 		}
+        <?php endif; ?>
 		
 		<?php if(empty($popup)): ?>
             // ADD & DELETE BUTTON have the same life fate !!
@@ -134,32 +138,7 @@
 			$('table#myTableList tbody tr').click(function(e){
                 if(!$('input[type=checkbox]').is(e.target))
 				{
-					var targetID = ($('input#query-alias').length > 0?$('input#query-alias').val():'<?php echo (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']); ?>');
-                    if($('input#query-stream').length > 0)
-                    {
-                        var counter_stream = $('input#query-stream').val();
-                        
-                        // add new browse ...
-                        if($('input#'+targetID+counter_stream).length == 0)
-                        {
-                            $('div.'+targetID+'-group').closest('div.control-group').find('a.add-raw').click();
-                            // renew counter_stream NOW ...
-                            counter_stream = $.fn.urlParam('stream', $('div.'+targetID+'-detail:last a.get-from-table').attr('href') );
-                        }
-                        
-                        var $next_detail = $("input#"+targetID+counter_stream).closest('div.'+targetID+'-detail').next();
-                        if($next_detail.length > 0)
-                        {
-                            $('input#query-stream').val( $.fn.urlParam('stream', $next_detail.find('a.get-from-table').attr('href') ) );
-                        }
-                        else
-                        {
-                            $('input#query-stream').val('');
-                        }
-                        
-                        // Finally, merge counter_stream into targetID ...
-                        targetID += counter_stream;
-                    }
+					var targetID = $('input#query-alias').val() + ($('input#query-stream').length > 0?$('input#query-stream').val():'');
                     
                     var richvalue = '';
 					if($(this).find("td.form-name").length > 0)
@@ -202,11 +181,20 @@
 		// FOR AJAX REASON !!
 		// ---------------------------------------------------------------------- >>>
 		
+        <?php if(!staticRecordTemplate): ?>
 		// UPDATE SEARCH LINK !!
 		$('a.searchMeLink').attr('href',site+'admin/entries/<?php echo $myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']); ?>/index/1<?php echo get_more_extension($extensionPaging); ?>');
-		
+        
 		// UPDATE ADD NEW DATABASE LINK !!
 		$('a.get-started').attr('href',site+'admin/entries/<?php echo $myType['Type']['slug'].'/'.(empty($myEntry)?'':$myEntry['Entry']['slug'].'/').'add'.(!empty($extensionPaging['type'])?'?type='.$extensionPaging['type']:''); ?>');
+        
+        <?php else: ?>
+        // HIDE SEARCH LINK !!
+        $('a.searchMeLink').closest('div.input-prepend').hide();
+        
+        // HIDE ADD NEW DATABASE LINK !!
+        $('a.get-started').hide();
+        <?php endif; ?>
 		
 		// disable language selector ONLY IF one language available !!		
 		var myLangSelector = ($('#colorbox').length > 0 && $('#colorbox').is(':visible')? $('#colorbox').find('div.lang-selector:first') : $('div.lang-selector')  );
@@ -307,7 +295,7 @@
             ?>
 		</th>
 		<?php
-			if(empty($popup))
+			if(empty($popup) && !staticRecordTemplate)
 			{
 				?>
 		<th class="action">
@@ -510,7 +498,7 @@
             }
 		?>
 		<td><?php echo date_converter($value['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?></td>
-		<td style='min-width: 0px;' <?php echo (empty($popup)?'':'class="offbutt"'); ?>>
+		<td style='min-width: 0px;' <?php echo (empty($popup) && !staticRecordTemplate?'':'class="offbutt"'); ?>>
 			<span class="label <?php echo $value['Entry']['status']==0?'label-important':'label-success'; ?>">
 				<?php
 					if($value['Entry']['status'] == 0)
@@ -521,7 +509,7 @@
 			</span>
 		</td>
 		<?php
-			if(empty($popup))
+			if(empty($popup) && !staticRecordTemplate)
 			{
                 echo "<td class='action-btn'>";
                 echo $this->Html->link('<i class="icon-edit icon-white"></i>', $editUrl, array('escape'=>false, 'class'=>'btn btn-primary','data-toggle'=>'tooltip', 'title'=>'CLICK TO EDIT / VIEW DETAIL') );

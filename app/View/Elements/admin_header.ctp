@@ -46,8 +46,22 @@
 		$('#attach-checked-data').click(function(e){
 			if(!$(this).hasClass('disabled'))
 			{
+                var targetID = $('input#query-alias').val();
 				$('input.check-record:checked').each(function(i,el){
+                    // add new browse ...
+                    if($('input#'+targetID+ $('input#query-stream').val() ).length == 0)
+                    {
+                        $('div.'+targetID+'-group').closest('div.control-group').find('a.add-raw').click();
+                        // renew #query-stream NOW ...
+                        $('input#query-stream').val( $.fn.urlParam('stream', $('div.'+targetID+'-detail:last a.get-from-table').attr('href') ) );
+                    }
+                    
+                    // trigger TR row click ...
                     $('table#myTableList tr[alt='+$(el).val()+']').click();
+                    
+                    // preparing for next #query-stream ...
+                    var $next_detail = $("input#"+targetID+ $('input#query-stream').val() ).closest('div.'+targetID+'-detail').next();
+                    $('input#query-stream').val( $next_detail.length > 0 ? $.fn.urlParam('stream', $next_detail.find('a.get-from-table').attr('href') ) : '' );
 				});
 				$.colorbox.close();
 			}
@@ -157,12 +171,9 @@
                     <?php
                 }
                 
-                if(!empty($alias))
-                {
-                    ?>
-        <input type="hidden" id="query-alias" value="<?php echo $alias; ?>">
-                    <?php
-                }
+                ?>
+        <input type="hidden" id="query-alias" value="<?php echo ( empty($alias) ? (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']) : $alias ); ?>">
+                <?php
             }
         ?>
 	</div>
