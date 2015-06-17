@@ -132,21 +132,46 @@
 			$('input[type=checkbox]').css('cursor' , 'default');
 
 			$('table#myTableList tbody tr').click(function(e){
-				if(!$('input[type=checkbox]').is(e.target))
+                if(!$('input[type=checkbox]').is(e.target))
 				{
-					var targetID = ($('input#query-alias').length > 0?$('input#query-alias').val():'<?php echo (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']); ?>')+($('input#query-stream').length > 0?$('input#query-stream').val():'');
-                    var mytr = $(this); // same var name as in admin_header.ctp element ...
+					var targetID = ($('input#query-alias').length > 0?$('input#query-alias').val():'<?php echo (empty($myEntry)?$myType['Type']['slug']:$myChildType['Type']['slug']); ?>');
+                    if($('input#query-stream').length > 0)
+                    {
+                        var counter_stream = $('input#query-stream').val();
+                        
+                        // add new browse ...
+                        if($('input#'+targetID+counter_stream).length == 0)
+                        {
+                            $('div.'+targetID+'-group').closest('div.control-group').find('a.add-raw').click();
+                            // renew counter_stream NOW ...
+                            counter_stream = $.fn.urlParam('stream', $('div.'+targetID+'-detail:last a.get-from-table').attr('href') );
+                        }
+                        
+                        var $next_detail = $("input#"+targetID+counter_stream).closest('div.'+targetID+'-detail').next();
+                        if($next_detail.length > 0)
+                        {
+                            $('input#query-stream').val( $.fn.urlParam('stream', $next_detail.find('a.get-from-table').attr('href') ) );
+                        }
+                        else
+                        {
+                            $('input#query-stream').val('');
+                        }
+                        
+                        // Finally, merge counter_stream into targetID ...
+                        targetID += counter_stream;
+                    }
+                    
                     var richvalue = '';
-					if(mytr.find("td.form-name").length > 0)
+					if($(this).find("td.form-name").length > 0)
 					{
-					    richvalue = mytr.find("td.form-name").text()+' ('+mytr.find("h5.title-code").text()+')';
+					    richvalue = $(this).find("td.form-name").text()+' ('+$(this).find("h5.title-code").text()+')';
 					}
 					else
 					{
-					    richvalue = mytr.find("h5.title-code").text();
+					    richvalue = $(this).find("h5.title-code").text();
 					}
                     
-                    $("input#"+targetID).val(richvalue).nextAll("input[type=hidden]").val( mytr.find("input[type=hidden].slug-code").val() );
+                    $("input#"+targetID).val(richvalue).nextAll("input[type=hidden]").val( $(this).find("input[type=hidden].slug-code").val() );
 					$("input#"+targetID).change();
 
 					// update other attribute ...
@@ -155,7 +180,7 @@
 					{
 						$('select.subcategory').html('');
 						
-						var catcheck = mytr.find("td.form-subcategory").html();
+						var catcheck = $(this).find("td.form-subcategory").html();
 						
 						if(catcheck != '-')
 						{
@@ -169,7 +194,7 @@
 						
 					}
 
-					$.colorbox.close();
+					if(!e.isTrigger)    $.colorbox.close();
 				}
 			});
 		<?php endif; ?>
