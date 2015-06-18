@@ -1,6 +1,6 @@
 <?php
-    define("staticRecordTemplate" , FALSE );
-
+    $staticRecordTemplate = FALSE;
+    
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
 
@@ -23,7 +23,10 @@
 
 	if($isAjax == 0)
 	{
-		echo $this->element('admin_header', array('extensionPaging' => $extensionPaging));
+		echo $this->element('admin_header', array(
+		    'extensionPaging' => $extensionPaging,
+            'staticRecordTemplate' => $staticRecordTemplate
+		));
 		echo '<div class="inner-content '.(empty($popup)?'':'layout-content-popup').'" id="inner-content">';
 		echo '<div class="autoscroll" id="ajaxed">';
 	}
@@ -44,8 +47,7 @@
 ?>
 <script>
 	$(document).ready(function(){
-        <?php if(!staticRecordTemplate): ?>
-		// attach checkbox on each record...
+        // attach checkbox on each record...
 		if($('form#global-action').length > 0 || $('input#query-stream').length > 0 )
 		{
 			$('table#myTableList thead tr').prepend('<th><input type="checkbox" id="check-all" /></th>');
@@ -59,7 +61,6 @@
 				$.fn.updateAttachButton();
 			});
 		}
-        <?php endif; ?>
 		
 		<?php if(empty($popup)): ?>
             // ADD & DELETE BUTTON have the same life fate !!
@@ -181,20 +182,11 @@
 		// FOR AJAX REASON !!
 		// ---------------------------------------------------------------------- >>>
 		
-        <?php if(!staticRecordTemplate): ?>
-		// UPDATE SEARCH LINK !!
+        // UPDATE SEARCH LINK !!
 		$('a.searchMeLink').attr('href',site+'admin/entries/<?php echo $myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']); ?>/index/1<?php echo get_more_extension($extensionPaging); ?>');
         
 		// UPDATE ADD NEW DATABASE LINK !!
 		$('a.get-started').attr('href',site+'admin/entries/<?php echo $myType['Type']['slug'].'/'.(empty($myEntry)?'':$myEntry['Entry']['slug'].'/').'add'.(!empty($extensionPaging['type'])?'?type='.$extensionPaging['type']:''); ?>');
-        
-        <?php else: ?>
-        // HIDE SEARCH LINK !!
-        $('a.searchMeLink').closest('div.input-prepend').hide();
-        
-        // HIDE ADD NEW DATABASE LINK !!
-        $('a.get-started').hide();
-        <?php endif; ?>
 		
 		// disable language selector ONLY IF one language available !!		
 		var myLangSelector = ($('#colorbox').length > 0 && $('#colorbox').is(':visible')? $('#colorbox').find('div.lang-selector:first') : $('div.lang-selector')  );
@@ -206,7 +198,7 @@
 		<div class="wrapper-empty-state">
 			<div class="pic"></div>
 			<h2>No Items Found!</h2>
-			<?php echo (!($myType['Type']['slug'] == 'pages' && $user['role_id'] >= 2 || !empty($popup))?$this->Html->link('Get Started',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'add','?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'') ),array('class'=>'btn btn-primary')):''); ?>
+			<?php echo (!($myType['Type']['slug'] == 'pages' && $user['role_id'] >= 2 || !empty($popup) || $staticRecordTemplate)?$this->Html->link('Get Started',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'add','?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'') ),array('class'=>'btn btn-primary')):''); ?>
 		</div>
 	</div>
 <?php }else{ ?>
@@ -295,7 +287,7 @@
             ?>
 		</th>
 		<?php
-			if(empty($popup) && !staticRecordTemplate)
+			if(empty($popup))
 			{
 				?>
 		<th class="action">
@@ -498,7 +490,7 @@
             }
 		?>
 		<td><?php echo date_converter($value['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?></td>
-		<td style='min-width: 0px;' <?php echo (empty($popup) && !staticRecordTemplate?'':'class="offbutt"'); ?>>
+		<td style='min-width: 0px;' <?php echo (empty($popup)?'':'class="offbutt"'); ?>>
 			<span class="label <?php echo $value['Entry']['status']==0?'label-important':'label-success'; ?>">
 				<?php
 					if($value['Entry']['status'] == 0)
@@ -509,7 +501,7 @@
 			</span>
 		</td>
 		<?php
-			if(empty($popup) && !staticRecordTemplate)
+			if(empty($popup))
 			{
                 echo "<td class='action-btn'>";
                 echo $this->Html->link('<i class="icon-edit icon-white"></i>', $editUrl, array('escape'=>false, 'class'=>'btn btn-primary','data-toggle'=>'tooltip', 'title'=>'CLICK TO EDIT / VIEW DETAIL') );
