@@ -3,7 +3,7 @@
 	$shortkey = substr($key, 5 );	
 
     $browse_slug = get_slug($shortkey);
-    $browse_alias = ''; // use it ONLY IF need alias target for browse model ...
+    $browse_alias = $browse_slug; // use it ONLY IF need alias target for browse model ...
 
     $metaDetails = array();
     $metaslug = (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value);
@@ -56,10 +56,10 @@
     </label>
 	<div class="controls">
 		
-		<input <?php echo $required; ?> <?php echo 'id="'.(empty($browse_alias)?$browse_slug:$browse_alias).'"'; ?> class="targetID input-large" placeholder="<?php echo $placeholder; ?>" value="<?php echo $metaDetails['Entry']['title']; ?>" type="text" readonly="true"/>
+		<input <?php echo $required; ?> <?php echo 'id="'.$browse_alias.'"'; ?> class="targetID input-large" placeholder="<?php echo $placeholder; ?>" value="<?php echo $metaDetails['Entry']['title']; ?>" type="text" readonly="true"/>
         <?php
             $popupExtensions = array('popup'=>'init');
-            if(!empty($browse_alias))
+            if($browse_alias != $browse_slug)
             {
                 $popupExtensions['alias'] = $browse_alias;
             }
