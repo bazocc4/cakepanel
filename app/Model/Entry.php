@@ -466,12 +466,12 @@ class Entry extends AppModel {
 		while(TRUE)
 		{
             $options['conditions']['EntryMeta.value LIKE'] = '%'.chr(10).$mySlug.chr(10).'%';
-            $findSlug = $this->EntryMeta->find('first', $options);
+            $findSlug = $this->EntryMeta->find('count', $options);
 			if(empty($findSlug))
 			{
                 // second check !!
                 $options_entry['conditions']['Entry.slug'] = $mySlug;                
-                $findSlug = $this->find('first' , $options_entry);
+                $findSlug = $this->find('count' , $options_entry);
                 if(empty($findSlug))
                 {
                     break;

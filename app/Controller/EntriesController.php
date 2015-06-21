@@ -548,7 +548,7 @@ class EntriesController extends AppController {
 				$searchEntryMeta = $this->EntryMeta->findAllByValue($value['Entry']['id']);
 				foreach ($searchEntryMeta as $key10 => $value10) 
 				{
-					$testImage = $this->TypeMeta->find('first' , array(
+					$testImage = $this->TypeMeta->find('count' , array(
 						"conditions" => array(
 							"TypeMeta.input_type" => "image",
 							"TypeMeta.key" => $value10['EntryMeta']['key'],
