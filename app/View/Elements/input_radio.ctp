@@ -2,7 +2,7 @@
 	if(is_array($data)) extract($data , EXTR_SKIP);
 	$shortkey = substr($key, 5 );
 	
-	$required = "";
+	$required = '';
 	if(strpos(strtolower($validation), 'not_empty') !== FALSE)
 	{
 		$required = 'REQUIRED';
@@ -14,20 +14,13 @@
     </label>
 	<div class="controls radio">
 		<?php
-			$pertama = 1;
 			$value = isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value;
 			foreach ($list as $key10 => $value10)
 			{
 				$labelfor = 'data-'.$model.'-'.$counter.'-'.get_slug($value10['id']);
-				if(strtolower($value10['id']) == strtolower($value) || $pertama == 1)
-				{
-					$pertama = 0;
-					echo "<input id='".$labelfor."' class='".$shortkey."' ".$required." ".(empty($required)?'':'CHECKED')." value='".$value10['id']."' name='data[".$model."][".$counter."][value]' type='radio' /><label for='".$labelfor."'>".$value10['name']."</label>";
-				}
-				else
-				{
-					echo "<input id='".$labelfor."' class='".$shortkey."' ".$required." value='".$value10['id']."' name='data[".$model."][".$counter."][value]' type='radio' /><label for='".$labelfor."'>".$value10['name']."</label>";
-				}
+                $checked = (strtolower($value10['id']) == strtolower($value) || $key10 == 0 && !empty($required)?'CHECKED':'');
+                
+                echo "<input id='".$labelfor."' class='".$shortkey."' ".$required." ".$checked." value='".$value10['id']."' name='data[".$model."][".$counter."][value]' type='radio' /><label for='".$labelfor."'>".$value10['name']."</label>";
 			}
 			if(!empty($p))
 			{
