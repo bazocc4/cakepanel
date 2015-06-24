@@ -693,16 +693,17 @@ class EntriesController extends AppController {
 
 		// this general action is one for all...
 		$this->_admin_default($myType , $this->request->params['page'] , $myEntry , $this->request->query['key'] , $this->request->query['value'] , $myChildTypeSlug , $this->request->data['search_by'] , $this->request->query['popup'] , strtolower($this->request->query['lang']));
-		$myTypeSlug = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug);
+		
+        $myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug);
 		
 		// send to each appropriate view
 		$str = substr(WWW_ROOT, 0 , strlen(WWW_ROOT)-1); // buang DS trakhir...
 		$str = substr($str, 0 , strripos($str, DS)+1); // buang webroot...
-		$src = $str.'View'.str_replace('/', DS, $this->backEndFolder).$myTypeSlug.'.ctp';
+		$src = $str.'View'.str_replace('/', DS, $this->backEndFolder).$myTemplate.'.ctp';
 		
 		if(file_exists($src))
 		{
-			$this->render($this->backEndFolder.$myTypeSlug);
+			$this->render($this->backEndFolder.$myTemplate);
 		}
 		else
 		{
