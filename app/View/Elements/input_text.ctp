@@ -55,7 +55,7 @@
 		$inputsize = 'input-xlarge';
 	}
 	
-	if($shortkey == 'discount' || $shortkey == 'weight' || $shortkey == 'qty')
+	if($shortkey == 'discount' || $shortkey == 'weight' || $shortkey == 'qty' || strpos($shortkey , 'stock') !== FALSE)
 	{
 		$inputsize = 'input-mini';
 	}
@@ -91,7 +91,7 @@
 			{
 				echo 'kg';
 			}
-			else if($shortkey == 'qty')
+			else if($shortkey == 'qty' || strpos($shortkey , 'stock') !== FALSE)
 			{
 				echo 'unit(s)';
 			}

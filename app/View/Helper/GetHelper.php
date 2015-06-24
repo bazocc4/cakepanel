@@ -667,9 +667,9 @@ class GetHelper extends AppHelper
         {
             $echothis = $result.'% OFF';
         }
-        else if(strpos($shortkey , 'stock') !== FALSE)    
+        else if($shortkey == 'qty' || strpos($shortkey , 'stock') !== FALSE)
         {
-            $echothis = '<h5>'.$result.'</h5>';
+            $echothis = '<h5>'.$result.' unit</h5>';
         }
         
 		return $echothis;
