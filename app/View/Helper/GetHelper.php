@@ -671,6 +671,14 @@ class GetHelper extends AppHelper
         {
             $echothis = '<h5>'.$result.' unit</h5>';
         }
+        else
+        {
+            // last check based on numeric type or not ...
+            if(is_numeric($result))
+            {
+                $echothis = '<strong>'.$result.'</strong>';
+            }
+        }
         
 		return $echothis;
 	}
