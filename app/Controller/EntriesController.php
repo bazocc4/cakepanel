@@ -604,7 +604,7 @@ class EntriesController extends AppController {
 	 **/
 	function admin_index() 
 	{
-		// DEFINE THE ORDER...
+        // DEFINE THE ORDER...
 		if(!empty($this->request->data['order_by']))
 		{	
 			switch ($this->request->data['order_by']) 
@@ -1039,8 +1039,7 @@ class EntriesController extends AppController {
 	**/
 	public function _admin_default($myType = array(),$paging = NULL , $myEntry = array() , $myMetaKey = NULL , $myMetaValue = NULL , $myChildTypeSlug = NULL , $searchMe = NULL , $popup = NULL , $lang = NULL , $manualset = NULL)
 	{
-        set_time_limit(0); // unlimited time limit execution.
-		if(is_null($paging))
+        if(is_null($paging))
 		{
 			$paging = 1;
 		}
@@ -1139,7 +1138,6 @@ class EntriesController extends AppController {
 		}
 		
 		// our list conditions... ----------------------------------------------------------------------------------////
-		$joinEntryMeta = false;
 		if(empty($myEntry))
 		{
 			$options['conditions'] = array('Entry.entry_type' => $myType['Type']['slug']);
@@ -1167,51 +1165,67 @@ class EntriesController extends AppController {
 			$data['language'] = $_SESSION['lang'];
 		}
 
-		if( !empty($myMetaKey) )
+		// ========================================= >>
+		// NEW FUNCTION: JOIN TABLE !!
+		// ========================================= >>
+        if(empty($options['joins']))    $options['joins'] = array();
+        if( !empty($myMetaKey) )
 		{
-			$joinEntryMeta = true;            
-            if(!empty($myMetaValue))
+            if(empty($options['conditions']['NOT']))    $options['conditions']['NOT'] = array();
+            $myMetaKey = array_map('trim', explode('|', $myMetaKey));
+            $myMetaValue = array_map('trim', explode('|', $myMetaValue));
+            foreach($myMetaKey as $tempKey => $tempValue)
             {
-                $options['conditions']['SUBSTR(EntryMeta.key , 6)'] = $myMetaKey;
-                $options['conditions']['REPLACE(REPLACE(EntryMeta.value , "-" , "_"),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue).'%';
-            }
-            else
-            {
-                $options['conditions']['NOT'] = array(
-                    array('SUBSTR(EntryMeta.key , 6)' => $myMetaKey)
-                );
+                if(!empty($tempValue))
+                {
+                    array_push($options['joins'], array(
+                        'table' => 'entry_metas',
+                        'alias' => 'EntryMeta'.$tempKey,
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Entry.id = EntryMeta'.$tempKey.'.entry_id'
+                        )
+                    ));
+                    
+                    if(!empty($myMetaValue[$tempKey]))
+                    {
+                        $options['conditions']['SUBSTR(EntryMeta'.$tempKey.'.key , 6)'] = $tempValue;
+                        $options['conditions']['REPLACE(REPLACE(EntryMeta'.$tempKey.'.value , "-" , "_"),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue[$tempKey]).'%';
+                    }
+                    else
+                    {
+                        array_push($options['conditions']['NOT'], array(
+                            'SUBSTR(EntryMeta'.$tempKey.'.key , 6)' => $tempValue
+                        ) );
+                    }
+                }
             }
 		}
-
-		// ========================================= >>
-		// NEW FUNCTION JOIN !!
-		// ========================================= >>
+        
 		if(!empty($_SESSION['searchMe']))
 		{	
-			if(empty($options['conditions']['OR']))
-			{
-				$options['conditions']['OR'] = array();
-			}
-			array_push($options['conditions']['OR'] , array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%') );
-			array_push($options['conditions']['OR'] , array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%') );
-			array_push($options['conditions']['OR'] , array('ParentEntry.title LIKE' => '%'.$_SESSION['searchMe'].'%') );
+			if(empty($options['conditions']['OR']))  $options['conditions']['OR'] = array();
+			array_push($options['conditions']['OR'], 
+                   array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'), 
+                   array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%'),
+                   array('ParentEntry.title LIKE' => '%'.$_SESSION['searchMe'].'%')
+            );
 			if($this->mySetting['table_view']=='complex')
 			{
-				$joinEntryMeta = true;
+                array_push($options['joins'], array(
+                    'table' => 'entry_metas',
+                    'alias' => 'EntryMeta',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'Entry.id = EntryMeta.entry_id'
+                    )
+                ));
 				array_push($options['conditions']['OR'] , array('REPLACE(REPLACE(EntryMeta.value , "-" , "_"),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
 			}
 		}
 
-		if($joinEntryMeta)
+		if(!empty($options['joins']))
 		{
-			$options['joins'] = array(array(
-				'table' => 'entry_metas',
-	            'alias' => 'EntryMeta',
-	            'type' => 'LEFT',
-	            'conditions' => array(
-	                'Entry.id = EntryMeta.entry_id'
-	            )
-			));
 			$options['group'] = array('Entry.id');
 		}
 
