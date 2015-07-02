@@ -1187,7 +1187,7 @@ class EntriesController extends AppController {
                     ));
 
                     $options['conditions']['SUBSTR(EntryMeta'.$tempKey.'.key , 6)'] = $tempValue;
-                    $options['conditions']['REPLACE(REPLACE(EntryMeta'.$tempKey.'.value , "-" , "_"),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue[$tempKey]).'%';
+                    $options['conditions']['REPLACE(REPLACE(EntryMeta'.$tempKey.'.value , "-" , " "),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue[$tempKey]).'%';
                     
                     unset($myMetaKey[$tempKey]);
                 }
@@ -1202,7 +1202,6 @@ class EntriesController extends AppController {
                     'alias'      => 'EntryMeta',
                     'conditions' => array('SUBSTR(EntryMeta.key , 6)' => $myMetaKey),
                     'group'      => array('EntryMeta.entry_id'),
-                    'recursive'  => -1,
                 ), $this->EntryMeta).')');
             }
 		}
@@ -1225,7 +1224,7 @@ class EntriesController extends AppController {
                         'Entry.id = EntryMeta.entry_id'
                     )
                 ));
-				array_push($options['conditions']['OR'] , array('REPLACE(REPLACE(EntryMeta.value , "-" , "_"),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
+				array_push($options['conditions']['OR'] , array('REPLACE(REPLACE(EntryMeta.value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
 			}
 		}
 
@@ -1264,29 +1263,21 @@ class EntriesController extends AppController {
         }
         else // Final Sort based on certain criteria !!
         {
+            $explodeSorting = explode(' ', $_SESSION['order_by']);
+            if($innerFieldMeta == 'gallery')    $explodeSorting[0] = 'count-'.$explodeSorting[0];
+            
             array_push($options['joins'], array(
                 'table' => 'entry_metas',
                 'alias' => 'EntryMetaOrder',
                 'type' => 'LEFT',
                 'conditions' => array(
-                    'Entry.id = EntryMetaOrder.entry_id'
+                    'Entry.id = EntryMetaOrder.entry_id',
+                    'EntryMetaOrder.key = "'.$explodeSorting[0].'"'
                 )
             ));
             
-            $explodeSorting = explode(' ', $_SESSION['order_by']);
-            if($innerFieldMeta == 'gallery')    $explodeSorting[0] = 'count-'.$explodeSorting[0];
-            
-            array_push($options['conditions'], '(EntryMetaOrder.key = "'.$explodeSorting[0].'" OR Entry.id NOT IN ('.$this->EntryMeta->getDataSource()->buildStatement(array(
-                    'fields'     => array('EntryMeta.entry_id'),
-                    'table'      => 'cms_entry_metas',
-                    'alias'      => 'EntryMeta',
-                    'conditions' => array('EntryMeta.key' => $explodeSorting[0]),
-                    'group'      => array('EntryMeta.entry_id'),
-                    'recursive'  => -1,
-                ), $this->EntryMeta).')) GROUP BY Entry.id ORDER BY EntryMetaOrder.value '.$explodeSorting[1]);
-            
-            // remove former GROUP BY !!
-            unset($options['group']);
+            $options['group'] = array('Entry.id');
+            $options['order'] = array('EntryMetaOrder.value '.$explodeSorting[1]);
         }
         
         if($paging >= 1)
