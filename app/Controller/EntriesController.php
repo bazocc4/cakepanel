@@ -1100,7 +1100,7 @@ class EntriesController extends AppController {
                     break;
                 }                    
             }
-            if(!$innerFieldMeta)
+            if(empty($innerFieldMeta))
             {
                 unset($_SESSION['order_by']);
             }
@@ -1171,12 +1171,11 @@ class EntriesController extends AppController {
         if(empty($options['joins']))    $options['joins'] = array();
         if( !empty($myMetaKey) )
 		{
-            if(empty($options['conditions']['NOT']))    $options['conditions']['NOT'] = array();
             $myMetaKey = array_map('trim', explode('|', $myMetaKey));
             $myMetaValue = array_map('trim', explode('|', $myMetaValue));
             foreach($myMetaKey as $tempKey => $tempValue)
             {
-                if(!empty($tempValue))
+                if(!empty($tempValue) && !empty($myMetaValue[$tempKey]))
                 {
                     array_push($options['joins'], array(
                         'table' => 'entry_metas',
@@ -1186,25 +1185,31 @@ class EntriesController extends AppController {
                             'Entry.id = EntryMeta'.$tempKey.'.entry_id'
                         )
                     ));
+
+                    $options['conditions']['SUBSTR(EntryMeta'.$tempKey.'.key , 6)'] = $tempValue;
+                    $options['conditions']['REPLACE(REPLACE(EntryMeta'.$tempKey.'.value , "-" , "_"),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue[$tempKey]).'%';
                     
-                    if(!empty($myMetaValue[$tempKey]))
-                    {
-                        $options['conditions']['SUBSTR(EntryMeta'.$tempKey.'.key , 6)'] = $tempValue;
-                        $options['conditions']['REPLACE(REPLACE(EntryMeta'.$tempKey.'.value , "-" , "_"),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue[$tempKey]).'%';
-                    }
-                    else
-                    {
-                        array_push($options['conditions']['NOT'], array(
-                            'SUBSTR(EntryMeta'.$tempKey.'.key , 6)' => $tempValue
-                        ) );
-                    }
+                    unset($myMetaKey[$tempKey]);
                 }
+            }
+            
+            $myMetaKey = array_filter($myMetaKey);
+            if(!empty($myMetaKey))
+            {
+                array_push($options['conditions'], 'Entry.id NOT IN ('.$this->EntryMeta->getDataSource()->buildStatement(array(
+                    'fields'     => array('EntryMeta.entry_id'),
+                    'table'      => 'cms_entry_metas',
+                    'alias'      => 'EntryMeta',
+                    'conditions' => array('SUBSTR(EntryMeta.key , 6)' => $myMetaKey),
+                    'group'      => array('EntryMeta.entry_id'),
+                    'recursive'  => -1,
+                ), $this->EntryMeta).')');
             }
 		}
         
 		if(!empty($_SESSION['searchMe']))
 		{	
-			if(empty($options['conditions']['OR']))  $options['conditions']['OR'] = array();
+            if(empty($options['conditions']['OR']))  $options['conditions']['OR'] = array();
 			array_push($options['conditions']['OR'], 
                    array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'), 
                    array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%'),
@@ -1234,60 +1239,65 @@ class EntriesController extends AppController {
 		// ========================================= >>
 		$tempOpt = $options;
 		$tempOpt['order'] = array('Entry.modified DESC');
-		$lastModified = $this->Entry->find('first' , $tempOpt);
-		$data['lastModified'] = $lastModified;		
-		
+		$data['lastModified'] = $this->Entry->find('first' , $tempOpt);
+        
 		// ================================================================ >>
 		// check for description or image is used for this entry or not ??
 		// ================================================================ >>
 		$tempOpt = $options;
-		$tempOpt['conditions']['LENGTH(Entry.description) >'] = 0;
+        array_push($tempOpt['conditions'], array('LENGTH(Entry.description) >' => 0));
 		$checkSQL = $this->Entry->find('count' , $tempOpt);
 		$data['descriptionUsed'] = (empty($checkSQL)?0:1);
 		
 		$tempOpt = $options;
-		$tempOpt['conditions']['Entry.main_image >'] = 0;
+        array_push($tempOpt['conditions'], array('Entry.main_image >' => 0));
 		$checkSQL = $this->Entry->find('count' , $tempOpt);		
 		$data['imageUsed'] = (empty($checkSQL)?0:1);
 
 		// ========================================= >>
 		// EXECUTE MAIN QUERY !!
 		// ========================================= >>
-		$options['order'] = array('Entry.'.(isset($innerFieldMeta)||empty($_SESSION['order_by'])||empty($this->request->params['admin'])?$this->generalOrder:$_SESSION['order_by']));
-		$mysql = $this->Entry->find('all' ,$options);
-		
-		// MODIFY OUR ENTRYMETA FIRST !!		
-		foreach ($mysql as $key => $value) 
-		{
-			$mysql[$key] = $value = breakEntryMetas($value);
-			// ----------------------------------------- >>>
-            // ADDITIONAL FILTERING METHOD !!
-            // ----------------------------------------- >>>
-            if(FALSE)
-            {
-                unset($mysql[$key]);
-                continue;
-            }
-			// ----------------------------------------- >>>
-            // END OF ADDITIONAL FILTERING METHOD !!
-            // ----------------------------------------- >>>
-		}
-		$mysql = array_values($mysql);
-		
-		// Final Sort based on certain criteria !!
-        if($innerFieldMeta)
+        $data['totalList'] = $this->Entry->find('count' ,$options);
+        if(empty($innerFieldMeta))
         {
+            $options['order'] = array('Entry.'.(isset($innerFieldMeta)||empty($_SESSION['order_by'])||empty($this->request->params['admin'])?$this->generalOrder:$_SESSION['order_by']));
+        }
+        else // Final Sort based on certain criteria !!
+        {
+            array_push($options['joins'], array(
+                'table' => 'entry_metas',
+                'alias' => 'EntryMetaOrder',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'Entry.id = EntryMetaOrder.entry_id'
+                )
+            ));
+            
             $explodeSorting = explode(' ', $_SESSION['order_by']);
-            $mysql = orderby_metavalue( $mysql , 'EntryMeta', substr($explodeSorting[0] , 5) , $explodeSorting[1] , $innerFieldMeta );
+            if($innerFieldMeta == 'gallery')    $explodeSorting[0] = 'count-'.$explodeSorting[0];
+            
+            array_push($options['conditions'], '(EntryMetaOrder.key = "'.$explodeSorting[0].'" OR Entry.id NOT IN ('.$this->EntryMeta->getDataSource()->buildStatement(array(
+                    'fields'     => array('EntryMeta.entry_id'),
+                    'table'      => 'cms_entry_metas',
+                    'alias'      => 'EntryMeta',
+                    'conditions' => array('EntryMeta.key' => $explodeSorting[0]),
+                    'group'      => array('EntryMeta.entry_id'),
+                    'recursive'  => -1,
+                ), $this->EntryMeta).')) GROUP BY Entry.id ORDER BY EntryMetaOrder.value '.$explodeSorting[1]);
+            
+            // remove former GROUP BY !!
+            unset($options['group']);
         }
         
-		// SECOND FILTER GO NOW !!!
-        $data['totalList'] = count($mysql);
-        $data['myList'] = ( $paging >= 1 ? array_splice($mysql , ($paging-1) * $countPage , $countPage) : $mysql );
-
+        if($paging >= 1)
+        {
+            $options['limit'] = $countPage;
+            $options['page'] = $paging;
+        }
+		$data['myList'] = array_map('breakEntryMetas', $this->Entry->find('all' ,$options));
+        
 		// set New countPage
-		$newCountPage = ceil($data['totalList'] / $countPage);
-		$data['countPage'] = $newCountPage;
+		$data['countPage'] = $newCountPage = ceil($data['totalList'] / $countPage);
 		
 		// set the paging limitation...
 		$left_limit = 1;

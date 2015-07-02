@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.21, for Win32 (x86)
 --
 -- Host: localhost    Database: cakepanel
 -- ------------------------------------------------------
--- Server version	5.6.24
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -46,7 +46,7 @@ CREATE TABLE `cms_accounts` (
 
 LOCK TABLES `cms_accounts` WRITE;
 /*!40000 ALTER TABLE `cms_accounts` DISABLE KEYS */;
-INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2015-07-01 22:58:53','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
+INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2015-07-02 17:20:07','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
 INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andy_basuki_88@yahoo.com','62412f00317caaa6a74f790d6fc058f30cc6e8c0','2015-03-09 15:47:09','2013-01-15 03:42:56',1,'2013-02-01 10:42:15',2);
 INSERT INTO `cms_accounts` VALUES (3,2,3,'regular1','regular@yahoo.com','d2705e541f5988c37de5ceb31735a535d5994777','2013-01-17 11:23:37','2013-01-15 04:17:47',2,'2014-07-24 11:05:12',1);
 INSERT INTO `cms_accounts` VALUES (7,3,2,'hanatania8','hanatania@yahoo.com','29536df66160e1ff6a6fe6e0395dd8767140657b','2014-07-24 11:40:17','2014-07-24 11:06:29',1,'2014-07-24 11:40:30',7);
@@ -361,7 +361,6 @@ INSERT INTO `cms_entry_metas` VALUES (1129,61,'form-weight','15');
 INSERT INTO `cms_entry_metas` VALUES (1130,61,'form-author','John Roberts');
 INSERT INTO `cms_entry_metas` VALUES (131,61,'count-blogs','3');
 INSERT INTO `cms_entry_metas` VALUES (133,61,'count-news','3');
-INSERT INTO `cms_entry_metas` VALUES (1122,70,'form-author','Bill Gates');
 INSERT INTO `cms_entry_metas` VALUES (1196,72,'form-quantity','25');
 INSERT INTO `cms_entry_metas` VALUES (1197,72,'form-weight','20');
 INSERT INTO `cms_entry_metas` VALUES (149,75,'image_type','jpeg');
@@ -1047,4 +1046,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-02  1:06:59
+-- Dump completed on 2015-07-02 18:29:13
