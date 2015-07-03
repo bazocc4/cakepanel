@@ -1137,7 +1137,7 @@ class EntriesController extends AppController {
 			}
 		}
 		
-		// our list conditions... ----------------------------------------------------------------------------------////
+		// our list conditions... --------------------------------------------------------------////
 		if(empty($myEntry))
 		{
 			$options['conditions'] = array('Entry.entry_type' => $myType['Type']['slug']);
@@ -1164,76 +1164,8 @@ class EntriesController extends AppController {
 			$options['conditions']['Entry.lang_code LIKE'] = $_SESSION['lang'].'-%';
 			$data['language'] = $_SESSION['lang'];
 		}
-
-		// ========================================= >>
-		// NEW FUNCTION: JOIN TABLE !!
-		// ========================================= >>
-        if(empty($options['joins']))    $options['joins'] = array();
-        if( !empty($myMetaKey) )
-		{
-            $myMetaKey = array_map('trim', explode('|', $myMetaKey));
-            $myMetaValue = array_map('trim', explode('|', $myMetaValue));
-            foreach($myMetaKey as $tempKey => $tempValue)
-            {
-                if(!empty($tempValue) && !empty($myMetaValue[$tempKey]))
-                {
-                    array_push($options['joins'], array(
-                        'table' => 'entry_metas',
-                        'alias' => 'EntryMeta'.$tempKey,
-                        'type' => 'LEFT',
-                        'conditions' => array(
-                            'Entry.id = EntryMeta'.$tempKey.'.entry_id'
-                        )
-                    ));
-
-                    $options['conditions']['SUBSTR(EntryMeta'.$tempKey.'.key , 6)'] = $tempValue;
-                    $options['conditions']['REPLACE(REPLACE(EntryMeta'.$tempKey.'.value , "-" , " "),"_"," ") LIKE'] = '%'.string_unslug($myMetaValue[$tempKey]).'%';
-                    
-                    unset($myMetaKey[$tempKey]);
-                }
-            }
-            
-            $myMetaKey = array_filter($myMetaKey);
-            if(!empty($myMetaKey))
-            {
-                array_push($options['conditions'], 'Entry.id NOT IN ('.$this->EntryMeta->getDataSource()->buildStatement(array(
-                    'fields'     => array('EntryMeta.entry_id'),
-                    'table'      => 'cms_entry_metas',
-                    'alias'      => 'EntryMeta',
-                    'conditions' => array('SUBSTR(EntryMeta.key , 6)' => $myMetaKey),
-                    'group'      => array('EntryMeta.entry_id'),
-                ), $this->EntryMeta).')');
-            }
-		}
         
-		if(!empty($_SESSION['searchMe']))
-		{	
-            if(empty($options['conditions']['OR']))  $options['conditions']['OR'] = array();
-			array_push($options['conditions']['OR'], 
-                   array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'), 
-                   array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%'),
-                   array('ParentEntry.title LIKE' => '%'.$_SESSION['searchMe'].'%')
-            );
-			if($this->mySetting['table_view']=='complex')
-			{
-                array_push($options['joins'], array(
-                    'table' => 'entry_metas',
-                    'alias' => 'EntryMeta',
-                    'type' => 'LEFT',
-                    'conditions' => array(
-                        'Entry.id = EntryMeta.entry_id'
-                    )
-                ));
-				array_push($options['conditions']['OR'] , array('REPLACE(REPLACE(EntryMeta.value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
-			}
-		}
-
-		if(!empty($options['joins']))
-		{
-			$options['group'] = array('Entry.id');
-		}
-
-		// ========================================= >>
+        // ========================================= >>
 		// FIND LAST MODIFIED !!
 		// ========================================= >>
 		$tempOpt = $options;
@@ -1254,32 +1186,82 @@ class EntriesController extends AppController {
 		$data['imageUsed'] = (empty($checkSQL)?0:1);
 
 		// ========================================= >>
-		// EXECUTE MAIN QUERY !!
+		// NEW FUNCTION: JOIN TABLE !!
 		// ========================================= >>
-        $data['totalList'] = $this->Entry->find('count' ,$options);
-        if(empty($innerFieldMeta))
+        $joinEntryMeta = FALSE;
+        
+        if( !empty($myMetaKey) )
+		{
+            $myMetaKey = array_map('trim', explode('|', $myMetaKey));
+            $myMetaValue = array_map('trim', explode('|', $myMetaValue));
+            
+            foreach($myMetaKey as $tempKey => $tempValue)
+            {
+                if(!empty($tempValue) && !empty($myMetaValue[$tempKey]))
+                {
+                    $joinEntryMeta = TRUE;
+                    
+                    array_push($options['conditions'], array(
+                        'SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}form-'.$tempValue.'=", -1), "{#}", 1) LIKE' => '%'.string_unslug($myMetaValue[$tempKey]).'%'
+                    ));
+                    
+                    unset($myMetaKey[$tempKey]);
+                }
+            }
+            
+            $myMetaKey = array_filter($myMetaKey);
+            if(!empty($myMetaKey))
+            {
+                $joinEntryMeta = TRUE;
+                $options['conditions']['NOT'] = array_map(function($value){ return array('EntryMeta.key_value LIKE' => '%{#}form-'.$value.'=%'); }, $myMetaKey);
+            }
+		}
+        
+		if(!empty($_SESSION['searchMe']))
+		{
+            $options['conditions']['OR'] = array(
+                array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'), 
+                array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%'),
+                array('ParentEntry.title LIKE' => '%'.$_SESSION['searchMe'].'%')
+            );
+            
+			if($this->mySetting['table_view']=='complex')
+			{
+                $joinEntryMeta = TRUE;
+				array_push($options['conditions']['OR'] , array('EntryMeta.key_value LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
+			}
+		}
+        
+        // ========================================= >>
+        // FINAL SORT based on certain criteria !!
+        // ========================================= >>
+        if(!empty($innerFieldMeta))
         {
-            $options['order'] = array('Entry.'.(isset($innerFieldMeta)||empty($_SESSION['order_by'])||empty($this->request->params['admin'])?$this->generalOrder:$_SESSION['order_by']));
-        }
-        else // Final Sort based on certain criteria !!
-        {
+            $joinEntryMeta = TRUE;            
             $explodeSorting = explode(' ', $_SESSION['order_by']);
             if($innerFieldMeta == 'gallery')    $explodeSorting[0] = 'count-'.$explodeSorting[0];
             
-            array_push($options['joins'], array(
-                'table' => 'entry_metas',
-                'alias' => 'EntryMetaOrder',
-                'type' => 'LEFT',
-                'conditions' => array(
-                    'Entry.id = EntryMetaOrder.entry_id',
-                    'EntryMetaOrder.key = "'.$explodeSorting[0].'"'
-                )
-            ));
-            
-            $options['group'] = array('Entry.id');
-            $options['order'] = array('EntryMetaOrder.value '.$explodeSorting[1]);
+            $options['order'] = array('CASE WHEN EntryMeta.key_value LIKE "%{#}'.$explodeSorting[0].'=%" THEN SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}'.$explodeSorting[0].'=", -1), "{#}", 1) ELSE NULL END '.$explodeSorting[1]);            
+        }
+        else 
+        {
+            $options['order'] = array('Entry.'.(isset($innerFieldMeta)||empty($_SESSION['order_by'])||empty($this->request->params['admin'])?$this->generalOrder:$_SESSION['order_by']));
         }
         
+        if($joinEntryMeta)
+		{
+            $options['joins'] = array(array(
+				'table' => '(SELECT EntryMeta.entry_id, CONCAT("{#}", GROUP_CONCAT(EntryMeta.key, "=", REPLACE(REPLACE(EntryMeta.value , "-" , " "),"_"," ") SEPARATOR "{#}"), "{#}") as key_value FROM cms_entry_metas as EntryMeta GROUP BY EntryMeta.entry_id)',
+	            'alias' => 'EntryMeta',
+	            'type' => 'LEFT',
+	            'conditions' => array('Entry.id = EntryMeta.entry_id')
+			));
+		}
+        
+        // ========================================= >>
+		// EXECUTE MAIN QUERY !!
+		// ========================================= >>
+        $data['totalList'] = $this->Entry->find('count' ,$options);
         if($paging >= 1)
         {
             $options['limit'] = $countPage;
@@ -1287,7 +1269,7 @@ class EntriesController extends AppController {
         }
 		$data['myList'] = array_map('breakEntryMetas', $this->Entry->find('all' ,$options));
         
-		// set New countPage
+        // set New countPage
 		$data['countPage'] = $newCountPage = ceil($data['totalList'] / $countPage);
 		
 		// set the paging limitation...

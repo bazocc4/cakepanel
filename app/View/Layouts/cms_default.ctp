@@ -38,6 +38,10 @@
             echo $this->Html->script('jquery-ui-touch-punch');
             echo $this->Html->script('jquery-ui-timepicker-addon');
 			echo $this->Html->script('bootstrap.min');
+
+            // ** Use this script to check browser support HTML-5 certain input types !!
+			// ** See http://diveintohtml5.info/detect.html for more details !!
+			echo $this->Html->script('modernizr-2.6.1.min');
 		?>
 		
 		<!-- Le javascript
@@ -208,7 +212,7 @@
 		
 <!-- 		ADDITIONAL SCRIPT FOR LAYOUT -->		
 		<script>
-			$(document).ready(function(){
+            $(document).ready(function(){
                 // Append each of database li menu to their suitable category place !!
                 $('li.database-menu').each(function(i,el){
                     var typecat = $(el).find('input[type=hidden]').val();                    

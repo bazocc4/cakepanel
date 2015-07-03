@@ -1,7 +1,7 @@
 <?php
 class Entry extends AppModel {
 	var $name = 'Entry';
-	private $Resize=null;
+    private $Resize=null;
 	
 	// DATABASE MODEL...
 	var $Type = NULL;

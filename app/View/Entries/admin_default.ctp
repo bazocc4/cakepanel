@@ -74,9 +74,10 @@
                 }
             }
         
-			<?php if($isOrderChange == 1): ?>
-				// table sortable
-				$("table.list tbody").sortable({ opacity: 0.6, cursor: 'move',
+            // is table sortable?
+            if(!Modernizr.touch && <?php echo $isOrderChange; ?>)
+            {
+                $("table.list tbody").sortable({ opacity: 0.6, cursor: 'move',
 					stop: function(event, ui) {
 						var tmp = '';
 						// construct
@@ -91,10 +92,12 @@
 						});
 					}
 				});
-			<?php else: ?>
-				$('table#myTableList tr').css('cursor' , 'default');
-			<?php endif; ?>
-
+            }
+            else
+            {
+                $('table#myTableList tr').css('cursor' , 'default');
+            }
+            
 			// submit bulk action checkbox !!
 			if($('form#global-action').length > 0)
             {
