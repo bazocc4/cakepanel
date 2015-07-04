@@ -1097,6 +1097,7 @@ class EntriesController extends AppController {
                 if(substr($value['key'],0,5) == 'form-' && stripos($_SESSION['order_by'] , $value['key'] ) !== FALSE)
                 {
                     $innerFieldMeta = $value['input_type'];
+                    $innerFieldMetaNumeric = strpos($value['validation'], 'is_numeric'); // for order by type !!
                     break;
                 }                    
             }
@@ -1237,11 +1238,25 @@ class EntriesController extends AppController {
         // ========================================= >>
         if(!empty($innerFieldMeta))
         {
-            $joinEntryMeta = TRUE;            
+            $joinEntryMeta = TRUE;
             $explodeSorting = explode(' ', $_SESSION['order_by']);
             if($innerFieldMeta == 'gallery')    $explodeSorting[0] = 'count-'.$explodeSorting[0];
             
-            $options['order'] = array('CASE WHEN EntryMeta.key_value LIKE "%{#}'.$explodeSorting[0].'=%" THEN SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}'.$explodeSorting[0].'=", -1), "{#}", 1) ELSE NULL END '.$explodeSorting[1]);            
+            $sqlOrderValue = 'SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}'.$explodeSorting[0].'=", -1), "{#}", 1)';
+            if(strpos($innerFieldMeta, 'datetime') !== FALSE)
+            {
+                $sqlOrderValue = 'STR_TO_DATE('.$sqlOrderValue.', "%m/%d/%Y %H:%i")';
+            }
+            else if(strpos($innerFieldMeta, 'date') !== FALSE)
+            {
+                $sqlOrderValue = 'STR_TO_DATE('.$sqlOrderValue.', "%m/%d/%Y")';
+            }
+            else if($innerFieldMetaNumeric !== FALSE)
+            {
+                $sqlOrderValue = 'CAST('.$sqlOrderValue.' AS SIGNED)';
+            }
+            
+            $options['order'] = array('CASE WHEN EntryMeta.key_value LIKE "%{#}'.$explodeSorting[0].'=%" THEN '.$sqlOrderValue.' ELSE NULL END '.$explodeSorting[1]);
         }
         else 
         {

@@ -158,7 +158,7 @@ class Entry extends AppModel {
 			'className' => 'Entry',
 			'foreignKey' => 'parent_id',
 			'dependent' => false,
-			'conditions' => '',
+			'conditions' => array('ChildEntry.status >' => 0),
 			'fields' => '',
 			'order' => 'ChildEntry.sort_order DESC',
 			'limit' => '',
