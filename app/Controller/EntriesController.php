@@ -1169,28 +1169,12 @@ class EntriesController extends AppController {
         // ========================================= >>
 		// FIND LAST MODIFIED !!
 		// ========================================= >>
-		$tempOpt = $options;
-		$tempOpt['order'] = array('Entry.modified DESC');
-		$data['lastModified'] = $this->Entry->find('first' , $tempOpt);
-        
-		// ================================================================ >>
-		// check for description or image is used for this entry or not ??
-		// ================================================================ >>
-		$tempOpt = $options;
-        array_push($tempOpt['conditions'], array('LENGTH(Entry.description) >' => 0));
-		$checkSQL = $this->Entry->find('count' , $tempOpt);
-		$data['descriptionUsed'] = (empty($checkSQL)?0:1);
-		
-		$tempOpt = $options;
-        array_push($tempOpt['conditions'], array('Entry.main_image >' => 0));
-		$checkSQL = $this->Entry->find('count' , $tempOpt);		
-		$data['imageUsed'] = (empty($checkSQL)?0:1);
+		$options['order'] = array('Entry.modified DESC');
+		$data['lastModified'] = $this->Entry->find('first' , $options);
 
 		// ======================================== >>
 		// JOIN TABLE & ADDITIONAL FILTERING METHOD !!
 		// ======================================== >>
-        $joinEntryMeta = FALSE;
-        
         if( !empty($myMetaKey) )
 		{
             $myMetaKey = array_map('trim', explode('|', $myMetaKey));
@@ -1200,8 +1184,6 @@ class EntriesController extends AppController {
             {
                 if(!empty($tempValue) && !empty($myMetaValue[$tempKey]))
                 {
-                    $joinEntryMeta = TRUE;
-                    
                     $myMetaNot = '';
                     if(substr($myMetaValue[$tempKey] , 0 , 1) == '!')
                     {
@@ -1220,7 +1202,6 @@ class EntriesController extends AppController {
             $myMetaKey = array_filter($myMetaKey);
             if(!empty($myMetaKey))
             {
-                $joinEntryMeta = TRUE;
                 $options['conditions']['NOT'] = array_map(function($value){ return array('EntryMeta.key_value LIKE' => '%{#}form-'.$value.'=%'); }, $myMetaKey);
             }
 		}
@@ -1235,8 +1216,7 @@ class EntriesController extends AppController {
             
 			if($this->mySetting['table_view']=='complex')
 			{
-                $joinEntryMeta = TRUE;
-				array_push($options['conditions']['OR'] , array('REPLACE(REPLACE(EntryMeta.key_value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
+                array_push($options['conditions']['OR'] , array('REPLACE(REPLACE(EntryMeta.key_value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
 			}
 		}
         
@@ -1245,7 +1225,6 @@ class EntriesController extends AppController {
         // ========================================= >>
         if(!empty($innerFieldMeta))
         {
-            $joinEntryMeta = TRUE;
             $explodeSorting = explode(' ', $_SESSION['order_by']);
             if($innerFieldMeta == 'gallery')    $explodeSorting[0] = 'count-'.$explodeSorting[0];
             
@@ -1270,7 +1249,7 @@ class EntriesController extends AppController {
             $options['order'] = array('Entry.'.(isset($innerFieldMeta)||empty($_SESSION['order_by'])||empty($this->request->params['admin'])?$this->generalOrder:$_SESSION['order_by']));
         }
         
-        if($joinEntryMeta)
+        if(strpos( serialize($options) , 'EntryMeta.key_value') !== FALSE)
 		{
             $options['joins'] = array(array(
 				'table' => '(SELECT EntryMeta.entry_id, CONCAT("{#}", GROUP_CONCAT(EntryMeta.key, "=", EntryMeta.value SEPARATOR "{#}"), "{#}") as key_value FROM cms_entry_metas as EntryMeta GROUP BY EntryMeta.entry_id)',
@@ -1290,6 +1269,9 @@ class EntriesController extends AppController {
             $options['page'] = $paging;
         }
 		$data['myList'] = array_map('breakEntryMetas', $this->Entry->find('all' ,$options));
+        
+        // check for image is used for this entries or not ??
+		$data['imageUsed'] = (empty(array_filter(array_column(array_column($data['myList'], 'Entry'), 'main_image')))?0:1);
         
         // set New countPage
 		$data['countPage'] = $newCountPage = ceil($data['totalList'] / $countPage);
