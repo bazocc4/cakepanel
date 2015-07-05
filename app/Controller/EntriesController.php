@@ -1186,9 +1186,9 @@ class EntriesController extends AppController {
 		$checkSQL = $this->Entry->find('count' , $tempOpt);		
 		$data['imageUsed'] = (empty($checkSQL)?0:1);
 
-		// ========================================= >>
-		// NEW FUNCTION: JOIN TABLE !!
-		// ========================================= >>
+		// ======================================== >>
+		// JOIN TABLE & ADDITIONAL FILTERING METHOD !!
+		// ======================================== >>
         $joinEntryMeta = FALSE;
         
         if( !empty($myMetaKey) )
@@ -1202,8 +1202,15 @@ class EntriesController extends AppController {
                 {
                     $joinEntryMeta = TRUE;
                     
+                    $myMetaNot = '';
+                    if(substr($myMetaValue[$tempKey] , 0 , 1) == '!')
+                    {
+                        $myMetaValue[$tempKey] = substr($myMetaValue[$tempKey] , 1);
+                        $myMetaNot = 'NOT';
+                    }
+                    
                     array_push($options['conditions'], array(
-                        'SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}form-'.$tempValue.'=", -1), "{#}", 1) LIKE' => '%'.string_unslug($myMetaValue[$tempKey]).'%'
+                        'REPLACE(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}form-'.$tempValue.'=", -1), "{#}", 1) , "-" , " "),"_"," ") '.$myMetaNot.' LIKE' => '%'.string_unslug($myMetaValue[$tempKey]).'%'
                     ));
                     
                     unset($myMetaKey[$tempKey]);
@@ -1229,7 +1236,7 @@ class EntriesController extends AppController {
 			if($this->mySetting['table_view']=='complex')
 			{
                 $joinEntryMeta = TRUE;
-				array_push($options['conditions']['OR'] , array('EntryMeta.key_value LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
+				array_push($options['conditions']['OR'] , array('REPLACE(REPLACE(EntryMeta.key_value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
 			}
 		}
         
@@ -1266,7 +1273,7 @@ class EntriesController extends AppController {
         if($joinEntryMeta)
 		{
             $options['joins'] = array(array(
-				'table' => '(SELECT EntryMeta.entry_id, CONCAT("{#}", GROUP_CONCAT(EntryMeta.key, "=", REPLACE(REPLACE(EntryMeta.value , "-" , " "),"_"," ") SEPARATOR "{#}"), "{#}") as key_value FROM cms_entry_metas as EntryMeta GROUP BY EntryMeta.entry_id)',
+				'table' => '(SELECT EntryMeta.entry_id, CONCAT("{#}", GROUP_CONCAT(EntryMeta.key, "=", EntryMeta.value SEPARATOR "{#}"), "{#}") as key_value FROM cms_entry_metas as EntryMeta GROUP BY EntryMeta.entry_id)',
 	            'alias' => 'EntryMeta',
 	            'type' => 'LEFT',
 	            'conditions' => array('Entry.id = EntryMeta.entry_id')
