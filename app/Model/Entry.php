@@ -921,6 +921,7 @@ class Entry extends AppModel {
 			$options['conditions']['Entry.title '.(strpos($title,'%')!==FALSE?'LIKE':'')] = $title;
 		}
         
+        $result = array();
         // Skip if no options parameter !!
         if(!empty($options))
         {
@@ -932,10 +933,10 @@ class Entry extends AppModel {
             $result = $this->find('first',$options);            
             if(!empty($result))
             {
-                return breakEntryMetas($result);
+                $result = breakEntryMetas($result);
             }
         }
-		return false;
+		return $result;
 	}
 	
 	// ---------------------------------------------- >>
