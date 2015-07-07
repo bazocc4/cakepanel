@@ -98,6 +98,14 @@
                 $('table#myTableList tr').css('cursor' , 'default');
             }
             
+            // click on record will trigger checkbox clicked too !!
+            $('table#myTableList tr').click(function(e){
+                if($('td').is(e.target) && $(this).find('input[type=checkbox]').length > 0)
+                {
+                    $(this).find('input[type=checkbox]').click();
+                }
+            });
+            
 			// submit bulk action checkbox !!
 			if($('form#global-action').length > 0)
             {
@@ -260,11 +268,15 @@
                             case 'datetimepicker':
                             case 'multidate':
                             case 'multibrowse':
-                                $datefield = 'date-field';
+                                $datefield = 'date-field'; // 100 px
+                                break;
+                            case 'textarea':
+                            case 'ckeditor':
+                                $datefield = 'ck-field'; // 200 px
                                 break;
                         }
                         
-                        echo "<th ".($value['input_type'] == 'textarea' || $value['input_type'] == 'ckeditor'?"style='min-width:200px;'":"")." class='".$hideKeyQuery." ".$datefield."'>";
+                        echo "<th class='".$hideKeyQuery." ".$datefield."'>";
                         echo $this->Html->link(string_unslug($shortkey).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' asc'?" desc":" asc") ));
 						echo "</th>";
 					}
