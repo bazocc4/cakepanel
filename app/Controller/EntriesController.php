@@ -1440,12 +1440,10 @@ class EntriesController extends AppController {
 						$errMsg .= ( strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
 					}
 					// secondly DO checking validation from database !!!
-					$state = 0;					
 					foreach ($myAutomaticValidation as $key2 => $value2) // check for validation for each attribute key... 
 					{
 						if($value['key'] == $value2['key']) // if find the same key...
 						{
-							$state = 1;
 							$myValid = explode('|' , $value2['validation']);
 							foreach ($myValid as $key3 => $value3) 
 							{
@@ -1454,16 +1452,6 @@ class EntriesController extends AppController {
 							}
 							break;
 						}
-					}
-					
-					// if attribute key doesn't exist in type metas, therefore it must be added to type metas respectively...
-					if($state == 0 && !empty($value['input_type']) && empty($lang_code))
-					{
-						$this->request->data['TypeMeta'] = $value;
-						$this->request->data['TypeMeta']['type_id'] = (empty($myEntry)?$myType['Type']['id']:$myChildType['Type']['id']);
-						$this->request->data['TypeMeta']['value'] = $value['optionlist'];
-						$this->TypeMeta->create();
-						$this->TypeMeta->save($this->request->data);
 					}
 				}
 				// LAST CHECK ERROR MESSAGE !!
