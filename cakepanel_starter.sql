@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 3.2.0.1
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Mar 05, 2015 at 04:16 PM
--- Server version: 5.1.37
--- PHP Version: 5.3.0
+-- Host: 127.0.0.1
+-- Generation Time: Jul 17, 2015 at 05:56 AM
+-- Server version: 5.6.24
+-- PHP Version: 5.6.8
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,7 +27,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `cms_accounts` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `role_id` tinyint(3) unsigned NOT NULL,
   `username` varchar(500) DEFAULT NULL,
@@ -36,18 +37,16 @@ CREATE TABLE IF NOT EXISTS `cms_accounts` (
   `created` datetime NOT NULL,
   `created_by` int(10) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cms_accounts`
 --
 
 INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `password`, `last_login`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 1, 'admin', 'admin@yahoo.com', '169e781bd52860b584879cbe117085da596238f3', '2013-02-18 18:12:14', '2013-01-04 00:00:00', 1, '2013-01-04 00:00:00', 1);
+(1, 1, 1, 'admin', 'admin@yahoo.com', '169e781bd52860b584879cbe117085da596238f3', '2015-07-17 10:49:12', '2013-01-04 00:00:00', 1, '2013-01-04 00:00:00', 1),
+(2, 2, 2, 'Andy Basuki', 'andybasuki88@gmail.com', 'd82dff1679e0137a0bab60cc67cc6a2ad36f10a0', '2015-07-17 10:54:47', '2015-07-17 10:54:24', 1, '2015-07-17 10:54:24', 1);
 
 -- --------------------------------------------------------
 
@@ -56,7 +55,7 @@ INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `pa
 --
 
 CREATE TABLE IF NOT EXISTS `cms_entries` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `entry_type` varchar(500) NOT NULL,
   `title` varchar(500) NOT NULL,
   `slug` varchar(500) NOT NULL,
@@ -70,15 +69,8 @@ CREATE TABLE IF NOT EXISTS `cms_entries` (
   `modified` datetime NOT NULL,
   `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
   `sort_order` int(10) unsigned NOT NULL DEFAULT '0',
-  `lang_code` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `cms_entries`
---
-
+  `lang_code` varchar(10) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -87,17 +79,11 @@ CREATE TABLE IF NOT EXISTS `cms_entries` (
 --
 
 CREATE TABLE IF NOT EXISTS `cms_entry_metas` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `entry_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
-  `value` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `cms_entry_metas`
---
-
+  `value` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -106,12 +92,11 @@ CREATE TABLE IF NOT EXISTS `cms_entry_metas` (
 --
 
 CREATE TABLE IF NOT EXISTS `cms_roles` (
-  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `id` tinyint(3) unsigned NOT NULL,
   `name` varchar(500) NOT NULL,
   `description` text,
-  `count` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `count` int(10) unsigned DEFAULT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cms_roles`
@@ -129,11 +114,10 @@ INSERT INTO `cms_roles` (`id`, `name`, `description`, `count`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cms_settings` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
-  `value` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+  `value` text NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cms_settings`
@@ -165,36 +149,11 @@ INSERT INTO `cms_settings` (`id`, `key`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cms_type_metas`
---
-
-CREATE TABLE IF NOT EXISTS `cms_type_metas` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `type_id` int(10) unsigned NOT NULL,
-  `key` varchar(500) NOT NULL,
-  `value` text,
-  `input_type` varchar(500) DEFAULT NULL,
-  `validation` text,
-  `instruction` varchar(300) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `cms_type_metas`
---
-
-INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `validation`, `instruction`) VALUES
-(2, 3, 'category', 'home', NULL, NULL, NULL),
-(3, 3, 'form-url_link', '', 'text', 'is_url|', 'Example: http://www.yourdomain.com');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `cms_types`
 --
 
 CREATE TABLE IF NOT EXISTS `cms_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(500) NOT NULL,
   `slug` varchar(500) NOT NULL,
   `description` text,
@@ -203,10 +162,8 @@ CREATE TABLE IF NOT EXISTS `cms_types` (
   `created` datetime NOT NULL,
   `created_by` int(10) unsigned NOT NULL DEFAULT '1',
   `modified` datetime NOT NULL,
-  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cms_types`
@@ -219,16 +176,64 @@ INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `coun
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cms_type_metas`
+--
+
+CREATE TABLE IF NOT EXISTS `cms_type_metas` (
+  `id` int(10) unsigned NOT NULL,
+  `type_id` int(10) unsigned NOT NULL,
+  `key` varchar(500) NOT NULL,
+  `value` text,
+  `input_type` varchar(500) DEFAULT NULL,
+  `validation` text,
+  `instruction` varchar(300) DEFAULT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cms_type_metas`
+--
+
+INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `validation`, `instruction`) VALUES
+(2, 3, 'category', 'home', NULL, NULL, NULL),
+(3, 3, 'form-url_link', '', 'text', 'is_url|', 'Example: http://www.yourdomain.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cms_users`
+--
+
+CREATE TABLE IF NOT EXISTS `cms_users` (
+  `id` int(10) unsigned NOT NULL,
+  `firstname` varchar(500) NOT NULL,
+  `lastname` varchar(500) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
+  `status` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cms_users`
+--
+
+INSERT INTO `cms_users` (`id`, `firstname`, `lastname`, `created`, `created_by`, `modified`, `modified_by`, `status`) VALUES
+(1, 'admin', 'zpanel', '2013-01-04 00:00:00', 1, '2014-02-06 10:50:29', 1, 1),
+(2, 'Andy', 'Basuki', '2015-07-17 10:53:43', 1, '2015-07-17 10:53:43', 1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cms_user_metas`
 --
 
 CREATE TABLE IF NOT EXISTS `cms_user_metas` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
-  `value` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+  `value` text NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cms_user_metas`
@@ -245,36 +250,127 @@ INSERT INTO `cms_user_metas` (`id`, `user_id`, `key`, `value`) VALUES
 (8, 1, 'dob_year', '1988'),
 (9, 1, 'job', 'Web Developer'),
 (10, 1, 'company', 'PT. Creazi'),
-(11, 1, 'company_address', 'Jl. Nginden Semolo 101');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cms_users`
---
-
-CREATE TABLE IF NOT EXISTS `cms_users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(500) NOT NULL,
-  `lastname` varchar(500) DEFAULT NULL,
-  `created` datetime NOT NULL,
-  `created_by` int(10) unsigned NOT NULL DEFAULT '1',
-  `modified` datetime NOT NULL,
-  `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
-  `status` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+(11, 1, 'company_address', 'Jl. Nginden Semolo 101'),
+(12, 2, 'gender', 'male'),
+(13, 2, 'address', 'Jl. Baruk Utara AA no 43 C'),
+(14, 2, 'zip_code', '60123'),
+(15, 2, 'city', 'Surabaya, Indonesia'),
+(16, 2, 'phone', '031 31 22 34'),
+(17, 2, 'mobile_phone', '089 67367 1110'),
+(18, 2, 'dob_day', '28'),
+(19, 2, 'dob_month', '10'),
+(20, 2, 'dob_year', '1928'),
+(21, 2, 'job', 'Website Administrator'),
+(22, 2, 'company', 'PT. Creazi Citra Cemerlang'),
+(23, 2, 'company_address', 'Jl. Nginden Semolo 101');
 
 --
--- Dumping data for table `cms_users`
+-- Indexes for dumped tables
 --
 
-INSERT INTO `cms_users` (`id`, `firstname`, `lastname`, `created`, `created_by`, `modified`, `modified_by`, `status`) VALUES
-(1, 'admin', 'zpanel', '2013-01-04 00:00:00', 1, '2014-02-06 10:50:29', 1, 1);
+--
+-- Indexes for table `cms_accounts`
+--
+ALTER TABLE `cms_accounts`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `email` (`email`), ADD UNIQUE KEY `username` (`username`);
 
+--
+-- Indexes for table `cms_entries`
+--
+ALTER TABLE `cms_entries`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
 
+--
+-- Indexes for table `cms_entry_metas`
+--
+ALTER TABLE `cms_entry_metas`
+  ADD PRIMARY KEY (`id`);
 
+--
+-- Indexes for table `cms_roles`
+--
+ALTER TABLE `cms_roles`
+  ADD PRIMARY KEY (`id`);
 
+--
+-- Indexes for table `cms_settings`
+--
+ALTER TABLE `cms_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cms_types`
+--
+ALTER TABLE `cms_types`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
+
+--
+-- Indexes for table `cms_type_metas`
+--
+ALTER TABLE `cms_type_metas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cms_users`
+--
+ALTER TABLE `cms_users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cms_user_metas`
+--
+ALTER TABLE `cms_user_metas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cms_accounts`
+--
+ALTER TABLE `cms_accounts`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `cms_entries`
+--
+ALTER TABLE `cms_entries`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cms_entry_metas`
+--
+ALTER TABLE `cms_entry_metas`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cms_roles`
+--
+ALTER TABLE `cms_roles`
+  MODIFY `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `cms_settings`
+--
+ALTER TABLE `cms_settings`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+--
+-- AUTO_INCREMENT for table `cms_types`
+--
+ALTER TABLE `cms_types`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `cms_type_metas`
+--
+ALTER TABLE `cms_type_metas`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `cms_users`
+--
+ALTER TABLE `cms_users`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `cms_user_metas`
+--
+ALTER TABLE `cms_user_metas`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
