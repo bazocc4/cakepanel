@@ -46,8 +46,8 @@ CREATE TABLE `cms_accounts` (
 
 LOCK TABLES `cms_accounts` WRITE;
 /*!40000 ALTER TABLE `cms_accounts` DISABLE KEYS */;
-INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2015-07-04 11:04:43','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
-INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andybasuki88@gmail.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2015-07-17 11:03:52','2013-01-15 03:42:56',1,'2015-07-17 10:59:39',2);
+INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2015-07-21 09:24:02','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
+INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andybasuki88@gmail.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2015-07-17 11:26:47','2013-01-15 03:42:56',1,'2015-07-17 10:59:39',2);
 INSERT INTO `cms_accounts` VALUES (3,2,3,'regular1','regular@yahoo.com','d2705e541f5988c37de5ceb31735a535d5994777','2013-01-17 11:23:37','2013-01-15 04:17:47',2,'2014-07-24 11:05:12',1);
 INSERT INTO `cms_accounts` VALUES (7,3,2,'hanatania8','hanatania@yahoo.com','29536df66160e1ff6a6fe6e0395dd8767140657b','2014-07-24 11:40:17','2014-07-24 11:06:29',1,'2014-07-24 11:40:30',7);
 /*!40000 ALTER TABLE `cms_accounts` ENABLE KEYS */;
@@ -78,7 +78,7 @@ CREATE TABLE `cms_entries` (
   `lang_code` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=731 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=726 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,7 +266,7 @@ CREATE TABLE `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1822 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1811 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -457,8 +457,6 @@ INSERT INTO `cms_entry_metas` VALUES (709,98,'image_width','373.0000000000019');
 INSERT INTO `cms_entry_metas` VALUES (703,97,'image_height','132');
 INSERT INTO `cms_entry_metas` VALUES (710,98,'image_height','322');
 INSERT INTO `cms_entry_metas` VALUES (1012,145,'count-form-group_photo','3');
-INSERT INTO `cms_entry_metas` VALUES (1647,637,'backup-slug','\nsmoke-stock1191-8\n');
-INSERT INTO `cms_entry_metas` VALUES (1634,629,'backup-slug','\nsmoke-stock1191-7\n');
 INSERT INTO `cms_entry_metas` VALUES (1014,145,'form-books','Dark Magic|World War II Cont');
 INSERT INTO `cms_entry_metas` VALUES (1013,145,'count-form-group_photo_2','4');
 INSERT INTO `cms_entry_metas` VALUES (811,84,'count-news','0');
@@ -471,8 +469,6 @@ INSERT INTO `cms_entry_metas` VALUES (1005,85,'image_y','91');
 INSERT INTO `cms_entry_metas` VALUES (859,84,'count-books','4');
 INSERT INTO `cms_entry_metas` VALUES (1002,85,'image_type','jpeg');
 INSERT INTO `cms_entry_metas` VALUES (872,161,'count-magazine','6');
-INSERT INTO `cms_entry_metas` VALUES (1587,596,'backup-slug','\n20110610-103819-1\n');
-INSERT INTO `cms_entry_metas` VALUES (1588,597,'backup-slug','\nsuper-mario-bro-by-skottieyoung-d4nh5fb-2\n');
 INSERT INTO `cms_entry_metas` VALUES (1042,133,'image_y','54');
 INSERT INTO `cms_entry_metas` VALUES (1049,138,'image_y','114');
 INSERT INTO `cms_entry_metas` VALUES (1573,6,'form-quantity','20');
@@ -488,7 +484,6 @@ INSERT INTO `cms_entry_metas` VALUES (1104,84,'form-approval','Approve');
 INSERT INTO `cms_entry_metas` VALUES (1016,145,'form-fake_ckeditor','<p>test fake</p>\r\n');
 INSERT INTO `cms_entry_metas` VALUES (1015,145,'form-dropme','drop tiga');
 INSERT INTO `cms_entry_metas` VALUES (1017,145,'form-warnaku','#8a5bea');
-INSERT INTO `cms_entry_metas` VALUES (1613,616,'backup-slug','\nbatgirl-issue-10-by-artgerm-6\n');
 INSERT INTO `cms_entry_metas` VALUES (1024,6,'count-books','9');
 INSERT INTO `cms_entry_metas` VALUES (1044,133,'image_height','219');
 INSERT INTO `cms_entry_metas` VALUES (1050,138,'image_width','161.00000000000182');
@@ -527,17 +522,12 @@ INSERT INTO `cms_entry_metas` VALUES (1205,364,'image_height','243');
 INSERT INTO `cms_entry_metas` VALUES (1206,72,'form-added_image','364');
 INSERT INTO `cms_entry_metas` VALUES (1550,399,'form-news_file','aboutimg.png');
 INSERT INTO `cms_entry_metas` VALUES (1551,399,'form-books','dark-magic|mario-bros');
-INSERT INTO `cms_entry_metas` VALUES (1309,489,'backup-slug','\ntest-oke-1\n');
-INSERT INTO `cms_entry_metas` VALUES (1308,488,'backup-slug','\ntest-oke\n');
 INSERT INTO `cms_entry_metas` VALUES (1305,66,'backup-slug','\nberanda\n');
 INSERT INTO `cms_entry_metas` VALUES (1304,67,'backup-slug','\ntentang-kita\n');
 INSERT INTO `cms_entry_metas` VALUES (1303,215,'backup-slug','\nkontak-kami\n');
 INSERT INTO `cms_entry_metas` VALUES (1300,65,'backup-slug','\nhome\n');
 INSERT INTO `cms_entry_metas` VALUES (1301,64,'backup-slug','\ncontact-us\n');
 INSERT INTO `cms_entry_metas` VALUES (1302,1,'backup-slug','\nabout-us\n');
-INSERT INTO `cms_entry_metas` VALUES (1310,490,'backup-slug','\nmakan-id\n');
-INSERT INTO `cms_entry_metas` VALUES (1311,491,'backup-slug','\nmakan-id-en\n');
-INSERT INTO `cms_entry_metas` VALUES (1312,492,'backup-slug','\nmakan-id-en-rek\n');
 INSERT INTO `cms_entry_metas` VALUES (1433,50,'backup-slug','\n20110530-061908\n');
 INSERT INTO `cms_entry_metas` VALUES (1526,571,'form-magazine','');
 INSERT INTO `cms_entry_metas` VALUES (1525,571,'form-books','dark-magic');
@@ -619,101 +609,13 @@ INSERT INTO `cms_entry_metas` VALUES (1571,590,'backup-slug','\nthursday20septem
 INSERT INTO `cms_entry_metas` VALUES (1578,6,'form-approval','Pending');
 INSERT INTO `cms_entry_metas` VALUES (1579,6,'form-filename','revisi_program.txt');
 INSERT INTO `cms_entry_metas` VALUES (1580,161,'backup-slug','\ncake-magazine\n');
-INSERT INTO `cms_entry_metas` VALUES (1581,591,'backup-slug','\nbatgirl-issue-10-by-artgerm-4\n');
-INSERT INTO `cms_entry_metas` VALUES (1582,592,'backup-slug','\nspiderman-by-patc-14-1\n');
-INSERT INTO `cms_entry_metas` VALUES (1583,593,'backup-slug','\nsmoke-stock1191-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1584,594,'backup-slug','\n6462d28e02631147cd6ee51a744db6c6-1\n');
-INSERT INTO `cms_entry_metas` VALUES (1585,595,'backup-slug','\nhydrangeas-2\n');
-INSERT INTO `cms_entry_metas` VALUES (1589,598,'backup-slug','\nstock-photo-coffee-beans-in-canvas-sack-9416005-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1590,599,'backup-slug','\n20110530-061908-2\n');
-INSERT INTO `cms_entry_metas` VALUES (1591,600,'backup-slug','\nbatgirl-issue-10-by-artgerm-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1592,601,'backup-slug','\nresize-3d-cartoon-pirate-1\n');
-INSERT INTO `cms_entry_metas` VALUES (1593,602,'backup-slug','\navengers-vs-x-men-babies-by-skottieyoung-d4raoid-2\n');
-INSERT INTO `cms_entry_metas` VALUES (1612,615,'backup-slug','\nresize-3d-cartoon-pirate-2\n');
-INSERT INTO `cms_entry_metas` VALUES (1595,603,'backup-slug','\nsmoke-stock1191-4\n');
-INSERT INTO `cms_entry_metas` VALUES (1596,604,'backup-slug','\nresize-florian-new-02-2\n');
-INSERT INTO `cms_entry_metas` VALUES (1597,605,'backup-slug','\nthursday20september2012043329slide3-1\n');
-INSERT INTO `cms_entry_metas` VALUES (1598,606,'backup-slug','\nkoala-2\n');
-INSERT INTO `cms_entry_metas` VALUES (1599,607,'backup-slug','\npenguins-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1611,614,'backup-slug','\navengers-vs-x-men-babies-by-skottieyoung-d4raoid-5\n');
 INSERT INTO `cms_entry_metas` VALUES (1794,716,'backup-slug','\nbatgirl-issue-10-by-artgerm-9\n');
-INSERT INTO `cms_entry_metas` VALUES (1604,608,'backup-slug','\nbatgirl-issue-10-by-artgerm-5\n');
-INSERT INTO `cms_entry_metas` VALUES (1605,609,'backup-slug','\nspiderman-by-patc-14-2\n');
-INSERT INTO `cms_entry_metas` VALUES (1606,610,'backup-slug','\nsmoke-stock1191-5\n');
-INSERT INTO `cms_entry_metas` VALUES (1607,611,'backup-slug','\n6462d28e02631147cd6ee51a744db6c6-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1608,612,'backup-slug','\nhydrangeas-5\n');
-INSERT INTO `cms_entry_metas` VALUES (1609,613,'backup-slug','\nbatman-by-frogbillgo-d2yoamc-4\n');
-INSERT INTO `cms_entry_metas` VALUES (1614,617,'backup-slug','\n20110530-061908-8\n');
-INSERT INTO `cms_entry_metas` VALUES (1615,618,'backup-slug','\nstock-photo-coffee-beans-in-canvas-sack-9416005-6\n');
-INSERT INTO `cms_entry_metas` VALUES (1616,619,'backup-slug','\nsuper-mario-bro-by-skottieyoung-d4nh5fb-4\n');
-INSERT INTO `cms_entry_metas` VALUES (1617,620,'backup-slug','\n20110610-103819-2\n');
 INSERT INTO `cms_entry_metas` VALUES (1793,715,'backup-slug','\nresize-3d-cartoon-pirate-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1619,621,'backup-slug','\npenguins-6\n');
-INSERT INTO `cms_entry_metas` VALUES (1620,622,'backup-slug','\nkoala-4\n');
-INSERT INTO `cms_entry_metas` VALUES (1621,623,'backup-slug','\nthursday20september2012043329slide3-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1622,624,'backup-slug','\nresize-florian-new-02-6\n');
-INSERT INTO `cms_entry_metas` VALUES (1623,625,'backup-slug','\nsmoke-stock1191-6\n');
 INSERT INTO `cms_entry_metas` VALUES (1792,714,'backup-slug','\navengers-vs-x-men-babies-by-skottieyoung-d4raoid-6\n');
 INSERT INTO `cms_entry_metas` VALUES (1791,161,'count-form-group_photo','7');
 INSERT INTO `cms_entry_metas` VALUES (1628,144,'backup-slug','\nbody-building-muscle\n');
 INSERT INTO `cms_entry_metas` VALUES (1629,144,'count-magazine','4');
-INSERT INTO `cms_entry_metas` VALUES (1630,626,'backup-slug','\npenguins-7\n');
-INSERT INTO `cms_entry_metas` VALUES (1631,627,'backup-slug','\ntulips-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1632,628,'backup-slug','\n20110610-103819-3\n');
-INSERT INTO `cms_entry_metas` VALUES (1635,630,'backup-slug','\nresize-florian-new-02-7\n');
-INSERT INTO `cms_entry_metas` VALUES (1636,631,'backup-slug','\ntulips-4\n');
-INSERT INTO `cms_entry_metas` VALUES (1646,636,'backup-slug','\nresize-florian-new-02-8\n');
-INSERT INTO `cms_entry_metas` VALUES (1645,635,'backup-slug','\ntulips-6\n');
-INSERT INTO `cms_entry_metas` VALUES (1657,642,'backup-slug','\nresize-florian-new-02-9\n');
-INSERT INTO `cms_entry_metas` VALUES (1641,632,'backup-slug','\npenguins-8\n');
-INSERT INTO `cms_entry_metas` VALUES (1642,633,'backup-slug','\ntulips-5\n');
-INSERT INTO `cms_entry_metas` VALUES (1643,634,'backup-slug','\n20110610-103819-4\n');
-INSERT INTO `cms_entry_metas` VALUES (1656,641,'backup-slug','\nsmoke-stock1191-9\n');
-INSERT INTO `cms_entry_metas` VALUES (1669,649,'backup-slug','\nsmoke-stock1191-10\n');
-INSERT INTO `cms_entry_metas` VALUES (1652,638,'backup-slug','\npenguins-9\n');
-INSERT INTO `cms_entry_metas` VALUES (1653,639,'backup-slug','\ntulips-7\n');
-INSERT INTO `cms_entry_metas` VALUES (1654,640,'backup-slug','\n20110610-103819-5\n');
-INSERT INTO `cms_entry_metas` VALUES (1658,643,'backup-slug','\ntulips-8\n');
-INSERT INTO `cms_entry_metas` VALUES (1668,648,'backup-slug','\nresize-florian-new-02-10\n');
-INSERT INTO `cms_entry_metas` VALUES (1667,647,'backup-slug','\ntulips-10\n');
-INSERT INTO `cms_entry_metas` VALUES (1680,655,'backup-slug','\nbatman-by-frogbillgo-d2yoamc-5\n');
-INSERT INTO `cms_entry_metas` VALUES (1663,644,'backup-slug','\npenguins-10\n');
-INSERT INTO `cms_entry_metas` VALUES (1664,645,'backup-slug','\ntulips-9\n');
-INSERT INTO `cms_entry_metas` VALUES (1665,646,'backup-slug','\n20110610-103819-6\n');
-INSERT INTO `cms_entry_metas` VALUES (1679,654,'backup-slug','\ntulips-12\n');
-INSERT INTO `cms_entry_metas` VALUES (1678,653,'backup-slug','\nkoala-5\n');
-INSERT INTO `cms_entry_metas` VALUES (1691,661,'backup-slug','\nbatman-by-frogbillgo-d2yoamc-6\n');
-INSERT INTO `cms_entry_metas` VALUES (1674,650,'backup-slug','\npenguins-11\n');
-INSERT INTO `cms_entry_metas` VALUES (1675,651,'backup-slug','\ntulips-11\n');
-INSERT INTO `cms_entry_metas` VALUES (1676,652,'backup-slug','\n20110610-103819-7\n');
-INSERT INTO `cms_entry_metas` VALUES (1690,660,'backup-slug','\ntulips-14\n');
-INSERT INTO `cms_entry_metas` VALUES (1689,659,'backup-slug','\nkoala-6\n');
-INSERT INTO `cms_entry_metas` VALUES (1702,667,'backup-slug','\nbatman-by-frogbillgo-d2yoamc-7\n');
-INSERT INTO `cms_entry_metas` VALUES (1685,656,'backup-slug','\npenguins-12\n');
-INSERT INTO `cms_entry_metas` VALUES (1686,657,'backup-slug','\ntulips-13\n');
-INSERT INTO `cms_entry_metas` VALUES (1687,658,'backup-slug','\n20110610-103819-8\n');
-INSERT INTO `cms_entry_metas` VALUES (1701,666,'backup-slug','\ntulips-16\n');
-INSERT INTO `cms_entry_metas` VALUES (1700,665,'backup-slug','\nkoala-7\n');
-INSERT INTO `cms_entry_metas` VALUES (1714,674,'backup-slug','\nbatman-by-frogbillgo-d2yoamc-8\n');
-INSERT INTO `cms_entry_metas` VALUES (1696,662,'backup-slug','\npenguins-13\n');
-INSERT INTO `cms_entry_metas` VALUES (1697,663,'backup-slug','\ntulips-15\n');
-INSERT INTO `cms_entry_metas` VALUES (1698,664,'backup-slug','\n20110610-103819-9\n');
-INSERT INTO `cms_entry_metas` VALUES (1713,673,'backup-slug','\ntulips-18\n');
-INSERT INTO `cms_entry_metas` VALUES (1712,672,'backup-slug','\nkoala-8\n');
-INSERT INTO `cms_entry_metas` VALUES (1727,682,'backup-slug','\nbatman-by-frogbillgo-d2yoamc-9\n');
-INSERT INTO `cms_entry_metas` VALUES (1707,668,'backup-slug','\npenguins-14\n');
-INSERT INTO `cms_entry_metas` VALUES (1708,669,'backup-slug','\ntulips-17\n');
-INSERT INTO `cms_entry_metas` VALUES (1709,670,'backup-slug','\n20110610-103819-10\n');
-INSERT INTO `cms_entry_metas` VALUES (1710,671,'backup-slug','\nthursday20september2012043329slide3-4\n');
-INSERT INTO `cms_entry_metas` VALUES (1715,675,'backup-slug','\nthursday20september2012043326slide2-2\n');
-INSERT INTO `cms_entry_metas` VALUES (1726,681,'backup-slug','\ntulips-20\n');
-INSERT INTO `cms_entry_metas` VALUES (1725,680,'backup-slug','\nkoala-9\n');
 INSERT INTO `cms_entry_metas` VALUES (1740,690,'backup-slug','\nbatman-by-frogbillgo-d2yoamc-10\n');
-INSERT INTO `cms_entry_metas` VALUES (1720,676,'backup-slug','\npenguins-15\n');
-INSERT INTO `cms_entry_metas` VALUES (1721,677,'backup-slug','\ntulips-19\n');
-INSERT INTO `cms_entry_metas` VALUES (1722,678,'backup-slug','\n20110610-103819-11\n');
-INSERT INTO `cms_entry_metas` VALUES (1723,679,'backup-slug','\nthursday20september2012043329slide3-5\n');
-INSERT INTO `cms_entry_metas` VALUES (1728,683,'backup-slug','\nthursday20september2012043326slide2-3\n');
 INSERT INTO `cms_entry_metas` VALUES (1739,689,'backup-slug','\ntulips-22\n');
 INSERT INTO `cms_entry_metas` VALUES (1738,688,'backup-slug','\nkoala-10\n');
 INSERT INTO `cms_entry_metas` VALUES (1737,144,'count-form-group_photo','4');
@@ -1046,4 +948,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-17 11:04:09
+-- Dump completed on 2015-07-21 13:23:13

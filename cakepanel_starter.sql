@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2015 at 05:56 AM
+-- Generation Time: Jul 21, 2015 at 07:21 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `cakepanel`
+-- Database: `cakepanel_starter`
 --
 
 -- --------------------------------------------------------
