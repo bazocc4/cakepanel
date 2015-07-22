@@ -1229,7 +1229,7 @@ class EntriesController extends AppController {
             $explodeSorting = explode(' ', $_SESSION['order_by']);
             if($innerFieldMeta == 'gallery')    $explodeSorting[0] = 'count-'.$explodeSorting[0];
             
-            $sqlOrderValue = 'TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}'.$explodeSorting[0].'=", -1), "{#}", 1))';
+            $sqlOrderValue = 'LTRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}'.$explodeSorting[0].'=", -1), "{#}", 1))';
             if(strpos($innerFieldMeta, 'datetime') !== FALSE)
             {
                 $sqlOrderValue = 'STR_TO_DATE('.$sqlOrderValue.', "%m/%d/%Y %H:%i")';
@@ -1243,7 +1243,7 @@ class EntriesController extends AppController {
                 $sqlOrderValue = 'CAST('.$sqlOrderValue.' AS SIGNED)';
             }
             
-            $options['order'] = array('CASE WHEN EntryMeta.key_value LIKE "%{#}'.$explodeSorting[0].'=%" THEN '.$sqlOrderValue.' ELSE NULL END '.$explodeSorting[1]);
+            $options['order'] = array($sqlOrderValue.' '.$explodeSorting[1]);
         }
         else 
         {
