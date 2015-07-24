@@ -62,15 +62,14 @@ class EntryMeta extends AppModel {
 	 **/
 	function embedded_img_meta($type)
 	{
-		$imgReason = $this->find('all', array(
+        $imgReason = $this->find('all', array(
 			'conditions' => array('EntryMeta.key' => 'image_'.$type),
             'recursive' => -1
 		));
+        
+        $imgTypeList = array_column(array_column($imgReason, 'EntryMeta'), 'value', 'entry_id');
 		$imgTypeList[0] = 'jpg';
-		foreach ($imgReason as $key20 => $value20)
-		{
-			$imgTypeList[$value20['EntryMeta']['entry_id']] = $value20['EntryMeta']['value'];			
-		}
+        
 		return $imgTypeList;
 	}
 	
