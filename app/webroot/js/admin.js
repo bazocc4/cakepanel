@@ -24,9 +24,14 @@ var jcrop_api = new Array();
 		// disable right-click for image !!
 		$('img').bind('contextmenu', function(e) {
 			return false;
-		}); 
+		});
+        
+        // Disable input form field but still send the value !!
+        $('form').bind('submit', function(){
+            $(this).find(':disabled').removeAttr('disabled');
+        });
 
-	    //trigger for all form to show dialog box when user close windows but data didn't(forgot) save
+	    // trigger for all form to show dialog box when user close windows but data didn't(forgot) save
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("change",'form.notif-change',function(e){
 	        window.onbeforeunload=function()
 			{
