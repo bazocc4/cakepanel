@@ -1,15 +1,6 @@
 <?php
 class Entry extends AppModel {
 	var $name = 'Entry';
-    private $Resize=null;
-	
-	// DATABASE MODEL...
-	var $Type = NULL;
-	var $TypeMeta = NULL;
-	var $Setting = NULL;
-	var $EntryMeta = NULL;
-	var $Account = NULL;
-	
 	var $validate = array(
 		'entry_type' => array(
 			'notempty' => array(
@@ -194,6 +185,20 @@ class Entry extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+    
+    private $Resize=null;
+	
+	// DATABASE MODEL...
+	var $Type = NULL;
+	var $TypeMeta = NULL;
+	var $Setting = NULL;
+    
+    var $Entry = NULL;
+	var $EntryMeta = NULL;
+	var $Account = NULL;
+    
+    // CURRENT USER DETAIL ...
+    var $myCreator = NULL;
 
 	public function __construct( $id = false, $table = NULL, $ds = NULL )
 	{
@@ -206,8 +211,13 @@ class Entry extends AppModel {
 		$this->Type = ClassRegistry::init('Type');
 		$this->TypeMeta = ClassRegistry::init('TypeMeta');
 		$this->Setting = ClassRegistry::init('Setting');
+        
+        $this->Entry = $this; // just as alias ...
 		$this->EntryMeta = ClassRegistry::init('EntryMeta');
 		$this->Account = ClassRegistry::init('Account');
+        
+        // set current user ...
+        $this->myCreator = $this->getCurrentUser();
 	}
     
     function _convertEntrySlug($slug)
@@ -495,10 +505,9 @@ class Entry extends AppModel {
 		}
         
         // renew the modifier !!
-        $myCreator = $this->getCurrentUser();
-        if(!empty($myCreator))
+        if(!empty($this->myCreator))
         {
-            $this->data['Entry']['modified_by'] = $myCreator['id'];
+            $this->data['Entry']['modified_by'] = $this->myCreator['id'];
         }
 		return true;
 	}
@@ -691,12 +700,11 @@ class Entry extends AppModel {
 		// generate slug from title...
 		$input['Entry']['slug'] = $this->get_slug($input['Entry']['title']);
 		// write my creator...
-		$myCreator = $this->getCurrentUser();
-		$input['Entry']['modified_by'] = $myCreator['id'];
+		$input['Entry']['modified_by'] = $this->myCreator['id'];
 		$input['Entry']['parent_id'] = $parentImage['Entry']['id'];
 		if(empty($data['childImageId']))
 		{
-			$input['Entry']['created_by'] = $myCreator['id'];
+			$input['Entry']['created_by'] = $this->myCreator['id'];
 			$this->create();
 		}
 		else

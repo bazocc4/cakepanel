@@ -49,6 +49,7 @@ class EntryMeta extends AppModel {
         // set needed database model ...
 		$this->Type = ClassRegistry::init('Type');
 		$this->TypeMeta = ClassRegistry::init('TypeMeta');
+        
 		$this->Entry = ClassRegistry::init('Entry');
         $this->EntryMeta = $this; // just as alias ...
 		$this->Account = ClassRegistry::init('Account');
