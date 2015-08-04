@@ -30,7 +30,7 @@ html here ...
                     if(!empty($recaptcha_error))
                     {
                         ?>
-                alert('Invalid CAPTCHA challenge (<?php echo $recaptcha_error; ?>)\nPlease try again.');
+                alert('Invalid reCAPTCHA challenge (<?php echo $recaptcha_error; ?>)\nPlease try again.');
                         <?php
                     }
                     else if($contact['success'] == -2)

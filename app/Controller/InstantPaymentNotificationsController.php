@@ -5,7 +5,7 @@ class InstantPaymentNotificationsController extends AppController {
 	public $components = array('Validation');
 	public $helpers = array('Form', 'Html', 'Js', 'Time', 'Get','Paypal');
 	
-	var $testEmail = "andy_basuki_88@yahoo.com";
+	var $testEmail = "andybasuki88@gmail.com";
 	private $frontEndFolder = '/FrontEnds/';
 	private $backEndFolder = '/BackEnds/';
 	/**
@@ -284,19 +284,53 @@ class InstantPaymentNotificationsController extends AppController {
 			{
 				$destination = $ipn['custom'];
 				
-				if(!empty($destination))
-				{
-					$data['InstantPaymentNotification']['address_city'] = $destination;
-					$data['InstantPaymentNotification']['address_country'] = "Indonesia";
-					$data['InstantPaymentNotification']['address_country_code'] = "ID";
-					
-					$ipn = $data['InstantPaymentNotification'];
-				}
-				else
-				{
-					$state = "invalid-city";
-				}
+                if(!empty($destination))
+                {
+                    $data['InstantPaymentNotification']['address_city'] = $destination;
+                    $data['InstantPaymentNotification']['address_country'] = "Indonesia";
+                    $data['InstantPaymentNotification']['address_country_code'] = "ID";
+
+                    $ipn = $data['InstantPaymentNotification'];
+                }
+                else
+                {
+                    $state = "invalid-city";
+                }
 			}
+            
+            // UPDATE INVOICE STATUS to paid / completed !!
+            if($state == "success" && !empty($ipn['invoice']))
+            {
+                $invoicedata = breakEntryMetas($this->Entry->findByEntryTypeAndTitle('invoice', $ipn['invoice']));
+
+                $this->Entry->id = $invoicedata['Entry']['id'];
+                $this->Entry->saveField('status', '1');
+
+                foreach ($invoicedata['EntryMeta'] as $key => $value) 
+                {
+                    if($value['key'] == 'form-customer')
+                    {
+                        // avoid printing twice !!
+                        if(stripos($value['value'], 'PayPal Receipt ID') === FALSE)
+                        {
+                            $this->EntryMeta->id = $value['id'];
+                            $this->EntryMeta->saveField('value' , 'PayPal Receipt ID : '.$ipn['receipt_id'].chr(10).$value['value']);
+                        }
+
+                        break;
+                    }
+                }
+
+                // update coupon status as paid !!
+                if(!empty($invoicedata['EntryMeta']['coupon']))
+                {
+                    $coupon = $this->Entry->findByEntryTypeAndTitle('coupon', $invoicedata['EntryMeta']['coupon']);
+                    $this->Entry->id = $coupon['Entry']['id'];
+                    $this->Entry->saveField('status', '0'); // used !!
+                    $this->Entry->saveField('description', 'Invoice : '.$ipn['invoice']);
+                }
+            }
+            
 			$this->__sendEmail($state, $data); 
 		}
 		else 

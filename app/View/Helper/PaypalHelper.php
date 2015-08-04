@@ -87,9 +87,9 @@ class PaypalHelper extends AppHelper {
   
 function initialize($type=NULL , $data = array())
 {
-  $content = "";
+    $content = "";
 	$options = array();
-  if($type == 'cart')
+    if($type == 'cart')
 	{
 		// SPECIAL CASE PAYMENT TYPE !!
 		$options['type'] = $type;
@@ -109,8 +109,37 @@ function initialize($type=NULL , $data = array())
 		{
 			$options['handling_cart'] = number_format($data['shoppingongkir']['value'] , 2);
 		}
-		
-		$options['custom'] = $_SESSION['shoppingongkir']['to'];
+        
+        // ====================================== >>
+        // SUPPLY BILLING ADDRESS (EXAMPLE USAGE) !!
+        // ====================================== >>
+//        $recipient = (empty($_SESSION['deliverycart']['billing']['delivery'])?$_SESSION['deliverycart']['billing']:$_SESSION['deliverycart']['delivery']);
+//
+//        // SPECIAL CASE - SEND TO BILLING ADDRESS, NOT DELIVERY ADDRESS !!
+//        $options['email'] = $_SESSION['deliverycart']['billing']['email'];
+//
+//        $options['first_name'] = $recipient['firstname'];    
+//        $options['last_name'] = $recipient['lastname'];    
+//        $options['address1'] = $recipient['address'];
+//        $options['address2'] = $recipient['address_2'];
+//        
+//        $options['zip'] = $recipient['zipcode'];
+//        $options['state'] = $recipient['province'];
+//        $options['city'] = $recipient['city'];
+//        $options['country'] = getCountryCode($recipient['country']); // ID
+//
+//        $options['custom'] = $options['night_phone_b'] = $recipient['phone'];
+//
+//        if( !empty($_SESSION['shoppingcoupon']) )
+//        {
+//          $options['discount_amount_cart'] = $_SESSION['shoppingcoupon']['price'];
+//        }
+//
+//        $options['invoice'] = $_SESSION['invoice'];
+//        $options['address_override'] = "1";
+//        $options['no_shipping'] = "1";
+//        $options['no_note'] = "1";
+        
 		$content = $this->button($options);
 	}
 	else

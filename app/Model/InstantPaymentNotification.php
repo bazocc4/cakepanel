@@ -132,7 +132,6 @@ class InstantPaymentNotification extends AppModel {
         	$key = $i - 1;
           $retval['PaypalItem'][$key]['item_name'] = $post["item_name$i"];
           $retval['PaypalItem'][$key]['item_number'] = $post["item_number$i"];
-          $retval['PaypalItem'][$key]['item_number'] = $post["item_number$i"];
           $retval['PaypalItem'][$key]['quantity'] = $post["quantity$i"];
           $retval['PaypalItem'][$key]['mc_shipping'] = $post["mc_shipping$i"];
           $retval['PaypalItem'][$key]['mc_handling'] = $post["mc_handling$i"];
