@@ -1526,6 +1526,10 @@ class EntriesController extends AppController {
 						}
 						
                         // ONE MORE CHECKER STEP !!
+                        if(strpos($value['validation'], 'is_numeric') !== FALSE)
+                        {
+                            $value['value'] = (float)$value['value'];
+                        }
                         if(!empty($value['value']))
                         {
                             $this->EntryMeta->create();
@@ -1831,6 +1835,10 @@ class EntriesController extends AppController {
 								}
 								
                                 // ONE MORE CHECKER STEP !!
+                                if(strpos($value['validation'], 'is_numeric') !== FALSE)
+                                {
+                                    $value['value'] = (float)$value['value'];
+                                }
                                 if(!empty($value['value']))
                                 {
                                     $this->EntryMeta->create();
