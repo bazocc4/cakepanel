@@ -141,7 +141,7 @@ INSERT INTO `cms_settings` (`id`, `key`, `value`) VALUES
 (1, 'title', 'Creazi Citra Cemerlang'),
 (2, 'tagline', 'Creative , Business , Solution'),
 (3, 'description', 'Our Company Description here.'),
-(4, 'date_format', 'd F Y'),
+(4, 'date_format', 'd M Y'),
 (5, 'time_format', 'h:i A'),
 (6, 'header', ''),
 (7, 'top_insert', ''),

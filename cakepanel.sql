@@ -726,7 +726,7 @@ LOCK TABLES `cms_settings` WRITE;
 INSERT INTO `cms_settings` VALUES (1,'title','Creazi Citra Cemerlang');
 INSERT INTO `cms_settings` VALUES (2,'tagline','design,creazi,creative,emba 3d,interior,intrafood products,products packaging,intrafood products packaging,emba,3d interior,3d,packaging,business,products,execute,intrafood,description,competitive,company,built');
 INSERT INTO `cms_settings` VALUES (3,'description','CREAzi Design Surabaya Jakarta Indonesia');
-INSERT INTO `cms_settings` VALUES (4,'date_format','F d, Y');
+INSERT INTO `cms_settings` VALUES (4,'date_format','d M Y');
 INSERT INTO `cms_settings` VALUES (5,'time_format','h:i A');
 INSERT INTO `cms_settings` VALUES (6,'header','');
 INSERT INTO `cms_settings` VALUES (7,'top_insert','');
@@ -948,4 +948,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-06 17:44:32
+-- Dump completed on 2015-08-07 16:35:18
