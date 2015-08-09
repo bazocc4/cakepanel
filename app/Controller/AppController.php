@@ -242,6 +242,8 @@ class AppController extends Controller {
             $this->Session->setFlash(__('Authorized access is required.'),'default',array() , 'auth');
             $this->redirect($this->Auth->logout());
 		}
+        
+        // set other general attributes ...
 		$temp = $this->Setting->findByKey("custom-pagination");
 		$this->countListPerPage = (empty($temp['Setting']['value'])?10:$temp['Setting']['value']);
 		$this->mediaPerPage = 24;
