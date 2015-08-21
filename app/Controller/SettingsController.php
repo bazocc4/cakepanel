@@ -59,12 +59,9 @@ class SettingsController extends AppController {
                 return;
             }
 			// UPDATE LANGUAGE SETTING FIRST !!
-			if(!empty($myDetails[15]['multilanguage']))
+			if( !empty($myDetails[15]['multilanguage']) && !empty($myDetails[15]['optlang']) )
 			{
-				foreach ($myDetails[15]['optlang'] as $key => $value) 
-				{
-					$myDetails[15]['value'] .= chr(13).chr(10).$key;
-				}
+                $myDetails[15]['value'] = implode(chr(13).chr(10), array_unique(array_merge( array($myDetails[15]['value']), array_keys($myDetails[15]['optlang']) )));
 			}
 			// NOW SAVE THE SETTINGS ...
 			foreach ($myDetails as $key => $value)
