@@ -56,7 +56,7 @@
     </label>
 	<div class="controls">
 		
-		<input <?php echo $required; ?> <?php echo 'id="'.$browse_alias.'"'; ?> class="targetID input-xlarge" placeholder="<?php echo $placeholder; ?>" value="<?php echo $metaDetails['Entry']['title']; ?>" type="text" readonly="true"/>
+		<input <?php echo $required; ?> <?php echo 'id="'.$browse_alias.'"'; ?> class="targetID input-xlarge" placeholder="<?php echo $placeholder; ?>" value="<?php echo (empty($metaDetails['EntryMeta']['name'])?$metaDetails['Entry']['title']:$metaDetails['EntryMeta']['name'].' ('.$metaDetails['Entry']['title'].')'); ?>" type="text" readonly="true"/>
         <?php
             $popupExtensions = array('popup'=>'init');
             if($browse_alias != $browse_slug)

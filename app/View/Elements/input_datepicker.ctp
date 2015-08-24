@@ -15,13 +15,20 @@
 ?>
 <script>
 	$(document).ready(function(){
-		// init date picker function
+        <?php
+            if(empty($readonly))
+            {
+                ?>
+        // init date picker function
 		$('input.dpicker.<?php echo $shortkey; ?>').datepicker({
 		    changeMonth: true,
             changeYear: true,
             showButtonPanel: true,
             yearRange: "-80:+20",
 		});
+                <?php
+            }
+        ?>
 	});
 </script>
 <div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>
@@ -29,7 +36,7 @@
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
-		<input <?php echo $required; ?> class="input-small dpicker <?php echo $shortkey; ?>" type="text" value="<?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:(empty($value)?(strpos(strtolower($validation), 'not_empty') !== FALSE?$month."/".$day."/".$year:""):$value)); ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
+		<input <?php echo (!empty($readonly)?'readonly="true"':''); ?> <?php echo $required; ?> class="input-small dpicker <?php echo $shortkey; ?>" type="text" value="<?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:(empty($value)?(strpos(strtolower($validation), 'not_empty') !== FALSE?$month."/".$day."/".$year:""):$value)); ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
 		<!--
 		<a href="javascript:void(0)" class="btn clear-date">Clear</a>
 		-->

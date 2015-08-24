@@ -11,6 +11,12 @@
 	<div class="controls <?php echo $browse_slug; ?>-group">
 		<?php
 			$raw_stream = 1;
+            $popupExtensions = array('popup'=>'init');
+
+            if(is_array($request_query))
+            {
+                $popupExtensions = array_merge($popupExtensions, $request_query);
+            }
 			
 			// Check data POST first !!
 			if(!empty($_POST['data'][$model][$counter]['value']))
@@ -21,7 +27,8 @@
 					{
 						echo '<div class="row-fluid '.$browse_slug.'-detail bottom-spacer">';					
 						echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$_POST['data'][$model][$counter]['temp'][$metakey].'" readonly="true"/>';					
-						echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>array('popup'=>'init', 'stream'=>$raw_stream)),array('class'=>'btn btn-info get-from-table'));
+						$popupExtensions['stream'] = $raw_stream;
+                        echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>$popupExtensions),array('class'=>'btn btn-info get-from-table'));
 	                    echo '<input class="'.$shortkey.'" type="hidden" name="data['.$model.']['.$counter.'][value][]" value="'.$metavalue.'"/>';
 	                    echo '&nbsp;<a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';					
 						echo '</div>';
@@ -65,7 +72,9 @@
 						}
                         
                         echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$richvalue.'" readonly="true"/>';
-						echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>array('popup'=>'init', 'stream'=>$raw_stream)),array('class'=>'btn btn-info get-from-table'));
+						
+                        $popupExtensions['stream'] = $raw_stream;
+                        echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>$popupExtensions),array('class'=>'btn btn-info get-from-table'));
 	                    echo '<input class="'.$shortkey.'" type="hidden" name="data['.$model.']['.$counter.'][value][]" value="'.$metaDetails['Entry']['slug'].'"/>';
 	                    echo '&nbsp;<a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';
 						
@@ -92,6 +101,11 @@
 	<input type="hidden" value="<?php echo $p; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][instruction]"/>
 </div>
 
+<?php
+    // unset this var because later will be using javascript value !!
+    unset($popupExtensions['stream']);
+?>
+
 <!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript">
 // special counter variable ...    
@@ -101,7 +115,7 @@ $(document).ready(function(){
     $('div.<?php echo $browse_slug; ?>-group').closest('div.control-group').find('a.add-raw').click(function(){
         var content = '<div class="row-fluid <?php echo $browse_slug; ?>-detail bottom-spacer">';            
         content += '<input REQUIRED id="<?php echo $browse_slug; ?>'+<?php echo $var_stream; ?>+'" class="input-xlarge" type="text" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][temp][]" readonly="true"/>';            		            
-        content += '&nbsp;<a class="btn btn-info get-from-table" href="'+linkpath+'admin/entries/<?php echo $browse_slug; ?>?popup=init&stream='+<?php echo $var_stream; ?>+'">Browse</a>';            
+        content += '&nbsp;<a class="btn btn-info get-from-table" href="'+linkpath+'admin/entries/<?php echo $browse_slug.get_more_extension($popupExtensions); ?>&stream='+<?php echo $var_stream; ?>+'">Browse</a>';
         content += '<input class="<?php echo $shortkey; ?>" type="hidden" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value][]" />';
         content += '&nbsp;<a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';
         content += '</div>';

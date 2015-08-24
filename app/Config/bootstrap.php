@@ -562,7 +562,7 @@ function checkExpired($expired_date)
 	else
 	{
 		$expired_date = new DateTime($expired_date);
-	    $now = new DateTime(date('m/d/Y' , gmt_adjustment()));
+	    $now = new DateTime(date('m/d/Y'));
 	    return $expired_date < $now;
 	}
 }
