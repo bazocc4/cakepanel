@@ -86,6 +86,7 @@ class GetHelper extends AppHelper
 	**/
 	function changeLangUrl($url , $slugs = array())
 	{
+        $url = urldecode($url);
 		$pecahurl = array();
 		$langslugs = array();
 		
