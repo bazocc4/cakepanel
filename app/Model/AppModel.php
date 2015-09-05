@@ -34,9 +34,7 @@
 class AppModel extends Model {
 	function getCurrentUser()
 	{
-		App::uses('SessionComponent' , 'Controller/Component');
-		$Session = new SessionComponent();		
-		$this_user = $Session->read('Auth.User');
+		$this_user = CakeSession::read('Auth.User');
 		if(!empty($this_user))
 		{
 			$User = ClassRegistry::init('User');
