@@ -2,22 +2,29 @@
 	if(is_array($data)) extract($data , EXTR_SKIP);
 	$shortkey = substr($key, 5 );
 	$var_stream = $shortkey.'_stream';	
-	$browse_slug = get_slug($shortkey);
+	
+    $browse_slug = get_slug($shortkey);
+    $browse_alias = $browse_slug; // use it ONLY IF need alias target for browse model ...
 ?>
 <div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>
 	<label class="control-label" <?php echo (strpos(strtolower($validation), 'not_empty') !== FALSE?'style="color: red;"':''); ?>>
         <?php echo string_unslug($shortkey); ?>
     </label>
-	<div class="controls <?php echo $browse_slug; ?>-group">
+	<div class="controls <?php echo $browse_alias; ?>-group">
 		<?php
-			$raw_stream = 1;
+            $raw_stream = 1;
             $popupExtensions = array('popup'=>'init');
+
+            if($browse_alias != $browse_slug)
+            {
+                $popupExtensions['alias'] = $browse_alias;
+            }
 
             if(is_array($request_query))
             {
                 $popupExtensions = array_merge($popupExtensions, $request_query);
             }
-			
+
 			// Check data POST first !!
 			if(!empty($_POST['data'][$model][$counter]['value']))
 			{
@@ -25,10 +32,10 @@
 				{
 					if(!empty($metavalue))
 					{
-						echo '<div class="row-fluid '.$browse_slug.'-detail bottom-spacer">';					
-						echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$_POST['data'][$model][$counter]['temp'][$metakey].'" readonly="true"/>';					
-						$popupExtensions['stream'] = $raw_stream;
-                        echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>$popupExtensions),array('class'=>'btn btn-info get-from-table'));
+						echo '<div class="row-fluid '.$browse_alias.'-detail bottom-spacer">';					
+						echo '<input REQUIRED id="'.$browse_alias.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$_POST['data'][$model][$counter]['temp'][$metakey].'" readonly="true"/>';					
+                        $popupExtensions['stream'] = $raw_stream;
+						echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>$popupExtensions),array('class'=>'btn btn-info get-from-table'));
 	                    echo '<input class="'.$shortkey.'" type="hidden" name="data['.$model.']['.$counter.'][value][]" value="'.$metavalue.'"/>';
 	                    echo '&nbsp;<a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';					
 						echo '</div>';
@@ -59,7 +66,7 @@
                             }
                         }
                         
-						echo '<div class="row-fluid '.$browse_slug.'-detail bottom-spacer">';
+						echo '<div class="row-fluid '.$browse_alias.'-detail bottom-spacer">';
 					   
                         $richvalue = '';
 						if(!empty($metaDetails['EntryMeta']['name']))
@@ -71,10 +78,10 @@
                             $richvalue = $metaDetails['Entry']['title'];
 						}
                         
-                        echo '<input REQUIRED id="'.$browse_slug.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$richvalue.'" readonly="true"/>';
-						
-                        $popupExtensions['stream'] = $raw_stream;
-                        echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>$popupExtensions),array('class'=>'btn btn-info get-from-table'));
+                        echo '<input REQUIRED id="'.$browse_alias.$raw_stream.'" class="input-xlarge" type="text" name="data['.$model.']['.$counter.'][temp][]" value="'.$richvalue.'" readonly="true"/>';
+                        
+                        $popupExtensions['stream'] = $raw_stream;            
+						echo '&nbsp;'.$this->Html->link('Browse',array('controller'=>'entries','action'=>$browse_slug,'admin'=>true,'?'=>$popupExtensions),array('class'=>'btn btn-info get-from-table'));
 	                    echo '<input class="'.$shortkey.'" type="hidden" name="data['.$model.']['.$counter.'][value][]" value="'.$metaDetails['Entry']['slug'].'"/>';
 	                    echo '&nbsp;<a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';
 						
@@ -112,15 +119,17 @@
 var <?php echo $var_stream; ?> = <?php echo $raw_stream; ?>;
 
 $(document).ready(function(){
-    $('div.<?php echo $browse_slug; ?>-group').closest('div.control-group').find('a.add-raw').click(function(){
-        var content = '<div class="row-fluid <?php echo $browse_slug; ?>-detail bottom-spacer">';            
-        content += '<input REQUIRED id="<?php echo $browse_slug; ?>'+<?php echo $var_stream; ?>+'" class="input-xlarge" type="text" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][temp][]" readonly="true"/>';            		            
-        content += '&nbsp;<a class="btn btn-info get-from-table" href="'+linkpath+'admin/entries/<?php echo $browse_slug.get_more_extension($popupExtensions); ?>&stream='+<?php echo $var_stream; ?>+'">Browse</a>';
+    $('div.<?php echo $browse_alias; ?>-group').closest('div.control-group').find('a.add-raw').click(function(){
+        var content = '<div class="row-fluid <?php echo $browse_alias; ?>-detail bottom-spacer">';            
+        content += '<input REQUIRED id="<?php echo $browse_alias; ?>'+<?php echo $var_stream; ?>+'" class="input-xlarge" type="text" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][temp][]" readonly="true"/>';
+        
+        content += '&nbsp;<a class="btn btn-info get-from-table" href="'+linkpath+'admin/entries/<?php echo $browse_slug.get_more_extension($popupExtensions); ?>&stream='+<?php echo $var_stream; ?>+'">Browse</a>';            
+        
         content += '<input class="<?php echo $shortkey; ?>" type="hidden" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value][]" />';
         content += '&nbsp;<a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';
         content += '</div>';
 
-        $('div.<?php echo $browse_slug; ?>-group').append(content);
+        $('div.<?php echo $browse_alias; ?>-group').append(content);
         <?php echo $var_stream; ?>++;
     });
     
@@ -129,13 +138,13 @@ $(document).ready(function(){
         if($raw_stream == 1)
         {
             ?>
-    $('div.<?php echo $browse_slug; ?>-group').closest('div.control-group').find('a.add-raw').click();
+    $('div.<?php echo $browse_alias; ?>-group').closest('div.control-group').find('a.add-raw').click();
             <?php
         }
     ?>
 
-    ($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("click",'div.<?php echo $browse_slug; ?>-group a.del-raw',function(e){
-        $(this).closest('div.<?php echo $browse_slug; ?>-detail').animate({opacity : 0 , height : 0, marginBottom : 0},1000,function(){
+    ($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("click",'div.<?php echo $browse_alias; ?>-group a.del-raw',function(e){
+        $(this).closest('div.<?php echo $browse_alias; ?>-detail').animate({opacity : 0 , height : 0, marginBottom : 0},1000,function(){
             $(this).detach();
         });
     });
