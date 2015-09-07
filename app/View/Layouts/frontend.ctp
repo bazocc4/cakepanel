@@ -83,6 +83,9 @@
 			// ** Use this script to check browser support HTML-5 certain input types !!
 			// ** See http://diveintohtml5.info/detect.html for more details !!
 //			echo $this->Html->script('modernizr-2.6.1.min');
+
+			// jquery-migrate: Migrate older jQuery code to jQuery 1.9+
+//          echo $this->Html->script('jquery-migrate-1.2.1.min');
 		
 	    	// custom javascript !!
 	    	echo $this->Html->script('smooth_scrolling');
