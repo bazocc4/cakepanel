@@ -1684,11 +1684,13 @@ class EntriesController extends AppController {
 			if(empty($lang))
 			{
 				$this->request->data['Entry']['title'] = $this->request->data['Entry'][0]['value'];
+/*
                 // generate slug from title if title has changed...
                 if(strtolower($this->request->data['Entry']['title']) != strtolower($myEntry['Entry']['title']) && $myEntry['Entry']['entry_type'] != 'pages')
                 {
                     $this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
                 }
+*/
 				$this->request->data['Entry']['description'] = $this->request->data['Entry'][1]['value'];
 				$this->request->data['Entry']['main_image'] = $this->request->data['Entry'][2]['value'];
 				if(isset($this->request->data['Entry'][3]['value']))
