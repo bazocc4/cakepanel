@@ -745,8 +745,7 @@ class EntriesController extends AppController {
 		}
 		if($status == 0)
 		{
-			throw new NotFoundException('Error 404 - Not Found'); 
-			return;
+			throw new NotFoundException('Error 404 - Not Found');
 		}
 		// main add function ...
 		$this->_admin_default_add($myType , $myEntry , $myChildTypeSlug);
@@ -780,8 +779,7 @@ class EntriesController extends AppController {
 			
 			if($this->user['role_id'] > 1)
 			{
-				throw new NotFoundException('Error 404 - Not Found'); 
-				return;
+				throw new NotFoundException('Error 404 - Not Found');
 			}
 			// manually set pages data !!
 			$myType['Type']['name'] = 'Pages';			
@@ -845,7 +843,6 @@ class EntriesController extends AppController {
         if(empty($myEntry))
         {
             throw new NotFoundException('Error 404 - Not Found');
-            return;
         }
 		
 		// if this action is going to edit CHILD list...
@@ -873,8 +870,7 @@ class EntriesController extends AppController {
 		}
 		if($status == 0)
 		{
-			throw new NotFoundException('Error 404 - Not Found'); 
-			return;
+			throw new NotFoundException('Error 404 - Not Found');
 		}
 		// main edit function ...
 		$this->_admin_default_edit($myType , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
@@ -921,7 +917,6 @@ class EntriesController extends AppController {
         if(empty($myEntry))
         {
             throw new NotFoundException('Error 404 - Not Found');
-            return;
         }
 		
 		// if this action is going to edit CHILD list...
