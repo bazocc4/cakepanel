@@ -1198,10 +1198,7 @@ class EntriesController extends AppController {
             $myMetaKey = array_filter($myMetaKey);
             if(!empty($myMetaKey))
             {
-                array_push($options['conditions'], array('OR' => array(
-                    array('NOT' => array_map(function($value){ return array('EntryMeta.key_value LIKE' => '%{#}form-'.$value.'=%'); }, $myMetaKey) ),
-                    array('EntryMeta.key_value' => NULL)
-                )));
+                $options['conditions']['NOT'] = array_map(function($value){ return array('EntryMeta.key_value LIKE' => '%{#}form-'.$value.'=%'); }, $myMetaKey);
             }
 		}
         
