@@ -101,8 +101,23 @@
 				{
 					// SPECIAL CHECK !!
 					if($value['key'] == 'form-subcategory' && !empty($myEntry))
-					{	
-						$subcat_optvalue = $this->Get->meta_details($myEntry['EntryMeta']['category'] , 'category');
+					{
+                        $subcat_optvalue = $this->Get->meta_details($myEntry['EntryMeta']['category'] , 'category');
+                        
+                        // check language is matching or not !!
+                        if(!empty($lang) && !empty($subcat_optvalue))
+                        {
+                            $pecahlang = explode('-', $subcat_optvalue['Entry']['lang_code']);
+                            if($lang != $pecahlang[0])
+                            {
+                                $tempDetails = $this->Get->meta_details(NULL , 'category' , NULL , NULL , NULL , $lang.'-'.$pecahlang[1]);
+                                if(!empty($tempDetails))
+                                {
+                                    $subcat_optvalue = $tempDetails;
+                                }
+                            }
+                        }
+                        
 						$value['optionlist'] = $subcat_optvalue['EntryMeta']['subcategory'];
 					}
 					else
