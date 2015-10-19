@@ -248,6 +248,13 @@ class EntriesController extends AppController {
 				{					
 					$myPaging = $this->request->params['pass'][$indent+1];
 					$result = $this->_admin_default($myType, $myPaging , NULL , $this->request->query['key'] , $this->request->query['value'] ,NULL,$this->request->data['search'],NULL, $language);
+                    
+                    // redirect to 1st page if content not found on page more than 1 ...
+                    if(empty($result['myList']) && $myPaging > 1 )
+                    {
+                        $this->redirect('/'.$url_lang.$myType['Type']['slug'].'/1'.get_more_extension($this->request->query));
+                    }
+                    
 					$myRenderFile = $myTypeSlug;
 				}
 				else // if this want to view details of the entry...
@@ -276,6 +283,13 @@ class EntriesController extends AppController {
 			{					
 				$myPaging = $this->request->params['pass'][$indent+2];
 				$result = $this->_admin_default($myType, $myPaging , $myParentEntry , NULL, NULL, $this->request->query['type'], $this->request->data['search'],NULL, $language);
+                
+                // redirect to 1st page if content not found on page more than 1 ...
+                if(empty($result['myList']) && $myPaging > 1 )
+                {
+                    $this->redirect('/'.$url_lang.$myType['Type']['slug'].'/'.$myParentEntry['Entry']['slug'].'/1'.get_more_extension($this->request->query));
+                }
+                
 				$myRenderFile = $this->request->query['type'];
 			}
 			else // if this want to view details of the child entry...

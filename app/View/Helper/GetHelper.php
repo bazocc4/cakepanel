@@ -128,6 +128,11 @@ class GetHelper extends AppHelper
 					{
 						$newlang = strrev( preg_replace('/'.strrev($subkey).'/', strrev($temp_entry['Entry']['slug']) , strrev($newlang) , 1 ) );
 					}
+                    else if($subvalue['Entry']['entry_type'] == 'pages')
+                    {
+                        $newlang = $subvalue['Entry']['slug'];
+                        break;
+                    }
                     else // if entry not found, then throw url link to home !!
                     {
                         unset($newlang);

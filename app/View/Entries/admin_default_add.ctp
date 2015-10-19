@@ -8,7 +8,7 @@
 		<script>
 			$(document).ready(function(){
 				// disable language selector ONLY IF one language available !!
-				if($('div.lang-selector ul.dropdown-menu li').length <= 1)
+				if($('div.lang-selector ul.dropdown-menu li').length <= 1 || <?php echo (empty($myType) && $user['role_id']>1 ?'true':'false'); ?> )
 				{
 					$('div.lang-selector').hide();
 				}
