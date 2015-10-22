@@ -50,16 +50,26 @@
         // attach checkbox on each record...
 		if($('form#global-action').length > 0 || $('input#query-stream').length > 0 )
 		{
-			$('table#myTableList thead tr').prepend('<th><input type="checkbox" id="check-all" /></th>');
+            var checked_data = $('#checked-data').val();
+			$('table#myTableList thead tr').prepend('<th><input type="checkbox" id="check-all" /><span style="color:red;" id="count-check-all"></span></th>');
 			$('table#myTableList tbody tr').each(function(i,el){
-				$(this).prepend('<td style="min-width: 0px;"><input type="checkbox" class="check-record" value="'+$(this).attr('alt')+'" onclick="javascript:$.fn.updateAttachButton();" /></td>');
+                var entry_id = $(this).attr('alt');
+				$(this).prepend('<td style="min-width: 0px;"><input type="checkbox" class="check-record" value="'+entry_id+'" '+(checked_data.indexOf(','+entry_id+',') >= 0?'CHECKED':'')+' /></td>');
 			});
 
-			$('input#check-all').change(function(){
-				$('input.check-record').attr('checked' , $(this).is(':checked') );
-                $('input.check-record').change(); // update background color on each TR record...
-				$.fn.updateAttachButton();
-			});
+			$('input#check-all').change(function(e,init){
+                if(init == null)
+                {
+                    $('input.check-record').attr('checked' , $(this).is(':checked') );
+                }
+                
+                // update background color on each TR record...
+                $('input.check-record').trigger('change', ['ignoreAttachButton']);
+                
+                // just a single call for this event ...
+                $.fn.updateAttachButton();
+                
+			}).trigger('change', ['init']);
 		}
 		
 		<?php if(empty($popup)): ?>
@@ -109,17 +119,14 @@
 			// submit bulk action checkbox !!
 			if($('form#global-action').length > 0)
             {
-                $('form#global-action').submit(function(){				
-                    var records = [];
-                    $('input.check-record:checked').each(function(i,el){
-                        records.push($(el).val());
-                    });
-
-                    if(records.length > 0)
+                $('form#global-action').submit(function(){
+                    var checked_data = $('#checked-data').val();
+                    var total_checked = checked_data.split(',').length - 2;
+                    if(total_checked > 0)
                     {
                         if(confirm('Are you sure to execute this BULK action ?'))
                         {
-                            $(this).find('input#action-records').val( records.join(',') );
+                            $(this).find('input#action-records').val( checked_data.substr(1, checked_data.length - 2 ) );
                         }
                         else
                         {
@@ -150,7 +157,7 @@
 			$('table#myTableList tbody tr').click(function(e){
                 if(!$('input[type=checkbox]').is(e.target))
 				{
-					var targetID = $('input#query-alias').val() + ($('input#query-stream').length > 0?$('input#query-stream').val():'');
+                    var targetID = $('input#query-alias').val() + ($('input#query-stream').length > 0?$('input#query-stream').val():'');
                     
                     var richvalue = '';
 					if($(this).find("td.form-name").length > 0)
@@ -167,22 +174,19 @@
 
 					// update other attribute ...
                     // Update the subcategory dropdown value, if existed !!
-					if($('select.subcategory').length > 0)
+                    var subcategory = 'subcategory';
+					if($('select.'+subcategory).length > 0 && $(this).find("td.form-"+subcategory).length )
 					{
-						$('select.subcategory').html('');
-						
-						var catcheck = $(this).find("td.form-subcategory").html();
-						
+                        $('select.'+subcategory).html('');
+						var catcheck = $(this).find("td.form-"+subcategory).html();
 						if(catcheck != '-')
 						{
 							var subcat = catcheck.split('<br>');
-						
 							$.each(subcat , function(i,el){
                                 el = $.trim(el);
-								$('select.subcategory').append('<option value="'+el+'">'+el+'</option>');
+								$('select.'+subcategory).append('<option value="'+el+'">'+el+'</option>');
 							});
 						}
-						
 					}
 
 					if(!e.isTrigger)    $.colorbox.close();
