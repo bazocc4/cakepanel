@@ -497,7 +497,7 @@ class Entry extends AppModel {
 	 * @return boolean
 	 * @public
 	 **/
-	function beforeSave()
+	function beforeSave($options = array())
 	{
 		if(!empty($this->data['Entry']['slug']))
 		{
@@ -637,7 +637,7 @@ class Entry extends AppModel {
      * @return boolean
      * @public
      **/
-	function beforeDelete()
+	function beforeDelete($cascade = true)
 	{
 		$this->updateCountField($this->field('parent_id') , $this->field('entry_type') , true);
 		return true;
