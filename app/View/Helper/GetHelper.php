@@ -579,13 +579,20 @@ class GetHelper extends AppHelper
 	
 	function outputConverter($inputType , $value , $myImageTypeList = NULL , $shortkey = NULL)
 	{
-		$maxLength = 100;
+        $maxLength = 100;
 		$maxLineBreak = 5;
 		$result = '';
 		switch ($inputType) 
 		{
 			case 'file':
-				$result = "<p><a data-toggle='tooltip' title='CLICK TO DOWNLOAD FILE' href='".$this->get_linkpath()."files/".$value."'>".str_replace('_',' ',$value)."</a></p>";
+				if(empty($this->data['popup']))
+                {
+                    $result = "<p><a data-toggle='tooltip' title='CLICK TO DOWNLOAD FILE' href='".$this->get_linkpath()."files/".$value."'>".str_replace('_',' ',$value)."</a></p>";
+                }
+                else
+                {
+                    $result = "<p>".str_replace('_',' ',$value)."</p>";
+                }
 				break;
 			case 'ckeditor':
 			case 'textarea':
@@ -643,7 +650,7 @@ class GetHelper extends AppHelper
 				
 				break;
 			case 'image':
-				$result = '<div class="thumbs">'.(empty($popup)?$this->Html->link($this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value]),'/img/upload/'.$value.'.'.$myImageTypeList[$value],array("escape"=>false,"class"=>"popup-image")):$this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value])).'</div>';
+				$result = '<div class="thumbs">'.(empty($this->data['popup'])?$this->Html->link($this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value]),'/img/upload/'.$value.'.'.$myImageTypeList[$value],array("escape"=>false,"class"=>"popup-image")):$this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value])).'</div>';
 				break;
 			case 'radio':
 			case 'dropdown':
@@ -800,7 +807,7 @@ class GetHelper extends AppHelper
 		$data['mySetting'] = $this->data['mySetting'];
 		$data['myType'] = $myType;
 		$data['paging'] = $paging;
-		$data['popup'] = $popup;
+		$data['popup'] = $this->data['popup'];
 		if(!empty($myEntry))
 		{			
 			$data['myEntry'] = $myEntry;

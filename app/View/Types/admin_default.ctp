@@ -57,7 +57,7 @@
 	<tr>
 		<th>TITLE</th>
 		<th><?php echo (empty($myParentType)?'CHILDREN':''); ?></th>
-		<th>LAST MODIFIED</th>
+		<th>LAST MODIFIED <span class="sort-symbol">&#9660;</span></th>
 		<th></th>
 	</tr>
 	

@@ -139,7 +139,7 @@ class TypesController extends AppController {
 		$resultTotalList = $this->Type->find('count' , $options);
 		$data['totalList'] = $resultTotalList;
 		
-		$options['order'] = array('Type.created DESC');
+        // set which page that will be shown ...
 		$options['offset'] = ($paging-1) * $countPage;
 		$options['limit'] = $countPage;
 			
