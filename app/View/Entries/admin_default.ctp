@@ -358,7 +358,7 @@
                 if(!empty($value['Entry']['description']))
                 {
                     $description = strip_tags($value['Entry']['description']);
-                    echo '<p>'.(strlen($description) > 30? '<a href="#" data-toggle="tooltip" data-placement="right" title="'.strip_tags($value['Entry']['description'], '<br><br/>').'">'.substr($description,0,30).'...</a>' : $description).'</p>';
+                    echo '<p>'.(strlen($description) > 30? '<a href="#" data-toggle="tooltip" data-placement="right" title="'.htmlspecialchars(strip_tags($value['Entry']['description'], '<br><br/>')).'">'.substr($description,0,30).'...</a>' : $description).'</p>';
                 }
             ?>
 		</td>
