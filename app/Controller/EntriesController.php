@@ -126,6 +126,20 @@ class EntriesController extends AppController {
 		// ---------------------------------- >>>
 		// end of additional set to view file !!
 		// ---------------------------------- >>>
+        
+        // URL request query MULTI-LANGUAGE transition (single value each) !!
+        if(count($this->mySetting['language']) > 1 && !empty($this->request->query['key']) && !empty($this->request->query['value']))
+        {
+            $query = $this->Entry->findByEntryTypeAndSlug(get_slug($this->request->query['key']), $this->request->query['value'] );
+            if(!empty($query) && strtolower($language) != substr($query['Entry']['lang_code'], 0, 2) )
+            {
+                $query = $this->Entry->findByLangCode( $language.'-'.substr($query['Entry']['lang_code'], 3) );
+                if(!empty($query))
+                {
+                    $this->request->query['value'] = $query['Entry']['slug'];
+                }
+            }
+        }
 		
 		// Tree of division beginsss !!
 		if(empty($this->request->params['pass'][$indent+1]))

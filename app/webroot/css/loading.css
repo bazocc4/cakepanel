@@ -21,7 +21,7 @@ div.loading {
   background: transparent url('../img/loading.gif') 50% 100px no-repeat;    
 }
 
-a.disabled{
+li.disabled a, a.disabled{
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
