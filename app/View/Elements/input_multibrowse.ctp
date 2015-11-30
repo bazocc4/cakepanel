@@ -148,5 +148,8 @@ $(document).ready(function(){
             $(this).detach();
         });
     });
+    
+    // sortable multibrowse input ...
+    $('div.<?php echo $browse_alias; ?>-group').css('cursor', 'move').sortable({ opacity: 0.6, cursor: 'move' });
 });
 </script>
