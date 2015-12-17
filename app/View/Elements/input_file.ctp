@@ -47,8 +47,15 @@
                 $result = "<a title='CLICK TO DOWNLOAD FILE' href='".$this->Get->get_linkpath()."files/".$value."'>".$value."</a>";
                 echo '<p>'.$result.'</p>';
             }
+        
+            // custom accept limitation ...
+            $accept_ext = '';
+            if(strpos($shortkey, 'pdf') !== false)
+            {
+                $accept_ext = '.pdf';
+            }
         ?>    
-		<input <?php echo $required; ?> class="<?php echo $shortkey; ?>" type="file" placeholder="<?php echo $placeholder; ?>" name="<?php echo $key; ?>"/>
+		<input <?php echo $required; ?> class="<?php echo $shortkey; ?>" type="file" placeholder="<?php echo $placeholder; ?>" name="<?php echo $key; ?>" accept="<?php echo $accept_ext; ?>" />
 		<?php
             if(empty($value))
             {
