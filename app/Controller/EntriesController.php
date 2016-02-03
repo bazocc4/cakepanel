@@ -1569,11 +1569,21 @@ class EntriesController extends AppController {
 						{
 							$value['name'] = getValidFileName($value['name']);
 							uploadFile($value);
-							// Save data to EntryMeta !!
-							$this->request->data['EntryMeta']['key'] = $key;
-							$this->request->data['EntryMeta']['value'] = $value['name'];
-							$this->EntryMeta->create();
-							$this->EntryMeta->save($this->request->data);
+							
+                            // Save data to EntryMeta !!
+                            $old_file = $this->EntryMeta->findByEntryIdAndKey($this->request->data['EntryMeta']['entry_id'], $key);
+                            if(empty($old_file))
+                            {
+                                $this->request->data['EntryMeta']['key'] = $key;
+                                $this->request->data['EntryMeta']['value'] = $value['name'];
+                                $this->EntryMeta->create();
+                                $this->EntryMeta->save($this->request->data);
+                            }
+                            else
+                            {
+                                $this->EntryMeta->id = $old_file['EntryMeta']['id'];
+                                $this->EntryMeta->saveField('value', $value['name'] );
+                            }
 						}
 					}
 				}
@@ -1878,7 +1888,7 @@ class EntriesController extends AppController {
 						{
 							if(!empty($value['name']))
 							{
-								if(!empty($value['value']))
+								if(!empty($value['value']) && empty($this->EntryMeta->findByValue($value['value'])) )    
 								{
 									deleteFile($value['value']);
 								}

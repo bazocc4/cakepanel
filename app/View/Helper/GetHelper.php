@@ -609,8 +609,8 @@ class GetHelper extends AppHelper
 				}
 
 				// set $maxLineBreak !!
-				$lineBreak = array_filter(explode(chr(10), $value));
-				array_splice($lineBreak, $maxLineBreak );
+				$lineBreak = array_filter(array_map('trim', explode(chr(10), $value) ));
+				$voidLineBreak = array_splice($lineBreak, $maxLineBreak );
 				$result = implode(chr(10), $lineBreak);
 
 				// set $maxLength !!
@@ -618,6 +618,10 @@ class GetHelper extends AppHelper
 				{
 					$result = '<p><a href="#" data-toggle="tooltip" title="'.$result.'">'.substr($result,0,$maxLength).'...</a></p>';
 				}
+                else if(!empty($voidLineBreak))
+                {
+                    $result .= '...';
+                }
 				$result = nl2br($result);
 				break;
 			case 'datetimepicker':
