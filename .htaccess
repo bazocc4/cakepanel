@@ -1,7 +1,16 @@
 <IfModule mod_rewrite.c>
    RewriteEngine on
 #   RewriteBase /
+   
+   #if not already blog.website.com (.htaccess redirect to subdomain)
+#   RewriteCond %{HTTP_HOST} !^blog\.website\.com$ [NC]
+   #if request is for blog/, go to blog.website.com
+#   RewriteRule ^blog/$ http://blog.website.com [L,NC,R=301]
+   
+   #make .htaccess and subdomain working together
+#   RewriteCond %{HTTP_HOST} ^(www\.)?yourdomain.com$
    RewriteRule    ^$ app/webroot/    [L]
+#   RewriteCond %{HTTP_HOST} ^(www\.)?yourdomain.com$
    RewriteRule    (.*) app/webroot/$1 [L]
 </IfModule>
 <IfModule mod_deflate.c>
