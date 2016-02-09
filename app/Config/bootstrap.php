@@ -636,3 +636,22 @@ function Zip($source, $destination)
 		return false;
 	} 
 }
+
+/*
+cut 1st html paragraph from ckeditor as a teaser
+*/
+function teasering($html)
+{
+    $html = str_ireplace( array('<p>','</p>','<br />') , array('', '<br>', '<br>') , $html );
+    $br = stripos($html, '<br>');
+    
+    if($br === false)
+    {
+        $result = $html;
+    }
+    else
+    {
+        $result = substr($html, 0, $br);
+    }
+    return $result;
+}

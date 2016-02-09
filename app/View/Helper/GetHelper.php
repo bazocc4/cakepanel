@@ -604,8 +604,8 @@ class GetHelper extends AppHelper
 
 				if($inputType == 'ckeditor')
 				{
-					$value = strip_tags($value , '<br><br/>');
-					$value = str_replace( array('<br>','<br/>') , chr(10) , $value );
+					$value = strip_tags($value , '<br><br />');
+					$value = str_replace( array('<br>','<br />') , chr(10) , $value );
 				}
 
 				// set $maxLineBreak !!
