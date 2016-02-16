@@ -12,13 +12,15 @@
 		<?php
 			echo $this->Html->meta('rss' , '/entries/index.rss');
 		?>
-		<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="author" content="<?php echo $mySetting['title']; ?>">		
 		<meta name="tagline" content="<?php echo $mySetting['tagline']; ?>">		
 		<meta name="description" content="<?php echo $mySetting['description']; ?>">
 		<?php
             // ----------------- Open Graph protocol ---------------------
+            echo '<meta property="og:url" content="http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'" />';
+            echo '<meta property="og:site_name" content="'.$mySetting['title'].'" />';
+        
             if(!empty($myEntry))
             {
             	if(!empty($myEntry['Entry']['title']))
