@@ -1,17 +1,13 @@
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <?php
-	App::import('Vendor', 'recaptchalib');
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
 ?>
-<script type="text/javascript">
-	var RecaptchaOptions = {
-	    theme : 'white' // or "blackglass"
-	};
-</script>
 
 <!-- 
 html here ...
  -->
+<div class="g-recaptcha center-block" data-sitekey="6LfKQBkTAAAAADjqRH2tGuaNHobpjmZ3EVGRqWzV" style="width: 304px;"></div> 
 
 <!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript">
