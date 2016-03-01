@@ -47,5 +47,5 @@
 		echo $this->Paypal->button($paypal_param);			
 	?>
 
-	<a class="btn btn-primary" href="<?php echo $imagePath; ?>recaptcha">Go to reCAPTCHA</a>
+	<a class="btn btn-primary" href="<?php echo $imagePath; ?>contact">Go to NEW reCAPTCHA</a>
 </div>
