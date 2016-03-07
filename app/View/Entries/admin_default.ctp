@@ -389,14 +389,14 @@
                         echo "<td class='".$value10['key']." ".$hideKeyQuery."'>";
                         if(empty($displayValue))
                         {
-                        	if($value10['input_type'] == 'gallery' && !empty($value['EntryMeta']['count-'.$value10['key']]))
+                        	if($value10['input_type'] == 'gallery' && !empty($value['EntryMeta']['count-'.$shortkey]))
                         	{
                         		$queryURL = array('anchor' => $shortkey );
                         		if( !empty($myEntry) && $myType['Type']['slug']!=$myChildType['Type']['slug'] )
                         		{
                         			$queryURL['type'] = $myChildType['Type']['slug'];
                         		}
-                        		echo '<span class="badge badge-info">'.(empty($popup)?$this->Html->link($value['EntryMeta']['count-'.$value10['key']].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false, 'data-toggle'=>'tooltip','title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$value10['key']].' <i class="icon-picture icon-white"></i>').'</span>';
+                        		echo '<span class="badge badge-info">'.(empty($popup)?$this->Html->link($value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false, 'data-toggle'=>'tooltip','title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>').'</span>';
                         	}
                         	else
                         	{

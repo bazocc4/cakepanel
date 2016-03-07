@@ -1729,8 +1729,8 @@ class EntriesController extends AppController {
 				{
 					$this->request->data['Entry']['status'] = $this->request->data['Entry'][3]['value'];
 				}
-				
-				// write my modifier ID...				
+                
+                // write my modifier ID...
 				$this->request->data['Entry']['modified_by'] = $this->user['id'];
 
 				// write time modified manually !!
@@ -1789,6 +1789,12 @@ class EntriesController extends AppController {
                     {
                         // delete all the child image, and then add again !!
                         $this->Entry->deleteAll(array('Entry.parent_id' => $galleryId,'Entry.entry_type' => $myEntry['Entry']['entry_type']));
+                        
+                        // then, reset this gallery count in EntryMeta too !!
+                        $this->EntryMeta->deleteAll(array(
+                            'EntryMeta.entry_id'=> $myEntry['Entry']['id'] ,
+                            'EntryMeta.key'     => 'count-'.$myEntry['Entry']['entry_type'],
+                        ));
                         
                         foreach (array_reverse($this->request->data['Entry']['image']) as $key => $value) 
                         {
