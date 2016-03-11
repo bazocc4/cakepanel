@@ -20,6 +20,7 @@
             // ----------------- Open Graph protocol ---------------------
             echo '<meta property="og:url" content="http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'" />';
             echo '<meta property="og:site_name" content="'.$mySetting['title'].'" />';
+            echo '<meta property="og:type" content="website" />';
         
             if(!empty($myEntry))
             {
