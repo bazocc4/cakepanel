@@ -69,6 +69,12 @@
                 echo 'IGNORE this field if there are no any changes to the previous file.';
                 echo '<br>NB: If you add new file, old file will be overwrited!';
                 echo '</p>';
+                
+                // NEW FEATURE 2016 : DELETE OLD FILE OPTION !!
+                if( strpos(strtolower($validation), 'not_empty') === FALSE && empty($lang) )
+                {
+                    echo '<input style="margin-bottom:5px;" type="checkbox" name="delete-'.$shortkey.'" id="delete-'.$shortkey.'" value="deleted" /> <label for="delete-'.$shortkey.'" style="display:inline-block;">Delete previous file</label>';
+                }
             }
         ?>
         <p class="help-block" style="color:red;">

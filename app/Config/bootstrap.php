@@ -451,7 +451,10 @@ function getValidFileName($fullname)
 function deleteFile($title)
 {
 	$upFile = WWW_ROOT.'files'.DS.$title;
-	unlink($upFile);
+	if(file_exists($upFile))
+    {
+        unlink($upFile);
+    }
 }
 /*
  * End Of Upload Single File Function >>>

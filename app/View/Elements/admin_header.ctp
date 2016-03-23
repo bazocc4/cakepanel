@@ -109,7 +109,7 @@
 			}
 		?>
 		<div class="btn-group">
-			<button class="btn"><i class="icon-arrow-down"></i><i class="icon-arrow-up"></i></button>
+			<button class="btn" data-toggle="dropdown"><i class="icon-arrow-down"></i><i class="icon-arrow-up"></i></button>
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>&nbsp;</a>
 			<ul class="dropdown-menu">
 				<?php
@@ -140,7 +140,7 @@
 			{
 				?>
 		<div class="btn-group lang-selector" style="margin-right: 10px;">
-			<a id="lang_identifier" class="btn" href="#"><?php echo (empty($this->request->query['lang'])?substr($mySetting['language'][0], 0,2):strtoupper($this->request->query['lang'])); ?></a>
+			<a id="lang_identifier" class="btn" data-toggle="dropdown" href="#"><?php echo (empty($this->request->query['lang'])?substr($mySetting['language'][0], 0,2):strtoupper($this->request->query['lang'])); ?></a>
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>&nbsp;</a>
 			<ul class="dropdown-menu">
 			<?php

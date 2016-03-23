@@ -92,7 +92,7 @@ class EntryMeta extends AppModel {
 		{
 			foreach ($myEntry['EntryMeta'] as $key => $value) 
 			{
-				if(in_array($value['key'], $haystack))
+				if(in_array($value['key'], $haystack) && empty($this->EntryMeta->findByValue($value['value'])) )
 				{
 					deleteFile($value['value']);
 				}

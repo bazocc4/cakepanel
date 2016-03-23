@@ -499,14 +499,14 @@ class EntriesController extends AppController {
             $children = $this->Entry->findAllByParentId($id);
             foreach ($children as $key => $value) 
             {
-                $this->EntryMeta->remove_files( $this->Type->findBySlug($value['Entry']['entry_type']) , $value );
                 $this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $value['Entry']['id']));
+                $this->EntryMeta->remove_files( $this->Type->findBySlug($value['Entry']['entry_type']) , $value );
             }
             $this->Entry->deleteAll(array('Entry.parent_id' => $id));
 
             // delete the entry !!
-            $this->EntryMeta->remove_files( $this->Type->findBySlug($title['Entry']['entry_type']) , $title );
             $this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $id));
+            $this->EntryMeta->remove_files( $this->Type->findBySlug($title['Entry']['entry_type']) , $title );
             $this->Entry->delete($id);
 
             if(empty($localcall))
@@ -1853,9 +1853,32 @@ class EntriesController extends AppController {
 					{	
 						if(!empty($value['value']) && substr($value['key'], 0,5) == 'form-')
 						{
-							if($value['input_type'] == 'file' && !empty($_FILES[$value['key']]['name']))
+							if($value['input_type'] == 'file')
 							{
-								$_FILES[$value['key']]['value'] = $value['value'];
+                                if( !empty($_FILES[$value['key']]['name']) )
+                                {
+                                    $_FILES[$value['key']]['value'] = $value['value'];
+                                }
+                                else
+                                {
+                                    // check to delete older file !!
+                                    if($_POST['delete-'.substr($value['key'], 5)] == 'deleted')
+                                    {
+                                        if(empty($this->EntryMeta->findByValue($value['value'])))
+                                        {
+                                            deleteFile($value['value']);
+                                        }
+                                    }
+                                    else // re-add the old file to DB !!
+                                    {
+                                        $this->EntryMeta->create();
+                                        $this->EntryMeta->save(array('EntryMeta' => array(
+                                            'entry_id' => $myEntry['Entry']['id'],
+                                            'key' => $value['key'],
+                                            'value' => $value['value']
+                                        )));
+                                    }
+                                }
 							}
 							else
 							{
