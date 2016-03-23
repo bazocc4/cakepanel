@@ -124,7 +124,7 @@ function validation_check(field){
 						content += '<td>'+data.input_type+'</td>';
 						content += '<td>';
 						content += '<div class="btn-group" style="float:left;">';
-						content += '<a class="btn btn-mini" href="#"><i class="icon-cog"></i></a><a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>&nbsp;</a>';
+						content += '<a class="btn btn-mini" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a><a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>&nbsp;</a>';
 						content += '<ul class="dropdown-menu">';
 						content += '<li><a alt="fresh" class="popup url edit-field" href="'+linkpath+'types/form_popup/edit"><i class="icon-pencil"></i> Edit</a></li>';
 						content += '<li><a class="delete-field" href="javascript:void(0)"><i class="icon-trash"></i> Delete</a></li>';

@@ -36,7 +36,7 @@
 		{
 			?>
 	<div class="btn-group lang-selector">
-		<a id="lang_identifier" class="btn" href="#"><?php echo strtoupper(isset($_POST['data']['language'])?$_POST['data']['language']:(empty($lang)?substr((empty($myEntry)?$mySetting['language'][0]:$myEntry['Entry']['lang_code']), 0,2):$lang)); ?></a>
+		<a id="lang_identifier" class="btn" data-toggle="dropdown" href="#"><?php echo strtoupper(isset($_POST['data']['language'])?$_POST['data']['language']:(empty($lang)?substr((empty($myEntry)?$mySetting['language'][0]:$myEntry['Entry']['lang_code']), 0,2):$lang)); ?></a>
 		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>&nbsp;</a>
 		<ul class="dropdown-menu">
 		<?php

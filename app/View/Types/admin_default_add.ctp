@@ -209,7 +209,7 @@
 								<td><?php echo $value['input_type']; ?></td>
 								<td>
 									<div class="btn-group" style="float:left;">
-										<a class="btn btn-mini" href="#"><i class="icon-cog"></i></a>
+										<a class="btn btn-mini" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
 										<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>&nbsp;</a>
 										<ul class="dropdown-menu">
 											<!--Change the url as needed-->
