@@ -8,6 +8,8 @@ class EntryMetasController extends AppController {
     
     /*
         Cron Jobs Function ( run daily @ 03.00 AM ) !!
+        ==============================================
+        Cron Jobs Command: curl http://www.example.com/entry_metas/cron/test >/dev/null 2>&1
     */
     public function cron($fakeauth)
     {
