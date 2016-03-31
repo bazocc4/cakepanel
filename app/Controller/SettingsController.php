@@ -28,6 +28,10 @@ class SettingsController extends AppController {
         // END OF TEST AREA !!
         // ===================
         $this->setTitle('Setting');
+        
+        // for image input type reason...
+        $this->set('myImageTypeList', $this->EntryMeta->embedded_img_meta('type') );
+        
 		// if form submit is taken...
 		if(!empty($this->request->data))
 		{

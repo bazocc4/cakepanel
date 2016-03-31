@@ -24,24 +24,37 @@
         
             if(!empty($myEntry))
             {
-            	if(!empty($myEntry['Entry']['title']))
-	            {
-	                echo '<meta property="og:title" content="'.$myEntry['Entry']['title'].'" />';
-	            }
-	            
-	            if(!empty($myEntry['EntryMeta']['teaser']))
-	            {
-	                echo '<meta property="og:description" content="'.strip_tags($myEntry['EntryMeta']['teaser']).'" />';
-	            }
-	            else if(!empty($myEntry['Entry']['description']))
-	            {
-	                echo '<meta property="og:description" content="'.strip_tags($myEntry['Entry']['description']).'" />';
-	            }
-	            
-	            if(!empty($myEntry['Entry']['main_image']))
-	            {
-	                echo '<meta property="og:image" content="'.$this->Get->host_name().'img/upload/'.$myEntry['Entry']['main_image'].'.'.$myImageTypeList[$myEntry['Entry']['main_image']].'" />';
-	            }
+                if($myEntry['Entry']['slug'] == 'home')
+                {
+                    echo '<meta property="og:title" content="'.$mySetting['title'].'" />';
+                    echo '<meta property="og:description" content="'.$mySetting['description'].'" />';
+                    
+                    if(!empty($mySetting['homepage_share']))
+                    {
+                        echo '<meta property="og:image" content="'.$this->Get->host_name().'img/upload/'.$mySetting['homepage_share'].'.'.$myImageTypeList[$mySetting['homepage_share']].'" />';
+                    }
+                }
+                else
+                {
+                    if(!empty($myEntry['Entry']['title']))
+                    {
+                        echo '<meta property="og:title" content="'.$myEntry['Entry']['title'].'" />';
+                    }
+
+                    if(!empty($myEntry['EntryMeta']['teaser']))
+                    {
+                        echo '<meta property="og:description" content="'.strip_tags($myEntry['EntryMeta']['teaser']).'" />';
+                    }
+                    else if(!empty($myEntry['Entry']['description']))
+                    {
+                        echo '<meta property="og:description" content="'.strip_tags($myEntry['Entry']['description']).'" />';
+                    }
+
+                    if(!empty($myEntry['Entry']['main_image']))
+                    {
+                        echo '<meta property="og:image" content="'.$this->Get->host_name().'img/upload/'.$myEntry['Entry']['main_image'].'.'.$myImageTypeList[$myEntry['Entry']['main_image']].'" />';
+                    }
+                }
             }
         ?>
 <!-- 		FAVICON IMAGE -->		

@@ -1113,7 +1113,7 @@ class EntriesController extends AppController {
         
         // $_SESSION['order_by'] Validation !!
         $myAutomaticValidation = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
-        if($this->mySetting['table_view']=='complex' && substr($_SESSION['order_by'] , 0 , 5) == 'form-')
+        if(substr($_SESSION['order_by'] , 0 , 5) == 'form-')
         {
             $innerFieldMeta = FALSE;
             foreach( $myAutomaticValidation as $key => $value)
@@ -1235,12 +1235,8 @@ class EntriesController extends AppController {
             $options['conditions']['OR'] = array(
                 array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'), 
                 array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%'),
+                array('REPLACE(REPLACE(EntryMeta.key_value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%'),
             );
-            
-			if($this->mySetting['table_view']=='complex')
-			{
-                array_push($options['conditions']['OR'] , array('REPLACE(REPLACE(EntryMeta.key_value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%') );
-			}
 		}
         
         // ========================================= >>

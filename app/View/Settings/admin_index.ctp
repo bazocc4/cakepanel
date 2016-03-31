@@ -249,20 +249,16 @@
 			$value['input_type'] = 'text';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
-			// Table View Format...
+			// Homepage Share on social media ...
 			$value['counter'] = 16;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
-			$value['validation'] = 'not_empty';
+			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
 			$value['model'] = 'Setting';			
-			$value['input_type'] = 'dropdown';
-			$value['list'][0]['id'] = 'simple';
-			$value['list'][0]['name'] = 'Simple';
-			$value['list'][1]['id'] = 'complex';
-			$value['list'][1]['name'] = 'Complex';
-			$value['p'] = "Table view mode in Admin Panel.";
+			$value['input_type'] = 'image';
+			
+			$value['p'] = "Website logo for sharing homepage on social media.";
 			echo $this->element('input_'.$value['input_type'] , $value);
-			unset($value['list']);
 			unset($value['p']);
 		?>
 		<div class="alert alert-info full fl">

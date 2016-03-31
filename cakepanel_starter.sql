@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 29, 2015 at 09:27 AM
+-- Generation Time: Mar 31, 2016 at 07:28 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `cakepanel`
+-- Database: `cakepanel_starter`
 --
 
 -- --------------------------------------------------------
@@ -154,7 +154,7 @@ INSERT INTO `cms_settings` (`id`, `key`, `value`) VALUES
 (14, 'thumb_height', '120'),
 (15, 'thumb_crop', '0'),
 (16, 'language', 'en_english'),
-(17, 'table_view', 'complex'),
+(17, 'homepage_share', '0'),
 (18, 'usd_sell', '9732.00'),
 (19, 'custom-pagination', '10'),
 (20, 'custom-email_contact', 'andybasuki88@gmail.com'),

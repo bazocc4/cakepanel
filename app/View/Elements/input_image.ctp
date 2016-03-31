@@ -1,6 +1,12 @@
 <?php
 	if(is_array($data)) extract($data , EXTR_SKIP);
 	$shortkey = substr($key, 5 );
+
+    $required = "";
+	if(strpos($validation, 'not_empty') !== FALSE)
+	{
+		$required = 'REQUIRED';
+	}
 	
 	$value = (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:(empty($value)?0:$value));
 	$p = (empty($p)?'JPG, PNG, or GIF and 1MB max':$p);
@@ -90,7 +96,7 @@
 	});
 </script>
 <div class="control-group control-image" <?php echo (empty($display)?'':'style="display:none"'); ?>>            
-	<label class="control-label" <?php echo (strpos(strtolower($validation), 'not_empty') !== FALSE?'style="color: red;"':''); ?>>
+	<label class="control-label" <?php echo (!empty($required)?'style="color: red;"':''); ?>>
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
@@ -115,7 +121,7 @@
 			}
 		?>
 		<?php echo $this->Html->link('Change',array('controller'=>'entries','action'=>'media_popup_single','1','myEditCoverImage_'.$counter,(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-info get-from-library'));	?>
-		<a class="btn btn-danger" onclick="javascript : $.fn.removePicture(<?php echo $counter; ?>,<?php echo $crop; ?>);" href="javascript:void(0)">Remove</a>
+		<a class="btn btn-danger <?php echo (!empty($required)?'hide':''); ?>" onclick="javascript : $.fn.removePicture(<?php echo $counter; ?>,<?php echo $crop; ?>);" href="javascript:void(0)">Remove</a>
 		<p class="help-block"><?php echo $p; ?></p>
 	</div>
 	<input class="<?php echo $shortkey; ?>" type="hidden" value="<?php echo $value; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]" id="myEditCoverId_<?php echo $counter; ?>"/>

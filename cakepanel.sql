@@ -46,7 +46,7 @@ CREATE TABLE `cms_accounts` (
 
 LOCK TABLES `cms_accounts` WRITE;
 /*!40000 ALTER TABLE `cms_accounts` DISABLE KEYS */;
-INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2016-03-23 11:44:18','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
+INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2016-03-31 12:30:16','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
 INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andybasuki88@gmail.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2015-10-19 10:32:31','2013-01-15 03:42:56',1,'2015-07-17 10:59:39',2);
 INSERT INTO `cms_accounts` VALUES (3,2,3,'regular1','regular@yahoo.com','d2705e541f5988c37de5ceb31735a535d5994777','2013-01-17 11:23:37','2013-01-15 04:17:47',2,'2014-07-24 11:05:12',1);
 INSERT INTO `cms_accounts` VALUES (7,3,2,'hanatania8','hanatania@yahoo.com','29536df66160e1ff6a6fe6e0395dd8767140657b','2014-07-24 11:40:17','2014-07-24 11:06:29',1,'2014-07-24 11:40:30',7);
@@ -78,7 +78,7 @@ CREATE TABLE `cms_entries` (
   `lang_code` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=871 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=872 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,6 +226,7 @@ INSERT INTO `cms_entries` VALUES (577,'blogs','Statue Blog','statue-blog','<p>Pa
 INSERT INTO `cms_entries` VALUES (578,'media','Thursday20September2012043326slide2','thursday20september2012043326slide2-1',NULL,0,118,1,0,'2015-03-18 12:09:38',1,'2015-03-18 12:11:23',1,578,'en-578');
 INSERT INTO `cms_entries` VALUES (579,'blogs','Statue Blog ID','statue-blog-id','<p>Patung Budha di Yogyakarta.</p>\r\n',27,61,1,0,'2015-03-18 12:10:20',1,'2015-03-18 12:11:38',1,574,'id-577');
 INSERT INTO `cms_entries` VALUES (581,'news','The Death of John EN','the-death-of-john-en-1','<p>In the 1996, there was a big war between John Maxwell and Paul Ruthridge.</p>\r\n\r\n<p>And then, John struggled to won against his enemy.</p>\r\n\r\n<p>Finally in 1997, there was an intruption about this war.</p>\r\n',7,61,1,0,'2015-03-18 15:20:50',1,'2015-03-18 15:20:50',1,580,'id-9');
+INSERT INTO `cms_entries` VALUES (871,'media','logo','logo',NULL,0,0,1,0,'2016-03-31 11:57:48',1,'2016-03-31 11:57:48',1,871,'en-871');
 INSERT INTO `cms_entries` VALUES (709,'magazine','Spiderman_by_PatC_14','spiderman-by-patc-14-3',NULL,58,161,1,0,'2015-06-03 11:37:00',1,'2015-06-03 11:37:00',1,709,'en-709');
 INSERT INTO `cms_entries` VALUES (708,'magazine','Batgirl_Issue_10_by_Artgerm','batgirl-issue-10-by-artgerm-8',NULL,56,161,1,0,'2015-06-03 11:37:00',1,'2015-06-03 11:37:00',1,708,'en-708');
 INSERT INTO `cms_entries` VALUES (839,'books','beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7','beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7-4',NULL,53,6,1,0,'2016-03-22 17:43:35',1,'2016-03-22 17:43:35',1,839,'en-839');
@@ -258,7 +259,7 @@ CREATE TABLE `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2384 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2387 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -786,6 +787,9 @@ INSERT INTO `cms_entry_metas` VALUES (2179,846,'backup-slug','\n20110530-061908-
 INSERT INTO `cms_entry_metas` VALUES (2180,847,'backup-slug','\nthursday20september2012014818slide1-5\n');
 INSERT INTO `cms_entry_metas` VALUES (2190,849,'backup-slug','\n20110530-061908-14\n');
 INSERT INTO `cms_entry_metas` VALUES (2213,852,'backup-slug','\n20110530-061908-16\n');
+INSERT INTO `cms_entry_metas` VALUES (2384,871,'backup-slug','\nlogo\n');
+INSERT INTO `cms_entry_metas` VALUES (2385,871,'image_type','png');
+INSERT INTO `cms_entry_metas` VALUES (2386,871,'image_size','3681');
 INSERT INTO `cms_entry_metas` VALUES (2201,851,'backup-slug','\n20110530-061908-15\n');
 INSERT INTO `cms_entry_metas` VALUES (2258,858,'backup-slug','\n20110530-061908-19\n');
 INSERT INTO `cms_entry_metas` VALUES (2322,865,'backup-slug','\n20110530-061908-24\n');
@@ -867,7 +871,7 @@ INSERT INTO `cms_settings` VALUES (13,'thumb_width','120');
 INSERT INTO `cms_settings` VALUES (14,'thumb_height','120');
 INSERT INTO `cms_settings` VALUES (15,'thumb_crop','0');
 INSERT INTO `cms_settings` VALUES (16,'language','en_english\r\nid_indonesia\r\nzh_chinese');
-INSERT INTO `cms_settings` VALUES (17,'table_view','complex');
+INSERT INTO `cms_settings` VALUES (17,'homepage_share','871');
 INSERT INTO `cms_settings` VALUES (18,'usd_sell','12016.00');
 INSERT INTO `cms_settings` VALUES (19,'custom-pagination','10');
 INSERT INTO `cms_settings` VALUES (20,'custom-email_contact','andybasuki88@gmail.com');
@@ -1076,4 +1080,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-29 16:46:03
+-- Dump completed on 2016-03-31 12:31:38

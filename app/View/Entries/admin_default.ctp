@@ -250,42 +250,38 @@
 				}
 			}
 			
-			// check for simple or complex table view !!
-			if($mySetting['table_view'] == "complex")
-			{
-				foreach ( $myAutomatic as $key => $value) 
-				{
-					if(substr($value['key'], 0,5) == 'form-')
-					{
-						$entityTitle = $value['key'];
-                        $hideKeyQuery = '';
-                        $shortkey = substr($entityTitle, 5);
-                        if(!empty($popup) && $this->request->query['key'] == $shortkey)
-                        {
-                            $hideKeyQuery = 'hide';
-                        }
-                        
-                        $datefield = '';
-                        switch($value['input_type'])
-                        {
-                            case 'datepicker':
-                            case 'datetimepicker':
-                            case 'multidate':
-                            case 'multibrowse':
-                                $datefield = 'date-field'; // 100 px
-                                break;
-                            case 'textarea':
-                            case 'ckeditor':
-                                $datefield = 'ck-field'; // 200 px
-                                break;
-                        }
-                        
-                        echo "<th class='".$hideKeyQuery." ".$datefield."'>";
-                        echo $this->Html->link(string_unslug($shortkey).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' desc'?" asc":" desc") ));
-						echo "</th>";
-					}
-				}
-			}
+			foreach ( $myAutomatic as $key => $value) 
+            {
+                if(substr($value['key'], 0,5) == 'form-')
+                {
+                    $entityTitle = $value['key'];
+                    $hideKeyQuery = '';
+                    $shortkey = substr($entityTitle, 5);
+                    if(!empty($popup) && $this->request->query['key'] == $shortkey)
+                    {
+                        $hideKeyQuery = 'hide';
+                    }
+
+                    $datefield = '';
+                    switch($value['input_type'])
+                    {
+                        case 'datepicker':
+                        case 'datetimepicker':
+                        case 'multidate':
+                        case 'multibrowse':
+                            $datefield = 'date-field'; // 100 px
+                            break;
+                        case 'textarea':
+                        case 'ckeditor':
+                            $datefield = 'ck-field'; // 200 px
+                            break;
+                    }
+
+                    echo "<th class='".$hideKeyQuery." ".$datefield."'>";
+                    echo $this->Html->link(string_unslug($shortkey).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' desc'?" asc":" desc") ));
+                    echo "</th>";
+                }
+            }
         
             // show gallery count !!
             if($gallery)
@@ -371,114 +367,110 @@
 				}
 			}
 
-			// check for simple or complex table view !!
-			if($mySetting['table_view'] == "complex")
-			{				 
-				foreach ( $myAutomatic as $key10 => $value10) 
-				{
-					if(substr($value10['key'], 0,5) == 'form-')
-					{
-						$shortkey = substr($value10['key'], 5);
-                        $displayValue = $value['EntryMeta'][$shortkey];
-                        $hideKeyQuery = '';
-                        if(!empty($popup) && $this->request->query['key'] == $shortkey)
+			foreach ( $myAutomatic as $key10 => $value10) 
+            {
+                if(substr($value10['key'], 0,5) == 'form-')
+                {
+                    $shortkey = substr($value10['key'], 5);
+                    $displayValue = $value['EntryMeta'][$shortkey];
+                    $hideKeyQuery = '';
+                    if(!empty($popup) && $this->request->query['key'] == $shortkey)
+                    {
+                        $hideKeyQuery = 'hide';
+                    }
+
+                    echo "<td class='".$value10['key']." ".$hideKeyQuery."'>";
+                    if(empty($displayValue))
+                    {
+                        if($value10['input_type'] == 'gallery' && !empty($value['EntryMeta']['count-'.$shortkey]))
                         {
-                            $hideKeyQuery = 'hide';
-                        }
-                        
-                        echo "<td class='".$value10['key']." ".$hideKeyQuery."'>";
-                        if(empty($displayValue))
-                        {
-                        	if($value10['input_type'] == 'gallery' && !empty($value['EntryMeta']['count-'.$shortkey]))
-                        	{
-                        		$queryURL = array('anchor' => $shortkey );
-                        		if( !empty($myEntry) && $myType['Type']['slug']!=$myChildType['Type']['slug'] )
-                        		{
-                        			$queryURL['type'] = $myChildType['Type']['slug'];
-                        		}
-                        		echo '<span class="badge badge-info">'.(empty($popup)?$this->Html->link($value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false, 'data-toggle'=>'tooltip','title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>').'</span>';
-                        	}
-                        	else
-                        	{
-                        		echo '-';	
-                        	}
-                        }
-                        else if($value10['input_type'] == 'multibrowse')
-						{
-							$browse_slug = get_slug($shortkey);
-							$displayValue = explode('|', $displayValue);
-							
-							$emptybrowse = 0;
-							foreach ($displayValue as $brokekey => $brokevalue) 
-							{
-								$mydetails = $this->Get->meta_details($brokevalue , $browse_slug );
-								if(!empty($mydetails))
-								{
-									$emptybrowse = 1;
-									$outputResult = (empty($mydetails['EntryMeta']['name'])?$mydetails['Entry']['title']:$mydetails['EntryMeta']['name']);
-									echo '<p>'.(empty($popup)?$this->Html->link($outputResult,array('controller'=>'entries','action'=>$mydetails['Entry']['entry_type'],'edit',$mydetails['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</p>';
-                                    echo '<input type="hidden" value="'.$mydetails['Entry']['slug'].'">';
-								}
-							}
-							
-							if($emptybrowse == 0)
-							{
-								echo '-';
-							}
-						}
-                        else if($value10['input_type'] == 'browse')
-                        {
-                        	$entrydetail = $this->Get->meta_details($displayValue , get_slug($shortkey));
-							if(empty($entrydetail))
-							{
-								echo $displayValue;
-							}
-							else
-							{
-								$outputResult = (empty($entrydetail['EntryMeta']['name'])?$entrydetail['Entry']['title']:$entrydetail['EntryMeta']['name']);
-								echo '<h5>'.(empty($popup)?$this->Html->link($outputResult,array("controller"=>"entries","action"=>$entrydetail['Entry']['entry_type']."/edit/".$entrydetail['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</h5>';
-                                echo '<input type="hidden" value="'.$entrydetail['Entry']['slug'].'">';
-                                
-                                echo '<p>';                                
-                                // Try to use Primary EntryMeta first !!
-                                $targetMetaKey = NULL;
-                                foreach($entrydetail['EntryMeta'] as $metakey => $metavalue)
-                                {
-                                    if(substr($metavalue['key'] , 0 , 5) == 'form-')
-                                    {
-                                        $targetMetaKey = $metakey;
-                                        break;
-                                    }
-                                }
-                                
-                                if(isset($targetMetaKey))
-                                {
-                                    // test if value is a date value or not !!
-                                    if(strtotime($entrydetail['EntryMeta'][$targetMetaKey]['value']) && !is_numeric($entrydetail['EntryMeta'][$targetMetaKey]['value']))
-                                    {
-                                        echo date_converter($entrydetail['EntryMeta'][$targetMetaKey]['value'] , $mySetting['date_format']);
-                                    }
-                                    else
-                                    {
-                                        echo $entrydetail['EntryMeta'][$targetMetaKey]['value'];
-                                    }
-                                }
-                                else
-                                {
-                                    $description = strip_tags($entrydetail['Entry']['description']);
-                            	    echo (strlen($description) > 30? '<a href="#" data-toggle="tooltip" title="'.strip_tags($entrydetail['Entry']['description'], '<br><br/><p></p>').'">'.substr($description,0,30).'...</a>' : $description);
-                                }                                
-                                echo '</p>';
-							}
+                            $queryURL = array('anchor' => $shortkey );
+                            if( !empty($myEntry) && $myType['Type']['slug']!=$myChildType['Type']['slug'] )
+                            {
+                                $queryURL['type'] = $myChildType['Type']['slug'];
+                            }
+                            echo '<span class="badge badge-info">'.(empty($popup)?$this->Html->link($value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false, 'data-toggle'=>'tooltip','title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>').'</span>';
                         }
                         else
                         {
-                        	echo $this->Get->outputConverter($value10['input_type'] , $displayValue , $myImageTypeList , $shortkey);
-                        }                        
-                        echo "</td>";
-					}
-				}
-			}
+                            echo '-';	
+                        }
+                    }
+                    else if($value10['input_type'] == 'multibrowse')
+                    {
+                        $browse_slug = get_slug($shortkey);
+                        $displayValue = explode('|', $displayValue);
+
+                        $emptybrowse = 0;
+                        foreach ($displayValue as $brokekey => $brokevalue) 
+                        {
+                            $mydetails = $this->Get->meta_details($brokevalue , $browse_slug );
+                            if(!empty($mydetails))
+                            {
+                                $emptybrowse = 1;
+                                $outputResult = (empty($mydetails['EntryMeta']['name'])?$mydetails['Entry']['title']:$mydetails['EntryMeta']['name']);
+                                echo '<p>'.(empty($popup)?$this->Html->link($outputResult,array('controller'=>'entries','action'=>$mydetails['Entry']['entry_type'],'edit',$mydetails['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</p>';
+                                echo '<input type="hidden" value="'.$mydetails['Entry']['slug'].'">';
+                            }
+                        }
+
+                        if($emptybrowse == 0)
+                        {
+                            echo '-';
+                        }
+                    }
+                    else if($value10['input_type'] == 'browse')
+                    {
+                        $entrydetail = $this->Get->meta_details($displayValue , get_slug($shortkey));
+                        if(empty($entrydetail))
+                        {
+                            echo $displayValue;
+                        }
+                        else
+                        {
+                            $outputResult = (empty($entrydetail['EntryMeta']['name'])?$entrydetail['Entry']['title']:$entrydetail['EntryMeta']['name']);
+                            echo '<h5>'.(empty($popup)?$this->Html->link($outputResult,array("controller"=>"entries","action"=>$entrydetail['Entry']['entry_type']."/edit/".$entrydetail['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</h5>';
+                            echo '<input type="hidden" value="'.$entrydetail['Entry']['slug'].'">';
+
+                            echo '<p>';                                
+                            // Try to use Primary EntryMeta first !!
+                            $targetMetaKey = NULL;
+                            foreach($entrydetail['EntryMeta'] as $metakey => $metavalue)
+                            {
+                                if(substr($metavalue['key'] , 0 , 5) == 'form-')
+                                {
+                                    $targetMetaKey = $metakey;
+                                    break;
+                                }
+                            }
+
+                            if(isset($targetMetaKey))
+                            {
+                                // test if value is a date value or not !!
+                                if(strtotime($entrydetail['EntryMeta'][$targetMetaKey]['value']) && !is_numeric($entrydetail['EntryMeta'][$targetMetaKey]['value']))
+                                {
+                                    echo date_converter($entrydetail['EntryMeta'][$targetMetaKey]['value'] , $mySetting['date_format']);
+                                }
+                                else
+                                {
+                                    echo $entrydetail['EntryMeta'][$targetMetaKey]['value'];
+                                }
+                            }
+                            else
+                            {
+                                $description = strip_tags($entrydetail['Entry']['description']);
+                                echo (strlen($description) > 30? '<a href="#" data-toggle="tooltip" title="'.strip_tags($entrydetail['Entry']['description'], '<br><br/><p></p>').'">'.substr($description,0,30).'...</a>' : $description);
+                            }                                
+                            echo '</p>';
+                        }
+                    }
+                    else
+                    {
+                        echo $this->Get->outputConverter($value10['input_type'] , $displayValue , $myImageTypeList , $shortkey);
+                    }                        
+                    echo "</td>";
+                }
+            }
         
             // show gallery count !!
             if($gallery)
