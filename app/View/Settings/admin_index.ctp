@@ -257,7 +257,7 @@
 			$value['model'] = 'Setting';			
 			$value['input_type'] = 'image';
 			
-			$value['p'] = "Website logo for sharing homepage on social media.";
+			$value['p'] = "Website logo for sharing homepage on social media.<br><span style='color:red;'>NB: Minimum image dimension is 200 x 200 pixels.</span>";
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['p']);
 		?>
