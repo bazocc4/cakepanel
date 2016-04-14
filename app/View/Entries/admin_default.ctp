@@ -4,6 +4,22 @@
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
 
+    $myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
+    $titlekey = "Title";
+    $titleIsDate = false;
+    foreach ($myAutomatic as $key => $value)
+    {
+        if($value['key'] == 'title_key')
+        {
+            $titlekey = $value['value'];
+            if(stripos($titlekey, 'date') !== false)
+            {
+                $titleIsDate = true;
+            }
+            break;
+        }
+    }
+
     // initialize $extensionPaging for URL Query ...
     $extensionPaging = $this->request->query;
     unset($extensionPaging['lang']);
@@ -85,7 +101,7 @@
             }
         
             // is table sortable?
-            if(!Modernizr.touch && <?php echo $isOrderChange; ?>)
+            if(!Modernizr.touch && <?php echo $isOrderChange; ?> && <?php echo ($titleIsDate?'0':'1'); ?>)
             {
                 $("table.list tbody").sortable({ opacity: 0.6, cursor: 'move',
 					stop: function(event, ui) {
@@ -220,22 +236,11 @@
 <table id="myTableList" class="list">
 	<thead>
 	<tr>
-		<?php
-            $sortASC = '&#9650;';
-            $sortDESC = '&#9660;';
-			$myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
-			$titlekey = "Title";
-			foreach ($myAutomatic as $key => $value)
-			{
-				if($value['key'] == 'title_key')
-				{
-					$titlekey = $value['value'];
-					break;
-				}
-			}
-		?>
 		<th>
 		    <?php
+                $sortASC = '&#9650;';
+                $sortDESC = '&#9660;';
+    
                 echo $this->Html->link($titlekey.' ('.$totalList.')'.($_SESSION['order_by'] == 'title ASC'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == 'title DESC'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$_SESSION['order_by'] == 'title DESC'?"a_to_z":"z_to_a"));
             ?>
 		</th>
@@ -335,6 +340,12 @@
 		$orderlist = "";
 		foreach ($myList as $value):
 		$orderlist .= $value['Entry']['sort_order'].",";
+    
+        // need to format title as date ??
+        if($titleIsDate)
+        {
+            $value['Entry']['title'] = date_converter($value['Entry']['title'], $mySetting['date_format']);
+        }
 	?>	
 	<tr class="orderlist" alt="<?php echo $value['Entry']['id']; ?>">
 		<td class="main-title">

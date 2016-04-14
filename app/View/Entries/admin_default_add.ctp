@@ -1,9 +1,33 @@
 <?php
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
+
+    $myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
+    $titlekey = "title";
+    $titleIsDate = false;
+    foreach ($myAutomatic as $key => $value)
+    {
+        if($value['key'] == 'title_key')
+        {
+            $titlekey = $value['value'];
+            if(stripos($titlekey, 'date') !== false)
+            {
+                $titleIsDate = true;
+            }
+            break;
+        }
+    }
+
 	if($isAjax == 0)
 	{
-		echo $this->element('admin_header_add');
+        $params_admin_header_add = [];
+        if(!empty($myEntry) && $titleIsDate) // format title as date (temporary) !!
+        {
+            $myDateEntry = $myEntry;
+            $myDateEntry['Entry']['title'] = date_converter($myDateEntry['Entry']['title'], $mySetting['date_format']);
+            $params_admin_header_add = ['myEntry' => $myDateEntry];
+        }
+		echo $this->element('admin_header_add', $params_admin_header_add);
 		?>
 		<script>
 			$(document).ready(function(){
@@ -72,23 +96,12 @@
 		<input type="hidden" value="<?php echo (isset($_POST['data']['Entry'][2]['value'])?$_POST['data']['Entry'][2]['value']:(empty($myEntry)?'0':$myEntry['Entry']['main_image'])); ?>" name="data[Entry][2][value]" id="mySelectCoverId"/>
 		<input type='hidden' id="entry_image_type" value="<?php echo $myImageTypeList[isset($_POST['data']['Entry'][2]['value'])?$_POST['data']['Entry'][2]['value']:(empty($myEntry)?'0':$myEntry['Entry']['main_image'])]; ?>" />
 		<?php
-			$myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
-			$titlekey = "title";
-			foreach ($myAutomatic as $key => $value)
-			{
-				if($value['key'] == 'title_key')
-				{
-					$titlekey = $value['value'];
-					break;
-				}
-			}
-			
 			$value = array();
 			$value['key'] = 'form-'.Inflector::slug($titlekey);
 			$value['validation'] = 'not_empty';
 			$value['model'] = 'Entry';
 			$value['counter'] = 0;
-			$value['input_type'] = 'text';
+			$value['input_type'] = ($titleIsDate?'datepicker':'text');
 			$value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['title']);
 			echo $this->element('input_'.$value['input_type'] , $value);
 		?>

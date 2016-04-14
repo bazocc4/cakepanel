@@ -1265,7 +1265,23 @@ class EntriesController extends AppController {
         }
         else 
         {
-            $options['order'] = array('Entry.'.(empty($_SESSION['order_by'])?$this->generalOrder:$_SESSION['order_by']));
+            if(empty($_SESSION['order_by']))
+            {
+                $options['order'] = array('Entry.'.$this->generalOrder);
+            }
+            else
+            {
+                // test if title_key contains "date" keyword !!
+                if(stripos( array_column($myAutomaticValidation, 'value', 'key')['title_key'] , 'date') !== false)
+                {
+                    $explodeSorting = explode(' ', $_SESSION['order_by']);
+                    $options['order'] = array('STR_TO_DATE( Entry.'.$explodeSorting[0].' , "%m/%d/%Y") '.$explodeSorting[1]);
+                }
+                else
+                {
+                    $options['order'] = array('Entry.'.$_SESSION['order_by']);
+                }
+            }
         }
         
         if(strpos( serialize($options) , 'EntryMeta.key_value') !== FALSE)
