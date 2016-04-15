@@ -24,6 +24,7 @@
 			}
 			if(!empty($p))
 			{
+				echo '<div class="clear"></div>';
 				echo '<p style="color:red;" class="help-block">'.$p.'</p>';
 			}
 		?>

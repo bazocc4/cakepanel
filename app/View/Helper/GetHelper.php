@@ -671,7 +671,7 @@ class GetHelper extends AppHelper
         {
             $echothis = '<strong>'.$result.'</strong>';
         }
-        else if($shortkey == 'price' || $shortkey == 'harga_beli' || $shortkey == 'harga_jual')
+        else if(strpos($shortkey, 'price') !== false)
         {
             $echothis = 'Rp.'.str_replace(',', '.', toMoney($result  , true , true) ).',-';
             $echothis .= '<input type="hidden" value="'.$result.'">';

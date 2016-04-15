@@ -59,7 +59,7 @@
 	{
 		$inputsize = 'input-mini';
 	}
-	else if($shortkey == "price")
+	else if(strpos($shortkey, 'price') !== false)
 	{
 		$inputsize = 'input-small';
 	}
@@ -71,7 +71,7 @@
 	<div class="controls">
 		<?php
             // header string !!
-			if($shortkey == "price")
+			if(strpos($shortkey, 'price') !== false)
 			{
 				echo 'Rp.';
 			}
@@ -83,7 +83,7 @@
 			{
 				echo '% OFF';
 			}
-			else if($shortkey == "price")
+			else if(strpos($shortkey, 'price') !== false)
 			{
 				echo ',-';
 			}
