@@ -107,6 +107,26 @@ CakeLog::config('error', array(
 ));
 
 /**
+ * Namespaces in vendor files and Cake2.x
+ */
+spl_autoload_register(function($class) {
+    foreach(App::path('Vendor') as $base) {
+        $path = $base . str_replace('\\', DS, $class) . '.php';
+        if (file_exists($path)) {
+            return include $path;
+        }
+    }
+});
+
+function barcodeGenerator()
+{
+    App::import('Vendor', 'BarcodeGenerator', array('file' => 'BarcodeGenerator/BarcodeGenerator.php'));
+    App::import('Vendor', 'BarcodeGeneratorPNG', array('file' => 'BarcodeGenerator/BarcodeGeneratorPNG.php'));
+    $generatorPNG = new Picqer\Barcode\BarcodeGeneratorPNG();
+    return $generatorPNG;
+}
+
+/**
 	 * print_r text with pre html tag
 	 * @param mixed $text all kind of text want to be printed
 	 * @return true
