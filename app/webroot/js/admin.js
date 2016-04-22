@@ -1,19 +1,27 @@
 var jcrop_api = new Array();
 (function($){    
     // colorbox initialization !!
-    $.fn.generalColorbox = function(objclass){
-        if($('.'+objclass).length > 0)
+    $.fn.generalColorbox = function(objclass){        
+        var $colorbox_params = {
+            reposition: false,
+//            fixed: true,
+            maxWidth:'95%',
+//            maxHeight:'95%',
+        };
+        
+        if($('.'+objclass+'[rel]').length)
         {
-            $(document).on('click', '.'+objclass , function(e){
+            $('.'+objclass+'[rel]').colorbox($colorbox_params);
+        }
+        
+        if($('.'+objclass+':not([rel])').length)
+        {
+            $(document).on('click', '.'+objclass+':not([rel])' , function(e){
                 e.preventDefault();
-                $.colorbox({
+                $.colorbox($.extend({}, $colorbox_params, {
                     href:$(this).attr('href'),
-//                    fixed: true,
-                    reposition: false,
-                    maxWidth:'95%',
-//                    maxHeight:'95%',
                     title:$(this).attr('title'),
-                });
+                }));
             });
         }
     }
