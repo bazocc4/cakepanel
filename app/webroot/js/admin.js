@@ -7,6 +7,9 @@ var jcrop_api = new Array();
 //            fixed: true,
             maxWidth:'95%',
 //            maxHeight:'95%',
+            onComplete: function() {
+//                $('#cboxCurrent').hide();
+            }
         };
         
         if($('.'+objclass+'[rel]').length)

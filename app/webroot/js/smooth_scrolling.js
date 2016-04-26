@@ -1,6 +1,6 @@
 (function($){
 	$(document).ready(function(){
-        $('a.smooth-scrolling[href*=#]:not([href=#])').click(function() {
+        $(document).on('click', 'a.smooth-scrolling[href*=#]:not([href=#])', function() {
             if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
 
                 var target = $(this.hash);
