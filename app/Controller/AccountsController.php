@@ -68,6 +68,7 @@ class AccountsController extends AppController {
 		// end of last modified...
 		
 		$options['order'] = array('User.firstname' , 'User.lastname' , 'Account.role_id');
+        $options['recursive'] = 0;
 		$mysql = $this->Account->find('all' ,$options);
 		// MODIFY OUR USERMETA FIRST !!
 		foreach ($mysql as $key => $value) 

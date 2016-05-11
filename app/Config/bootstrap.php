@@ -120,10 +120,13 @@ spl_autoload_register(function($class) {
 
 function barcodeGenerator()
 {
-    App::import('Vendor', 'BarcodeGenerator', array('file' => 'BarcodeGenerator/BarcodeGenerator.php'));
-    App::import('Vendor', 'BarcodeGeneratorPNG', array('file' => 'BarcodeGenerator/BarcodeGeneratorPNG.php'));
-    $generatorPNG = new Picqer\Barcode\BarcodeGeneratorPNG();
-    return $generatorPNG;
+    App::import('Vendor', 'BarcodeGenerator', array('file' => 'BarcodeGenerator/BarcodeGenerator.php'));    
+    App::import('Vendor', 'BarcodeGeneratorPNG', array('file' => 'BarcodeGenerator/BarcodeGeneratorPNG.php'));    
+    App::import('Vendor', 'BarcodeGeneratorHTML', array('file' => 'BarcodeGenerator/BarcodeGeneratorHTML.php'));
+    return [
+        'PNG' => new Picqer\Barcode\BarcodeGeneratorPNG(),
+        'HTML' => new Picqer\Barcode\BarcodeGeneratorHTML(),
+    ];
 }
 
 /**
@@ -340,18 +343,12 @@ function parseTime($s)
     return $c[0] * 60 + $c[1];
 }
 
-function toMoney($amount,$separator=true,$simple=false){
+function toMoney($amount,$separator=true,$simple=false,$dec_point='.',$thousands_sep=','){
     $broken_number = ( false===$simple ? explode('.',$amount) : '' );
     return
-        (true===$separator?
-            (false===$simple?
-                number_format($broken_number[0]).(isset($broken_number[1])?'.'.$broken_number[1]:''):
-                str_replace('.00','',toMoney($amount))
-            ):
-            (false===$simple?
-                number_format($broken_number[0],0,'.','').(isset($broken_number[1])?'.'.$broken_number[1]:''):
-                str_replace('.00','',toMoney($amount,false))
-            )
+        (false===$simple?
+            number_format($broken_number[0],0,$dec_point,(true===$separator?$thousands_sep:'')).(isset($broken_number[1])?$dec_point.$broken_number[1]:''):
+            str_replace($dec_point.'00','',toMoney($amount,$separator,false,$dec_point,$thousands_sep))
         );
 }
 
