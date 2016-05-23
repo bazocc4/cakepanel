@@ -428,7 +428,7 @@ class AccountsController extends AppController {
 					          ->send($body) )
 						{
 							$this->Account->id = $value['Account']['id'];
-							$this->Account->saveField('password' , Security::hash($newpassword,null,true));
+							$this->Account->saveField('password' , $newpassword);
 							$this->Session->setFlash('New password has been sent to your inbox!','forget_success');
 							$this->redirect((empty($is_admin)?'':'/admin').'/login');
 						}
