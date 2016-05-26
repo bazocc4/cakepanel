@@ -318,8 +318,10 @@ class TypesController extends AppController {
 			
 			$this->request->data['Type']['modified_by'] = $this->user['id'];
 			// write time created manually !!
+/*
 			$nowDate = $this->getNowDate();			
 			$this->request->data['Type']['modified'] = $nowDate;
+*/
 			
 			// now for validation !!
 			$this->Type->set($this->request->data);
