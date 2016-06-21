@@ -46,7 +46,7 @@ CREATE TABLE `cms_accounts` (
 
 LOCK TABLES `cms_accounts` WRITE;
 /*!40000 ALTER TABLE `cms_accounts` DISABLE KEYS */;
-INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2016-06-14 14:04:34','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
+INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','169e781bd52860b584879cbe117085da596238f3','2016-06-17 17:03:42','2013-01-04 00:00:00',1,'2014-05-05 15:15:38',1);
 INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andybasuki88@gmail.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2016-06-02 09:46:22','2013-01-15 03:42:56',1,'2016-05-23 13:18:51',2);
 INSERT INTO `cms_accounts` VALUES (3,2,3,'regular1','regular@yahoo.com','d2705e541f5988c37de5ceb31735a535d5994777','2013-01-17 11:23:37','2013-01-15 04:17:47',2,'2014-07-24 11:05:12',1);
 INSERT INTO `cms_accounts` VALUES (7,3,2,'hanatania8','hanatania@yahoo.com','29536df66160e1ff6a6fe6e0395dd8767140657b','2014-07-24 11:40:17','2014-07-24 11:06:29',1,'2014-07-24 11:40:30',7);
@@ -921,7 +921,7 @@ CREATE TABLE `cms_type_metas` (
   `validation` text,
   `instruction` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=572 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=581 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -945,32 +945,32 @@ INSERT INTO `cms_type_metas` VALUES (499,5,'form-action','Comment\r\nShare\r\nLi
 INSERT INTO `cms_type_metas` VALUES (475,3,'category','nerd section',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (569,4,'form-books','','multibrowse','not_empty|','Test New Type again.');
 INSERT INTO `cms_type_metas` VALUES (502,4,'category','nerd section',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (549,11,'form-dropme','drop satu\r\ndrop dua\r\ndrop tiga','dropdown','','');
-INSERT INTO `cms_type_metas` VALUES (548,11,'form-group_photo','','gallery','','just a test field gallery.');
+INSERT INTO `cms_type_metas` VALUES (576,11,'form-fake_ckeditor','','ckeditor','not_empty|','just a test additional ckeditor.');
+INSERT INTO `cms_type_metas` VALUES (577,11,'form-biggy_text','','textarea','max_length_100|','');
 INSERT INTO `cms_type_metas` VALUES (497,5,'category','nerd section',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (463,12,'category','home',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (464,12,'form-url_link','','text','is_url|','Example: http://www.yourdomain.com');
 INSERT INTO `cms_type_metas` VALUES (440,11,'pagination','7',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (578,11,'form-normal_text','','text','max_length_30|','');
 INSERT INTO `cms_type_metas` VALUES (465,11,'category','nerd section',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (450,11,'gallery','enable',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (550,11,'form-group_photo_2','','gallery','max_length_5|','Maximum 5 photos only.');
-INSERT INTO `cms_type_metas` VALUES (551,11,'form-fake_ckeditor','','ckeditor','not_empty|','just a test additional ckeditor.');
+INSERT INTO `cms_type_metas` VALUES (575,11,'form-group_photo_2','','gallery','max_length_5|','Maximum 5 photos only.');
 INSERT INTO `cms_type_metas` VALUES (558,3,'form-quantity','','text','not_empty|is_numeric|','');
 INSERT INTO `cms_type_metas` VALUES (557,3,'form-price','','text','not_empty|is_numeric|is_alnum|','');
 INSERT INTO `cms_type_metas` VALUES (556,3,'display_crop','2',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (547,11,'form-books','','checkbox','browse_module|','browse books for checkbox.');
 INSERT INTO `cms_type_metas` VALUES (500,5,'form-background','','image','','');
 INSERT INTO `cms_type_metas` VALUES (501,5,'form-books','','browse','','');
 INSERT INTO `cms_type_metas` VALUES (570,4,'form-magazine','','multibrowse','','Zpanel Famous Magazine.');
 INSERT INTO `cms_type_metas` VALUES (568,4,'form-news_file','','file','','');
-INSERT INTO `cms_type_metas` VALUES (552,11,'form-biggy_text','','textarea','','');
-INSERT INTO `cms_type_metas` VALUES (553,11,'form-normal_text','','text','max_length_30|','');
-INSERT INTO `cms_type_metas` VALUES (554,11,'form-single_browse','','browse','','');
-INSERT INTO `cms_type_metas` VALUES (555,11,'form-warnaku','','color','not_empty|','test warna');
+INSERT INTO `cms_type_metas` VALUES (574,11,'form-dropme','drop satu\r\ndrop dua\r\ndrop tiga','dropdown','','');
+INSERT INTO `cms_type_metas` VALUES (573,11,'form-group_photo','','gallery','','just a test field gallery.');
+INSERT INTO `cms_type_metas` VALUES (572,11,'form-books','','checkbox','browse_module|','browse books for checkbox.');
 INSERT INTO `cms_type_metas` VALUES (565,3,'form-added_image','','image','','');
 INSERT INTO `cms_type_metas` VALUES (566,3,'form-filename','','file','','');
 INSERT INTO `cms_type_metas` VALUES (567,3,'form-filename2','','file','','This is just a test file.');
 INSERT INTO `cms_type_metas` VALUES (571,4,'form-termin','','multidate','not_empty|','tes multidate field.');
+INSERT INTO `cms_type_metas` VALUES (579,11,'form-single_browse','','browse','','');
+INSERT INTO `cms_type_metas` VALUES (580,11,'form-warnaku','','color','not_empty|','test warna');
 /*!40000 ALTER TABLE `cms_type_metas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1091,7 +1091,7 @@ CREATE TABLE `cms_users` (
 
 LOCK TABLES `cms_users` WRITE;
 /*!40000 ALTER TABLE `cms_users` DISABLE KEYS */;
-INSERT INTO `cms_users` VALUES (1,'admin','zpanel','2013-01-04 00:00:00',1,'2016-06-03 11:25:23',1,0);
+INSERT INTO `cms_users` VALUES (1,'admin','zpanel','2013-01-04 00:00:00',1,'2016-06-16 14:23:07',1,1);
 INSERT INTO `cms_users` VALUES (2,'Andy','Basuki','2013-01-15 03:42:25',1,'2014-02-06 10:52:30',1,1);
 INSERT INTO `cms_users` VALUES (3,'Hana','Tania Libianto','2013-01-21 02:59:43',2,'2014-02-06 10:53:10',1,1);
 /*!40000 ALTER TABLE `cms_users` ENABLE KEYS */;
@@ -1106,4 +1106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-14 16:27:44
+-- Dump completed on 2016-06-21 16:57:10

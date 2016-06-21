@@ -37,6 +37,23 @@
 			{
 				echo '<p class="help-block">'.$p.'</p>';
 			}
+        
+            if($maxchar > 0)
+            {
+                ?>
+        <p class="help-block" style="color:blue;">
+            <span id="maxlength-<?php echo $counter; ?>"></span> characters remaining.
+        </p>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('textarea.<?php echo $shortkey; ?>').keyup(function() {
+                    var enteredText = $(this).val();
+                    $('#maxlength-<?php echo $counter; ?>').text(<?php echo $maxchar; ?> - enteredText.length - (enteredText.match(/\n/g)||[]).length);
+                }).trigger('keyup');
+            });
+        </script>
+                <?php
+            }
 		?>
 	</div>
 	<input type="hidden" value="<?php echo $key; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][key]"/>
