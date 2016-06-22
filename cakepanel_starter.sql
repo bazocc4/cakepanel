@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `cms_entries` (
   `modified` datetime NOT NULL,
   `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
   `sort_order` int(10) unsigned NOT NULL DEFAULT '0',
-  `lang_code` varchar(10)
+  `lang_code` varchar(10) DEFAULT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
