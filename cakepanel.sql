@@ -75,7 +75,7 @@ CREATE TABLE `cms_entries` (
   `modified` datetime NOT NULL,
   `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
   `sort_order` int(10) unsigned NOT NULL DEFAULT '0',
-  `lang_code` varchar(10) NOT NULL,
+  `lang_code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=MyISAM AUTO_INCREMENT=902 DEFAULT CHARSET=latin1;
@@ -921,7 +921,7 @@ CREATE TABLE `cms_type_metas` (
   `validation` text,
   `instruction` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=581 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=599 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -945,32 +945,32 @@ INSERT INTO `cms_type_metas` VALUES (499,5,'form-action','Comment\r\nShare\r\nLi
 INSERT INTO `cms_type_metas` VALUES (475,3,'category','nerd section',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (569,4,'form-books','','multibrowse','not_empty|','Test New Type again.');
 INSERT INTO `cms_type_metas` VALUES (502,4,'category','nerd section',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (576,11,'form-fake_ckeditor','','ckeditor','not_empty|','just a test additional ckeditor.');
-INSERT INTO `cms_type_metas` VALUES (577,11,'form-biggy_text','','textarea','max_length_100|','');
+INSERT INTO `cms_type_metas` VALUES (595,11,'form-biggy_text','','textarea','max_length_100|','');
+INSERT INTO `cms_type_metas` VALUES (596,11,'form-normal_text','','text','max_length_30|','');
 INSERT INTO `cms_type_metas` VALUES (497,5,'category','nerd section',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (463,12,'category','home',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (464,12,'form-url_link','','text','is_url|','Example: http://www.yourdomain.com');
 INSERT INTO `cms_type_metas` VALUES (440,11,'pagination','7',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (578,11,'form-normal_text','','text','max_length_30|','');
 INSERT INTO `cms_type_metas` VALUES (465,11,'category','nerd section',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (450,11,'gallery','enable',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (575,11,'form-group_photo_2','','gallery','max_length_5|','Maximum 5 photos only.');
+INSERT INTO `cms_type_metas` VALUES (594,11,'form-fake_ckeditor','','ckeditor','not_empty|','just a test additional ckeditor.');
+INSERT INTO `cms_type_metas` VALUES (593,11,'form-group_photo_2','','gallery','max_length_5|','Maximum 5 photos only.');
 INSERT INTO `cms_type_metas` VALUES (558,3,'form-quantity','','text','not_empty|is_numeric|','');
 INSERT INTO `cms_type_metas` VALUES (557,3,'form-price','','text','not_empty|is_numeric|is_alnum|','');
 INSERT INTO `cms_type_metas` VALUES (556,3,'display_crop','2',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (597,11,'form-single_browse','','browse','','');
 INSERT INTO `cms_type_metas` VALUES (500,5,'form-background','','image','','');
 INSERT INTO `cms_type_metas` VALUES (501,5,'form-books','','browse','','');
 INSERT INTO `cms_type_metas` VALUES (570,4,'form-magazine','','multibrowse','','Zpanel Famous Magazine.');
 INSERT INTO `cms_type_metas` VALUES (568,4,'form-news_file','','file','','');
-INSERT INTO `cms_type_metas` VALUES (574,11,'form-dropme','drop satu\r\ndrop dua\r\ndrop tiga','dropdown','','');
-INSERT INTO `cms_type_metas` VALUES (573,11,'form-group_photo','','gallery','','just a test field gallery.');
-INSERT INTO `cms_type_metas` VALUES (572,11,'form-books','','checkbox','browse_module|','browse books for checkbox.');
+INSERT INTO `cms_type_metas` VALUES (592,11,'form-dropme','drop satu\r\ndrop dua\r\ndrop tiga','dropdown','','');
+INSERT INTO `cms_type_metas` VALUES (590,11,'form-books','','checkbox','browse_module|','browse books for checkbox.');
+INSERT INTO `cms_type_metas` VALUES (591,11,'form-group_photo','','gallery','','just a test field gallery.');
 INSERT INTO `cms_type_metas` VALUES (565,3,'form-added_image','','image','','');
 INSERT INTO `cms_type_metas` VALUES (566,3,'form-filename','','file','','');
 INSERT INTO `cms_type_metas` VALUES (567,3,'form-filename2','','file','','This is just a test file.');
 INSERT INTO `cms_type_metas` VALUES (571,4,'form-termin','','multidate','not_empty|','tes multidate field.');
-INSERT INTO `cms_type_metas` VALUES (579,11,'form-single_browse','','browse','','');
-INSERT INTO `cms_type_metas` VALUES (580,11,'form-warnaku','','color','not_empty|','test warna');
+INSERT INTO `cms_type_metas` VALUES (598,11,'form-warnaku','','color','not_empty|','test warna');
 /*!40000 ALTER TABLE `cms_type_metas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1106,4 +1106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-21 16:57:10
+-- Dump completed on 2016-06-22 17:28:22
