@@ -157,6 +157,16 @@ class EntriesController extends AppController {
                     }
                 }
 				$result = $this->_admin_default($myType, 0 , NULL , $this->request->query['key'] , $this->request->query['value'] ,NULL,$this->request->data['search'],NULL, $language);
+                
+                if($myTypeSlug == 'contact')
+				{
+					// if submit contact form !!
+	            	if(isset($_POST['submitcontact']))
+					{
+						$this->submit_contact();
+					}
+				}
+                
 				$myRenderFile = $myTypeSlug;
 			}
 			else // if this want to view pages...
@@ -180,14 +190,6 @@ class EntriesController extends AppController {
 					// load slider data !!
 					$slideshow = $this->_admin_default( $this->Type->findBySlug('slideshow') , 0 , NULL , NULL , NULL ,NULL,NULL,NULL, $language , 'manualset');
 					$this->set('slideshow', $slideshow['myList']);
-				}
-				else if($myEntrySlug == 'contact')
-				{
-					// if submit contact form !!
-	            	if(isset($_POST['submitcontact']))
-					{
-						$this->submit_contact();
-					}
 				}
 				else if($myEntrySlug == 'search')
 				{

@@ -8,7 +8,7 @@
 	    if (resizeTimerColorbox) clearTimeout(resizeTimerColorbox);
 	    resizeTimerColorbox = setTimeout(function() {
 	        if ($('#cboxOverlay').is(':visible')) {
-	            $.colorbox.load(true);
+	            $.colorbox.reload();
 	        }
 	    }, 300)
 	}
