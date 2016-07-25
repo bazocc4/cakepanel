@@ -278,16 +278,7 @@ class AccountsController extends AppController {
 		}
 	}
     
-    function clearLogs()
-    {
-        $files = glob('../tmp/logs/*'); // get all file names
-		foreach($files as $file){ // iterate files
-		  if(is_file($file) && strtolower(basename($file)) != 'empty')
-		    unlink($file); // delete file
-		}
-    }
-
-	function login() 
+    function login() 
 	{
 		if($this->Auth->login())
 		{
@@ -295,9 +286,7 @@ class AccountsController extends AppController {
 			$this->Account->id = $myAccount['id'];
 			$this->Account->saveField('last_login' , $this->getNowDate());
 			$this->Account->saveField('modified' , $myAccount['modified']); // revert back modified time...
-            // clear tmp logs file !!
-            $this->clearLogs();
-			
+            
             // prepare going inside the dashboard !!
 			$pecahurl = explode('/' , $this->request->url);
 			if(strtolower($pecahurl[0]) == 'admin')

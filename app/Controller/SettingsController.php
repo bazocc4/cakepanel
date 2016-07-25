@@ -75,6 +75,11 @@ class SettingsController extends AppController {
 			$this->Session->setFlash('Settings has been updated.','success');			
 			$this->redirect('/admin/settings');
 		}
+        else
+        {
+            // clean to refresh tmp logs file !!
+            clearLogs();
+        }
 	}
     
 	function add() 
