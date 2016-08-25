@@ -16,6 +16,9 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// initialize extra plugins here >>
 	config.extraPlugins = 'youtube';
+    
+    // add the new font to the combobox in CKEditor >>
+    config.font_names = 'Glyphicons Halflings Regular/glyphicons_halflings_regular;' + 'Helvetica Nueu/helvetica_nueu;' + config.font_names;
 
 	// CKEDITOR - prevent adding image dimensions as a css style >>
 	CKEDITOR.on('instanceReady', function (event) {

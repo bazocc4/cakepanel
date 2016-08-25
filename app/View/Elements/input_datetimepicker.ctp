@@ -17,13 +17,20 @@
 ?>
 <script>
 	$(document).ready(function(){
-		// init datetime picker function
+        <?php
+            if(empty($readonly))
+            {
+                ?>
+        // init datetime picker function
 		$('input.dtimepicker.<?php echo $shortkey; ?>').datetimepicker({
 		    changeMonth: true,
             changeYear: true,
             showButtonPanel: true,
             yearRange: "-80:+20",
-		});
+		});            
+                <?php
+            }
+        ?>
 	});
 </script>
 <div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>
@@ -31,7 +38,7 @@
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
-		<input <?php echo $required; ?> class="input-medium dtimepicker <?php echo $shortkey; ?>" type="text" value="<?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:(empty($value)?(strpos(strtolower($validation), 'not_empty') !== FALSE?$month."/".$day."/".$year." ".$hour.":".$minute:""):$value)); ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
+		<input readonly="readonly" <?php echo (empty($readonly)?'style="background:white;cursor:pointer;"':''); ?> <?php echo $required; ?> class="input-medium dtimepicker <?php echo $shortkey; ?>" type="text" value="<?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:(empty($value)?(strpos(strtolower($validation), 'not_empty') !== FALSE?$month."/".$day."/".$year." ".$hour.":".$minute:""):$value)); ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
 		<?php
 			if(!empty($p))
 			{

@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'glyphicons_halflings_regular';    
+    src: url('../fonts/glyphicons-halflings-regular.eot') format('eot'),
+         url('../fonts/glyphicons-halflings-regular.svg') format('svg'),
+         url('../fonts/glyphicons-halflings-regular.ttf') format('ttf'),
+         url('../fonts/glyphicons-halflings-regular.woff') format('woff');    
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'helvetica_nueu';    
+    src: url('../fonts/helvetica-nueu.otf') format('otf');    
+    font-weight: normal;
+    font-style: normal;
+}
