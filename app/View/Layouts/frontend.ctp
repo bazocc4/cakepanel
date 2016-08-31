@@ -63,7 +63,13 @@
                         echo '<meta name="twitter:description" content="'.strip_tags($myEntry['Entry']['description']).'">';
                     }
 
-                    if(!empty($myEntry['Entry']['main_image']))
+                    // share image should be with watermark if available !!
+                    if(!empty($myEntry['EntryMeta']['share_image']))
+                    {
+                        echo '<meta property="og:image" content="'.$this->Get->host_name().'img/upload/'.$myEntry['EntryMeta']['share_image'].'.'.$myImageTypeList[$myEntry['EntryMeta']['share_image']].'" />';
+                        echo '<meta name="twitter:image" content="'.$this->Get->host_name().'img/upload/'.$myEntry['EntryMeta']['share_image'].'.'.$myImageTypeList[$myEntry['EntryMeta']['share_image']].'">';
+                    }
+                    else if(!empty($myEntry['Entry']['main_image']))
                     {
                         echo '<meta property="og:image" content="'.$this->Get->host_name().'img/upload/'.$myEntry['Entry']['main_image'].'.'.$myImageTypeList[$myEntry['Entry']['main_image']].'" />';
                         echo '<meta name="twitter:image" content="'.$this->Get->host_name().'img/upload/'.$myEntry['Entry']['main_image'].'.'.$myImageTypeList[$myEntry['Entry']['main_image']].'">';
@@ -90,7 +96,9 @@
 			
 			// custom style !!
 			echo $this->Html->css('admin/style');
-//			echo $this->Html->css('style');
+        ?>
+<!--        <link rel="stylesheet/less" href="<?php echo $imagePath; ?>less/style.less"/>-->
+        <?php
 			echo $this->Html->css('loading');
 
 			// ================================================== >>>
@@ -107,6 +115,9 @@
 			// bootstrap script !!
 			echo $this->Html->script('bootstrap.min');
 //			echo $this->Html->script('bootstrap.min-3');
+        
+            // convert less into css script !!
+//          echo $this->Html->script('less.min');
 			
             // Automatic Mobile Menu jQuery !!
 //          echo $this->Html->script('jquery.mobilemenu');
