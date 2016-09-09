@@ -18,7 +18,11 @@
  */
 ?>
 <?php echo $content_for_layout; ?>
-<script>
+<?php
+    if(!empty($this->request->params['admin']))
+    {
+        ?>
+<script type="text/javascript">
     $(document).ready(function(){
         // initialize bootstrap tooltip !!
         if( $.isFunction($.fn.tooltip) )
@@ -31,4 +35,7 @@
             });
         }
     });
-</script>
+</script>        
+        <?php
+    }
+?>
