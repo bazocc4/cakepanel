@@ -4,7 +4,7 @@
     if(is_array($data)) extract($data , EXTR_SKIP);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo (empty($language)?'en':$language); ?>">
 	<head>
 		<?php echo $this->Html->charset(); ?>
 		<title>
@@ -84,6 +84,7 @@
 		<script type="text/javascript">
 			var site = '<?php echo $site; ?>';
 		  	var linkpath = '<?php echo $imagePath; ?>';
+            var langpath = '<?php echo $langPath; ?>';
 		</script>
 		
 		<?php
@@ -220,7 +221,7 @@
                 $('ul.nav li.menu-<?php echo (!empty($myType)?$myType['Type']['slug']:(!empty($myEntry)?$myEntry['Entry']['slug']:'home')); ?>').addClass('active');
                 
                 // table responsive class !!
-                $('table').addClass('table').wrap('<div class="table-responsive"></div>');
+                $('table').parent(':not(.table-responsive)').wrapInner('<div class="table-responsive"></div>');
 		  	});
 		</script>
 	</body>

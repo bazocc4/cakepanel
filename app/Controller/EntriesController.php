@@ -123,6 +123,7 @@ class EntriesController extends AppController {
 			$url_lang = $language.'/';
 		}
 		$this->set('url_lang' , $url_lang);
+        $this->set('langPath', $this->get_linkpath().$url_lang );
 		// ---------------------------------- >>>
 		// end of additional set to view file !!
 		// ---------------------------------- >>>
