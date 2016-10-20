@@ -136,7 +136,7 @@
 			</ul>
 		</div>
 		<?php
-			if(count($mySetting['language']) > 1 && empty($popup))
+            if( $multi_language && empty($popup) )
 			{
 				?>
 		<div class="btn-group lang-selector" style="margin-right: 10px;">

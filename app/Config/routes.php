@@ -29,36 +29,9 @@ CakePlugin::routes();
 /**
  * Rss Initialization
  */
-Router::parseExtensions('rss'); 
+Router::parseExtensions('rss');
 
-$server = $_SERVER['SERVER_NAME'];
-$server = strtolower($server);
-
-$accessMode = 'web';
-
-// the domain contain www, redirect to the corrent one
-if (substr($server, 0, 4) == 'www.') {
-	$server = substr($server, 4);
-}
-
-$controllers = array(
-	'accounts',
-	'configs',
-	'entries',	
-	'entry_metas',
-	'pages',
-	'roles',	
-	'settings',
-	'type_metas',
-	'types',
-	'user_metas',
-	'users',
-	'admin',
-	'instant_payment_notifications',
-);
-
-$requestUri = $_SERVER['REQUEST_URI'];
-$url_set = explode('/', strtolower($requestUri));
+$url_set = explode('/', strtolower($_SERVER['REQUEST_URI']));
 
 // -------------- THIS IS FOR LOCAL HOST ------------------------------------ //
 if(isLocalhost())
@@ -71,8 +44,6 @@ else // -------------- THIS IS FOR ONLINE HOSTING ------------------------------
 	$controller = !empty($url_set[1]) ? $url_set[1] : null;
 	$action     = !empty($url_set[2]) ? $url_set[2] : null;
 }
-
-$domainSet = explode('.', $server);
 
 // ---------------------------- PAYPAL API CALLBACK ---------------------------------------- //
 Router::connect('/paypal_ipn/process', array('controller' => 'instant_payment_notifications', 'action' => 'process'));
@@ -87,7 +58,21 @@ Router::connect('/admin/entries/backup', array('controller' => 'entries', 'actio
 Router::connect('/admin/entries/backup/:mode', array('controller' => 'entries', 'action' => 'backup' , 'admin'=>true));
 // ---------------------------- END OF BACKUP DATABASE ---------------------------------------------- //
 
-if(in_array($controller, $controllers))
+if(in_array($controller, [
+    'accounts',
+	'configs',
+	'entries',	
+	'entry_metas',
+	'pages',
+	'roles',	
+	'settings',
+	'type_metas',
+	'types',
+	'user_metas',
+	'users',
+	'admin',
+	'instant_payment_notifications',
+]))
 {
 	if($controller == "admin")
 	{

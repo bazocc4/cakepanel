@@ -78,7 +78,7 @@ CREATE TABLE `cms_entries` (
   `lang_code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=902 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=927 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +128,7 @@ INSERT INTO `cms_entries` VALUES (57,'media','batman_by_frogbillgo-d2yoamc','bat
 INSERT INTO `cms_entries` VALUES (58,'media','Spiderman_by_PatC_14','spiderman-by-patc-14',NULL,0,0,1,0,'2013-01-15 06:09:24',1,'2014-11-20 16:45:06',1,47,'en-58');
 INSERT INTO `cms_entries` VALUES (59,'media','super_mario_bro_by_skottieyoung-d4nh5fb','super-mario-bro-by-skottieyoung-d4nh5fb',NULL,0,0,1,0,'2013-01-15 06:09:25',1,'2014-11-20 16:46:34',1,118,'en-59');
 INSERT INTO `cms_entries` VALUES (60,'blogs','War Blog IV','war-blog-iv','<p>This is the blog of war</p>\r\n',49,6,1,0,'2013-01-15 06:13:51',1,'2015-03-18 12:11:38',1,568,'en-60');
-INSERT INTO `cms_entries` VALUES (61,'books','Perang Dunia 2','perang-dunia-2','<p>Ini adalah kisah penuh dari perang dunia 2 di USA.</p>\r\n',2,0,1,7,'2013-01-15 06:38:44',1,'2016-03-23 10:22:25',1,61,'id-6');
+INSERT INTO `cms_entries` VALUES (61,'books','Perang Dunia 2','perang-dunia-2','<p>Ini adalah kisah penuh dari perang dunia 2 di USA.</p>\r\n',2,0,1,7,'2013-01-15 06:38:44',1,'2016-10-11 16:36:03',1,850,'id-6');
 INSERT INTO `cms_entries` VALUES (574,'blogs','Morning Blog ID','morning-blog-id','<p>just a morning blog, thx</p>\r\n',54,61,1,0,'2015-03-18 11:29:19',1,'2015-03-18 12:11:38',1,579,'id-160');
 INSERT INTO `cms_entries` VALUES (573,'media','20110530-061908','20110530-061908-7',NULL,0,50,1,0,'2015-03-18 11:26:37',1,'2015-03-18 11:29:19',1,573,'en-573');
 INSERT INTO `cms_entries` VALUES (572,'news','The Resurrection ID','the-resurrection-id','<p>There&#39;s a news that exist a medicine can make human alive from death.</p>\r\n\r\n<p>And then, [to be continue]</p>\r\n',26,61,1,0,'2015-03-18 10:13:01',1,'2016-06-14 14:13:24',1,571,'id-73');
@@ -138,7 +138,7 @@ INSERT INTO `cms_entries` VALUES (66,'pages','Beranda','beranda','<p>\r\n	Selama
 INSERT INTO `cms_entries` VALUES (67,'pages','Tentang Kita','tentang-kita','<p>\r\n	Ini adalah suatu kisah mengenai perusahaan kami.</p>\r\n',4,0,1,0,'2013-01-16 03:23:48',1,'2015-03-17 17:03:03',1,549,'id-1');
 INSERT INTO `cms_entries` VALUES (571,'news','Serangan Gerilya ID','serangan-gerilya-id','<p>Nowadays, world is happening with &quot;Gerilya War&quot;</p>\r\n',44,61,1,0,'2015-03-18 10:00:21',1,'2016-06-14 14:12:34',1,581,'id-68');
 INSERT INTO `cms_entries` VALUES (70,'books','Dark Magic','dark-magic','<p>this is magic from frontend website.</p>\r\n',56,0,1,5,'2013-01-16 09:15:23',1,'2016-06-07 11:11:35',1,70,'en-70');
-INSERT INTO `cms_entries` VALUES (72,'books','tes buku indo','tes-buku-indo','<p>wkwkwk</p>\r\n',37,0,1,2,'2013-01-16 10:05:04',1,'2016-03-23 10:22:25',1,850,'id-72');
+INSERT INTO `cms_entries` VALUES (72,'books','tes buku indo','tes-buku-indo','<p>wkwkwk</p>\r\n',37,0,1,2,'2013-01-16 10:05:04',1,'2016-10-11 16:36:03',1,863,'id-72');
 INSERT INTO `cms_entries` VALUES (73,'news','The Resurrection EN','the-resurrection-en','<p>There&#39;s a news that exist a medicine can make human alive from death.</p>\r\n\r\n<p>And then, [to be continue]</p>\r\n',26,6,1,0,'2013-01-16 10:18:50',1,'2016-06-14 14:14:09',1,9,'en-73');
 INSERT INTO `cms_entries` VALUES (575,'media','Penguins','penguins-5',NULL,0,129,1,0,'2015-03-18 11:34:46',1,'2015-03-18 11:50:50',1,575,'en-575');
 INSERT INTO `cms_entries` VALUES (576,'blogs','War Blog ID','war-blog-id','<p>This is the blog of war</p>\r\n',49,61,1,0,'2015-03-18 11:47:29',1,'2015-03-18 12:11:38',1,576,'id-60');
@@ -159,7 +159,7 @@ INSERT INTO `cms_entries` VALUES (94,'media','Batgirl_Issue_10_by_Artgerm','batg
 INSERT INTO `cms_entries` VALUES (95,'media','resize_florian_new_02','resize-florian-new-02-3',NULL,0,46,1,0,'2013-01-19 08:13:57',1,'2013-11-06 10:14:54',1,95,'en-95');
 INSERT INTO `cms_entries` VALUES (97,'media','Organic_Coffee_Bean_Sack','organic-coffee-bean-sack-2',NULL,0,43,1,0,'2013-01-19 08:25:57',1,'2013-11-06 10:11:10',1,97,'en-97');
 INSERT INTO `cms_entries` VALUES (98,'media','batman_by_frogbillgo-d2yoamc','batman-by-frogbillgo-d2yoamc-3',NULL,0,57,1,0,'2013-01-19 08:25:58',1,'2013-11-06 10:11:11',1,98,'en-98');
-INSERT INTO `cms_entries` VALUES (99,'books','tes loro gambar','tes-loro-gambar','',48,0,1,2,'2013-01-19 08:28:10',1,'2016-03-23 10:22:25',1,863,'id-96');
+INSERT INTO `cms_entries` VALUES (99,'books','tes loro gambar','tes-loro-gambar','',48,0,1,2,'2013-01-19 08:28:10',1,'2016-10-11 16:36:03',1,902,'id-96');
 INSERT INTO `cms_entries` VALUES (109,'media','Tulips','tulips',NULL,0,0,1,0,'2013-01-22 11:43:23',1,'2014-11-20 16:46:34',1,58,'en-109');
 INSERT INTO `cms_entries` VALUES (340,'books','Koala','koala-1',NULL,76,70,1,0,'2015-01-21 10:09:03',1,'2015-01-21 10:09:04',1,340,'en-340');
 INSERT INTO `cms_entries` VALUES (880,'books','Lighthouse','lighthouse-6',NULL,130,84,1,0,'2016-06-14 14:08:41',1,'2016-06-14 14:08:41',1,880,'en-880');
@@ -243,6 +243,31 @@ INSERT INTO `cms_entries` VALUES (895,'books','super_mario_bro_by_skottieyoung-d
 INSERT INTO `cms_entries` VALUES (894,'books','6462d28e02631147cd6ee51a744db6c6','6462d28e02631147cd6ee51a744db6c6-7',NULL,54,698,1,0,'2016-06-14 14:09:27',1,'2016-06-14 14:09:27',1,894,'en-894');
 INSERT INTO `cms_entries` VALUES (893,'books','beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7','beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7-6',NULL,53,698,1,0,'2016-06-14 14:09:27',1,'2016-06-14 14:09:27',1,893,'en-893');
 INSERT INTO `cms_entries` VALUES (725,'form-group_photo_2','Smoke-stock1191','smoke-stock1191-13',NULL,48,161,1,0,'2015-06-03 11:37:03',1,'2015-06-03 11:37:03',1,725,'en-725');
+INSERT INTO `cms_entries` VALUES (902,'books','Sulap Kegelapan','sulap-kegelapan','<p>Ini adalah sulap hebat dari website depan !!</p>\r\n',56,0,1,5,'2016-10-11 16:36:02',1,'2016-10-11 16:36:03',1,61,'id-70');
+INSERT INTO `cms_entries` VALUES (903,'books','Penguins','penguins-7',NULL,75,902,1,0,'2016-10-11 16:36:02',1,'2016-10-11 16:36:02',1,903,'en-903');
+INSERT INTO `cms_entries` VALUES (904,'books','resize_florian_new_02','resize-florian-new-02-26',NULL,46,902,1,0,'2016-10-11 16:36:02',1,'2016-10-11 16:36:02',1,904,'en-904');
+INSERT INTO `cms_entries` VALUES (905,'books','Koala','koala-23',NULL,76,902,1,0,'2016-10-11 16:36:02',1,'2016-10-11 16:36:02',1,905,'en-905');
+INSERT INTO `cms_entries` VALUES (906,'books','Thursday20September2012043329slide3','thursday20september2012043329slide3-5',NULL,116,902,1,0,'2016-10-11 16:36:03',1,'2016-10-11 16:36:03',1,906,'en-906');
+INSERT INTO `cms_entries` VALUES (907,'books','stock-photo-coffee-beans-in-canvas-sack-9416005','stock-photo-coffee-beans-in-canvas-sack-9416005-3',NULL,49,902,1,0,'2016-10-11 16:36:03',1,'2016-10-11 16:36:03',1,907,'en-907');
+INSERT INTO `cms_entries` VALUES (908,'magazine','Majalah Kue','majalah-kue','<p>test minum</p>\r\n\r\n<p>air jeruk segar</p>\r\n\r\n<p>alami lo</p>\r\n',108,0,1,18,'2016-10-11 16:37:53',1,'2016-10-11 16:37:54',1,908,'id-161');
+INSERT INTO `cms_entries` VALUES (909,'magazine','Batgirl_Issue_10_by_Artgerm','batgirl-issue-10-by-artgerm-13',NULL,56,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,909,'en-909');
+INSERT INTO `cms_entries` VALUES (910,'magazine','Spiderman_by_PatC_14','spiderman-by-patc-14-1',NULL,58,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,910,'en-910');
+INSERT INTO `cms_entries` VALUES (911,'magazine','Smoke-stock1191','smoke-stock1191-9',NULL,48,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,911,'en-911');
+INSERT INTO `cms_entries` VALUES (912,'magazine','6462d28e02631147cd6ee51a744db6c6','6462d28e02631147cd6ee51a744db6c6-8',NULL,54,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,912,'en-912');
+INSERT INTO `cms_entries` VALUES (913,'magazine','Hydrangeas','hydrangeas-13',NULL,108,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,913,'en-913');
+INSERT INTO `cms_entries` VALUES (914,'magazine','batman_by_frogbillgo-d2yoamc','batman-by-frogbillgo-d2yoamc-26',NULL,57,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,914,'en-914');
+INSERT INTO `cms_entries` VALUES (915,'form-group_photo','avengers_vs_x_men_babies_by_skottieyoung-d4raoid','avengers-vs-x-men-babies-by-skottieyoung-d4raoid-11',NULL,55,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,915,'en-915');
+INSERT INTO `cms_entries` VALUES (916,'form-group_photo','resize_3d_cartoon_pirate','resize-3d-cartoon-pirate-1',NULL,44,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,916,'en-916');
+INSERT INTO `cms_entries` VALUES (917,'form-group_photo','Batgirl_Issue_10_by_Artgerm','batgirl-issue-10-by-artgerm-14',NULL,56,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,917,'en-917');
+INSERT INTO `cms_entries` VALUES (918,'form-group_photo','20110530-061908','20110530-061908-31',NULL,50,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,918,'en-918');
+INSERT INTO `cms_entries` VALUES (919,'form-group_photo','stock-photo-coffee-beans-in-canvas-sack-9416005','stock-photo-coffee-beans-in-canvas-sack-9416005-6',NULL,49,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,919,'en-919');
+INSERT INTO `cms_entries` VALUES (920,'form-group_photo','super_mario_bro_by_skottieyoung-d4nh5fb','super-mario-bro-by-skottieyoung-d4nh5fb-14',NULL,59,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,920,'en-920');
+INSERT INTO `cms_entries` VALUES (921,'form-group_photo','20110610-103819','20110610-103819-1',NULL,51,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,921,'en-921');
+INSERT INTO `cms_entries` VALUES (922,'form-group_photo_2','Penguins','penguins-8',NULL,129,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,922,'en-922');
+INSERT INTO `cms_entries` VALUES (923,'form-group_photo_2','Koala','koala-24',NULL,76,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:53',1,923,'en-923');
+INSERT INTO `cms_entries` VALUES (924,'form-group_photo_2','Thursday20September2012043329slide3','thursday20september2012043329slide3-8',NULL,116,908,1,0,'2016-10-11 16:37:53',1,'2016-10-11 16:37:54',1,924,'en-924');
+INSERT INTO `cms_entries` VALUES (925,'form-group_photo_2','resize_florian_new_02','resize-florian-new-02-27',NULL,46,908,1,0,'2016-10-11 16:37:54',1,'2016-10-11 16:37:54',1,925,'en-925');
+INSERT INTO `cms_entries` VALUES (926,'form-group_photo_2','Smoke-stock1191','smoke-stock1191-10',NULL,48,908,1,0,'2016-10-11 16:37:54',1,'2016-10-11 16:37:54',1,926,'en-926');
 /*!40000 ALTER TABLE `cms_entries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,7 +284,7 @@ CREATE TABLE `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2473 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2513 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -829,6 +854,46 @@ INSERT INTO `cms_entry_metas` VALUES (2454,698,'form-approval','Pending');
 INSERT INTO `cms_entry_metas` VALUES (2460,571,'form-termin','06/16/2016');
 INSERT INTO `cms_entry_metas` VALUES (2463,572,'form-termin','06/01/2016');
 INSERT INTO `cms_entry_metas` VALUES (2466,73,'form-termin','06/01/2016');
+INSERT INTO `cms_entry_metas` VALUES (2473,902,'backup-slug','\nsulap-kegelapan\n');
+INSERT INTO `cms_entry_metas` VALUES (2474,903,'backup-slug','\npenguins-7\n');
+INSERT INTO `cms_entry_metas` VALUES (2475,902,'count-books','5');
+INSERT INTO `cms_entry_metas` VALUES (2476,904,'backup-slug','\nresize-florian-new-02-26\n');
+INSERT INTO `cms_entry_metas` VALUES (2477,905,'backup-slug','\nkoala-23\n');
+INSERT INTO `cms_entry_metas` VALUES (2478,906,'backup-slug','\nthursday20september2012043329slide3-5\n');
+INSERT INTO `cms_entry_metas` VALUES (2479,907,'backup-slug','\nstock-photo-coffee-beans-in-canvas-sack-9416005-3\n');
+INSERT INTO `cms_entry_metas` VALUES (2480,902,'form-price','14');
+INSERT INTO `cms_entry_metas` VALUES (2481,902,'form-quantity','200');
+INSERT INTO `cms_entry_metas` VALUES (2482,902,'form-weight','5');
+INSERT INTO `cms_entry_metas` VALUES (2483,902,'form-publish_date','03/07/2013');
+INSERT INTO `cms_entry_metas` VALUES (2484,902,'form-publisher','Tony Shawn');
+INSERT INTO `cms_entry_metas` VALUES (2485,902,'form-approval','Pending');
+INSERT INTO `cms_entry_metas` VALUES (2486,908,'backup-slug','\nmajalah-kue\n');
+INSERT INTO `cms_entry_metas` VALUES (2487,909,'backup-slug','\nbatgirl-issue-10-by-artgerm-13\n');
+INSERT INTO `cms_entry_metas` VALUES (2488,908,'count-magazine','6');
+INSERT INTO `cms_entry_metas` VALUES (2489,910,'backup-slug','\nspiderman-by-patc-14-1\n');
+INSERT INTO `cms_entry_metas` VALUES (2490,911,'backup-slug','\nsmoke-stock1191-9\n');
+INSERT INTO `cms_entry_metas` VALUES (2491,912,'backup-slug','\n6462d28e02631147cd6ee51a744db6c6-8\n');
+INSERT INTO `cms_entry_metas` VALUES (2492,913,'backup-slug','\nhydrangeas-13\n');
+INSERT INTO `cms_entry_metas` VALUES (2493,914,'backup-slug','\nbatman-by-frogbillgo-d2yoamc-26\n');
+INSERT INTO `cms_entry_metas` VALUES (2494,915,'backup-slug','\navengers-vs-x-men-babies-by-skottieyoung-d4raoid-11\n');
+INSERT INTO `cms_entry_metas` VALUES (2495,908,'count-form-group_photo','7');
+INSERT INTO `cms_entry_metas` VALUES (2496,916,'backup-slug','\nresize-3d-cartoon-pirate-1\n');
+INSERT INTO `cms_entry_metas` VALUES (2497,917,'backup-slug','\nbatgirl-issue-10-by-artgerm-14\n');
+INSERT INTO `cms_entry_metas` VALUES (2498,918,'backup-slug','\n20110530-061908-31\n');
+INSERT INTO `cms_entry_metas` VALUES (2499,919,'backup-slug','\nstock-photo-coffee-beans-in-canvas-sack-9416005-6\n');
+INSERT INTO `cms_entry_metas` VALUES (2500,920,'backup-slug','\nsuper-mario-bro-by-skottieyoung-d4nh5fb-14\n');
+INSERT INTO `cms_entry_metas` VALUES (2501,921,'backup-slug','\n20110610-103819-1\n');
+INSERT INTO `cms_entry_metas` VALUES (2502,922,'backup-slug','\npenguins-8\n');
+INSERT INTO `cms_entry_metas` VALUES (2503,908,'count-form-group_photo_2','5');
+INSERT INTO `cms_entry_metas` VALUES (2504,923,'backup-slug','\nkoala-24\n');
+INSERT INTO `cms_entry_metas` VALUES (2505,924,'backup-slug','\nthursday20september2012043329slide3-8\n');
+INSERT INTO `cms_entry_metas` VALUES (2506,925,'backup-slug','\nresize-florian-new-02-27\n');
+INSERT INTO `cms_entry_metas` VALUES (2507,926,'backup-slug','\nsmoke-stock1191-10\n');
+INSERT INTO `cms_entry_metas` VALUES (2508,908,'form-books','mario bros|World War II Cont');
+INSERT INTO `cms_entry_metas` VALUES (2509,908,'form-dropme','drop dua');
+INSERT INTO `cms_entry_metas` VALUES (2510,908,'form-fake_ckeditor','<p>makan nasi goreng</p>\r\n');
+INSERT INTO `cms_entry_metas` VALUES (2511,908,'form-biggy_text','saya mau makan\r\nbakso goreng\r\ndi rumah hana tania.');
+INSERT INTO `cms_entry_metas` VALUES (2512,908,'form-warnaku','#ff00ff');
 /*!40000 ALTER TABLE `cms_entry_metas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -921,7 +986,7 @@ CREATE TABLE `cms_type_metas` (
   `validation` text,
   `instruction` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=599 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=685 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -930,47 +995,50 @@ CREATE TABLE `cms_type_metas` (
 
 LOCK TABLES `cms_type_metas` WRITE;
 /*!40000 ALTER TABLE `cms_type_metas` DISABLE KEYS */;
-INSERT INTO `cms_type_metas` VALUES (563,3,'form-approval','Approve\r\nPending','dropdown','not_empty|','This book is already approved or not.');
-INSERT INTO `cms_type_metas` VALUES (562,3,'form-publisher','','text','','');
+INSERT INTO `cms_type_metas` VALUES (629,3,'form-author','','text','','');
+INSERT INTO `cms_type_metas` VALUES (628,3,'form-weight','','text','not_empty|is_numeric|','Product weight in kg.');
 INSERT INTO `cms_type_metas` VALUES (7,4,'stagging','enable',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (561,3,'form-publish_date','','datepicker','not_empty|','');
-INSERT INTO `cms_type_metas` VALUES (560,3,'form-author','','text','','');
-INSERT INTO `cms_type_metas` VALUES (559,3,'form-weight','','text','not_empty|is_numeric|','Product weight in kg.');
+INSERT INTO `cms_type_metas` VALUES (630,3,'form-publish_date','','datepicker','not_empty|','');
+INSERT INTO `cms_type_metas` VALUES (631,3,'form-publisher','','text','','');
+INSERT INTO `cms_type_metas` VALUES (632,3,'form-approval','Approve\r\nPending','dropdown','not_empty|','This book is already approved or not.');
 INSERT INTO `cms_type_metas` VALUES (243,3,'stagging','enable',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (180,3,'gallery','enable',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (564,3,'form-background','','image','','Background of the book');
+INSERT INTO `cms_type_metas` VALUES (627,3,'form-quantity','','text','not_empty|is_numeric|','');
 INSERT INTO `cms_type_metas` VALUES (254,3,'title_key','Books Name',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (498,5,'display_crop','2',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (499,5,'form-action','Comment\r\nShare\r\nLike\r\nUnlike that damn bloG','checkbox','','More Action about the blogs.');
+INSERT INTO `cms_type_metas` VALUES (681,5,'display_crop','2',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (682,5,'form-action','Comment\r\nShare\r\nLike\r\nUnlike that damn bloG','checkbox','','More Action about the blogs.');
 INSERT INTO `cms_type_metas` VALUES (475,3,'category','nerd section',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (569,4,'form-books','','multibrowse','not_empty|','Test New Type again.');
 INSERT INTO `cms_type_metas` VALUES (502,4,'category','nerd section',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (595,11,'form-biggy_text','','textarea','max_length_100|','');
-INSERT INTO `cms_type_metas` VALUES (596,11,'form-normal_text','','text','max_length_30|','');
+INSERT INTO `cms_type_metas` VALUES (677,11,'form-normal_text','','text','max_length_30|','');
+INSERT INTO `cms_type_metas` VALUES (678,11,'form-single_browse','','browse','','');
 INSERT INTO `cms_type_metas` VALUES (497,5,'category','nerd section',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (463,12,'category','home',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (464,12,'form-url_link','','text','is_url|','Example: http://www.yourdomain.com');
 INSERT INTO `cms_type_metas` VALUES (440,11,'pagination','7',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (679,11,'form-warnaku','','color','not_empty|','test warna');
 INSERT INTO `cms_type_metas` VALUES (465,11,'category','nerd section',NULL,NULL,NULL);
 INSERT INTO `cms_type_metas` VALUES (450,11,'gallery','enable',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (594,11,'form-fake_ckeditor','','ckeditor','not_empty|','just a test additional ckeditor.');
-INSERT INTO `cms_type_metas` VALUES (593,11,'form-group_photo_2','','gallery','max_length_5|','Maximum 5 photos only.');
-INSERT INTO `cms_type_metas` VALUES (558,3,'form-quantity','','text','not_empty|is_numeric|','');
-INSERT INTO `cms_type_metas` VALUES (557,3,'form-price','','text','not_empty|is_numeric|is_alnum|','');
-INSERT INTO `cms_type_metas` VALUES (556,3,'display_crop','2',NULL,NULL,NULL);
-INSERT INTO `cms_type_metas` VALUES (597,11,'form-single_browse','','browse','','');
-INSERT INTO `cms_type_metas` VALUES (500,5,'form-background','','image','','');
-INSERT INTO `cms_type_metas` VALUES (501,5,'form-books','','browse','','');
-INSERT INTO `cms_type_metas` VALUES (570,4,'form-magazine','','multibrowse','','Zpanel Famous Magazine.');
-INSERT INTO `cms_type_metas` VALUES (568,4,'form-news_file','','file','','');
-INSERT INTO `cms_type_metas` VALUES (592,11,'form-dropme','drop satu\r\ndrop dua\r\ndrop tiga','dropdown','','');
-INSERT INTO `cms_type_metas` VALUES (590,11,'form-books','','checkbox','browse_module|','browse books for checkbox.');
-INSERT INTO `cms_type_metas` VALUES (591,11,'form-group_photo','','gallery','','just a test field gallery.');
-INSERT INTO `cms_type_metas` VALUES (565,3,'form-added_image','','image','','');
-INSERT INTO `cms_type_metas` VALUES (566,3,'form-filename','','file','','');
-INSERT INTO `cms_type_metas` VALUES (567,3,'form-filename2','','file','','This is just a test file.');
-INSERT INTO `cms_type_metas` VALUES (571,4,'form-termin','','multidate','not_empty|','tes multidate field.');
-INSERT INTO `cms_type_metas` VALUES (598,11,'form-warnaku','','color','not_empty|','test warna');
+INSERT INTO `cms_type_metas` VALUES (675,11,'form-fake_ckeditor','','ckeditor','not_empty|','just a test additional ckeditor.');
+INSERT INTO `cms_type_metas` VALUES (676,11,'form-biggy_text','','textarea','max_length_100|','');
+INSERT INTO `cms_type_metas` VALUES (633,3,'form-background','','image','','Background of the book');
+INSERT INTO `cms_type_metas` VALUES (634,3,'form-added_image','','image','','');
+INSERT INTO `cms_type_metas` VALUES (671,11,'form-books','','checkbox','browse_module|','browse books for checkbox.');
+INSERT INTO `cms_type_metas` VALUES (680,5,'multi_language','enable',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (640,4,'form-magazine','','multibrowse','','Zpanel Famous Magazine.');
+INSERT INTO `cms_type_metas` VALUES (638,4,'form-news_file','','file','','');
+INSERT INTO `cms_type_metas` VALUES (639,4,'form-books','','multibrowse','not_empty|','Test New Type again.');
+INSERT INTO `cms_type_metas` VALUES (674,11,'form-group_photo_2','','gallery','max_length_5|','Maximum 5 photos only.');
+INSERT INTO `cms_type_metas` VALUES (673,11,'form-dropme','drop satu\r\ndrop dua\r\ndrop tiga','dropdown','','');
+INSERT INTO `cms_type_metas` VALUES (672,11,'form-group_photo','','gallery','','just a test field gallery.');
+INSERT INTO `cms_type_metas` VALUES (626,3,'form-price','','text','not_empty|is_numeric|is_alnum|','');
+INSERT INTO `cms_type_metas` VALUES (625,3,'display_crop','2',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (637,4,'multi_language','enable',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (635,3,'form-filename','','file','','');
+INSERT INTO `cms_type_metas` VALUES (636,3,'form-filename2','','file','','This is just a test file.');
+INSERT INTO `cms_type_metas` VALUES (624,3,'multi_language','enable',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (641,4,'form-termin','','multidate','not_empty|','tes multidate field.');
+INSERT INTO `cms_type_metas` VALUES (683,5,'form-background','','image','','');
+INSERT INTO `cms_type_metas` VALUES (684,5,'form-books','','browse','','');
 /*!40000 ALTER TABLE `cms_type_metas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1106,4 +1174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-05 15:35:46
+-- Dump completed on 2016-10-20 11:31:28

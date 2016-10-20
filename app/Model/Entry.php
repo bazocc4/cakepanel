@@ -1072,15 +1072,18 @@ class Entry extends AppModel {
 	}
     
     /*
-    Check certain EntryType has gallery feature turn ON / OFF !!
+    Check certain EntryType has gallery,etc feature turn ON / OFF !! (updated)
     */
-    function checkGalleryType($myAutomaticValidation = array())
+    function checkGalleryType($myAutomaticValidation = array(), $searchKey = NULL, $searchValue = NULL)
     {
+        if(empty($searchKey)) $searchKey = 'gallery';
+        if(empty($searchValue)) $searchValue = 'enable';
+        
         foreach ($myAutomaticValidation as $key => $value) 
         {
-            if($value['key'] == 'gallery')
+            if($value['key'] == $searchKey)
             {
-                if($value['value'] == 'enable')
+                if($value['value'] == $searchValue)
                 {
                     return true;
                 }

@@ -1136,6 +1136,11 @@ class EntriesController extends AppController {
         
         // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
         $data['gallery'] = $this->Entry->checkGalleryType($myAutomaticValidation);
+        $data['multi_language'] = (count($this->mySetting['language']) > 1?$this->Entry->checkGalleryType($myAutomaticValidation, 'multi_language'):false);
+        if( $data['multi_language'] == false )
+        {
+            $_SESSION['lang'] = strtolower(substr($this->mySetting['language'][0], 0,2));
+        }
         
 		// set page title
 		$this->setTitle(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title']);
@@ -1346,7 +1351,7 @@ class EntriesController extends AppController {
 		$data['isOrderChange'] = (empty($_SESSION['order_by']) || substr($_SESSION['order_by'], 0 , 10) == 'sort_order'?1:0);
 		
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
-		if(!empty($myEntry) && count($this->mySetting['language']) > 1)
+		if(!empty($myEntry) && $data['multi_language'])
 		{
 			$temp100 = $this->Entry->find('all' , array(
 				'conditions' => array(
@@ -1389,11 +1394,12 @@ class EntriesController extends AppController {
         // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
         $myAutomaticValidation = (empty($myEntry)?$myType['TypeMeta']:$myChildType['TypeMeta']);
         $data['gallery'] = $this->Entry->checkGalleryType($myAutomaticValidation);
+        $data['multi_language'] = (count($this->mySetting['language']) > 1?$this->Entry->checkGalleryType($myAutomaticValidation, 'multi_language'):false);
         
 		// for image input type reason...
 		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
-		if(!empty($myEntry) && count($this->mySetting['language']) > 1)
+		if(!empty($myEntry) && $data['multi_language'])
 		{
 			$temp100 = $this->Entry->find('all' , array(
 				'conditions' => array(
@@ -1676,6 +1682,7 @@ class EntriesController extends AppController {
         // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
         $myAutomaticValidation = (empty($myParentEntry)?$myType['TypeMeta']:$myChildType['TypeMeta']);
         $data['gallery'] = $this->Entry->checkGalleryType($myAutomaticValidation);
+        $data['multi_language'] = (count($this->mySetting['language']) > 1?$this->Entry->checkGalleryType($myAutomaticValidation, 'multi_language'):false);
 
         // FIRSTLY, sorting our (image / entry) children !!
         if(!empty($data['myEntry']['ChildEntry']))
@@ -1708,7 +1715,7 @@ class EntriesController extends AppController {
 		}
 		$data['language_link'] = $language_link;
 		$data['lang'] = $lang;
-		if(!empty($myParentEntry) && count($this->mySetting['language']) > 1)
+		if(!empty($myParentEntry) && $data['multi_language'])
 		{
 			$temp100 = $this->Entry->find('all' , array(
 				'conditions' => array(

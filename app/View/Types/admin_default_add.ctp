@@ -121,6 +121,32 @@
 			$value['p'] = 'User defined title key name.';
 			$value['placeholder'] = "Title";
 			echo $this->element('input_'.$value['input_type'] , $value);
+        
+            // This module using Multi Language or not !!
+            if(count($mySetting['language']) > 1)
+            {
+                $value = array();
+                $value['counter'] = $counter++;
+                $value['key'] = 'form-Multi_Language';
+                $value['validation'] = '';
+                
+                if(!empty($myParentType) && !empty($dbhaystack)) // always follow parent multi_language value !!
+                {
+                    $value['display'] = 'none';
+                    $value['value'] = $myParentType['TypeMeta'][array_search('multi_language', $dbhaystack )]['value'];
+                }
+                else
+                {
+                    $value['value'] = (empty($myType)?'enable':$myType['TypeMeta']['multi_language'][0]);
+                }
+                
+                $value['model'] = 'TypeMeta';           
+                $value['input_type'] = 'checkbox';
+                $value['p'] = 'Using multi language data or just for default language.';
+                $value['list'][0]['id'] = 'enable';
+                $value['list'][0]['name'] = 'Enable';
+                echo $this->element('input_'.$value['input_type'] , $value);
+            }
 
 			// Custom pagination per module ...
 			$value = array();

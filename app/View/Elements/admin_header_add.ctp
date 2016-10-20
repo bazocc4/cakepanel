@@ -32,7 +32,7 @@
 </script>
 <div class="inner-header row-fluid">
 	<?php
-		if(count($mySetting['language']) > 1)
+		if($multi_language)
 		{
 			?>
 	<div class="btn-group lang-selector">
