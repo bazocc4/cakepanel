@@ -164,7 +164,7 @@
 			$('p#id-title-description').css('display','<?php echo (empty($totalList)?'none':'block'); ?>');
 			
 			// UPDATE TITLE HEADER !!
-			$('div.title:last > h2').html('<?php echo (empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' - '.$myChildType['Type']['name']); ?>');
+			$('div.title:last > h2').html('<?php echo htmlspecialchars((empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' - '.$myChildType['Type']['name']), ENT_QUOTES); ?>');
 			
 		<?php else: ?>
 			$('table#myTableList tbody tr').css('cursor' , 'pointer');

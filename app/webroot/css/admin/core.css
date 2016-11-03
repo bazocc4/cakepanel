@@ -302,7 +302,7 @@ form .container-box{ border: 1px solid lightGrey; margin-bottom: 18px;margin-lef
 .form-horizontal .controls{ margin-left: 150px; }
 .form-horizontal .controls .view-mode { font-weight: bold; padding-top: 5px; }
 .alert{ font-family: 'helvetica'; }
-.ui-datepicker{ z-index: 100; }
+.ui-datepicker{ z-index: 100 !important; }
 
 .cke_skin_kama{ float: left; }
 .cke_skin_kama .cke_wrapper{ float: left; width: 98%; }

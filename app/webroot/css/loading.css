@@ -29,3 +29,5 @@ li.disabled a, a.disabled{
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
+.ui-datepicker{ z-index: 100 !important; }

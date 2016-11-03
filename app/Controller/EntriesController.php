@@ -1224,7 +1224,7 @@ class EntriesController extends AppController {
                     }
                     
                     array_push($options['conditions'], array(
-                        'REPLACE(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}form-'.$tempValue.'=", -1), "{#}", 1) , "-" , " "),"_"," ") '.$myMetaNot.' LIKE' => '%'.string_unslug($myMetaValue[$tempKey]).'%'
+                        'REPLACE(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}form-'.$tempValue.'=", -1), "{#}", 1) , "-" , " "),"_"," ") '.$myMetaNot.' LIKE' => '%'.(strpos($tempValue,'date')!==false?$myMetaValue[$tempKey]:string_unslug($myMetaValue[$tempKey])).'%'
                     ));
                     
                     unset($myMetaKey[$tempKey]);
@@ -1280,10 +1280,10 @@ class EntriesController extends AppController {
             else
             {
                 // test if title_key contains "date" keyword !!
-                if(stripos( array_column($myAutomaticValidation, 'value', 'key')['title_key'] , 'date') !== false)
+                $explodeSorting = explode(' ', $_SESSION['order_by']);
+                if($explodeSorting[0] == 'title' && stripos( array_column($myAutomaticValidation, 'value', 'key')['title_key'] , 'date') !== false)
                 {
-                    $explodeSorting = explode(' ', $_SESSION['order_by']);
-                    $options['order'] = array('STR_TO_DATE( Entry.'.$explodeSorting[0].' , "%m/%d/%Y") '.$explodeSorting[1]);
+                    $options['order'] = array('STR_TO_DATE( Entry.title , "%m/%d/%Y") '.$explodeSorting[1]);
                 }
                 else
                 {
