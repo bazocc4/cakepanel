@@ -61,11 +61,50 @@ class SettingsController extends AppController {
                 $this->Session->setFlash($errMsg,'failed');
                 return;
             }
+            
 			// UPDATE LANGUAGE SETTING FIRST !!
 			if( !empty($myDetails[15]['multilanguage']) && !empty($myDetails[15]['optlang']) )
 			{
+                // if default language changed, migrate single language content to their new default language !!
+                $old_def_code = strtolower(substr($this->mySetting['language'][0], 0,2));                
+                $new_def_code = substr($myDetails[15]['value'], 0, 2);
+                if($old_def_code != $new_def_code )
+                {
+                    // process OLD default language content !!
+                    $old_content = $this->Entry->find('all', [
+                        'conditions' => [
+                            'Entry.lang_code LIKE' => $old_def_code.'-%',
+                        ],
+                        'fields' => ['lang_code'],
+                        'recursive' => -1,
+                    ]);
+                    $old_content = array_map(function($el){ return substr($el, 3); }, array_column(array_column($old_content, 'Entry'), 'lang_code') );
+                    
+                    // process NEW default language content !!
+                    $new_content = $this->Entry->find('all', [
+                        'conditions' => [
+                            'Entry.lang_code LIKE' => $new_def_code.'-%',
+                        ],
+                        'fields' => ['lang_code'],
+                        'recursive' => -1,
+                    ]);
+                    $new_content = array_map(function($el){ return substr($el, 3); }, array_column(array_column($new_content, 'Entry'), 'lang_code') );
+                    
+                    // search for non-existing OLD language content in NEW language content !!
+                    $diff_content = array_diff($old_content, $new_content);
+                    if(!empty($diff_content))
+                    {
+                        $this->Entry->updateAll(
+                            ['Entry.lang_code' => 'REPLACE(Entry.lang_code, "'.$old_def_code.'-", "'.$new_def_code.'-")' ],
+                            ['Entry.lang_code' => array_map(function($el) use($old_def_code) { return $old_def_code.'-'.$el; }, $diff_content) ]
+                        );
+                    }
+                }
+                // END OF MIGRATION PROCESS !!
+                
                 $myDetails[15]['value'] = implode(chr(13).chr(10), array_unique(array_merge( array($myDetails[15]['value']), array_keys($myDetails[15]['optlang']) )));
 			}
+            
 			// NOW SAVE THE SETTINGS ...
 			foreach ($myDetails as $key => $value)
 			{
