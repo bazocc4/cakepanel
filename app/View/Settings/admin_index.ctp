@@ -261,6 +261,8 @@
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['p']);
 		?>
+		
+	<div class="<?= ($user['role_id'] > 1?'hide':''); ?>">	
 		<div class="alert alert-info full fl">
 			<strong>Page Inserts</strong>
 		</div>
@@ -333,7 +335,10 @@
 				<input <?php echo (empty($mySetting[14]['Setting']['value'])?'':'CHECKED'); ?> type="checkbox" name="data[Setting][14][value]" value="1"/><label>Enable Cropping</label>
 			</div>
 		</div>
-	
+   
+        <div id="overwrite_image"></div>
+    </div>
+		
 	<!-- PAGE STATUS -->
 		<div class="alert alert-info full fl">
 			<strong>Additional Info</strong>
@@ -366,7 +371,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         // MOVE ELEMENT POSITION !!
-        $('#inputWrapper').prev().before( $('#inputWrapper .control-group .control-label:contains("Overwrite Image")').closest('.control-group') );
+        $('#inputWrapper .control-group .control-label:contains("Overwrite Image")').closest('.control-group').appendTo( $('#overwrite_image') );
     });
 </script>   
                         <?php
