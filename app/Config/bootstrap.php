@@ -264,7 +264,7 @@ function get_more_extension($url)
 
 function isLocalhost()
 {
-	$test = getcwd();
+	$test = str_replace('/', DS, getcwd() ); // beware of Linux OS ...
 
 	if(stripos($test, DS."htdocs".DS) !== FALSE || stripos($test, DS."sandbox".DS) !== FALSE || stripos($test, DS."creazidigital".DS) !== FALSE)
     {

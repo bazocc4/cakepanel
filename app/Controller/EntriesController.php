@@ -1224,7 +1224,7 @@ class EntriesController extends AppController {
                     }
                     
                     array_push($options['conditions'], array(
-                        'REPLACE(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}form-'.$tempValue.'=", -1), "{#}", 1) , "-" , " "),"_"," ") '.$myMetaNot.' LIKE' => '%'.(strpos($tempValue,'date')!==false?$myMetaValue[$tempKey]:string_unslug($myMetaValue[$tempKey])).'%'
+                        'REPLACE(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}form-'.$tempValue.'=", -1), "{#}", 1) , "-" , " "),"_"," ") '.$myMetaNot.' LIKE' => '%'.(strpos($myMetaValue[$tempKey],'_')!==false?$myMetaValue[$tempKey]:string_unslug($myMetaValue[$tempKey])).'%'
                     ));
                     
                     unset($myMetaKey[$tempKey]);

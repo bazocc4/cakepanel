@@ -1018,15 +1018,18 @@ class Entry extends AppModel {
 		return $myid;
 	}
 	
-	public function billFormatNumber($entry_type , $limit = 4)
+    // for trans ID, minimum of x digits...
+	public function billFormatNumber($entry_type , $limit = 4 , $bill_sample = NULL , $delimiter = '.')
     {
-        // for trans ID, minimum of x digits...
-        $bill_sample = date('ym' , gmt_adjustment()).'.';
-		
+        if(is_null($bill_sample))
+        {
+            $bill_sample = date('ym' , gmt_adjustment());
+        }
+        
         $trans = $this->find('first' , array(
             'conditions' => array(
                 'Entry.entry_type' => $entry_type,
-                'Entry.title LIKE' => $bill_sample.'%'
+                'Entry.title LIKE' => $bill_sample.$delimiter.'%'
             ),
             'order' => array('Entry.id DESC')
         ));
@@ -1035,11 +1038,11 @@ class Entry extends AppModel {
         $index = 1;
         if(!empty($trans))
         {
-            $pecah = explode('.', $trans['Entry']['title']);
+            $pecah = explode($delimiter, $trans['Entry']['title']);
             $index = $pecah[count($pecah) - 1] + 1;
         }
         
-        $result = $bill_sample.sprintf('%0'.$limit.'d' , $index);
+        $result = $bill_sample.$delimiter.sprintf('%0'.$limit.'d' , $index);
         return $result;
     }
 

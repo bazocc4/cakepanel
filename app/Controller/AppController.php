@@ -300,8 +300,8 @@ class AppController extends Controller {
 	
 	public function get_linkpath()
 	{
-		$test = getcwd();
-        $test2 = explode(DS , $test);
+		$test = str_replace('/', DS, getcwd() ); // beware of Linux OS ...
+		$test2 = explode(DS , $test ); 
         $result = $test2[count($test2)-3];  // get word before /app/webroot
         
         $imagePath = "";
