@@ -3,7 +3,7 @@
 	$shortkey = substr($key, 5 );
 	
 	$required = "";
-	if(strpos(strtolower($validation), 'not_empty') !== FALSE && empty($value) ) // SPECIAL CASE FOR INPUT FILE !!
+	if(strpos(strtolower($validation), 'not_empty') !== FALSE && empty($display) && empty($value) ) // SPECIAL CASE FOR INPUT FILE !!
 	{
 		$required = 'REQUIRED';
 	}

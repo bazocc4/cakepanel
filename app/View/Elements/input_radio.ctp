@@ -3,7 +3,7 @@
 	$shortkey = substr($key, 5 );
 	
 	$required = '';
-	if(strpos(strtolower($validation), 'not_empty') !== FALSE)
+	if(strpos(strtolower($validation), 'not_empty') !== FALSE && empty($display))
 	{
 		$required = 'REQUIRED';
 	}

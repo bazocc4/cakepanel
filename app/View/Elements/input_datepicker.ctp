@@ -8,7 +8,7 @@
 	$day = sprintf("%02d",$nowDate['mday']);
 	
 	$required = "";
-	if(strpos(strtolower($validation), 'not_empty') !== FALSE)
+	if(strpos(strtolower($validation), 'not_empty') !== FALSE && empty($display))
 	{
 		$required = 'REQUIRED';
 	}

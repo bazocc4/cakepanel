@@ -4,7 +4,7 @@
 	$validation = strtolower($validation);
 
 	$required = "";
-	if(strpos($validation, 'not_empty') !== FALSE)
+	if(strpos($validation, 'not_empty') !== FALSE && empty($display))
 	{
 		$required = 'REQUIRED';
 	}
