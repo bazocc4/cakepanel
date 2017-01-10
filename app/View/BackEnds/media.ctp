@@ -8,6 +8,8 @@
 	$this->Html->addCrumb($myType['Type']['name'], '/admin/entries/'.$myType['Type']['slug']);	
 ?>
 <script type="text/javascript">
+    var image_state = [];
+    
 	$("a#<?php echo $myType['Type']['slug']; ?>").addClass("active");
 	$(document).ready(function(){
 		// media sortable
@@ -25,6 +27,61 @@
 				});
 			}
 		});
+        
+        // toggle photo click !!
+        $(document).on('click', 'div.photo', function(e){            
+            if($(e.target).attr('id') != 'myDeleteMedia')
+            {
+                if( $(this).attr('data-state') == '0' )
+                {
+                    $(this).css('border-color', 'red');
+                    $(this).attr('data-state', '1');
+
+                    image_state.push( $(this).attr('alt') );
+                }
+                else
+                {
+                    $(this).css('border-color', '');
+                    $(this).attr('data-state', '0');
+
+                    var index = image_state.indexOf( $(this).attr('alt') );
+                    if (index > -1)
+                    {
+                        image_state.splice(index, 1);
+                    }
+                }
+            }            
+        });
+        
+        // delete-media-library click event !!
+        $('#delete-media-library').click(function(e){
+            e.preventDefault();            
+            if(image_state.length)
+            {
+                if(confirm("Are you sure to delete all selected images?"))
+                {
+                    $.ajaxSetup({cache: false});
+                    var url = site+"entries/deleteMediaBatch/"+image_state.join('|');
+                    
+                    $.get(url,function(result){
+                        if(result.length) // if there is error message ?
+                        {
+                            var header = 'The following image is currently associated with the following database(s) :\n\n';
+                            var footer = '\nPlease remove them first !';
+                            alert(header + result + footer);
+                        }
+                        else // execute delete process !!
+                        {					
+                            window.location = url;
+                        }	
+                    });
+                }
+            }
+            else
+            {
+                alert('Please select at least 1 image to be deleted!');
+            }
+        });
 	});
 </script>
 <div class="inner-header">
@@ -39,7 +96,8 @@
 			}
 		?>
 	</div>
-	<?php echo $this->Html->link('Upload Image',array('action'=>'upload_popup',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-primary fr get-from-library')); ?>
+	<?php echo $this->Html->link('Upload Image',array('action'=>'upload_popup',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-primary fr get-from-library', 'style'=>'margin: 0px 0px 10px 10px;')); ?>	
+	<?php echo $this->Html->link('Delete Image','#',array('id'=>'delete-media-library', 'class'=>'btn btn-danger fr')); ?>
 </div>		
 		<?php
 		echo '<div class="inner-content">';
@@ -51,6 +109,15 @@
 			<script type="text/javascript">
 				$(document).ready(function(){
 					$('#cmsAlert').css('display' , 'none');		
+                    
+                    // check for image_state !!
+                    $('div.photo').each(function(i, el){
+                        if( image_state.indexOf( $(el).attr('alt') ) > -1 )
+                        {
+                            $(el).css('border-color', 'red');
+                            $(el).attr('data-state', '1');
+                        }
+                    });
 				});
 			</script>
 		<?php
@@ -61,7 +128,7 @@
 	foreach ($myList as $p):
 	$orderlist .= $p['Entry']['sort_order'].",";
 		?>
-<div class="photo" alt="<?php echo $p['Entry']['id']; ?>">
+<div class="photo" alt="<?php echo $p['Entry']['id']; ?>" data-toggle="tooltip" title="Click to select image!" data-state="0">
 	<div class="image">
 		<?php echo $this->Html->image('upload/thumb/'.$p['Entry']['id'].'.'.$myImageTypeList[$p['Entry']['id']], array('alt' => $p['Entry']['title'],'title' => $p['Entry']['title'],'width'=>150)); ?>
 	</div>

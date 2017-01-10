@@ -7,7 +7,7 @@ var jcrop_api = new Array();
 //            fixed: true,
             maxWidth:'95%',
 //            maxHeight:'95%',
-//            current:false,
+            current: ( $('.'+objclass).attr('data-current') == 'false' ? "" : "image {current} of {total}" ),
         };
         
         if($('.'+objclass+'[rel]').length)

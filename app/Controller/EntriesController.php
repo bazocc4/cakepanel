@@ -534,11 +534,13 @@ class EntriesController extends AppController {
 	* @param integer $id get media id
 	* @return void
 	**/	
-	public function mediaused($id=NULL)
+	public function mediaused($id=NULL, $localcall = NULL)
 	{
 		$this->autoRender = FALSE;
 		if($id!=NULL)
-		{	
+		{
+            $print = "";
+            
 			// check for direct media_id in Entries...
 			$result = $this->Entry->find('all' , array(
 				'conditions' => array(
@@ -550,7 +552,7 @@ class EntriesController extends AppController {
 			
 			foreach ($result as $key => $value) 
 			{
-				echo '"' . $value['Entry']['entry_type'] . '" - ' . $value['Entry']['title'] . '
+				$print .= '"' . $value['Entry']['entry_type'] . '" - ' . $value['Entry']['title'] . '
 ';
 			}
 			
@@ -566,7 +568,7 @@ class EntriesController extends AppController {
 				));
 				foreach ($tempDetail as $key10 => $value10) 
 				{
-					echo '"' . $value10['Entry']['entry_type'] . '" - ' . $value10['Entry']['title'] . '
+					$print .= '"' . $value10['Entry']['entry_type'] . '" - ' . $value10['Entry']['title'] . '
 ';
 				}
 			}
@@ -589,7 +591,7 @@ class EntriesController extends AppController {
 					if(!empty($testImage))
 					{
 						$state = 1;
-						echo '"' . $value10['Entry']['entry_type'] . '" - ' . $value10['Entry']['title'] . '
+						$print .= '"' . $value10['Entry']['entry_type'] . '" - ' . $value10['Entry']['title'] . '
 ';
 					}
 				}
@@ -599,8 +601,45 @@ class EntriesController extends AppController {
 					$this->Entry->deleteMedia($value['Entry']['id']);
 				}
 			}
+            
+            if(empty($localcall))   echo $print;            
+            else                    return $print;
 		}
 	}
+    
+    /**
+	 * delete multiple images from media library
+	 * @param string $ids contains all id of the image entries (separated by "|")
+	 * @return void
+	 * @public
+	 **/
+    function deleteMediaBatch($ids)
+    {
+        $ids = explode('|', $ids);        
+        if( $this->request->is('ajax') ) // validate image deletion !!
+        {
+            $warning = "";
+            foreach($ids as $key => $value)
+            {
+                $warning = $this->mediaused($value, 'localcall');
+                if(!empty($warning))
+                {
+                    break;
+                }
+            }
+            echo $warning;
+        }
+        else // direct delete without validity !!
+        {
+            foreach($ids as $key => $value)
+            {
+                $this->Entry->deleteMedia($value);
+            }            
+            $this->Session->setFlash('All selected images have been deleted successfully!','success');
+            header("Location: ".$_SESSION['now']);
+            exit;
+        }
+    }
 	
 	/**
 	 * delete image from media library
@@ -1433,7 +1472,7 @@ class EntriesController extends AppController {
 			$this->request->data['Entry']['title'] = $this->request->data['Entry'][0]['value'];
 			$this->request->data['Entry']['description'] = $this->request->data['Entry'][1]['value'];
 			$this->request->data['Entry']['main_image'] = $this->request->data['Entry'][2]['value'];
-			if(isset($this->request->data['Entry'][3]['value']))
+			if(is_numeric($this->request->data['Entry'][3]['value']))
 			{
 				$this->request->data['Entry']['status'] = $this->request->data['Entry'][3]['value'];
 			}
@@ -1747,7 +1786,7 @@ class EntriesController extends AppController {
 */
 				$this->request->data['Entry']['description'] = $this->request->data['Entry'][1]['value'];
 				$this->request->data['Entry']['main_image'] = $this->request->data['Entry'][2]['value'];
-				if(isset($this->request->data['Entry'][3]['value']))
+				if(is_numeric($this->request->data['Entry'][3]['value']))
 				{
 					$this->request->data['Entry']['status'] = $this->request->data['Entry'][3]['value'];
 				}
