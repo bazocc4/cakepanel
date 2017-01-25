@@ -425,7 +425,7 @@ class EntriesController extends AppController {
 			}
         }
         
-        $this->set('contact', $result);
+        $this->set('mail_response', $result);
     }		
 	
 	function change_status($id, $status = NULL , $localcall = NULL)

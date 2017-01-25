@@ -15,7 +15,7 @@ html here ...
         <?php if(isset($_POST['submitcontact'])): ?>
             var endnote = '\n\nbest regards,\n<?php echo addslashes(html_entity_decode($mySetting['title'], ENT_COMPAT, 'UTF-8')); ?>';
             <?php
-                if($contact['success'] == 1)
+                if($mail_response['success'] == 1)
                 {
                     ?>
                 alert('Thank you for your message.\nWe will evaluate and contact back to you soon.'+endnote);
@@ -29,7 +29,7 @@ html here ...
                 alert('Invalid reCAPTCHA challenge (<?php echo $recaptcha_error; ?>)\nPlease try again.');
                         <?php
                     }
-                    else if($contact['success'] == -2)
+                    else if($mail_response['success'] == -2)
                     {
                         ?>
                 alert('Failed to connect to mailserver.\nPlease check your connection first.');

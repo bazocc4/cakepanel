@@ -3,7 +3,23 @@ class EntryMetasController extends AppController {
 	var $name = 'EntryMetas';
 	public function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow('cron');
+        $this->Auth->allow('cron', 'download');
+    }
+    
+    /* Trigger file download from frontend page. */
+    function download($file)
+    {
+        $file = getTempFolderPath().$file;
+        
+        if(file_exists($file))
+        {
+            promptDownloadFile($file);
+            exit;
+        }
+        else
+        {
+            throw new NotFoundException('Error 404 - Not Found');
+        }
     }
     
     /*
