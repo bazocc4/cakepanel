@@ -103,8 +103,9 @@ class EntriesController extends AppController {
 		// this is for redirecting home !!
 		if(empty($this->request->params['pass'][$indent]))
 		{
-			$thisIsHomeUrl = true;
 			$this->request->params['pass'][$indent] = 'home';
+            $thisIsHomeUrl = true;
+            $this->set('thisIsHomeUrl', $thisIsHomeUrl);
 		}
 		else if(strtolower($this->request->params['pass'][$indent]) == 'home')
 		{
