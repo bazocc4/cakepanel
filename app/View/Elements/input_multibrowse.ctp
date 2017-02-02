@@ -49,7 +49,10 @@
 				$metaslugs = explode('|', $value);
 				foreach ($metaslugs as $metakey => $metavalue) 
 				{
-					$metaDetails = $this->Get->meta_details($metavalue , $browse_slug);
+					$metaDetails = $this->Get->meta_details([
+                        'slug' => $metavalue,
+                        'entry_type' => $browse_slug,
+                    ]);
 					if(!empty($metaDetails))
 					{
                         // check language is matching or not !!
@@ -58,7 +61,10 @@
                             $pecahlang = explode('-', $metaDetails['Entry']['lang_code']);
                             if($lang != $pecahlang[0])
                             {
-                                $tempDetails = $this->Get->meta_details(NULL , $browse_slug , NULL , NULL , NULL , $lang.'-'.$pecahlang[1]);
+                                $tempDetails = $this->Get->meta_details([
+                                    'entry_type' => $browse_slug,
+                                    'lang' => $lang.'-'.$pecahlang[1],
+                                ]);
                                 if(!empty($tempDetails))
                                 {
                                     $metaDetails = $tempDetails;

@@ -9,7 +9,10 @@
     $metaslug = (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value);
     if(!empty($metaslug))
     {
-        $metaDetails = $this->Get->meta_details( $metaslug , $browse_slug);
+        $metaDetails = $this->Get->meta_details([
+            'slug' => $metaslug,
+            'entry_type' => $browse_slug,
+        ]);
         
         // check language is matching or not !!
         if(!empty($lang) && !empty($metaDetails))
@@ -17,7 +20,10 @@
             $pecahlang = explode('-', $metaDetails['Entry']['lang_code']);
             if($lang != $pecahlang[0])
             {
-                $tempDetails = $this->Get->meta_details(NULL , $browse_slug , NULL , NULL , NULL , $lang.'-'.$pecahlang[1]);
+                $tempDetails = $this->Get->meta_details([
+                    'entry_type' => $browse_slug,
+                    'lang' => $lang.'-'.$pecahlang[1],
+                ]);
                 if(!empty($tempDetails))
                 {
                     $metaDetails = $tempDetails;

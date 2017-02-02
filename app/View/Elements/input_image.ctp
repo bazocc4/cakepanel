@@ -27,7 +27,7 @@
 	if($crop == 2 && $value > 0)
 	{
 		$this->Get->create($data);
-		$childImage = $this->Get->meta_details(NULL , NULL , NULL , $value);
+		$childImage = $this->Get->meta_details(['id' => $value]);
 		if($childImage['Entry']['parent_id'] > 0)
 		{
 			$value = $childImage['Entry']['parent_id'];

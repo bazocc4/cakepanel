@@ -2,6 +2,12 @@
 	if(is_array($data)) extract($data , EXTR_SKIP);
 	$shortkey = substr($key, 5 );
     $browse_slug = get_slug($shortkey);
+
+    $nowDate = getdate();
+	$year = $nowDate['year'];
+	$month = sprintf("%02d",$nowDate['mon']);
+	$day = sprintf("%02d",$nowDate['mday']);
+
 	$required = "";
 	if(strpos(strtolower($validation), 'not_empty') !== FALSE && empty($display))
 	{
@@ -10,6 +16,10 @@
 ?>
 <script>
     $.fn.transformDatePicker = function(last){
+        <?php
+            if(empty($readonly))
+            {
+                ?>
         // init date picker function
 		$('div.<?php echo $browse_slug; ?>-group input.dpicker'+(last==null?'':':last') ).datepicker({
 		    changeMonth: true,
@@ -17,6 +27,9 @@
             showButtonPanel: true,
             yearRange: "-80:+20",
 		});
+                <?php
+            }
+        ?>
     }
     
 	$(document).ready(function(){
@@ -24,7 +37,7 @@
         
         $('div.<?php echo $browse_slug; ?>-group').closest('div.control-group').find('a.add-raw').click(function(){
             var content = '<div class="row-fluid bottom-spacer">';
-            content += '<input REQUIRED class="input-small dpicker" type="text"/> <a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';
+            content += '<input REQUIRED readonly="readonly" <?php echo (empty($readonly)?'style="background:white;cursor:pointer;"':''); ?> class="input-small dpicker" type="text" value="<?php echo $month."/".$day."/".$year; ?>"/> <a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>';
             content += '</div>';            
             $('div.<?php echo $browse_slug; ?>-group').append(content);            
             $.fn.transformDatePicker('last');
@@ -65,7 +78,7 @@
                 {                    
                     ?>
                 <div class="row-fluid bottom-spacer">
-                    <input REQUIRED class="input-small dpicker" type="text" value="<?php echo $metavalue; ?>"/> <a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>
+                    <input REQUIRED readonly="readonly" <?php echo (empty($readonly)?'style="background:white;cursor:pointer;"':''); ?> class="input-small dpicker" type="text" value="<?php echo $metavalue; ?>"/> <a class="btn btn-danger del-raw" href="javascript:void(0)"><i class="icon-trash icon-white"></i></a>
                 </div>
                     <?php
                 }

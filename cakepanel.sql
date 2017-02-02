@@ -78,7 +78,7 @@ CREATE TABLE `cms_entries` (
   `lang_code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=960 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=961 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +91,7 @@ INSERT INTO `cms_entries` VALUES (1,'pages','About Us','about-us','<p>\r\n	This 
 INSERT INTO `cms_entries` VALUES (2,'media','Chrysanthemum','chrysanthemum',NULL,0,0,1,0,'2013-01-15 04:14:43',2,'2017-01-10 16:03:59',2,2,'');
 INSERT INTO `cms_entries` VALUES (4,'media','Desert','desert',NULL,0,0,1,0,'2013-01-15 04:14:44',2,'2017-01-10 16:16:02',2,4,'');
 INSERT INTO `cms_entries` VALUES (40,'media','darth-maul-wall','darth-maul-wall',NULL,0,0,1,0,'2013-01-15 06:04:17',1,'2017-01-10 16:16:02',1,40,'');
-INSERT INTO `cms_entries` VALUES (6,'books','World War II Cont','world-war-ii','<p>This is the full story of world war II in America.</p>\r\n',2,0,1,15,'2013-01-15 04:48:37',1,'2016-06-14 14:09:07',1,84,'en-6');
+INSERT INTO `cms_entries` VALUES (6,'books','World War II Cont','world-war-ii','<p>This is the full story of world war II in America.</p>\r\n',2,0,1,15,'2013-01-15 04:48:37',1,'2017-02-01 17:28:06',1,84,'en-6');
 INSERT INTO `cms_entries` VALUES (7,'media','Lighthouse','lighthouse',NULL,0,0,1,0,'2013-01-15 04:58:07',1,'2017-01-10 16:16:02',1,7,'en-7');
 INSERT INTO `cms_entries` VALUES (26,'media','9037147_l','9037147-l',NULL,0,0,1,0,'2013-01-15 06:02:20',1,'2017-01-10 16:16:02',1,26,'');
 INSERT INTO `cms_entries` VALUES (9,'news','The Death of John EN','the-death-of-john-en','<p>In the 1996, there was a big war between John Maxwell and Paul Ruthridge.</p>\r\n\r\n<p>And then, John struggled to won against his enemy.</p>\r\n\r\n<p>Finally in 1997, there was an intruption about this war.</p>\r\n',7,6,0,0,'2013-01-15 04:59:41',1,'2016-06-14 14:14:23',1,73,'en-9');
@@ -202,7 +202,7 @@ INSERT INTO `cms_entries` VALUES (887,'books','Smoke-stock1191','smoke-stock1191
 INSERT INTO `cms_entries` VALUES (886,'books','super_mario_bro_by_skottieyoung-d4nh5fb','super-mario-bro-by-skottieyoung-d4nh5fb-12',NULL,59,6,1,0,'2016-06-14 14:09:06',1,'2016-06-14 14:09:06',1,886,'en-886');
 INSERT INTO `cms_entries` VALUES (885,'books','6462d28e02631147cd6ee51a744db6c6','6462d28e02631147cd6ee51a744db6c6-6',NULL,54,6,1,0,'2016-06-14 14:09:06',1,'2016-06-14 14:09:06',1,885,'en-885');
 INSERT INTO `cms_entries` VALUES (884,'books','beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7','beautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7-5',NULL,53,6,1,0,'2016-06-14 14:09:06',1,'2016-06-14 14:09:06',1,884,'en-884');
-INSERT INTO `cms_entries` VALUES (399,'news','Serangan Gerilya EN','serangan-gerilya-en','<p>Nowadays, world is happening with &quot;Gerilya War&quot;</p>\r\n',44,6,1,0,'2015-02-09 15:14:13',1,'2016-06-14 14:11:56',1,399,'en-68');
+INSERT INTO `cms_entries` VALUES (399,'news','Serangan Gerilya EN','serangan-gerilya-en','<p>Nowadays, world is happening with &quot;Gerilya War&quot;</p>\r\n',44,6,1,0,'2015-02-09 15:14:13',1,'2017-02-01 17:24:22',1,399,'en-68');
 INSERT INTO `cms_entries` VALUES (713,'magazine','batman_by_frogbillgo-d2yoamc','batman-by-frogbillgo-d2yoamc-11',NULL,57,161,1,0,'2015-06-03 11:37:01',1,'2015-06-03 11:37:01',1,713,'en-713');
 INSERT INTO `cms_entries` VALUES (720,'form-group_photo','20110610-103819','20110610-103819-13',NULL,51,161,1,0,'2015-06-03 11:37:02',1,'2015-06-03 11:37:02',1,720,'en-720');
 INSERT INTO `cms_entries` VALUES (719,'form-group_photo','super_mario_bro_by_skottieyoung-d4nh5fb','super-mario-bro-by-skottieyoung-d4nh5fb-6',NULL,59,161,1,0,'2015-06-03 11:37:02',1,'2015-06-03 11:37:02',1,719,'en-719');
@@ -271,7 +271,7 @@ CREATE TABLE `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2657 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2679 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -481,7 +481,7 @@ INSERT INTO `cms_entry_metas` VALUES (1203,364,'image_y','62');
 INSERT INTO `cms_entry_metas` VALUES (1204,364,'image_width','301');
 INSERT INTO `cms_entry_metas` VALUES (1205,364,'image_height','243');
 INSERT INTO `cms_entry_metas` VALUES (1206,72,'form-added_image','364');
-INSERT INTO `cms_entry_metas` VALUES (2457,399,'form-termin','08/21/2015|11/29/1997|03/14/2035');
+INSERT INTO `cms_entry_metas` VALUES (2674,399,'form-termin','08/21/2015|11/12/1997|03/14/2035');
 INSERT INTO `cms_entry_metas` VALUES (1305,66,'backup-slug','\nberanda\n');
 INSERT INTO `cms_entry_metas` VALUES (1304,67,'backup-slug','\ntentang-kita\n');
 INSERT INTO `cms_entry_metas` VALUES (1303,215,'backup-slug','\nkontak-kami\n');
@@ -548,8 +548,7 @@ INSERT INTO `cms_entry_metas` VALUES (2469,9,'form-termin','03/10/2015|09/23/203
 INSERT INTO `cms_entry_metas` VALUES (2472,581,'form-termin','03/10/2015|09/23/2034');
 INSERT INTO `cms_entry_metas` VALUES (1558,581,'backup-slug','\nthe-death-of-john-en-1\n');
 INSERT INTO `cms_entry_metas` VALUES (2467,9,'form-books','mario-bros|dark-magic|world-war-ii');
-INSERT INTO `cms_entry_metas` VALUES (2456,399,'form-magazine','');
-INSERT INTO `cms_entry_metas` VALUES (2455,399,'form-books','dark-magic|mario-bros');
+INSERT INTO `cms_entry_metas` VALUES (2673,399,'form-magazine','');
 INSERT INTO `cms_entry_metas` VALUES (2471,581,'form-magazine','');
 INSERT INTO `cms_entry_metas` VALUES (2470,581,'form-books','mario-bros|dark-magic|world-war-ii');
 INSERT INTO `cms_entry_metas` VALUES (1563,582,'backup-slug','\nbeautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7-1\n');
@@ -863,6 +862,7 @@ INSERT INTO `cms_entry_metas` VALUES (2533,7,'backup-slug','\nlighthouse\n');
 INSERT INTO `cms_entry_metas` VALUES (2534,4,'backup-slug','\ndesert\n');
 INSERT INTO `cms_entry_metas` VALUES (2535,2,'backup-slug','\nchrysanthemum\n');
 INSERT INTO `cms_entry_metas` VALUES (2656,53,'backup-slug','\nbeautiful-3d-vivid-multicolor-hd-desktop-wallpaper-7\n');
+INSERT INTO `cms_entry_metas` VALUES (2672,399,'form-books','dark-magic|mario-bros');
 /*!40000 ALTER TABLE `cms_entry_metas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1143,4 +1143,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-26 10:01:17
+-- Dump completed on 2017-02-02 12:48:58

@@ -415,7 +415,10 @@
                         $emptybrowse = 0;
                         foreach ($displayValue as $brokekey => $brokevalue) 
                         {
-                            $mydetails = $this->Get->meta_details($brokevalue , $browse_slug );
+                            $mydetails = $this->Get->meta_details([
+                                'slug' => $brokevalue,
+                                'entry_type' => $browse_slug,
+                            ]);
                             if(!empty($mydetails))
                             {
                                 $emptybrowse = 1;
@@ -432,7 +435,10 @@
                     }
                     else if($value10['input_type'] == 'browse')
                     {
-                        $entrydetail = $this->Get->meta_details($displayValue , get_slug($shortkey));
+                        $entrydetail = $this->Get->meta_details([
+                            'slug' => $displayValue,
+                            'entry_type' => get_slug($shortkey),
+                        ]);
                         if(empty($entrydetail))
                         {
                             echo $displayValue;
@@ -470,7 +476,7 @@
                             else
                             {
                                 $description = strip_tags($entrydetail['Entry']['description']);
-                                echo (strlen($description) > 30? '<a href="#" data-toggle="tooltip" title="'.strip_tags($entrydetail['Entry']['description'], '<br><br/><p></p>').'">'.substr($description,0,30).'...</a>' : $description);
+                                echo (strlen($description) > 30? '<a href="#" data-toggle="tooltip" title="'.htmlspecialchars(strip_tags($entrydetail['Entry']['description'], '<br><br/><p></p>')).'">'.substr($description,0,30).'...</a>' : $description);
                             }                                
                             echo '</p>';
                         }

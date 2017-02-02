@@ -147,8 +147,9 @@ class GetHelper extends AppHelper
 		return $result;
 	}
 	
-	function meta_details($slug = NULL , $entry_type = NULL , $parentId = NULL , $id = NULL , $ordering = NULL , $lang = NULL , $title = NULL)
+	function meta_details($passData = [])
 	{	
+        extract($passData , EXTR_SKIP);
 		return $this->Entry->meta_details($slug , $entry_type , $parentId , $id , $ordering , $lang , $title , (!empty($this->request->params['admin'])?NULL:1) ); // default is from FRONT-END called !!
 	}
 	
@@ -759,7 +760,7 @@ class GetHelper extends AppHelper
 		{
 			$myType = $this->Type->findBySlug($myTypeSlug);
 		}
-		$myEntry = (empty($myEntrySlug)?NULL:$this->meta_details($myEntrySlug));
+		$myEntry = (empty($myEntrySlug)?NULL:$this->meta_details(['slug' => $myEntrySlug]));
 		return $this->_admin_default($myType , 0 , $myEntry , NULL , NULL , $myChildTypeSlug , $orderField , $orderDirection , $lang);
 	}
 	

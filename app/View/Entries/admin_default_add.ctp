@@ -115,7 +115,10 @@
 					// SPECIAL CHECK !!
 					if($value['key'] == 'form-subcategory' && !empty($myEntry))
 					{
-                        $subcat_optvalue = $this->Get->meta_details($myEntry['EntryMeta']['category'] , 'category');
+                        $subcat_optvalue = $this->Get->meta_details([
+                            'slug' => $myEntry['EntryMeta']['category'],
+                            'entry_type' => 'category',
+                        ]);
                         
                         // check language is matching or not !!
                         if(!empty($lang) && !empty($subcat_optvalue))
@@ -123,7 +126,10 @@
                             $pecahlang = explode('-', $subcat_optvalue['Entry']['lang_code']);
                             if($lang != $pecahlang[0])
                             {
-                                $tempDetails = $this->Get->meta_details(NULL , 'category' , NULL , NULL , NULL , $lang.'-'.$pecahlang[1]);
+                                $tempDetails = $this->Get->meta_details([
+                                    'entry_type' => 'category',
+                                    'lang' => $lang.'-'.$pecahlang[1],
+                                ]);
                                 if(!empty($tempDetails))
                                 {
                                     $subcat_optvalue = $tempDetails;
@@ -234,7 +240,10 @@
                 {
                 	foreach ($this->request->data['Entry']['image'] as $key => $value) 
                 	{
-                		$myImage = $this->Get->meta_details(NULL , 'media' , NULL , $value);
+                		$myImage = $this->Get->meta_details([
+                            'entry_type' => 'media',
+                            'id' => $value,
+                        ]);
                 		?>
                 			<div class="photo">
                                 <div class="image">
