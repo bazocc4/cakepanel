@@ -1187,6 +1187,7 @@ class EntriesController extends AppController {
 	* @param string $searchMe[optional] contains search string that existed in bunch of entries requested
 	* @param string $popup[optional] contains how this entry is representated
 	* @param string $lang[optional] contains language of the entries that want to be retrieved
+    * @param integer $customLimit[optional] define custom query limit number for certain case
 	* @param boolean $manualset[optional] set TRUE if you want set data variable to view file OUT OF this function, otherwise set FALSE
 	* @return array $data certain bunch of entries you'd requested
 	* @public
@@ -1282,25 +1283,32 @@ class EntriesController extends AppController {
 		$countPage = $this->countListPerPage;
 		if(!empty($paging))
 		{
-			if(empty($this->request->params['admin'])) // front-end
-			{
-				foreach($myAutomaticValidation as $key => $value) 
-				{
-					if($value['key'] == 'pagination')
-					{
-						$countPage = $value['value'];
-						break;
-					}
-				}
-			}
-			else // back-end
-			{
-				if($myType['Type']['slug']=='media')
-				{
-					$countPage = $this->mediaPerPage;
-                    unset($_SESSION['order_by']);
-				}
-			}
+            if(!empty($customLimit))
+            {
+                $countPage = $customLimit;
+            }
+            else
+            {
+                if(empty($this->request->params['admin'])) // front-end
+                {
+                    foreach($myAutomaticValidation as $key => $value) 
+                    {
+                        if($value['key'] == 'pagination')
+                        {
+                            $countPage = $value['value'];
+                            break;
+                        }
+                    }
+                }
+                else // back-end
+                {
+                    if($myType['Type']['slug']=='media')
+                    {
+                        $countPage = $this->mediaPerPage;
+                        unset($_SESSION['order_by']);
+                    }
+                }
+            }
 		}
 		
 		// our list conditions... --------------------------------------------------------------////
