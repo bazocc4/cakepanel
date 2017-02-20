@@ -174,7 +174,7 @@ class TypesController extends AppController {
 		}
 		$data['left_limit'] = $left_limit;
 		$data['right_limit'] = $right_limit;
-		$this->set('data' , $data);
+		$this->set(compact('data'));
 	}
 
 	/**
@@ -187,7 +187,7 @@ class TypesController extends AppController {
 	{	
 		$this->setTitle('Add New Database');
 		$data['myParentType'] = $myParentType;
-		$this->set('data' , $data);
+		$this->set(compact('data'));
 		
 		// if form submit is taken...
 		if (!empty($this->request->data)) 
@@ -307,7 +307,7 @@ class TypesController extends AppController {
 		$data['myType'] = $myType;
 		
 		$data['myParentType'] = $myParentType;
-		$this->set('data' , $data);
+		$this->set(compact('data'));
 		
 		// if form submit is taken...
 		if (!empty($this->request->data))
@@ -453,7 +453,7 @@ class TypesController extends AppController {
 	{
 		$this->layout='ajax';
 		$this->set('inputType' , $this->get_input_types());
-		$this->set('state' , $state);
+		$this->set(compact('state'));
 		// if form submit is taken...
 		if (!empty($this->request->data))
 		{			

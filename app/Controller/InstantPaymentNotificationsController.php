@@ -219,7 +219,7 @@ class InstantPaymentNotificationsController extends AppController {
 				throw new NotFoundException('Error 404 - Not Found');
 			}
 		}
-		$this->set('data' , $data);
+		$this->set(compact('data'));
 		$this->render($this->frontEndFolder.$myRenderFile);
 	}
 	

@@ -44,9 +44,7 @@ class AccountsController extends AppController {
 			$this->set("isAjax",0);
 			unset($_SESSION['searchMe']);
 		}
-		$this->set('paging' , $paging);
-		$this->set('popup' , $popup);
-		$this->set('popupRole' , $popupRole);
+		$this->set(compact('paging', 'popup', 'popupRole'));
 		// set page title
 		$this->setTitle('Accounts');		
 		// set paging session...
@@ -64,7 +62,7 @@ class AccountsController extends AppController {
 		// find last modified...		
 		$options['order'] = array('Account.modified DESC');
 		$lastModified = $this->Account->find('first' , $options);	
-		$this->set('lastModified' , $lastModified);
+		$this->set(compact('lastModified'));
 		// end of last modified...
 		
 		$options['order'] = array('User.firstname' , 'User.lastname' , 'Account.role_id');
@@ -95,7 +93,7 @@ class AccountsController extends AppController {
 		{	
 			$myList[] = $mysqlTemp[$key];
 		}
-		$this->set('myList' , $myList);
+		$this->set(compact('myList'));
 		
 		// set New countPage
 		$newCountPage = ceil($resultTotalList * 1.0 / $countPage);
@@ -124,8 +122,7 @@ class AccountsController extends AppController {
 			}			
 		}
 		
-		$this->set('left_limit' , $left_limit);
-		$this->set('right_limit' , $right_limit);
+		$this->set(compact('left_limit', 'right_limit'));
 	}
 
 	/**
@@ -141,7 +138,7 @@ class AccountsController extends AppController {
 				"Role.id >" => 1
 			)
 		));
-		$this->set('listRoles' , $listRoles);
+		$this->set(compact('listRoles'));
 		
 		if (!empty($this->request->data)) 
 		{
@@ -192,7 +189,7 @@ class AccountsController extends AppController {
 			$this->redirect(array('action' => 'index'));
         }
         
-        $this->set('id',$id);
+        $this->set(compact('id'));
 		$this->set('myData' , $result);
 		
 		if (!empty($this->request->data)) 
@@ -378,7 +375,7 @@ class AccountsController extends AppController {
 		{
 			$this->layout = 'frontend';
 		}
-		$this->set('is_admin' , $is_admin);
+		$this->set(compact('is_admin'));
 		
         if(!empty($this->request->data))
         {

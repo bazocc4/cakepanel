@@ -10,7 +10,7 @@ class SettingsController extends AppController {
     }
 
 	function index() {
-		$this->set('title_for_layout', 'Setting');
+		$this->setTitle('Setting');
 	}
 
 	function error404()

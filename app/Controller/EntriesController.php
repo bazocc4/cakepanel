@@ -97,7 +97,7 @@ class EntriesController extends AppController {
 			
 			// sort the feed !!
 			$myList = orderby_metavalue($myList, 'Entry' , 'created' , 'DESC');
-	        return $this->set('myList' , $myList);
+	        return $this->set(compact('myList'));
 	    }
 		else if($this->request->is('ajax'))
 		{
@@ -113,7 +113,7 @@ class EntriesController extends AppController {
 		{
 			$this->request->params['pass'][$indent] = 'home';
             $thisIsHomeUrl = true;
-            $this->set('thisIsHomeUrl', $thisIsHomeUrl);
+            $this->set(compact('thisIsHomeUrl'));
 		}
 		else if(strtolower($this->request->params['pass'][$indent]) == 'home')
 		{
@@ -123,15 +123,12 @@ class EntriesController extends AppController {
 		// ---------------------------------- >>>
 		// additional set to view file !!
 		// ---------------------------------- >>>
-		$this->set('language' , $language);
-
-		// set additional url_lang !!
 		$url_lang = "";
 		if(substr(strtolower($this->mySetting['language'][0]), 0,2) != $language)
 		{
 			$url_lang = $language.'/';
 		}
-		$this->set('url_lang' , $url_lang);
+		$this->set(compact('language', 'url_lang'));
         $this->set('langPath', $this->get_linkpath().$url_lang );
 		// ---------------------------------- >>>
 		// end of additional set to view file !!
@@ -214,7 +211,7 @@ class EntriesController extends AppController {
                         'lang' => $language,
                         'manualset' => 'manualset',
                     ])['myList'];
-					$this->set('slideshow', $slideshow);
+					$this->set(compact('slideshow'));
 				}
 				else if($myEntrySlug == 'search')
 				{
@@ -1517,7 +1514,7 @@ class EntriesController extends AppController {
         
 		if(empty($manualset))
 		{
-			$this->set('data' , $data);
+			$this->set(compact('data'));
 		}
 		
 		return $data;
@@ -1566,7 +1563,7 @@ class EntriesController extends AppController {
 		if(empty($prefield_slug))
 		{
 			$this->setTitle('Add New '.(empty($myEntry)?(empty($myType)?'Pages':$myType['Type']['name']):$myEntry['Entry']['title']));
-			$this->set('data' , $data);
+			$this->set(compact('data'));
 		}
 		
 		// if form submit is taken...
@@ -1877,7 +1874,7 @@ class EntriesController extends AppController {
 			$data['parent_language'] = $parent_language;
 		}
 		// ------------------------------------------ END OF LANGUAGE OPTION LINK -------------------------------------- //
-		$this->set('data' , $data);
+		$this->set(compact('data'));
 		
 		// if form submit is taken...
 		if (!empty($this->request->data))
@@ -2220,7 +2217,7 @@ class EntriesController extends AppController {
 	public function upload_popup($myTypeSlug = NULL)
 	{			
 		$this->layout = 'ajax';	
-		$this->set('myTypeSlug' , $myTypeSlug);
+		$this->set(compact('myTypeSlug'));
 	}
 	
 	/**
@@ -2240,9 +2237,8 @@ class EntriesController extends AppController {
         {
             $paging = 1;
         }
-        $this->set('paging' , $paging);
-		$this->set('isAjax' , (is_null($mycaller) && is_null($myTypeSlug)?1:0) );		
-		$this->set('myTypeSlug' , $myTypeSlug);
+        $this->set('isAjax' , (is_null($mycaller) && is_null($myTypeSlug)?1:0) );		
+		$this->set(compact('paging', 'myTypeSlug'));
 		
 		// DEFINE MY TYPE CROP !!
 		if(!empty($myTypeSlug))
@@ -2256,7 +2252,7 @@ class EntriesController extends AppController {
 					$crop = $value['value'];
 				}
 			}
-			$this->set('crop' , $crop);
+			$this->set(compact('crop'));
 		}
 		
 		$countPage = $this->mediaPerPage;
@@ -2300,18 +2296,10 @@ class EntriesController extends AppController {
 				$left_limit = $newCountPage - 4;
 			}			
 		}
-		$this->set('left_limit' , $left_limit);
-		$this->set('right_limit' , $right_limit);
 		
-		// set mycaller...
-		if(is_null($mycaller))
-		{
-			$this->set('mycaller' , '0');
-		}
-		else
-		{
-			$this->set('mycaller' , $mycaller);
-		}		
+        // set mycaller...
+        if(is_null($mycaller))  $mycaller = 0;
+        $this->set(compact('left_limit', 'right_limit', 'mycaller'));
 	}	
 	
 	function update_slug()
@@ -2347,7 +2335,7 @@ class EntriesController extends AppController {
 
 		$myTitle = "Backup Database & Files";
 		$this->setTitle($myTitle);
-		$this->set('myTitle' , $myTitle);
+		$this->set(compact('myTitle'));
 
 		if($mode == "clean")
 		{			

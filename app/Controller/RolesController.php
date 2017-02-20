@@ -76,7 +76,7 @@ class RolesController extends AppController {
 			"order" => array("Role.id")
 		));
 		$data['myList'] = $mysql;
-		$this->set('data' , $data);
+		$this->set(compact('data'));
 	}
 
 	/**
@@ -87,7 +87,7 @@ class RolesController extends AppController {
 	function _admin_default_add()
 	{	
 		$this->setTitle('Add New Role');
-		$this->set('data' , $data);
+		$this->set(compact('data'));
 		
 		// if form submit is taken...
 		if (!empty($this->request->data)) 
@@ -123,7 +123,7 @@ class RolesController extends AppController {
 	{	
 		$this->setTitle('Edit '.$myRole['Role']['name']);
 		$data['myRole'] = $myRole;
-		$this->set('data' , $data);
+		$this->set(compact('data'));
 		
 		// if form submit is taken...
 		if (!empty($this->request->data))

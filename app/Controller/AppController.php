@@ -100,38 +100,23 @@ class AppController extends Controller {
 	
 	/**
 	* set layout title
-	* @param string $title get title
+	* @param string $title_for_layout get title
 	* @return boolean
 	**/
 	
-	public function setTitle($title=null)
+	public function setTitle($title_for_layout = null)
 	{
-		$this->set('title_for_layout', $title);
-		return false;
-	}
-	
-	/**
-	* set title for layout
-	* @param string $one title name
-	* @param string $two get title
-	* @return void
-	**/
-	
-	public function set( $one, $two = NULL )
-	{
-		if($one=='title_for_layout')
-		{
-			$findTitle = $this->Setting->findById(1);
-            if(empty($two))
-            {
-                $two = $findTitle['Setting']['value'];
-            }
-            else
-            {
-                $two .= ' | '.$findTitle['Setting']['value'];
-            }
-		}
-		parent::set($one,$two);
+        if(empty($title_for_layout))
+        {
+            $title_for_layout = $this->mySetting['title'];
+        }
+        else
+        {
+            $title_for_layout .= ' | '.$this->mySetting['title'];
+        }
+        
+		$this->set(compact('title_for_layout'));
+        return false;
 	}
 	
 	/**
@@ -143,7 +128,7 @@ class AppController extends Controller {
 	public function beforeRender($activePage='Index')
 	{
 		$this->_setErrorLayout();		
-		$this->set('activePage',$activePage);
+		$this->set(compact('activePage'));
 		$this->set('site',$this->get_host_name());
 		$this->set('imagePath',$this->get_linkpath());
 		$this->set('user',$this->user);

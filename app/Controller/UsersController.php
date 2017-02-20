@@ -51,8 +51,7 @@ class UsersController extends AppController {
 			$this->set("isAjax",0);
 			unset($_SESSION['searchMe']);
 		}
-		$this->set('paging' , $paging);
-		$this->set('popup' , $popup);
+		$this->set(compact('paging', 'popup'));
 		// set page title
 		$this->setTitle('Users');
 		// set paging session...		
@@ -70,7 +69,7 @@ class UsersController extends AppController {
 		// find last modified...		
 		$options['order'] = array('User.modified DESC');
 		$lastModified = $this->User->find('first' , $options);	
-		$this->set('lastModified' , $lastModified);
+		$this->set(compact('lastModified'));
 		// end of last modified...
 		
 		$options['order'] = array('User.firstname' , 'User.lastname');
@@ -108,7 +107,7 @@ class UsersController extends AppController {
 		{	
 			$myList[] = $mysqlTemp[$key];
 		}
-		$this->set('myList' , $myList);
+		$this->set(compact('myList'));
 		
 		// set New countPage
 		$newCountPage = ceil($resultTotalList * 1.0 / $countPage);
@@ -137,8 +136,7 @@ class UsersController extends AppController {
 			}			
 		}
 		
-		$this->set('left_limit' , $left_limit);
-		$this->set('right_limit' , $right_limit);
+		$this->set(compact('left_limit', 'right_limit'));
 	}
 	
 	/**
@@ -223,7 +221,7 @@ class UsersController extends AppController {
 	function admin_edit($id = null) 
 	{
 		$this->setTitle('Edit User');
-		$this->set('id',$id);
+		$this->set(compact('id'));
 		$result = $this->User->findById($id);
 		$myDetails = $result['UserMeta'];
 		foreach ($myDetails as $key => $value) 
