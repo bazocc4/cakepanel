@@ -588,7 +588,7 @@ class GetHelper extends AppHelper
 			case 'file':
 				if(empty($this->data['popup']))
                 {
-                    $result = "<p><a data-toggle='tooltip' title='CLICK TO DOWNLOAD FILE' href='".$this->get_linkpath()."files/".$value."'>".str_replace('_',' ',$value)."</a></p>";
+                    $result = "<p><a data-toggle='tooltip' title='CLICK TO DOWNLOAD FILE' href='".$this->get_linkpath()."entry_metas/download/".$value."'>".str_replace('_',' ',$value)."</a></p>";
                 }
                 else
                 {
@@ -644,22 +644,10 @@ class GetHelper extends AppHelper
                 }
 				break;
 			case 'checkbox':
-				
-				$pecah = explode('|', $value);
-				foreach ($pecah as $subkey => $subvalue) 
-				{
-					$pecah[$subkey] = string_unslug($subvalue);
-				}
-
-				$result = implode('<br>', $pecah);
-				
+                $result = str_replace('|', '<br>', $value);
 				break;
 			case 'image':
 				$result = '<div class="thumbs">'.(empty($this->data['popup'])?$this->Html->link($this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value]),'/img/upload/'.$value.'.'.$myImageTypeList[$value],array("escape"=>false,"class"=>"popup-image")):$this->Html->image('upload/thumb/'.$value.'.'.$myImageTypeList[$value])).'</div>';
-				break;
-			case 'radio':
-			case 'dropdown':
-				$result = strtoupper(string_unslug($value));
 				break;
 			default:
 				$result = $value;

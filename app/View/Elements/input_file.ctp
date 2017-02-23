@@ -44,7 +44,7 @@
                 ?>
         <input type="hidden" value="<?php echo $value; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
                 <?php
-                $result = "<a title='CLICK TO DOWNLOAD FILE' href='".$this->Get->get_linkpath()."files/".$value."'>".$value."</a>";
+                $result = "<a title='CLICK TO DOWNLOAD FILE' href='".$this->Get->get_linkpath()."entry_metas/download/".$value."'>".str_replace('_',' ',$value)."</a>";
                 echo '<p>'.$result.'</p>';
             }
         
