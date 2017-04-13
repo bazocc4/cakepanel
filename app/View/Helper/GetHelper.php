@@ -476,6 +476,8 @@ class GetHelper extends AppHelper
 	/**
 	* get images link based on image ID (display & thumbnail version)
 	* @param integer $id contains image id
+    * @param string $site contains CORS basic URL (optional)
+    * @param string $dataSource contains another data source to be loaded (optional)
 	* @return array $result contains all images link from selected id 
 	* @public
 	**/
@@ -492,13 +494,29 @@ class GetHelper extends AppHelper
         else
         {
             $name = $id;
-            $imagetype = $this->EntryMeta->findByEntryIdAndKey($id, 'image_type');
+            
+            if(empty($dataSource))
+            {
+                $imagetype = $this->EntryMeta->findByEntryIdAndKey($id, 'image_type');
+            }
+            else
+            {
+                $this->EntryMeta->setDataSource($dataSource);
+                $imagetype = $this->EntryMeta->findByEntryIdAndKey($id, 'image_type');
+                $this->EntryMeta->setDataSource('default');
+            }
+            
             $ext = $imagetype['EntryMeta']['value'];
         }
         
+        if(empty($site))
+        {
+            $site = parent::get_linkpath();
+        }
+        
         return array(
-            'display' => parent::get_linkpath().'img/upload/'.$name.'.'.$ext,
-            'thumbnail' => parent::get_linkpath().'img/upload/thumb/'.$name.'.'.$ext
+            'display' => $site.'img/upload/'.$name.'.'.$ext,
+            'thumbnail' => $site.'img/upload/thumb/'.$name.'.'.$ext
         );
     }
 	

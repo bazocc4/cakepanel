@@ -98,7 +98,11 @@
 			// custom style !!
 			echo $this->Html->css('admin/style');
         ?>
-<!--        <link rel="stylesheet/less" href="<?php echo $imagePath; ?>less/style.less"/>-->
+<!--
+        <link rel="stylesheet" type="text/css" href="<?php echo $imagePath; ?>slick/slick.css"/>
+		<link rel="stylesheet" type="text/css" href="<?php echo $imagePath; ?>slick/slick-theme.css"/>
+        <link rel="stylesheet/less" href="<?php echo $imagePath; ?>less/style.less"/>
+-->
         <?php
 			echo $this->Html->css('loading');
 
@@ -120,14 +124,19 @@
             // convert less into css script !!
 //          echo $this->Html->script('less.min');
 			
+            // Automatic Burger Menu jQuery !!
+//          echo $this->Html->script('jquery.ultimate-burger-menu');
+        
             // Automatic Mobile Menu jQuery !!
 //          echo $this->Html->script('jquery.mobilemenu');
 
 			// ** Use this script to check browser support HTML-5 certain input types !!
 			// ** See http://diveintohtml5.info/detect.html for more details !!
 //			echo $this->Html->script('modernizr-2.6.1.min');
-
-			// custom javascript !!
+		?>
+<!--		<script src="<?php echo $imagePath; ?>slick/slick.min.js"></script>    -->
+        <?php	
+            // custom javascript !!
 	    	echo $this->Html->script('smooth_scrolling');
 	    	echo $this->Html->script('number_format');
 			echo $this->Html->script('admin');

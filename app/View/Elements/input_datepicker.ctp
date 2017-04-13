@@ -25,6 +25,20 @@
             changeYear: true,
             showButtonPanel: true,
             yearRange: "-80:+20",
+            <?php
+                if(empty($required))
+                {
+                    ?>
+            closeText: 'Clear', // Text to show for "close" button
+            onClose: function () {
+                if ($(window.event.srcElement).hasClass('ui-datepicker-close'))
+                {
+                    document.getElementById(this.id).value = '';
+                }
+            },
+                    <?php
+                }
+            ?>
 		});
                 <?php
             }
@@ -37,9 +51,6 @@
     </label>
 	<div class="controls">
 		<input readonly="readonly" <?php echo (empty($readonly)?'style="background:white;cursor:pointer;"':''); ?> <?php echo $required; ?> class="input-small dpicker <?php echo $shortkey; ?>" type="text" value="<?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:(empty($value)?(strpos(strtolower($validation), 'not_empty') !== FALSE?$month."/".$day."/".$year:""):$value)); ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
-		<!--
-		<a href="javascript:void(0)" class="btn clear-date">Clear</a>
-		-->
 		<?php
 			if(!empty($p))
 			{

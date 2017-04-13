@@ -27,6 +27,20 @@
             changeYear: true,
             showButtonPanel: true,
             yearRange: "-80:+20",
+            <?php
+                if(empty($required))
+                {
+                    ?>
+            closeText: 'Clear', // Text to show for "close" button
+            onClose: function () {
+                if ($(window.event.srcElement).hasClass('ui-datepicker-close'))
+                {
+                    document.getElementById(this.id).value = '';
+                }
+            },
+                    <?php
+                }
+            ?>
 		});            
                 <?php
             }
