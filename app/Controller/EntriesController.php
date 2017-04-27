@@ -2163,6 +2163,32 @@ class EntriesController extends AppController {
 
 				// DELETE ENTRY METAS TOO !!
 				$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $myid));
+                
+                // GIVE LATEST POS ORDER FOR THIS IMAGE !!
+                $frontOrderSide = $this->Entry->find('all', [
+                    'conditions' => [
+                        'Entry.entry_type' => 'media',
+                        'Entry.parent_id' => 0,
+                        'Entry.sort_order >' => $checkmedia['Entry']['sort_order'],
+                    ],
+                    'order' => ['Entry.sort_order ASC'],
+                    'recursive' => -1,
+                    'fields' => ['id','sort_order'],
+                ]);
+                if(!empty($frontOrderSide))
+                {
+                    $overwriteOrder = $checkmedia['Entry']['sort_order'];
+                    foreach($frontOrderSide as $key => $value)
+                    {
+                        $this->Entry->id = $value['Entry']['id'];
+                        $this->Entry->saveField('sort_order', $overwriteOrder);
+                        
+                        $overwriteOrder = $value['Entry']['sort_order'];
+                    }
+                    
+                    $this->Entry->id = $myid;
+                    $this->Entry->saveField('sort_order', $overwriteOrder);
+                }
 			}
 			else // create new data !!
 			{
@@ -2230,6 +2256,7 @@ class EntriesController extends AppController {
 	 **/
 	public function media_popup_single($paging = NULL , $mycaller = NULL , $myTypeSlug = NULL)
 	{
+        forceNoCache();
 		$this->setTitle("Media Library");
 		$this->layout = ($this->request->is('ajax')?'ajax':'cms_blankpage');
 

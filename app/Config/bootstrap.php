@@ -687,3 +687,24 @@ function clearLogs()
         unlink($file); // delete file
     }
 }
+
+/*
+switch between any datasources for the selected models.
+*/
+function toggleDataSource($modelName = [], $dataSource = 'default')
+{
+    foreach($modelName as $key => $value)
+    {
+        ClassRegistry::init($value)->setDataSource($dataSource);
+    }
+}
+
+/*
+force NOT to cache any data source from a loaded page...
+*/
+function forceNoCache()
+{
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+}

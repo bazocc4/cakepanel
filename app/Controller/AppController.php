@@ -225,10 +225,7 @@ class AppController extends Controller {
 		// check role if admin or not...
 		if( !empty($this->request->params['admin']) )
 		{
-            header('Cache-Control: no-cache, no-store, must-revalidate');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-            
+            forceNoCache();
             if(!empty($this->user) && $this->user['role_id'] > 2)
             {
                 $this->Session->setFlash(__('Authorized access is required.'),'default',array() , 'auth');
