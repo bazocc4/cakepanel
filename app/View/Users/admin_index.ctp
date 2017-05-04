@@ -140,13 +140,13 @@
 				?>
 			</h5>
 		</td>
-		<td><?php echo string_unslug($value['UserMeta']['gender']); ?></td>
+		<td><?php echo (empty($value['UserMeta']['gender'])?"-":string_unslug($value['UserMeta']['gender'])); ?></td>
 		<td><?php echo (empty($value['UserMeta']['address'])?"-":$value['UserMeta']['address']); ?></td>
 		<td><?php echo (empty($value['UserMeta']['zip_code'])?"-":$value['UserMeta']['zip_code']); ?></td>
 		<td><?php echo (empty($value['UserMeta']['city'])?"-":$value['UserMeta']['city']); ?></td>
 		<td><?php echo (empty($value['UserMeta']['phone'])?"-":$value['UserMeta']['phone']); ?></td>
-		<td><?php echo (empty($value['UserMeta']['mobile_phone'])?"-":$value['UserMeta']['mobile_phone']); ?></td>		
-		<td><?php echo sprintf("%02d" , $value['UserMeta']['dob_day']).' '.date("F", mktime(0, 0, 0, $value['UserMeta']['dob_month'], 10)).' '.$value['UserMeta']['dob_year']; ?></td>				
+		<td><?php echo (empty($value['UserMeta']['mobile_phone'])?"-":$value['UserMeta']['mobile_phone']); ?></td>
+		<td><?php echo (empty($value['UserMeta']['dob_day'])||empty($value['UserMeta']['dob_month'])||empty($value['UserMeta']['dob_year'])?"-":sprintf("%02d" , $value['UserMeta']['dob_day']).' '.date("F", mktime(0, 0, 0, $value['UserMeta']['dob_month'], 10)).' '.$value['UserMeta']['dob_year']); ?></td>
 		<td><?php echo date_converter($value['User']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?></td>
 		<td <?php echo (empty($popup)?'':'class="offbutt"'); ?>>
 			<span class="label <?php echo $value['User']['status']==0?'label-important':'label-success'; ?>">

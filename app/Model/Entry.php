@@ -1067,7 +1067,19 @@ class Entry extends AppModel {
 
 			if($temp < $countLang)
 			{
-				return $entry['Entry']['slug'];
+                // last check: multilanguage status of its entry_type !!
+                $multiLang = $this->TypeMeta->find('count', [
+                    'conditions' => [
+                        'Type.slug' => $entry['Entry']['entry_type'],
+                        'TypeMeta.key' => 'multi_language',
+                        'TypeMeta.value' => 'enable',
+                    ],
+                ]);
+                
+                if(!empty($multiLang))
+                {
+                    return $entry['Entry']['slug'];
+                }
 			}
 		}
 		

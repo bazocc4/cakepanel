@@ -1,4 +1,14 @@
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<script type="text/javascript">
+    var ReCaptchaCallback = function() {
+     $('.g-recaptcha').each(function(){
+         $(this).attr('data-id', grecaptcha.render($(this).get(0), {
+             'sitekey' : $(this).data("sitekey"),
+             'theme' : $(this).data("theme"),
+         }) );
+     });  
+    };
+</script>
+<script src="https://www.google.com/recaptcha/api.js?onload=ReCaptchaCallback&render=explicit" async defer></script>
 <?php
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
@@ -7,11 +17,25 @@
 <!-- 
 html here ...
  -->
-<div class="g-recaptcha center-block" data-sitekey="6LfKQBkTAAAAADjqRH2tGuaNHobpjmZ3EVGRqWzV" style="width: 304px;"></div> 
+<form class="recaptcha-reset-form" action="#" method="POST" role="form" enctype="multipart/form-data" accept-charset="utf-8">
+    <div class="g-recaptcha center-block" data-theme="light" data-sitekey="6LfKQBkTAAAAADjqRH2tGuaNHobpjmZ3EVGRqWzV" style="width: 304px;"></div>
+    <br>
+    <input type="submit" value="Reset Recaptcha (Light Theme)">
+</form> 
+<form class="recaptcha-reset-form" action="#" method="POST" role="form" enctype="multipart/form-data" accept-charset="utf-8">
+    <div class="g-recaptcha center-block" data-theme="dark" data-sitekey="6LfKQBkTAAAAADjqRH2tGuaNHobpjmZ3EVGRqWzV" style="width: 304px;"></div>
+    <br>
+    <input type="submit" value="Reset Recaptcha (Dark Theme)">
+</form>
 
 <!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript">
     $(document).ready(function(){
+        $('form.recaptcha-reset-form').submit(function(e){
+            e.preventDefault();
+            grecaptcha.reset($(this).find('.g-recaptcha').data('id'));
+        });
+        
         <?php if(isset($_POST['submitcontact'])): ?>
             var endnote = '\n\nbest regards,\n<?php echo addslashes(html_entity_decode($mySetting['title'], ENT_COMPAT, 'UTF-8')); ?>';
             <?php
