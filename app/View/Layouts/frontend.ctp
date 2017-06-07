@@ -94,6 +94,9 @@
 			echo $this->Html->css('bootstrap');
 //			echo $this->Html->css('bootstrap-3');
 			echo $this->Html->css('colorbox');
+        
+            // datetimepicker UI styles !!
+            echo $this->Html->css('smoothness/jquery-ui-1.12.1.min');
 			
 			// custom style !!
 			echo $this->Html->css('admin/style');
@@ -112,10 +115,15 @@
             echo $this->Html->script('jquery-1.11.0.min');
 			echo $this->Html->script('jquery-migrate-1.2.1.min'); // Migrate older jQuery code to jQuery 1.9+
 			echo $this->Html->script('jquery.fitvids'); // make video in ckeditor being responsive !!
-
+        
             // Colorbox !!
 			echo $this->Html->script('jquery.colorbox');			
 			echo $this->Html->script('colorbox_resize'); // make colorbox responsive !!
+        
+            // datetimepicker UI script !!
+            echo $this->Html->script('jquery-ui-1.12.1.min');
+            echo $this->Html->script('jquery-ui-touch-punch');
+            echo $this->Html->script('jquery-ui-timepicker-addon');
 
 			// bootstrap script !!
 			echo $this->Html->script('bootstrap.min');

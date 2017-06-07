@@ -364,7 +364,7 @@ function getTempFolderPath()
 	* @return true
 	* @public
 	**/
-function convertExcelVersion($inputPath,$outputPath)
+function convertExcelVersion($inputPath,$outputPath, $insertLogo = false)
 {
 	App::import('Vendor', 'phpexcel');
 
@@ -373,6 +373,18 @@ function convertExcelVersion($inputPath,$outputPath)
   
     $objExcel = $objReader->load($inputPath);
 	$objExcel->setActiveSheetIndex(0); // set first sheet as active (default) ...
+    
+    // draw logo image ...
+    if($insertLogo)
+    {
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Logo');
+        $objDrawing->setDescription('Logo');
+        $objDrawing->setPath(WWW_ROOT.'images'.DS.'logo.png');
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setHeight(80);
+        $objDrawing->setWorksheet($objExcel->getActiveSheet());
+    }
 
     $outputFileType = 'Excel2007';
     $objWriter = PHPExcel_IOFactory::createWriter($objExcel,$outputFileType);

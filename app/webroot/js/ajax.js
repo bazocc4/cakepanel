@@ -2,6 +2,11 @@ var instance = '';
 var delayCloseWindow = 2000; // delay for closing window popup (in ms) !!
 var windowObjectReference = [];
 
+function nl2br (str, is_xhtml) {   
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';    
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
+}
+
 function string_unslug(str)
 {
 	var temp = str.split('_');
@@ -84,6 +89,11 @@ function openRequestedSinglePopup(strUrl , targetName)
 	}
 	
 	$.fn.isOnScreen = function(){
+        if( ! this.is(':visible') )
+        {
+            return false;
+        }
+        
 	    var win = $(window);
 	    
 	    var viewport = {
