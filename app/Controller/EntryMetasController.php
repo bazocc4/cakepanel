@@ -6,6 +6,21 @@ class EntryMetasController extends AppController {
         $this->Auth->allow('cron', 'download');
     }
     
+    /* CKEDITOR.config.filebrowserUploadUrl target link.  */
+    function cke_upload_url()
+    {
+        $this->autoRender = false;
+        
+        uploadFile($_FILES['upload']);
+        
+        $callback = $_GET['CKEditorFuncNum'];
+        $url = $this->get_linkpath().'entry_metas/download/'.$_FILES['upload']['name'];
+        $msg = 'File \\"'.$_FILES['upload']['name'].'\\" has been uploaded successfully!';
+        
+        $output = '<html><body><script type="text/javascript">window.parent.CKEDITOR.tools.callFunction('.$callback.', "'.$url.'","'.$msg.'");</script></body></html>';
+        echo $output;
+    }
+    
     /* Trigger file download from frontend page. */
     function download($file)
     {

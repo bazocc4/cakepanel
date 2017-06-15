@@ -389,10 +389,13 @@ function openRequestedSinglePopup(strUrl , targetName)
 		// inject media URL to ckeditor config >>
 		var mediaURL = site+'entries/media_popup_single/1/ckeditor/'+$('input#myTypeSlug').val();
 		CKEDITOR.config.filebrowserBrowseUrl = mediaURL;
-		CKEDITOR.config.filebrowserUploadUrl = mediaURL;
 		CKEDITOR.config.filebrowserImageBrowseUrl = mediaURL;
 		CKEDITOR.config.filebrowserImageUploadUrl = mediaURL;
+        
+        // upload custom file !!
+        CKEDITOR.config.filebrowserUploadUrl = site+'entry_metas/cke_upload_url';
 
+        // callback event on instanceReady !!
 		CKEDITOR.on('instanceReady', function (event) {		
 			// update sidebar line css, if ckeditor existed ...
 			var content_height = $('.content').height();
