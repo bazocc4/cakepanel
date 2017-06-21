@@ -48,8 +48,8 @@
                 {
                     if(!empty($myEntry['Entry']['title']))
                     {
-                        echo '<meta property="og:title" content="'.$myEntry['Entry']['title'].'" />';
-                        echo '<meta name="twitter:title" content="'.$myEntry['Entry']['title'].'">';
+                        echo '<meta property="og:title" content="'.strip_tags($myEntry['Entry']['title']).'" />';
+                        echo '<meta name="twitter:title" content="'.strip_tags($myEntry['Entry']['title']).'">';
                     }
 
                     if(!empty($myEntry['EntryMeta']['teaser']))
