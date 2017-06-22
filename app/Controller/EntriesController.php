@@ -1715,9 +1715,9 @@ class EntriesController extends AppController {
                         // ONE MORE CHECKER STEP !!
                         if(strpos($value['validation'], 'is_numeric') !== FALSE)
                         {
-                            $value['value'] = (float)$value['value'];
+                            $this->request->data['EntryMeta']['value'] = (float)$this->request->data['EntryMeta']['value'];
                         }
-                        if(!empty($value['value']))
+                        if(!empty($this->request->data['EntryMeta']['value']))
                         {
                             $this->EntryMeta->create();
                             $this->EntryMeta->save($this->request->data);
@@ -2065,9 +2065,9 @@ class EntriesController extends AppController {
                                 // ONE MORE CHECKER STEP !!
                                 if(strpos($value['validation'], 'is_numeric') !== FALSE)
                                 {
-                                    $value['value'] = (float)$value['value'];
+                                    $this->request->data['EntryMeta']['value'] = (float)$this->request->data['EntryMeta']['value'];
                                 }
-                                if(!empty($value['value']))
+                                if(!empty($this->request->data['EntryMeta']['value']))
                                 {
                                     $this->EntryMeta->create();
                                     $this->EntryMeta->save($this->request->data);
