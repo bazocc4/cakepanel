@@ -104,6 +104,21 @@
 			$value['input_type'] = ($titleIsDate?'datepicker':'text');
 			$value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['title']);
 			echo $this->element('input_'.$value['input_type'] , $value);
+        
+            if(!empty($myEntry) && empty($lang))
+            {
+                $value = array();
+                $value['key'] = 'form-url_code';
+                $value['validation'] = 'not_empty';
+                $value['model'] = 'Entry';
+                $value['counter'] = 4;
+                $value['input_type'] = 'text';
+                $value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['slug']);
+                
+                $value['p'] = 'URL slug code for this entry data.<br>Rules: <strong style=\'color:red;\'>No white-space, lowercase alphanumeric only!</strong>';
+                
+                echo $this->element('input_'.$value['input_type'] , $value);
+            }
 		?>
 		<!-- BEGIN TO LIST META ATTRIBUTES -->
 		<?php

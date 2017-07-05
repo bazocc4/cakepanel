@@ -502,6 +502,38 @@ class Entry extends AppModel {
 		if(!empty($this->data['Entry']['slug']))
 		{
 			$this->data['Entry']['slug'] = $this->get_valid_slug($this->data['Entry']['slug'] , $this->id);
+            
+            if( $this->id ) // EDIT MODE !!
+            {
+                $old_data = $this->find('first', [
+                    'conditions' => [
+                        'Entry.id' => $this->id,
+                    ],
+                    'recursive' => -1,
+                    'fields' => ['entry_type','slug'],
+                ]);
+                if($old_data && $old_data['Entry']['slug'] != $this->data['Entry']['slug'])
+                {
+                    // update slug in another EntryMeta table !!
+                    $metaKey = $this->TypeMeta->find('all', [
+                        'conditions' => [
+                            'Type.slug <>' => $old_data['Entry']['entry_type'],
+                            'TypeMeta.input_type' => ['browse', 'multibrowse'],
+                        ],
+                        'fields' => ['Type.slug', 'TypeMeta.key'],
+                    ]);
+                    
+                    $metaConditions = array_map(function($value) use($old_data){
+                        return [
+                            'Entry.entry_type' => $value['Type']['slug'],
+                            'EntryMeta.key' => $value['TypeMeta']['key'],
+                            'EntryMeta.value LIKE' => '%'.$old_data['Entry']['slug'].'%',
+                        ];
+                    }, $metaKey);
+                    
+                    $this->EntryMeta->updateAll(['EntryMeta.value' => "TRIM(BOTH '|' FROM REPLACE(CONCAT('|',EntryMeta.value,'|'), '|".$old_data['Entry']['slug']."|', '|".$this->data['Entry']['slug']."|'))" ], ['OR' => $metaConditions]);
+                }
+            }
 		}
         
         // renew the modifier !!

@@ -1889,6 +1889,14 @@ class EntriesController extends AppController {
                     $this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
                 }
 */
+                // ================== >>
+                // MANUALLY EDIT SLUG !!
+                // ================== >>
+                if(!empty($this->request->data['Entry'][4]['value']))
+                {
+                    $this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry'][4]['value']);
+                }
+                
 				$this->request->data['Entry']['description'] = $this->request->data['Entry'][1]['value'];
 				$this->request->data['Entry']['main_image'] = $this->request->data['Entry'][2]['value'];
 				if(is_numeric($this->request->data['Entry'][3]['value']))
