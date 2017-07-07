@@ -3,7 +3,7 @@
 	$shortkey = substr($key, 5 );
 	
 	$required = "";
-	if(strpos(strtolower($validation), 'not_empty') !== FALSE && empty($display))
+	if(strpos(strtolower($validation), 'not_empty') !== FALSE && empty($display) && empty($myEntry) )
 	{
 		$required = 'REQUIRED';
 	}
@@ -14,13 +14,19 @@
     </label>
 	<div class="controls">
 		<input type="password" style="display: none;">
-		<input <?php echo $required; ?> class="input-xlarge <?php echo $shortkey; ?>" type="password" value="<?php echo $value; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
-		<?php
-			if(!empty($p))
-			{
-				echo '<p class="help-block">'.$p.'</p>';
-			}
-		?>
+		<input <?php echo $required; ?> class="input-xlarge <?php echo $shortkey; ?>" type="password" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
+        <p class="help-block">
+            <?php
+                echo $p;
+                if(!empty($myEntry))
+                {
+                    ?>
+            <br>        
+            <span style="color:red;">NB: Ignore this field if you don't plan to change the password.</span>        
+                    <?php
+                }
+            ?>
+        </p>
 	</div>
 	<input type="hidden" value="<?php echo $key; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][key]"/>
 	<input type="hidden" value="<?php echo $input_type; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][input_type]"/>

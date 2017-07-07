@@ -54,8 +54,8 @@ class EntryMeta extends AppModel {
         $this->EntryMeta = $this; // just as alias ...
 		$this->Account = ClassRegistry::init('Account');
 	}
-	
-	/**
+    
+    /**
 	 * retrieve all image types in one indexing array based on that image id as selector
 	 * @param string $type contain type attribute of the image (default is image type)
 	 * @return array $imgTypeList contains array of image type lists

@@ -194,7 +194,7 @@ class EntriesController extends AppController {
 				// other language version of "homepage"
 				if($myEntrySlug == 'home' && substr(strtolower($this->mySetting['language'][0]), 0,2) != $language)
 				{
-					$myEntry = $this->Entry->findByLangCode( $language.'-'.$myEntry['Entry']['id'] );
+					$myEntry = $this->meta_details(['lang' => $language.'-'.$myEntry['Entry']['id']]);
 				}
 				
 				$tempdata = array();
@@ -1150,7 +1150,7 @@ class EntriesController extends AppController {
 	function get_detail_entry($myEntryId)
 	{
 		$this->autoRender = FALSE;
-		$myEntry = $this->Entry->findById($myEntryId);
+		$myEntry = $this->meta_details(['id' => $myEntryId]);
 		
 		// if this is a child Entry...
 		if($myEntry['Entry']['parent_id'] > 0)
@@ -1707,6 +1707,10 @@ class EntriesController extends AppController {
 						{
 							$this->request->data['EntryMeta']['value'] = implode('|', array_unique(array_filter($value['value'])) );
 						}
+                        else if($value['input_type'] == 'password')
+                        {
+                            $this->request->data['EntryMeta']['value'] = md5($value['value']);
+                        }
 						else
 						{
 							$this->request->data['EntryMeta']['value'] = ($value['input_type'] == 'checkbox'?implode("|",$value['value']):$value['value']);
@@ -1924,7 +1928,7 @@ class EntriesController extends AppController {
 					$myDetails = $this->request->data['EntryMeta'];
 					foreach ($myDetails as $key => $value) 
 					{
-						if($value['input_type']=='file')				{continue;}
+						if($value['input_type']=='file' || $value['input_type']=='password')	{continue;}
 						else if($value['input_type']=='multibrowse')	{$value['value'] = array_unique(array_filter($value['value']));}
 							
 						// firstly DO checking validation from view layout !!!
@@ -2024,7 +2028,12 @@ class EntriesController extends AppController {
 	                // Insert New EntryMeta ...
 					$this->request->data['EntryMeta']['entry_id'] = $myEntry['Entry']['id'];
 					foreach ($myDetails as $key => $value)
-					{	
+					{
+                        if($value['input_type'] == 'password')
+                        {
+                            $value['value'] = (!empty($value['value'])?md5($value['value']):$myEntry['EntryMeta'][substr($value['key'], 5)]);
+                        }
+                        
 						if(!empty($value['value']) && substr($value['key'], 0,5) == 'form-')
 						{
 							if($value['input_type'] == 'file')
@@ -2054,7 +2063,7 @@ class EntriesController extends AppController {
                                     }
                                 }
 							}
-							else
+                            else
 							{
 								$this->request->data['EntryMeta']['key'] = $value['key'];
 								if($value['input_type'] == 'image' && isset($value['w']) && isset($value['h']))
