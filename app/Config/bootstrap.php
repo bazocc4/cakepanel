@@ -364,7 +364,7 @@ function getTempFolderPath()
 	* @return true
 	* @public
 	**/
-function convertExcelVersion($inputPath,$outputPath, $insertLogo = false)
+function convertExcelVersion($inputPath,$outputPath, $insertLogo = false, $password = null, $hideGridlines = null, $freezePane = null)
 {
 	App::import('Vendor', 'phpexcel');
 
@@ -384,6 +384,22 @@ function convertExcelVersion($inputPath,$outputPath, $insertLogo = false)
         $objDrawing->setCoordinates('A1');
         $objDrawing->setHeight(80);
         $objDrawing->setWorksheet($objExcel->getActiveSheet());
+    }
+    
+    // Set password for readonly activesheet
+    if(!empty($password))
+    {
+        $objExcel->getActiveSheet()->getProtection()->setSheet(true)->setPassword($password);
+    }
+    
+    if(!empty($hideGridlines))
+    {
+        $objExcel->getActiveSheet()->setShowGridlines(false);
+    }
+    
+    if(!empty($freezePane))
+    {
+        $objExcel->getActiveSheet()->freezePane($freezePane);
     }
 
     $outputFileType = 'Excel2007';
