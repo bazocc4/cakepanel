@@ -1194,6 +1194,7 @@ class EntriesController extends AppController {
         set_time_limit(60); // 1 MINUTE time limit execution.
         extract($passData , EXTR_SKIP);
         
+        $data = [];
         if(is_null($paging))
 		{
 			$paging = 1;
@@ -1530,6 +1531,7 @@ class EntriesController extends AppController {
 	**/
 	function _admin_default_add($myType = array() , $myEntry = array() , $myChildTypeSlug = NULL , $lang_code = NULL , $prefield_slug = NULL)
 	{
+        $data = [];
 		$myChildType = $this->Type->findBySlug($myChildTypeSlug);
 		$data['myType'] = $myType;
 		$data['myParentEntry'] = $myEntry;
@@ -1811,6 +1813,7 @@ class EntriesController extends AppController {
 	**/
 	function _admin_default_edit($myType = array() , $myEntry = array() , $myParentEntry = array() , $myChildTypeSlug = NULL , $lang = NULL)
 	{
+        $data = [];
 		if ($this->request->is('ajax')) 
 		{	
 			$this->layout = 'ajax';

@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `cms_accounts` (
 --
 
 INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `password`, `last_login`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 1, 'admin', 'admin@yahoo.com', '169e781bd52860b584879cbe117085da596238f3', '2015-07-29 14:26:03', '2013-01-04 00:00:00', 1, '2013-01-04 00:00:00', 1),
+(1, 1, 1, 'admin', 'admin@yahoo.com', '1d77e03c6e6da258ed15229d957001d56298169e', '2015-07-29 14:26:03', '2013-01-04 00:00:00', 1, '2013-01-04 00:00:00', 1),
 (2, 2, 2, 'Andy Basuki', 'andybasuki88@gmail.com', 'd82dff1679e0137a0bab60cc67cc6a2ad36f10a0', '2015-07-17 10:54:47', '2015-07-17 10:54:24', 1, '2015-07-17 10:54:24', 1);
 
 -- --------------------------------------------------------
