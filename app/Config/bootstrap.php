@@ -685,22 +685,15 @@ function Zip($source, $destination)
 	} 
 }
 
-/*
-cut 1st html paragraph from ckeditor as a teaser
-*/
-function teasering($html)
+function teasering($html, $maxchar = 200)
 {
-    $html = str_ireplace( array('<p>','</p>','<br />') , array('', '<br>', '<br>') , $html );
-    $br = stripos($html, '<br>');
+    $result = strip_tags($html);
     
-    if($br === false)
+    if(strlen($result) > $maxchar)
     {
-        $result = $html;
+        $result = substr($result, 0,  strpos($result, ' ', $maxchar)  ).' ...';
     }
-    else
-    {
-        $result = substr($html, 0, $br);
-    }
+    
     return $result;
 }
 
