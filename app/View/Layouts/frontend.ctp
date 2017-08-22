@@ -7,16 +7,15 @@
 <html lang="<?php echo (empty($language)?'en':$language); ?>">
 	<head>
 		<?php echo $this->Html->charset(); ?>
-		<title>
-			<?php echo $title_for_layout; ?>
-		</title>
-		<?php
-			echo $this->Html->meta('rss' , '/entries/index.rss');
-		?>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<?php echo $this->Html->meta('rss' , '/entries/index.rss'); ?>
 		<meta name="author" content="<?php echo $mySetting['title']; ?>">		
 		<meta name="keywords" content="<?php echo $mySetting['tagline']; ?>">		
 		<meta name="description" content="<?php echo $mySetting['description']; ?>">
+		<title><?php echo $title_for_layout; ?></title>
 		<?php
             // ----------------- Open Graph protocol ---------------------
             echo '<meta property="og:url" content="http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'" />';
@@ -97,16 +96,18 @@
         
             // datetimepicker UI styles !!
             echo $this->Html->css('smoothness/jquery-ui-1.12.1.min');
-			
-			// custom style !!
-			echo $this->Html->css('admin/style');
         ?>
 <!--
         <link rel="stylesheet" type="text/css" href="<?php echo $imagePath; ?>slick/slick.css"/>
 		<link rel="stylesheet" type="text/css" href="<?php echo $imagePath; ?>slick/slick-theme.css"/>
-        <link rel="stylesheet/less" href="<?php echo $imagePath; ?>less/style.less"/>
 -->
         <?php
+            // custom style !!
+            echo $this->Html->css('admin/style');
+/*
+            echo '<link rel="stylesheet/less" href="'.$imagePath.'less/style.less"/>';
+            echo $this->Html->script('less.min'); // convert less into css script !!
+*/
 			echo $this->Html->css('loading');
 
 			// ================================================== >>>
@@ -129,9 +130,6 @@
 			echo $this->Html->script('bootstrap.min');
 //			echo $this->Html->script('bootstrap.min-3');
         
-            // convert less into css script !!
-//          echo $this->Html->script('less.min');
-			
             // Automatic Burger Menu jQuery !!
 //          echo $this->Html->script('jquery.ultimate-burger-menu');
         

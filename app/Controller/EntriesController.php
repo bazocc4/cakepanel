@@ -175,7 +175,7 @@ class EntriesController extends AppController {
                 if($myTypeSlug == 'contact')
 				{
 					// if submit contact form !!
-	            	if(isset($_POST['submitcontact']))
+	            	if(!empty($_POST['emailcontact']))
 					{
 						$this->submit_contact();
 					}
@@ -436,7 +436,7 @@ class EntriesController extends AppController {
             $this->set('recaptcha_error' , 'reCAPTCHA box must be clicked' );
             $valid = false;
         }
-        else if( ! json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LfKQBkTAAAAAOu7OG8G6Hhun1-636xMkITUQVGq&response=".$_POST["g-recaptcha-response"]."&remoteip=".$_SERVER["REMOTE_ADDR"]), true)['success'])
+        else if( ! json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeVtS0UAAAAANAxpcVsxokFXVR0RqtuWHEVsl97&response=".$_POST["g-recaptcha-response"]."&remoteip=".$_SERVER["REMOTE_ADDR"]), true)['success'])
         {
             # set the error code so that we can display it
             $this->set('recaptcha_error' , 'robot verification failed' );
