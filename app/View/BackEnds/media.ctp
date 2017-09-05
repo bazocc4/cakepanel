@@ -12,23 +12,7 @@
     
 	$("a#<?php echo $myType['Type']['slug']; ?>").addClass("active");
 	$(document).ready(function(){
-		// media sortable
-		$("div.list").sortable({ opacity: 0.6, cursor: 'move',
-			stop: function(event, ui) {
-				var tmp = '';
-				// construct
-				$('div.list div.photo').each(function(){
-					tmp += $(this).attr('alt') + ',';
-				});				
-				$.ajaxSetup({cache: false});
-				$.post(site+'entries/reorder_list',{
-					src_order: $('input[type=hidden]#determine').val(),
-					dst_order: tmp
-				});
-			}
-		});
-        
-        // toggle photo click !!
+		// toggle photo click !!
         $(document).on('click', 'div.photo', function(e){            
             if($(e.target).attr('id') != 'myDeleteMedia')
             {
@@ -82,29 +66,55 @@
                 alert('Please select at least 1 image to be deleted!');
             }
         });
+        
+        // trigger search function !!
+        $('input#searchMe').keyup(function(e){
+            var code = e.keyCode || e.which;
+            if(code == 13) { //Enter keycode
+               $('a.searchMeLink').click();
+            }
+		});
 	});
 </script>
-<div class="inner-header">
-	<div class="title">
-		<h2><?php echo $totalList.' '.strtoupper(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title']); ?></h2>
-		<?php
-			if(!empty($lastModified))
-			{
-				?>
-				<p id="id-title-description" class="title-description">Last updated by <a href="#"><?php echo (empty($lastModified['AccountModifiedBy']['username'])?$lastModified['AccountModifiedBy']['email']:$lastModified['AccountModifiedBy']['username']).'</a> on '.date_converter($lastModified['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?></p>
-				<?php
-			}
-		?>
-	</div>
-	<?php echo $this->Html->link('Upload Image',array('action'=>'upload_popup',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-primary fr get-from-library', 'style'=>'margin: 0px 0px 10px 10px;')); ?>	
-	<?php echo $this->Html->link('Delete Image','#',array('id'=>'delete-media-library', 'class'=>'btn btn-danger fr')); ?>
+<div class="inner-header row-fluid">
+    <div class="span5">
+        <div class="title">
+            <h2><?php echo $totalList.' '.$myType['Type']['name']; ?></h2>
+            <?php
+                if(!empty($lastModified))
+                {
+                    ?>
+                    <p id="id-title-description" class="title-description">
+                        Last updated by <a href="javascript:;"><?php echo (empty($lastModified['AccountModifiedBy']['username'])?$lastModified['AccountModifiedBy']['email']:$lastModified['AccountModifiedBy']['username']); ?></a> at <?php echo date_converter($lastModified['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?>
+                    </p>
+                    <?php
+                }
+            ?>
+        </div>
+    </div>
+    <div class="span7">
+        <?php echo $this->Html->link('Upload Image',array('action'=>'upload_popup',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-primary fr get-from-library', 'style'=>'margin: 0px 0px 10px 10px;')); ?>	
+        <?php echo $this->Html->link('Delete Image','#',array('id'=>'delete-media-library', 'class'=>'btn btn-danger fr', 'style'=>'margin-bottom: 10px;')); ?>
+        <div class="input-prepend" style="margin-right: 10px; margin-left: 10px;">
+            <span class="add-on" style="margin-right: 3px; margin-top : 9px;">
+                <?php
+                    echo $this->Html->link("<i class='icon-search'></i>",array("action"=>$myType['Type']['slug'],'index','1') , array("class"=>"ajax_mypage searchMeLink","escape"=>false));
+                ?>
+            </span>
+            <input style="width: 160px;" id="searchMe" class="span2" type="text" placeholder="search media here...">
+        </div>
+    </div>
 </div>		
 		<?php
-		echo '<div class="inner-content">';
+		echo '<div class="inner-content" id="inner-content">';
 		echo '<div id="ajaxed" class="list">';
 	}
 	else
 	{
+        if($search == "yes")
+		{
+			echo '<div id="ajaxed" class="list">';
+		}
 		?>
 			<script type="text/javascript">
 				$(document).ready(function(){
@@ -123,6 +133,25 @@
 		<?php
 	}
 ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        // media sortable
+        $('div.list').sortable({ opacity: 0.6, cursor: 'move',
+			stop: function(event, ui) {
+				var tmp = '';
+				// construct
+				$('div.list div.photo').each(function(){
+					tmp += $(this).attr('alt') + ',';
+				});				
+				$.ajaxSetup({cache: false});
+				$.post(site+'entries/reorder_list',{
+					src_order: $('input[type=hidden]#determine').val(),
+					dst_order: tmp
+				});
+			}
+		});
+    });
+</script>
 <?php
 	$orderlist = "";
 	foreach ($myList as $p):
@@ -147,11 +176,12 @@
 <!-- myTypeSlug is for media upload settings purpose !! -->
 <input type="hidden" value="<?php echo $myType['Type']['slug']; ?>" size="100" id="myTypeSlug"/>
 <?php
-	if($isAjax == 0)
+	if($isAjax == 0 || $isAjax == 1 && $search == "yes")
 	{
 		echo '</div>';
 		echo $this->element('admin_footer');
-		echo '</div>';
+		echo '<div class="clear"></div>';
+		echo ($isAjax==0?"</div>":"");
 	}
 ?>
 

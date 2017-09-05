@@ -90,7 +90,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		if(!($(this).parent("li").hasClass("disabled") || $(this).parent("li").hasClass("active")))
 		{				
-			$.fn.ajax_mylink($(this),"popup-ajaxed" , null , "media");
+			$.fn.ajax_mylink($(this),($(this).hasClass('searchMeLink')?"popup-inner-content":"popup-ajaxed") , null , "media");
 		}
 	});
 

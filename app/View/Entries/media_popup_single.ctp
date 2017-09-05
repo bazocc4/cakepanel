@@ -10,6 +10,17 @@
 	{
 		?>
 <!--      ----------------------------------------------------------------------------------------------------------		 -->
+<script>
+    $(document).ready(function(){
+        // trigger search function !!
+        $('input#searchMe').keyup(function(e){
+            var code = e.keyCode || e.which;
+            if(code == 13) { //Enter keycode
+               $('a.searchMeLink').click();
+            }
+		});
+    });
+</script>
 <input type="hidden" value="<?php echo $crop; ?>" id="updateChildPicCrop" />
 <div id="upload-popup" class="media upload-popup">
 	<div class="layout-header">
@@ -31,83 +42,117 @@
 			</ul>
 			
 			<div id="tabs1" class="tabs-container">
-				<div class="tabs-content" id="popup-ajaxed">
-	<!--      ----------------------------------------------------------------------------------------------------------		 -->
-			<?php
-		}
-	?>
+                <div class="inner-header-media">
+                    <div class="input-prepend" style="margin: 0px 30px 0px 0px;">
+                        <span class="add-on" style="margin-right: 3px; margin-top : 9px;">
+                            <?php
+                                echo $this->Html->link("<i class='icon-search'></i>",array("action"=>'media_popup_single','1') , array("class"=>"ajax_mymedia searchMeLink","escape"=>false));
+                            ?>
+                        </span>
+                        <input style="width: 160px;" id="searchMe" class="span2" type="text" placeholder="search media here...">
+                    </div>
+                </div>
+				<div id="popup-inner-content">
+				    <div class="tabs-content" id="popup-ajaxed">
+        <!--      ----------------------------------------------------------------------------------------------------------		 -->
+                <?php
+            }
+            else
+            {
+                if($search == "yes")
+                {
+                    echo '<div class="tabs-content" id="popup-ajaxed">';
+                }
+            }
+        ?>
 
-	<?php
-		foreach ($myList as $key => $value):
-			foreach ($value['EntryMeta'] as $key => $detail) 
-			{
-				if($detail['key'] == 'image_type')
-				{
-					$imageType = $detail['value']; // pasti dapat value nya...
-					break;
-				}
-			}
-									
-			?>			
-				<div style="cursor: pointer" class="photo" onclick="javascript : $.fn.updateChildPic('<?php echo $value['Entry']['id']; ?>','<?php echo $imageType; ?>','<?php echo $value['Entry']['title']; ?>',$('input[type=hidden]#updateChildPicCrop').val());">
-					<div class="image">
-						<?php echo $this->Html->image('upload/thumb/'.$value['Entry']['id'].'.'.$imageType, array('width'=>150,'alt'=>$value['Entry']['title'],'title' => $value['Entry']['title'])) ?>
-					</div>
-					<div class="description">
-						<p><?php echo $value['Entry']['title']; ?></p>
-						<a href="#" class="icon-plus-sign icon-white"></a>
-					</div>
-				</div>			
-			<?php
-		endforeach;
-	?>
-	<div class="clear"></div>
-	<input type="hidden" value="<?php echo $countPage; ?>" id="myCountPage"/>
-	<input type="hidden" value="<?php echo $left_limit; ?>" id="myLeftLimit"/>
-	<input type="hidden" value="<?php echo $right_limit; ?>" id="myRightLimit"/>
+        <?php
+            if(!empty($myList))
+            {
+                foreach ($myList as $key => $value):
+                    foreach ($value['EntryMeta'] as $key => $detail) 
+                    {
+                        if($detail['key'] == 'image_type')
+                        {
+                            $imageType = $detail['value']; // pasti dapat value nya...
+                            break;
+                        }
+                    }
 
-	<?php
-		if($isAjax == 0)
-		{
-			?>
-	<!--      ----------------------------------------------------------------------------------------------------------		 -->			
-				</div>
-			
-				<div class="popup-action">
-					<?php
-						if($totalList > 0){
-							?>
-								<div class="pagination fr">
-									<ul>
-										<?php
-											echo '<li id="myPagingFirst" class="'.($paging<=1?"disabled":"").'">';
-											echo $this->Html->link("First",array("action"=>'media_popup_single',1) , array("class"=>"ajax_mymedia"));
-											echo '</li>';
-											
-											echo '<li id="myPagingPrev" class="'.($paging<=1?"disabled":"").'">';
-											echo str_replace('amp;', '', $this->Html->link("&laquo;",array("action"=>'media_popup_single',$paging-1), array("class"=>"ajax_mymedia")));
-											echo '</li>';
-											
-											for ($i = $left_limit , $index = 1; $i <= $right_limit; $i++ , $index++)
-											{
-												echo '<li id="myPagingNum'.$index.'" class="'.($i==$paging?"active":"").'">';
-												echo $this->Html->link($i,array("action"=>'media_popup_single',$i) , array("class"=>"ajax_mymedia"));				
-												echo '</li>';
-											}
-										
-											echo '<li id="myPagingNext" class="'.($paging>=$countPage?"disabled":"").'">';
-											echo str_replace('amp;', '', $this->Html->link("&raquo;",array("action"=>'media_popup_single',$paging+1) , array("class"=>"ajax_mymedia")));
-											echo '</li>';
-											
-											echo '<li id="myPagingLast" class="'.($paging>=$countPage?"disabled":"").'">';
-											echo $this->Html->link("Last",array("action"=>'media_popup_single',$countPage), array("class"=>"ajax_mymedia"));
-											echo '</li>';
-										?>
-									</ul>
-								</div>
-							<?php
-						}
-					?>
+                    ?>			
+                        <div style="cursor: pointer" class="photo" onclick="javascript : $.fn.updateChildPic('<?php echo $value['Entry']['id']; ?>','<?php echo $imageType; ?>','<?php echo $value['Entry']['title']; ?>',$('input[type=hidden]#updateChildPicCrop').val());">
+                            <div class="image">
+                                <?php echo $this->Html->image('upload/thumb/'.$value['Entry']['id'].'.'.$imageType, array('width'=>150,'alt'=>$value['Entry']['title'],'title' => $value['Entry']['title'])) ?>
+                            </div>
+                            <div class="description">
+                                <p><?php echo $value['Entry']['title']; ?></p>
+                                <a href="#" class="icon-plus-sign icon-white"></a>
+                            </div>
+                        </div>			
+                    <?php
+                endforeach;
+            }
+            else
+            {
+                ?>
+        <div class="empty-state item">
+            <div class="wrapper-empty-state">
+                <div class="pic"></div>
+                <h2>No Media Found!</h2>
+            </div>
+        </div>        
+                <?php
+            }
+        ?>
+        <div class="clear"></div>
+        <input type="hidden" value="<?php echo $countPage; ?>" id="myCountPage"/>
+        <input type="hidden" value="<?php echo $left_limit; ?>" id="myLeftLimit"/>
+        <input type="hidden" value="<?php echo $right_limit; ?>" id="myRightLimit"/>
+
+        <?php
+            if($isAjax == 0 || $isAjax == 1 && $search == "yes")
+            {
+                ?>
+        <!--      ----------------------------------------------------------------------------------------------------------		 -->			
+                    </div>
+
+                    <?php
+                        if($totalList > 0){
+                            ?>
+                                <div class="popup-action">
+                                    <div class="pagination">
+                                        <ul>
+                                            <?php
+                                                echo '<li id="myPagingFirst" class="'.($paging<=1?"disabled":"").'">';
+                                                echo $this->Html->link("First",array("action"=>'media_popup_single',1) , array("class"=>"ajax_mymedia"));
+                                                echo '</li>';
+
+                                                echo '<li id="myPagingPrev" class="'.($paging<=1?"disabled":"").'">';
+                                                echo str_replace('amp;', '', $this->Html->link("&laquo;",array("action"=>'media_popup_single',$paging-1), array("class"=>"ajax_mymedia")));
+                                                echo '</li>';
+
+                                                for ($i = $left_limit , $index = 1; $i <= $right_limit; $i++ , $index++)
+                                                {
+                                                    echo '<li id="myPagingNum'.$index.'" class="'.($i==$paging?"active":"").'">';
+                                                    echo $this->Html->link($i,array("action"=>'media_popup_single',$i) , array("class"=>"ajax_mymedia"));				
+                                                    echo '</li>';
+                                                }
+
+                                                echo '<li id="myPagingNext" class="'.($paging>=$countPage?"disabled":"").'">';
+                                                echo str_replace('amp;', '', $this->Html->link("&raquo;",array("action"=>'media_popup_single',$paging+1) , array("class"=>"ajax_mymedia")));
+                                                echo '</li>';
+
+                                                echo '<li id="myPagingLast" class="'.($paging>=$countPage?"disabled":"").'">';
+                                                echo $this->Html->link("Last",array("action"=>'media_popup_single',$countPage), array("class"=>"ajax_mymedia"));
+                                                echo '</li>';
+                                            ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <?php
+                        }
+                    ?>
+                    <?php if($isAjax == 0){ ?>
 				</div>
 			</div>
 			
@@ -226,5 +271,6 @@
 <!-- The main application script -->
 <script src="<?php echo $imagePath; ?>js/uploadfile/main.js"></script>
 		<?php
+        }
 	}
 ?>

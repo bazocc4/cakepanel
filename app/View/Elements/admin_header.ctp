@@ -36,6 +36,8 @@
 		{
 			$("a#<?php echo $myType['Type']['slug']; ?>").addClass("active");
 		}
+        
+        // trigger search function !!
 		$('input#searchMe').keyup(function(e){
             var code = e.keyCode || e.which;
             if(code == 13) { //Enter keycode
@@ -89,13 +91,15 @@
 <div class="inner-header <?php echo (empty($popup)?'':'layout-header-popup'); ?> row-fluid">
 	<div class="span5">
 		<div class="title">
-			<h2><?php echo strtoupper(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' - '.$myChildType['Type']['name']); ?></h2>
+			<h2><?php echo (empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' - '.$myChildType['Type']['name']); ?></h2>
 			<?php
 				echo '<p class="title-description">'.(empty($myChildType)?$myType['Type']['description']:$myChildType['Type']['description']).'</p>';
 				if($totalList > 0)
 				{
 					?>
-					<p id="id-title-description" class="title-description">Last updated by <a href="javascript:void(0)"><?php echo (empty($lastModified['AccountModifiedBy']['username'])?$lastModified['AccountModifiedBy']['email']:$lastModified['AccountModifiedBy']['username']).'</a> at '.date_converter($lastModified['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?></p>
+            <p id="id-title-description" class="title-description">
+                Last updated by <a href="javascript:;"><?php echo (empty($lastModified['AccountModifiedBy']['username'])?$lastModified['AccountModifiedBy']['email']:$lastModified['AccountModifiedBy']['username']); ?></a> at <?php echo date_converter($lastModified['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?>
+            </p>
 					<?php
 				}
 			?>
@@ -162,13 +166,13 @@
 				<?php
 			}
 		?>
-		<div class="input-prepend" style="margin-right: 5px; margin-left: 5px;">
+		<div class="input-prepend" style="margin-right: 10px; margin-left: 10px;">
 			<span class="add-on" style="margin-right: 3px; margin-top : 9px;">
 				<?php
 					echo $this->Html->link("<i class='icon-search'></i>",array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index','1','?'=>$extensionPaging) , array("class"=>"ajax_mypage searchMeLink","escape"=>false));
 				?>
 			</span>
-			<input style="width: 160px;" id="searchMe" class="span2" type="text" placeholder="search item here ...">
+			<input style="width: 160px;" id="searchMe" class="span2" type="text" placeholder="search item here...">
 		</div>
 
 		<?php

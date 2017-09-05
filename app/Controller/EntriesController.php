@@ -2284,9 +2284,33 @@ class EntriesController extends AppController {
         {
             $paging = 1;
         }
-        $this->set('isAjax' , (is_null($mycaller) && is_null($myTypeSlug)?1:0) );		
-		$this->set(compact('paging', 'myTypeSlug'));
-		
+        
+        $isAjax = (is_null($mycaller) && is_null($myTypeSlug)?1:0);
+		$this->set(compact('paging', 'myTypeSlug', 'isAjax'));
+        
+        $searchMe = null;
+        if(empty($isAjax))
+        {
+            unset($_SESSION['searchMe']);
+        }
+        else
+        {
+            if( ! is_null($this->request->data['search_by']) )
+            {
+                $this->set('search', 'yes');
+
+                $searchMe = trim($this->request->data['search_by']);
+                if(empty($searchMe))
+                {
+                    unset($_SESSION['searchMe']);
+                }
+                else
+                {
+                    $_SESSION['searchMe'] = $searchMe;
+                }
+            }
+        }
+        
 		// DEFINE MY TYPE CROP !!
 		if(!empty($myTypeSlug))
 		{
@@ -2308,6 +2332,12 @@ class EntriesController extends AppController {
 			'Entry.entry_type' => 'media',
 			'Entry.parent_id' => 0
 		);
+        
+        if(!empty($_SESSION['searchMe']))
+		{
+            $options['conditions']['Entry.title LIKE'] = '%'.$_SESSION['searchMe'].'%';
+		}
+        
 		$resultTotalList = $this->Entry->find('count' , $options);
 		$this->set('totalList' , $resultTotalList);
 		
