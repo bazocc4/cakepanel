@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2016 at 07:28 AM
--- Server version: 5.6.21
--- PHP Version: 5.6.3
+-- Generation Time: Sep 20, 2017 at 07:00 AM
+-- Server version: 5.6.24
+-- PHP Version: 5.6.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `cakepanel_starter`
+-- Database: `creazi_cakepanel_starter`
 --
 
 -- --------------------------------------------------------
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `cms_accounts` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `role_id` tinyint(3) unsigned NOT NULL,
   `username` varchar(500) DEFAULT NULL,
@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS `cms_accounts` (
 --
 
 INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `password`, `last_login`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 1, 'admin', 'admin@yahoo.com', '1d77e03c6e6da258ed15229d957001d56298169e', '2015-07-29 14:26:03', '2013-01-04 00:00:00', 1, '2013-01-04 00:00:00', 1),
-(2, 2, 2, 'Andy Basuki', 'andybasuki88@gmail.com', 'd82dff1679e0137a0bab60cc67cc6a2ad36f10a0', '2015-07-17 10:54:47', '2015-07-17 10:54:24', 1, '2015-07-17 10:54:24', 1);
+(1, 1, 1, 'admin', 'admin@yahoo.com', '1d77e03c6e6da258ed15229d957001d56298169e', '2017-09-20 11:57:55', '2013-01-04 00:00:00', 1, '2013-01-04 00:00:00', 1),
+(2, 2, 2, 'Andy Basuki', 'andybasuki88@gmail.com', 'd82dff1679e0137a0bab60cc67cc6a2ad36f10a0', '2017-09-20 11:58:58', '2015-07-17 10:54:24', 1, '2015-07-17 10:54:24', 1);
 
 -- --------------------------------------------------------
 
@@ -55,7 +55,7 @@ INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `pa
 --
 
 CREATE TABLE IF NOT EXISTS `cms_entries` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `entry_type` varchar(500) NOT NULL,
   `title` varchar(500) NOT NULL,
   `slug` varchar(500) NOT NULL,
@@ -86,7 +86,7 @@ INSERT INTO `cms_entries` (`id`, `entry_type`, `title`, `slug`, `description`, `
 --
 
 CREATE TABLE IF NOT EXISTS `cms_entry_metas` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `entry_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL
@@ -106,9 +106,10 @@ INSERT INTO `cms_entry_metas` (`id`, `entry_id`, `key`, `value`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cms_roles` (
-`id` tinyint(3) unsigned NOT NULL,
+  `id` tinyint(3) unsigned NOT NULL,
   `name` varchar(500) NOT NULL,
   `description` text,
+  `privilege` text,
   `count` int(10) unsigned DEFAULT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
@@ -116,10 +117,10 @@ CREATE TABLE IF NOT EXISTS `cms_roles` (
 -- Dumping data for table `cms_roles`
 --
 
-INSERT INTO `cms_roles` (`id`, `name`, `description`, `count`) VALUES
-(1, 'Super Admin', 'Administrator who has all access for the web without exceptions.', 1),
-(2, 'Admin', 'Administrator from the clients.', NULL),
-(3, 'Regular User', 'Anyone with no access to admin panel.', NULL);
+INSERT INTO `cms_roles` (`id`, `name`, `description`, `privilege`, `count`) VALUES
+(1, 'Super Admin', 'Administrator who has all access for the web without exceptions.', 'slideshow_view|slideshow_add|slideshow_edit|slideshow_delete', 1),
+(2, 'Admin', 'Administrator from the clients.', 'slideshow_view|slideshow_add|slideshow_edit|slideshow_delete', NULL),
+(3, 'Regular User', 'Anyone with no access to admin panel.', 'slideshow_view|slideshow_add', NULL);
 
 -- --------------------------------------------------------
 
@@ -128,7 +129,7 @@ INSERT INTO `cms_roles` (`id`, `name`, `description`, `count`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cms_settings` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
@@ -167,7 +168,7 @@ INSERT INTO `cms_settings` (`id`, `key`, `value`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cms_types` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(500) NOT NULL,
   `slug` varchar(500) NOT NULL,
   `description` text,
@@ -194,7 +195,7 @@ INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `coun
 --
 
 CREATE TABLE IF NOT EXISTS `cms_type_metas` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `type_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text,
@@ -218,7 +219,7 @@ INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `va
 --
 
 CREATE TABLE IF NOT EXISTS `cms_users` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `firstname` varchar(500) NOT NULL,
   `lastname` varchar(500) DEFAULT NULL,
   `created` datetime NOT NULL,
@@ -243,7 +244,7 @@ INSERT INTO `cms_users` (`id`, `firstname`, `lastname`, `created`, `created_by`,
 --
 
 CREATE TABLE IF NOT EXISTS `cms_user_metas` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL
@@ -286,55 +287,55 @@ INSERT INTO `cms_user_metas` (`id`, `user_id`, `key`, `value`) VALUES
 -- Indexes for table `cms_accounts`
 --
 ALTER TABLE `cms_accounts`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `email` (`email`), ADD UNIQUE KEY `username` (`username`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `email` (`email`), ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indexes for table `cms_entries`
 --
 ALTER TABLE `cms_entries`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `cms_entry_metas`
 --
 ALTER TABLE `cms_entry_metas`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cms_roles`
 --
 ALTER TABLE `cms_roles`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cms_settings`
 --
 ALTER TABLE `cms_settings`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cms_types`
 --
 ALTER TABLE `cms_types`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `cms_type_metas`
 --
 ALTER TABLE `cms_type_metas`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cms_users`
 --
 ALTER TABLE `cms_users`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cms_user_metas`
 --
 ALTER TABLE `cms_user_metas`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -344,47 +345,47 @@ ALTER TABLE `cms_user_metas`
 -- AUTO_INCREMENT for table `cms_accounts`
 --
 ALTER TABLE `cms_accounts`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `cms_entries`
 --
 ALTER TABLE `cms_entries`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cms_entry_metas`
 --
 ALTER TABLE `cms_entry_metas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cms_roles`
 --
 ALTER TABLE `cms_roles`
-MODIFY `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `cms_settings`
 --
 ALTER TABLE `cms_settings`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `cms_types`
 --
 ALTER TABLE `cms_types`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `cms_type_metas`
 --
 ALTER TABLE `cms_type_metas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `cms_users`
 --
 ALTER TABLE `cms_users`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `cms_user_metas`
 --
 ALTER TABLE `cms_user_metas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

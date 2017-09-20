@@ -3,6 +3,26 @@
     
 	$this->Get->create($data);
 	if(is_array($data)) extract($data , EXTR_SKIP);
+	
+	//setting add edit delete rules view
+	$pecah = explode('|', $user['Role']['privilege']);
+	foreach ($pecah as $key) 
+	{
+		if($myType['Type']['slug'].'_add' == $key)
+		{
+			$add = 1;
+		}
+		if($myType['Type']['slug'].'_edit' == $key)
+		{
+			$edit = 1;
+		}
+		if($myType['Type']['slug'].'_delete' == $key)
+		{
+			$delete = 1;
+		}
+
+	}
+
 
     $myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
     $titlekey = "Title";
@@ -41,7 +61,8 @@
 	{
 		echo $this->element('admin_header', array(
 		    'extensionPaging' => $extensionPaging,
-            'staticRecordTemplate' => $staticRecordTemplate
+            'staticRecordTemplate' => $staticRecordTemplate,
+            'add' => $add
 		));
 		echo '<div class="inner-content '.(empty($popup)?'':'layout-content-popup').'" id="inner-content">';
 		echo '<div class="autoscroll" id="ajaxed">';
@@ -90,15 +111,20 @@
 		
 		<?php if(empty($popup)): ?>
             // ADD & DELETE BUTTON have the same life fate !!
-            if($('a.get-started').length == 0)
+            <?php
+
+            if($delete != 1)
             {
+            	?>
                 $('form#global-action > select > option[value=delete]').detach();
                 $('table#myTableList i.icon-trash').parent('a').detach();
                 if($('form#global-action > select > option').length == 1)
                 {
                     $('form#global-action').detach();
                 }
+                <?php
             }
+			?> 
         
             // is table sortable?
             if(!Modernizr.touch && <?php echo $isOrderChange; ?> && <?php echo ($titleIsDate?'0':'1'); ?>)
@@ -164,7 +190,7 @@
 			$('p#id-title-description').css('display','<?php echo (empty($totalList)?'none':'block'); ?>');
 			
 			// UPDATE TITLE HEADER !!
-			$('div.title:last > h2').html('<?php echo htmlspecialchars((empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' - '.$myChildType['Type']['name']), ENT_QUOTES); ?>');
+			$('div.title:last > h2').html('<?php echo (empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' - '.$myChildType['Type']['name']); ?>');
 			
 		<?php else: ?>
 			$('table#myTableList tbody tr').css('cursor' , 'pointer');
@@ -224,12 +250,12 @@
 		if(myLangSelector.find('ul.dropdown-menu li').length <= 1)	myLangSelector.hide();
 	});
 </script>
-<?php if($totalList <= 0){ ?>
+<?php if($totalList <= 0 ){ ?>
 	<div class="empty-state item">
 		<div class="wrapper-empty-state">
 			<div class="pic"></div>
 			<h2>No Items Found!</h2>
-			<?php echo (!($myType['Type']['slug'] == 'pages' && $user['role_id'] >= 2 || !empty($popup) || $staticRecordTemplate)?$this->Html->link('Get Started',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'add','?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'') ),array('class'=>'btn btn-primary')):''); ?>
+			<?php echo (!($myType['Type']['slug'] == 'pages' && $user['role_id'] >= 2 || !empty($popup) || $staticRecordTemplate) && $add != 0 ?$this->Html->link('Get Started',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'add','?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'') ),array('class'=>'btn btn-primary')):''); ?>
 		</div>
 	</div>
 <?php }else{ ?>
@@ -315,7 +341,7 @@
 				<select REQUIRED name="data[action]" class="input-small">
 					<option style="font-weight: bold;" value="">Action :</option>
 					<?php
-                        if($myType['Type']['slug'] != 'pages')
+                        if($myType['Type']['slug'] != 'pages' && $edit == 1)
                         {
                             ?>
                     <option value="active">Publish</option>
@@ -360,7 +386,7 @@
                 $editUrl = array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'edit',$value['Entry']['slug'] ,'?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'')   );
 			?>
 			<input class="slug-code" type="hidden" value="<?php echo $value['Entry']['slug']; ?>" />
-			<h5 class="title-code"><?php echo (empty($popup)?$this->Html->link($value['Entry']['title'],$editUrl):$value['Entry']['title']); ?></h5>
+			<h5 class="title-code"><?php echo ($edit == 1?(empty($popup)?$this->Html->link($value['Entry']['title'],$editUrl):$value['Entry']['title']):$value['Entry']['title']); ?></h5>
             <?php
                 if(!empty($value['Entry']['description']))
                 {
@@ -400,7 +426,15 @@
                             {
                                 $queryURL['type'] = $myChildType['Type']['slug'];
                             }
-                            echo '<span class="badge badge-info">'.(empty($popup)?$this->Html->link($value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false, 'data-toggle'=>'tooltip','title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>').'</span>';
+
+                            if($edit == 1)
+                            {
+                            	echo '<span class="badge badge-info">'.(empty($popup)?$this->Html->link($value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>',array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']) , 'edit' , $value['Entry']['slug'] , '?' => $queryURL ), array('escape'=>false, 'data-toggle'=>'tooltip','title' => 'Click to see all images.')):$value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>').'</span>';
+                            }
+                            else
+                            {
+                             echo '<span class="label">'.$value['EntryMeta']['count-'.$shortkey].' <i class="icon-picture icon-white"></i>'.'</span>';
+                            }
                         }
                         else
                         {
@@ -415,15 +449,12 @@
                         $emptybrowse = 0;
                         foreach ($displayValue as $brokekey => $brokevalue) 
                         {
-                            $mydetails = $this->Get->meta_details([
-                                'slug' => $brokevalue,
-                                'entry_type' => $browse_slug,
-                            ]);
+                            $mydetails = $this->Get->meta_details($brokevalue , $browse_slug );
                             if(!empty($mydetails))
                             {
                                 $emptybrowse = 1;
                                 $outputResult = (empty($mydetails['EntryMeta']['name'])?$mydetails['Entry']['title']:$mydetails['EntryMeta']['name']);
-                                echo '<p>'.(empty($popup)?$this->Html->link($outputResult,array('controller'=>'entries','action'=>$mydetails['Entry']['entry_type'],'edit',$mydetails['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</p>';
+                                echo '<p>'.($edit==1?(empty($popup)?$this->Html->link($outputResult,array('controller'=>'entries','action'=>$mydetails['Entry']['entry_type'],'edit',$mydetails['Entry']['slug']),array('target'=>'_blank')):$outputResult):$outputResult).'</p>';
                                 echo '<input type="hidden" value="'.$mydetails['Entry']['slug'].'">';
                             }
                         }
@@ -435,10 +466,7 @@
                     }
                     else if($value10['input_type'] == 'browse')
                     {
-                        $entrydetail = $this->Get->meta_details([
-                            'slug' => $displayValue,
-                            'entry_type' => get_slug($shortkey),
-                        ]);
+                        $entrydetail = $this->Get->meta_details($displayValue , get_slug($shortkey));
                         if(empty($entrydetail))
                         {
                             echo $displayValue;
@@ -446,7 +474,7 @@
                         else
                         {
                             $outputResult = (empty($entrydetail['EntryMeta']['name'])?$entrydetail['Entry']['title']:$entrydetail['EntryMeta']['name']);
-                            echo '<h5>'.(empty($popup)?$this->Html->link($outputResult,array("controller"=>"entries","action"=>$entrydetail['Entry']['entry_type']."/edit/".$entrydetail['Entry']['slug']),array('target'=>'_blank')):$outputResult).'</h5>';
+                            echo '<h5>'.($edit==1?(empty($popup)?$this->Html->link($outputResult,array("controller"=>"entries","action"=>$entrydetail['Entry']['entry_type']."/edit/".$entrydetail['Entry']['slug']),array('target'=>'_blank')):$outputResult):$outputResult).'</h5>';
                             echo '<input type="hidden" value="'.$entrydetail['Entry']['slug'].'">';
 
                             echo '<p>';                                
@@ -476,7 +504,7 @@
                             else
                             {
                                 $description = strip_tags($entrydetail['Entry']['description']);
-                                echo (strlen($description) > 30? '<a href="#" data-toggle="tooltip" title="'.htmlspecialchars(strip_tags($entrydetail['Entry']['description'], '<br><br/><p></p>')).'">'.substr($description,0,30).'...</a>' : $description);
+                                echo (strlen($description) > 30? '<a href="#" data-toggle="tooltip" title="'.strip_tags($entrydetail['Entry']['description'], '<br><br/><p></p>').'">'.substr($description,0,30).'...</a>' : $description);
                             }                                
                             echo '</p>';
                         }
@@ -520,13 +548,12 @@
 		<?php
 			if(empty($popup))
 			{
-                $js_title = strtoupper(Inflector::slug($value['Entry']['title'], ' '));
-                
                 echo "<td class='action-btn'>";
-                echo $this->Html->link('<i class="icon-edit icon-white"></i>', $editUrl, array('escape'=>false, 'class'=>'btn btn-info','data-toggle'=>'tooltip', 'title'=>'CLICK TO EDIT / VIEW DETAIL') );
-                
-                if($myType['Type']['slug'] != 'pages')
+
+                if($myType['Type']['slug'] != 'pages' && $edit == 1)
 				{
+                	echo $this->Html->link('<i class="icon-edit icon-white"></i>', $editUrl, array('escape'=>false, 'class'=>'btn btn-info','data-toggle'=>'tooltip', 'title'=>'CLICK TO EDIT / VIEW DETAIL') );
+
 					$confirm = null;
 					$targetURL = 'entries/change_status/'.$value['Entry']['id'];
                     echo '&nbsp;&nbsp;';
@@ -536,12 +563,12 @@
 					}
 					else
 					{
-						$confirm = 'Are you sure to set '.$js_title.' as draft ?';
+						$confirm = 'Are you sure to set '.addslashes(strtoupper($value['Entry']['title'])).' as draft ?';
 						echo '<a data-toggle="tooltip" title="CLICK TO DRAFT RECORD" href="javascript:void(0)" onclick="show_confirm(\''.$confirm.'\',\''.$targetURL.'\')" class="btn btn-warning"><i class="icon-ban-circle icon-white"></i></a>';
 					}
 				}
 				?>
-            &nbsp;<a data-toggle="tooltip" title="CLICK TO DELETE RECORD" href="javascript:void(0)" onclick="show_confirm('Are you sure want to delete <?php echo $js_title; ?> ?','entries/delete/<?php echo $value['Entry']['id']; ?>')" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
+            &nbsp;<a data-toggle="tooltip" title="CLICK TO DELETE RECORD" href="javascript:void(0)" onclick="show_confirm('Are you sure want to delete <?php echo addslashes(strtoupper($value['Entry']['title'])); ?> ?','entries/delete/<?php echo $value['Entry']['id']; ?>')" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
 				<?php
 				echo "</td>";
 			}				

@@ -294,7 +294,14 @@ class AccountsController extends AppController {
 				}
 				else // default landing page after login !!
 				{
-					$this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
+					if($myAccount['role_id'] < 3)
+					{
+						$this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
+					}
+					else
+					{
+						$this->redirect(array('controller'=>'entries','action'=>'media','admin'=>true));
+					}
 				}
 			}
 			else // at frontend !!

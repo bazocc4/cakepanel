@@ -193,6 +193,11 @@ class Format
         return($header.$data);
     }
     
+    function set_font_script($value = 1)
+    {
+        $this->font_script = $value;
+    }
+    
     /**
     * Generate an Excel BIFF FONT record.
     *
@@ -413,7 +418,7 @@ class Format
     * Sets the bottom border of the cell
     *
     * @access public
-    * @param integer $style style of the cell border. 1 => thin, 2 => thick.
+    * @param integer $style style of the cell border. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
     */
     function set_bottom($style)
     {
@@ -424,7 +429,7 @@ class Format
     * Sets the top border of the cell
     *
     * @access public
-    * @param integer $style style of the cell top border. 1 => thin, 2 => thick.
+    * @param integer $style style of the cell top border. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
     */
     function set_top($style)
     {
@@ -435,7 +440,7 @@ class Format
     * Sets the left border of the cell
     *
     * @access public
-    * @param integer $style style of the cell left border. 1 => thin, 2 => thick.
+    * @param integer $style style of the cell left border. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
     */
     function set_left($style)
     {
@@ -446,7 +451,7 @@ class Format
     * Sets the right border of the cell
     *
     * @access public
-    * @param integer $style style of the cell right border. 1 => thin, 2 => thick.
+    * @param integer $style style of the cell right border. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
     */
     function set_right($style)
     {
@@ -458,7 +463,7 @@ class Format
     * Set cells borders to the same style
     *
     * @access public
-    * @param integer $style style to apply for all cell borders. 1 => thin, 2 => thick.
+    * @param integer $style style to apply for all cell borders. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
     */
     function set_border($style)
     {
@@ -472,10 +477,10 @@ class Format
     * Set each cell borders with different style
     *
     * @access public
-    * @param integer $top style to apply for top cell borders. 1 => thin, 2 => thick.
-    * @param integer $right style to apply for right cell borders. 1 => thin, 2 => thick.
-    * @param integer $bottom style to apply for bottom cell borders. 1 => thin, 2 => thick.
-    * @param integer $left style to apply for left cell borders. 1 => thin, 2 => thick.
+    * @param integer $top style to apply for top cell borders. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
+    * @param integer $right style to apply for right cell borders. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
+    * @param integer $bottom style to apply for bottom cell borders. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
+    * @param integer $left style to apply for left cell borders. 1 => thin, 2 => thick, 3 => line dots, 4 => dots, 5 => thicker, 6 => double lines.
     */
     function set_each_border($top = 0 , $right = 0 , $bottom = 0 , $left = 0)
     {

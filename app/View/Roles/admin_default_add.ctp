@@ -42,6 +42,30 @@
 			$value['model'] = 'Role';
 			$value['input_type'] = 'textarea';
 			echo $this->element('input_'.$value['input_type'] , $value);
+
+			$value['counter'] = 2;
+			$value['key'] = 'form-Privileges';
+			$value['validation'] = '';
+			$value['value'] = $myRole['Role']['privilege'];
+			$value['model'] = 'Role';
+			$value['input_type'] = 'checkbox_role';
+
+			$value['list'] = array();
+			$module = array();
+
+			foreach ($types as $key_types => $value_types) 
+			{
+				if($value_types['Type']['slug'] != 'media')
+				{
+					foreach (['view','add','edit','delete'] as $key) 
+					{
+						$module['id'] = $value_types['Type']['slug'].'_'.$key;
+						$module['name'] = $value_types['Type']['name'];
+						array_push($value['list'] , $module);
+					}	
+				}
+			}
+			echo $this->element('input_'.$value['input_type'] , $value);
 		?>
 		
 	<!-- SAVE BUTTON -->

@@ -8,7 +8,7 @@ class RolesController extends AppController {
 	{
         parent::beforeFilter();
 		
-		if($this->user['role_id'] > 1)
+		if($this->user['role_id'] > 2)
 		{
 			throw new NotFoundException('Error 404 - Not Found');
 		}
@@ -94,6 +94,7 @@ class RolesController extends AppController {
 		{
 			$this->request->data['Role']['name'] = $this->request->data['Role'][0]['value'];
 			$this->request->data['Role']['description'] = $this->request->data['Role'][1]['value'];
+			$this->request->data['Role']['privilege'] = implode('|' , $this->request->data['Role'][2]['value']);
 			
 			// now for validation !!
 			$this->Role->set($this->request->data);
@@ -130,6 +131,7 @@ class RolesController extends AppController {
 		{
 			$this->request->data['Role']['name'] = $this->request->data['Role'][0]['value'];
 			$this->request->data['Role']['description'] = $this->request->data['Role'][1]['value'];
+			$this->request->data['Role']['privilege'] = implode('|' , $this->request->data['Role'][2]['value']);
 			
 			// now for validation !!
 			$this->Role->set($this->request->data);

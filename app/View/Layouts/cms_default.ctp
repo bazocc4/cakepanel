@@ -131,22 +131,30 @@
 				<!--HEADER-->
 				<div class="sidebar span2">
 					<ul>
-					    <li class="<?php echo ($user['role_id'] > 1?'hide':''); ?>">
+					    <li class="<?php echo ($user['role_id'] > 2?'hide':''); ?>">
 					        <?php
-                                echo $this->Html->link('Master',array('controller'=>'master','action'=>'types'),array('id'=>'master'));
+					        	if($user['role_id'] > 1)
+					        	{
+					        		echo $this->Html->link('Roles',array('controller'=>'master','action'=>'roles'),array('id'=>'master'));	
+					        	}
+					        	else
+					        	{
+					        		echo $this->Html->link('Master',array('controller'=>'master','action'=>'types'),array('id'=>'master'));
+					        	}
+                                
                             ?>    
 					    </li>
-						<li>
+						<li class="<?php echo ($user['role_id'] > 2?'hide':''); ?>">
 							<?php									
 								echo $this->Html->link('Settings',array('controller'=>'settings','action'=>'index'),array('id'=>'settings'));
 							?>
 						</li>						
-						<li>
+						<li class="<?php echo ($user['role_id'] > 2?'hide':''); ?>">
 							<?php 
 								echo $this->Html->link('Users',array('controller'=>'users','action'=>'index'),array('id'=>'users')); 
 							?>
 						</li>
-						<li>
+						<li class="<?php echo ($user['role_id'] > 2?'hide':''); ?>">
 							<?php 
 								echo $this->Html->link('Accounts',array('controller'=>'accounts','action'=>'index'),array('id'=>'accounts'));
 							?>
@@ -164,26 +172,27 @@
 						
 						<?php
                             $haystack_cat = array();
+                            $list_privilege = explode('|', $user['Role']['privilege']);
 							foreach ($types as $key => $value) 
 							{
-								if($value['Type']['slug'] != 'media')
+								if($value['Type']['slug'] != 'media' && in_array($value['Type']['slug'].'_view', $list_privilege))
 								{
-                                    // begin process !!
-                                    $typecat = "";
-                                    foreach($value['TypeMeta'] as $subkey => $subvalue)
-                                    {
-                                        if($subvalue['key'] == 'category')
-                                        {
-                                            $typecat = strtolower($subvalue['value']);
-                                            array_push($haystack_cat , $typecat );
-                                            break;
-                                        }
-                                    }
-                                    
-									echo "<li class='hide database-menu'>";
-									echo $this->Html->link($value['Type']['name'] ,array('controller'=>'entries','action'=>$value['Type']['slug']) ,array('id'=>$value['Type']['slug']));
-                                    echo "<input type='hidden' value='".$typecat."'>";
-									echo "</li>";
+	                                    // begin process !!
+	                                    $typecat = "";
+	                                    foreach($value['TypeMeta'] as $subkey => $subvalue)
+	                                    {
+	                                        if($subvalue['key'] == 'category')
+	                                        {
+	                                            $typecat = strtolower($subvalue['value']);
+	                                            array_push($haystack_cat , $typecat );
+	                                            break;
+	                                        }
+	                                    }
+	                                    
+										echo "<li class='hide database-menu'>";
+										echo $this->Html->link($value['Type']['name'] ,array('controller'=>'entries','action'=>$value['Type']['slug']) ,array('id'=>$value['Type']['slug']));
+	                                    echo "<input type='hidden' value='".$typecat."'>";
+										echo "</li>";
 								}
 							}
                             

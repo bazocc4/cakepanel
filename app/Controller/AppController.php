@@ -206,7 +206,7 @@ class AppController extends Controller {
 			'Form' => array(
 				'fields' => array('username' => 'email', 'password' => 'password'),
 				'userModel' => 'Account',
-				'scope' => array('Account.role_id' => array(1,2,3)),
+				// 'scope' => array('Account.role_id' => array(1,2,3)),
 			),
 		);
 		$this->Auth->authError= 'Authorized access is required.';
@@ -226,7 +226,7 @@ class AppController extends Controller {
 		if( !empty($this->request->params['admin']) )
 		{
             forceNoCache();
-            if(!empty($this->user) && $this->user['role_id'] > 2)
+            if(!empty($this->user) && $this->user['role_id'] > 99)
             {
                 $this->Session->setFlash(__('Authorized access is required.'),'default',array() , 'auth');
                 $this->redirect($this->Auth->logout());

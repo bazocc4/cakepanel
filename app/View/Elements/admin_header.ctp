@@ -107,7 +107,7 @@
 	</div>
 	<div class="span7">
 		<?php
-			if(!($myType['Type']['slug'] == 'pages' && $user['role_id'] >= 2 || !empty($popup) || $staticRecordTemplate))
+			if(!($myType['Type']['slug'] == 'pages' && $user['role_id'] >= 2 || !empty($popup) || $staticRecordTemplate) && $add == 1)
 			{
 				echo $this->Html->link('Add '.(empty($myEntry)?$myType['Type']['name']:$myChildType['Type']['name']),array('action'=>$myType['Type']['slug'],(empty($myEntry)?'':$myEntry['Entry']['slug'].'/').'add','?'=>$extensionPaging ),array('class'=>'btn btn-primary fr right-btn get-started'));
 			}
