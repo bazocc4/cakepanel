@@ -34,8 +34,12 @@
 		$('input[type=checkbox].not_view').change(function(){
 			var val = $(this).attr('id').split('_');
 			$('#'+val[0]+'_view').attr('checked',true);
-		});
 
+			if($('#'+val[0]+'_add').is(':checked'))
+			{
+				$('#'+val[0]+'_edit').attr('checked',true);
+			}
+		});
 	});
 </script>
 <div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>            

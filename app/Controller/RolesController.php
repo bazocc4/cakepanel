@@ -139,7 +139,13 @@ class RolesController extends AppController {
 			{
 				$this->Role->id = $myRole['Role']['id'];
 				$this->Role->save($this->request->data);
-				
+                
+                // update Auth Session !!
+                if($this->user['role_id'] == $myRole['Role']['id'])
+                {
+                    $this->Session->write('Auth.User.Role.privilege', $this->request->data['Role']['privilege']);
+                }
+                
 				// NOW finally setFlash ^^
 				$this->Session->setFlash($this->request->data['Role']['name'].' has been updated.','success');
 				$this->redirect (array('controller'=>'master','action' => 'roles'));

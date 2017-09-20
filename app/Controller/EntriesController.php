@@ -1531,6 +1531,23 @@ class EntriesController extends AppController {
 	**/
 	function _admin_default_add($myType = array() , $myEntry = array() , $myChildTypeSlug = NULL , $lang_code = NULL , $prefield_slug = NULL)
 	{
+		if($this->request['admin'])
+		{
+			$pecah_privilege = explode('|', $this->user['Role']['privilege']);
+			foreach ($pecah_privilege as $key) 
+			{
+				if($key == $myType['Type']['slug'].'_add')
+				{
+					$err = 1;
+					break;
+				}
+			}
+			if($err == false)
+			{
+				throw new NotFoundException('Error 404 - Not Found');
+			}
+		} 
+
         $data = [];
 		$myChildType = $this->Type->findBySlug($myChildTypeSlug);
 		$data['myType'] = $myType;
@@ -1813,6 +1830,23 @@ class EntriesController extends AppController {
 	**/
 	function _admin_default_edit($myType = array() , $myEntry = array() , $myParentEntry = array() , $myChildTypeSlug = NULL , $lang = NULL)
 	{
+		if($this->request['admin'])
+		{
+			$pecah_privilege = explode('|', $this->user['Role']['privilege']);
+			foreach ($pecah_privilege as $key) 
+			{
+				if($key == $myType['Type']['slug'].'_edit')
+				{
+					$err = 1;
+					break;
+				}
+			}
+			if($err == false)
+			{
+				throw new NotFoundException('Error 404 - Not Found');
+			}
+		}
+		
         $data = [];
 		if ($this->request->is('ajax')) 
 		{	

@@ -276,6 +276,23 @@ class TypesController extends AppController {
 					$this->TypeMeta->create();
 					$this->TypeMeta->save($this->request->data);
 				}
+                
+                // automatic ADD ROLES to SUPER ADMIN & ADMIN ONLY !!
+                $newRoles = [$this->request->data['Type']['slug'].'_view', $this->request->data['Type']['slug'].'_add', $this->request->data['Type']['slug'].'_edit', $this->request->data['Type']['slug'].'_delete'];
+                for($i = 1 ; $i <= 2 ; ++$i)
+                {
+                    $injectRoles = implode('|', array_unique(array_filter(array_merge( explode('|', $this->Role->findById($i)['Role']['privilege']), $newRoles ))));
+                    
+                    $this->Role->id = $i;
+                    $this->Role->saveField('privilege', $injectRoles );
+                    
+                    if($this->user['role_id'] == $i)
+                    {
+                        // update Auth Session !!
+                        $this->Session->write('Auth.User.Role.privilege', $injectRoles);
+                    }
+                }
+                
 				// NOW finally setFlash ^^
 				$this->Session->setFlash($this->request->data['Type']['name'].' has been added.','success');
 				$this->redirect (array('controller'=>'master','action' => 'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug'])));
