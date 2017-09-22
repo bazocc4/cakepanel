@@ -497,6 +497,12 @@ class EntriesController extends AppController {
 		$data_change = ( is_null($status) ? ($data['Entry']['status']==0?1:0)   : $status );
 		$this->Entry->id = $id;
 		$this->Entry->saveField('status', $data_change);
+        
+        // update created date !!
+        if($data_change == 1 && $data['Entry']['status'] != 1)
+        {
+            $this->Entry->saveField('created', $this->getNowDate() );
+        }
 
 		if(empty($localcall))
 		{
@@ -1951,6 +1957,10 @@ class EntriesController extends AppController {
 				// write time modified manually !!
 				$nowDate = $this->getNowDate();
 				$this->request->data['Entry']['modified'] = $nowDate;
+                if($this->request->data['Entry']['status'] == 1 && $myEntry['Entry']['status'] != 1)
+                {
+                    $this->request->data['Entry']['created'] = $nowDate;
+                }
 				
 				// PREPARE FOR ADDITIONAL LINK OPTIONS !!
 				$myChildTypeLink = (!empty($myParentEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?'?type='.$myChildType['Type']['slug']:'');
