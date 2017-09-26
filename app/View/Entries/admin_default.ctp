@@ -111,20 +111,15 @@
 		
 		<?php if(empty($popup)): ?>
             // ADD & DELETE BUTTON have the same life fate !!
-            <?php
-
-            if($delete != 1)
+            if($('a.get-started').length == 0 || <?php echo ($delete != 1?'true':'false'); ?> )
             {
-            	?>
                 $('form#global-action > select > option[value=delete]').detach();
                 $('table#myTableList i.icon-trash').parent('a').detach();
                 if($('form#global-action > select > option').length == 1)
                 {
                     $('form#global-action').detach();
                 }
-                <?php
             }
-			?> 
         
             // is table sortable?
             if(!Modernizr.touch && <?php echo $isOrderChange; ?> && <?php echo ($titleIsDate?'0':'1'); ?>)
@@ -449,7 +444,10 @@
                         $emptybrowse = 0;
                         foreach ($displayValue as $brokekey => $brokevalue) 
                         {
-                            $mydetails = $this->Get->meta_details($brokevalue , $browse_slug );
+                            $mydetails = $this->Get->meta_details([
+                                'entry_type' => $browse_slug,
+                                'slug' => $brokevalue,
+                            ]);
                             if(!empty($mydetails))
                             {
                                 $emptybrowse = 1;
@@ -466,7 +464,10 @@
                     }
                     else if($value10['input_type'] == 'browse')
                     {
-                        $entrydetail = $this->Get->meta_details($displayValue , get_slug($shortkey));
+                        $entrydetail = $this->Get->meta_details([
+                            'entry_type' => get_slug($shortkey),
+                            'slug' => $displayValue,
+                        ]);
                         if(empty($entrydetail))
                         {
                             echo $displayValue;

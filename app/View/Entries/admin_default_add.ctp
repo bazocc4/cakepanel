@@ -115,6 +115,8 @@
                 $value['input_type'] = 'text';
                 $value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['slug']);
                 
+                $value['display'] = 'none';
+                
                 $value['p'] = 'URL slug code for this entry data.<br>Rules: <strong style=\'color:red;\'>No white-space, lowercase alphanumeric only!</strong>';
                 
                 echo $this->element('input_'.$value['input_type'] , $value);
