@@ -53,18 +53,54 @@
 			$value['list'] = array();
 			$module = array();
 
+			$temp = [];
 			foreach ($types as $key_types => $value_types) 
 			{
+				
 				if($value_types['Type']['slug'] != 'media')
 				{
-					foreach (['view','add','edit','delete'] as $key) 
+					foreach($value_types['TypeMeta'] as $subkey => $subvalue)
 					{
-						$module['id'] = $value_types['Type']['slug'].'_'.$key;
-						$module['name'] = $value_types['Type']['name'];
-						array_push($value['list'] , $module);
-					}	
+						if($subvalue['key'] == 'category')
+						{
+							$temp[$subvalue['value']][] = $value_types;
+						}
+					}
 				}
 			}
+
+			$counttemp = 0;
+			foreach ($temp as $keytemp => $valuetemp) 
+			{
+				if(count($valuetemp) > 1)
+				{
+					$value['modul_cat'][] = [
+						'name' => $keytemp,
+						'count' => $counttemp+1 
+					];	
+					$counttemp = $counttemp + count($valuetemp);
+				}
+				else
+				{
+					$counttemp = $counttemp + count($valuetemp);
+					$value['modul_cat'][] = [
+						'name' => $keytemp,
+						'count' => $counttemp 
+					];	
+				}
+
+				foreach ($valuetemp as $keyin => $valuein) 
+				{	
+					foreach (['view','add','edit','delete'] as $key) 
+					{
+						$module['id'] = $valuein['Type']['slug'].'_'.$key;
+						$module['name'] = $valuein['Type']['name'];
+						array_push($value['list'] , $module);
+					}
+				}
+				
+			}
+
 			echo $this->element('input_'.$value['input_type'] , $value);
 		?>
 		

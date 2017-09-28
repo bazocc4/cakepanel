@@ -68,12 +68,22 @@
 				<?php
 				$value = explode("|", $value);
 				foreach ($list as $key_list => $value_list) 
-				{
+				{	
 					$i++;
 					if($i == 1)
 					{
+						$c++;
+						foreach ($modul_cat as $key_cat => $value_cat) 
+						{
+
+							if($value_cat['count'] == $c)
+							{
+								echo '<tr class="row"><td class="col-sm-3" colspan="5"><b>'.strtoupper($value_cat['name']).'</b></td></tr>';
+							}
+						}
+						
 						echo '<tr class="row">';
-						echo '<td class="col-sm-3">'.$value_list['name'].'</td>';
+						echo '<td class="col-sm-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$value_list['name'].'</td>';
 					}
 					$existed = 0;
 					foreach ($value as $key_val => $value_val) 
@@ -93,7 +103,9 @@
 						echo '</tr>';
 						$i = 0;
 					}
+
 				}
+
 				?>
 			</tbody>
 		</table>
