@@ -63,7 +63,7 @@
 					{
 						if($subvalue['key'] == 'category')
 						{
-							$temp[$subvalue['value']][] = $value_types;
+							$temp[strtolower($subvalue['value'])][] = $value_types;
 						}
 					}
 				}
