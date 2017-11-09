@@ -27,6 +27,11 @@ html here ...
                 e.preventDefault();
                 $(this).find('.g-recaptcha')[0].click();
             }
+        }).find(':input:not(textarea)').on('keyup keypress', function(e) {
+          var keyCode = e.keyCode || e.which;
+          if (keyCode === 13) { 
+            e.preventDefault();
+          }
         });
         
         <?php if(!empty($_POST['emailcontact'])): ?>
