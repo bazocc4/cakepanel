@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	if(!empty($myType))
 	{
 		$this->Html->addCrumb($myType['Type']['name'], '/admin/entries/'.$myType['Type']['slug']);
@@ -89,7 +89,7 @@
 		<div class="change-pic">
 			<i class="icon-cog"></i>			
 			<?php 
-				if( (isset($_POST['data']['Entry'][2]['value'])?$_POST['data']['Entry'][2]['value']:$myEntry['Entry']['main_image']) > 0)
+				if( ($_POST['data']['Entry'][2]['value'] ?? $myEntry['Entry']['main_image'] ?? NULL) > 0)
 				{
 				?>
 					<a href='javascript:void(0)' class='remove' onclick='javascript : $.fn.removePicture();'>Remove /</a> <?php echo $this->Html->link('Change Cover',array('action'=>'media_popup_single',1,'mySelectCoverAlbum',(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'get-from-library select')); ?>

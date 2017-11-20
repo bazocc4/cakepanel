@@ -59,7 +59,7 @@
             }
             else
             {
-                if($search == "yes")
+                if(($search??'') == "yes")
                 {
                     echo '<div class="tabs-content" id="popup-ajaxed">';
                 }
@@ -110,7 +110,7 @@
         <input type="hidden" value="<?php echo $right_limit; ?>" id="myRightLimit"/>
 
         <?php
-            if($isAjax == 0 || $isAjax == 1 && $search == "yes")
+            if($isAjax == 0 || $isAjax == 1 && ($search??'') == "yes")
             {
                 ?>
         <!--      ----------------------------------------------------------------------------------------------------------		 -->			
@@ -159,7 +159,7 @@
 			<div id="tabs2" class="tabs-container">
 				<!-- The file upload form used as target for the file upload widget -->			
 				<?php				
-					echo $this->Form->create('Entry', array('action'=>'UploadHandler','type'=>'file','id'=>'fileupload','inputDefaults' => array('label' =>false , 'div' => false)));	
+					echo $this->Form->create('Entry', array('url'=>['action'=>'UploadHandler'],'type'=>'file','id'=>'fileupload','inputDefaults' => array('label' =>false , 'div' => false)));	
 				?>
 						<input type="hidden" value="<?php echo $myTypeSlug; ?>" name="data[Type][slug]" id="mediaTypeSlug" />
 						<!-- The loading indicator is shown during file processing -->

@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	$shortkey = substr($key, 5 );
 
     $required = "";
@@ -13,7 +13,7 @@
 	
 	// find use manual crop or not !!
 	$crop = -1;
-	foreach ( (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']) as $key10 => $value10) 
+    foreach ( $myChildType['TypeMeta'] ?? $myType['TypeMeta'] ?? [] as $key10 => $value10)
 	{
 		if($value10['key'] == "display_crop")
 		{
@@ -62,11 +62,11 @@
                     onRelease:  clearCoords_<?php echo $counter; ?>,
                     bgColor:    'black',
                                     
-                    <?php if(!empty($childImage) && ($childImage['Entry']['parent_id'] > 0 && is_numeric($childImage['EntryMeta']['image_x']) && is_numeric($childImage['EntryMeta']['image_y']) && is_numeric($childImage['EntryMeta']['image_width']) && is_numeric($childImage['EntryMeta']['image_height']) || is_numeric($_POST['data'][$model][$counter]['x1']) && is_numeric($_POST['data'][$model][$counter]['x2']) && is_numeric($_POST['data'][$model][$counter]['y1']) && is_numeric($_POST['data'][$model][$counter]['y2']) )): ?>
-                    setSelect:  [ <?php echo (is_numeric($_POST['data'][$model][$counter]['x1'])?$_POST['data'][$model][$counter]['x1']:$childImage['EntryMeta']['image_x']); ?>,
-                    <?php echo (is_numeric($_POST['data'][$model][$counter]['y1'])?$_POST['data'][$model][$counter]['y1']:$childImage['EntryMeta']['image_y']); ?>,
-                    <?php echo (is_numeric($_POST['data'][$model][$counter]['x2'])?$_POST['data'][$model][$counter]['x2']:$childImage['EntryMeta']['image_x'] + $childImage['EntryMeta']['image_width']); ?> ,
-                    <?php echo (is_numeric($_POST['data'][$model][$counter]['y2'])?$_POST['data'][$model][$counter]['y2']:$childImage['EntryMeta']['image_y'] + $childImage['EntryMeta']['image_height']); ?> ]
+                    <?php if(!empty($childImage) && ($childImage['Entry']['parent_id'] > 0 && is_numeric($childImage['EntryMeta']['image_x']??NULL) && is_numeric($childImage['EntryMeta']['image_y']??NULL) && is_numeric($childImage['EntryMeta']['image_width']??NULL) && is_numeric($childImage['EntryMeta']['image_height']??NULL) || is_numeric($_POST['data'][$model][$counter]['x1']??NULL) && is_numeric($_POST['data'][$model][$counter]['x2']??NULL) && is_numeric($_POST['data'][$model][$counter]['y1']??NULL) && is_numeric($_POST['data'][$model][$counter]['y2']??NULL) )): ?>
+                    setSelect:  [ <?php echo (is_numeric($_POST['data'][$model][$counter]['x1']??NULL)?$_POST['data'][$model][$counter]['x1']:$childImage['EntryMeta']['image_x']); ?>,
+                    <?php echo (is_numeric($_POST['data'][$model][$counter]['y1']??NULL)?$_POST['data'][$model][$counter]['y1']:$childImage['EntryMeta']['image_y']); ?>,
+                    <?php echo (is_numeric($_POST['data'][$model][$counter]['x2']??NULL)?$_POST['data'][$model][$counter]['x2']:$childImage['EntryMeta']['image_x'] + $childImage['EntryMeta']['image_width']); ?> ,
+                    <?php echo (is_numeric($_POST['data'][$model][$counter]['y2']??NULL)?$_POST['data'][$model][$counter]['y2']:$childImage['EntryMeta']['image_y'] + $childImage['EntryMeta']['image_height']); ?> ]
                     <?php endif; ?>
                 });
                 
@@ -120,15 +120,15 @@
 				<?php
 			}
 		?>
-		<?php echo $this->Html->link('Change',array('controller'=>'entries','action'=>'media_popup_single','1','myEditCoverImage_'.$counter,(empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']),'admin'=>false),array('class'=>'btn btn-info get-from-library'));	?>
+		<?php echo $this->Html->link('Change',array('controller'=>'entries','action'=>'media_popup_single','1','myEditCoverImage_'.$counter,$myChildType['Type']['slug'] ?? $myType['Type']['slug'] ?? '','admin'=>false),array('class'=>'btn btn-info get-from-library'));	?>
 		<a class="btn btn-danger <?php echo (!empty($required)?'hide':''); ?>" onclick="javascript : $.fn.removePicture(<?php echo $counter; ?>,<?php echo $crop; ?>);" href="javascript:void(0)">Remove</a>
-		<p class="help-block"><?php echo $p; ?></p>
+		<p class="help-block"><?php echo $p ?? ''; ?></p>
 	</div>
 	<input class="<?php echo $shortkey; ?>" type="hidden" value="<?php echo $value; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]" id="myEditCoverId_<?php echo $counter; ?>"/>
 	<input type="hidden" value="<?php echo $key; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][key]"/>
 	<input type="hidden" value="<?php echo $input_type; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][input_type]"/>
 	<input type="hidden" value="<?php echo $validation; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][validation]"/>
-	<input type="hidden" value="<?php echo $p; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][instruction]"/>
+	<input type="hidden" value="<?php echo $p ?? ''; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][instruction]"/>
 	<?php if(!empty($childImage) && $childImage['Entry']['parent_id'] > 0): ?>
 	<input type="hidden" value="<?php echo $childImage['Entry']['id']; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][childImageId]"/>
     <?php endif; ?>

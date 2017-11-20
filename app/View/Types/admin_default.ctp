@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	$_SESSION['now'] = str_replace('&amp;','&',htmlentities($_SERVER['REQUEST_URI']));
 	if($isAjax == 0)
 	{

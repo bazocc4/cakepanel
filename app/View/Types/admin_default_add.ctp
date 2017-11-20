@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	$this->Html->addCrumb('Master', '#');
 	$this->Html->addCrumb('Database', '/admin/master/types');
 	if(!empty($myParentType))
@@ -52,7 +52,7 @@
 			$value['counter'] = $counter++;
 			$value['key'] = 'form-Name';
 			$value['validation'] = 'not_empty';
-			$value['value'] = $myType['Type']['name'];
+			$value['value'] = $myType['Type']['name']??NULL;
 			$value['model'] = 'Type';
 			$value['input_type'] = 'text';
 			$value['p'] = 'Keep it short and simple. Ex: Projects.';
@@ -62,7 +62,7 @@
 			$value['counter'] = $counter++;
 			$value['key'] = 'form-Description';
 			$value['validation'] = '';
-			$value['value'] = $myType['Type']['description'];
+			$value['value'] = $myType['Type']['description']??NULL;
 			$value['model'] = 'Type';
 			$value['input_type'] = 'textarea';
 			echo $this->element('input_'.$value['input_type'] , $value);
@@ -72,7 +72,7 @@
 			$value['counter'] = $counter++;
 			$value['key'] = 'form-Category';
             $value['validation'] = 'not_empty';
-			$value['value'] = $myType['TypeMeta']['category'][0];
+			$value['value'] = $myType['TypeMeta']['category'][0]??NULL;
 			$value['model'] = 'TypeMeta';
 			$value['input_type'] = 'text';
 			$value['p'] = 'Type the category title that suitable for this database.';
@@ -89,7 +89,7 @@
 			$value['counter'] = $counter++;
 			$value['key'] = 'form-Stagging';
 			$value['validation'] = '';
-			$value['value'] = $myType['TypeMeta']['stagging'][0];
+			$value['value'] = $myType['TypeMeta']['stagging'][0]??NULL;
 			$value['model'] = 'TypeMeta';			
 			$value['input_type'] = 'checkbox';
 			$value['p'] = 'CRUD options on Front-End.';
@@ -102,7 +102,7 @@
             $value['counter'] = $counter++;
             $value['key'] = 'form-Gallery';
             $value['validation'] = '';
-            $value['value'] = $myType['TypeMeta']['gallery'][0];
+            $value['value'] = $myType['TypeMeta']['gallery'][0]??NULL;
             $value['model'] = 'TypeMeta';           
             $value['input_type'] = 'checkbox';
             $value['p'] = 'Turn On/Off for gallery additional function.';
@@ -115,7 +115,7 @@
 			$value['counter'] = $counter++;
 			$value['key'] = 'form-Title_Key';
 			$value['validation'] = 'is_alnum';
-			$value['value'] = $myType['TypeMeta']['title_key'][0];
+			$value['value'] = $myType['TypeMeta']['title_key'][0]??NULL;
 			$value['model'] = 'TypeMeta';
 			$value['input_type'] = 'text';
 			$value['p'] = 'User defined title key name.';
@@ -137,7 +137,7 @@
                 }
                 else
                 {
-                    $value['value'] = (empty($myType)?'enable':$myType['TypeMeta']['multi_language'][0]);
+                    $value['value'] = (empty($myType)?'enable':$myType['TypeMeta']['multi_language'][0]??NULL);
                 }
                 
                 $value['model'] = 'TypeMeta';           
@@ -153,7 +153,7 @@
 			$value['counter'] = $counter++;
 			$value['key'] = 'form-Pagination';
 			$value['validation'] = 'is_numeric';
-			$value['value'] = $myType['TypeMeta']['pagination'][0];
+			$value['value'] = $myType['TypeMeta']['pagination'][0]??NULL;
 			$value['model'] = 'TypeMeta';
 			$value['input_type'] = 'text';
 			$value['inputsize'] = 'input-mini';
@@ -171,10 +171,10 @@
 		<div class="control-group">            
 			<label class="control-label">Display Size</label>
 			<div class="controls dimension">
-				<input name="data[TypeMeta][<?php echo $counter+1; ?>][value]" type="text" class="small" value="<?php echo $myType['TypeMeta']['display_width'][0]; ?>" placeholder="Width" /> <span>x</span>
+				<input name="data[TypeMeta][<?php echo $counter+1; ?>][value]" type="text" class="small" value="<?php echo $myType['TypeMeta']['display_width'][0]??''; ?>" placeholder="Width" /> <span>x</span>
 				<input type="hidden" value="form-Display_Width" size="100" name="data[TypeMeta][<?php echo $counter+1; ?>][key]"/>
 				<input type="hidden" value="is_numeric" size="100" name="data[TypeMeta][<?php echo $counter+1; ?>][validation]"/>
-				<input name="data[TypeMeta][<?php echo $counter+2; ?>][value]" type="text" class="small" value="<?php echo $myType['TypeMeta']['display_height'][0]; ?>" placeholder="Height" />
+				<input name="data[TypeMeta][<?php echo $counter+2; ?>][value]" type="text" class="small" value="<?php echo $myType['TypeMeta']['display_height'][0]??''; ?>" placeholder="Height" />
 				<input type="hidden" value="form-Display_Height" size="100" name="data[TypeMeta][<?php echo $counter+2; ?>][key]"/>
 				<input type="hidden" value="is_numeric" size="100" name="data[TypeMeta][<?php echo $counter+2; ?>][validation]"/>
 				<p class="help-block">Width x Height (px)</p>
@@ -185,8 +185,8 @@
 			<label class="control-label">Display Crop</label>
 			<div class="controls radio" style="position: relative; top:5px;">
 				<input <?php echo (empty($myType['TypeMeta']['display_crop'][0])?'CHECKED':''); ?> type="radio" value="0" name="data[TypeMeta][<?php echo $counter+3; ?>][value]"/><label>None</label>				
-				<input <?php echo ($myType['TypeMeta']['display_crop'][0]==1?'CHECKED':''); ?> type="radio" value="1" name="data[TypeMeta][<?php echo $counter+3; ?>][value]"/><label>Automatic</label>				
-				<input <?php echo ($myType['TypeMeta']['display_crop'][0]==2?'CHECKED':''); ?> type="radio" value="2" name="data[TypeMeta][<?php echo $counter+3; ?>][value]"/><label>Manual</label>
+				<input <?php echo (($myType['TypeMeta']['display_crop'][0]??NULL)==1?'CHECKED':''); ?> type="radio" value="1" name="data[TypeMeta][<?php echo $counter+3; ?>][value]"/><label>Automatic</label>				
+				<input <?php echo (($myType['TypeMeta']['display_crop'][0]??NULL)==2?'CHECKED':''); ?> type="radio" value="2" name="data[TypeMeta][<?php echo $counter+3; ?>][value]"/><label>Manual</label>
 				<input type="hidden" value="form-Display_Crop" name="data[TypeMeta][<?php echo $counter+3; ?>][key]"/>
 			</div>
 		</div>
@@ -194,10 +194,10 @@
 		<div class="control-group">            
 			<label class="control-label">Thumbnail Size</label>
 			<div class="controls dimension">
-				<input name="data[TypeMeta][<?php echo $counter+4; ?>][value]" type="text" class="small" value="<?php echo $myType['TypeMeta']['thumb_width'][0]; ?>" placeholder="Width" /> <span>x</span>
+				<input name="data[TypeMeta][<?php echo $counter+4; ?>][value]" type="text" class="small" value="<?php echo $myType['TypeMeta']['thumb_width'][0]??''; ?>" placeholder="Width" /> <span>x</span>
 				<input type="hidden" value="form-Thumb_Width" size="100" name="data[TypeMeta][<?php echo $counter+4; ?>][key]"/>
 				<input type="hidden" value="is_numeric" size="100" name="data[TypeMeta][<?php echo $counter+4; ?>][validation]"/>
-				<input name="data[TypeMeta][<?php echo $counter+5; ?>][value]" type="text" class="small" value="<?php echo $myType['TypeMeta']['thumb_height'][0]; ?>" placeholder="Height" />
+				<input name="data[TypeMeta][<?php echo $counter+5; ?>][value]" type="text" class="small" value="<?php echo $myType['TypeMeta']['thumb_height'][0]??''; ?>" placeholder="Height" />
 				<input type="hidden" value="form-Thumb_Height" size="100" name="data[TypeMeta][<?php echo $counter+5; ?>][key]"/>
 				<input type="hidden" value="is_numeric" size="100" name="data[TypeMeta][<?php echo $counter+5; ?>][validation]"/>
 				<p class="help-block">Width x Height (px)</p>
@@ -227,7 +227,7 @@
 				{
 					foreach ($myType['TypeMeta'] as $key => $value) 
 					{
-						if(substr($value['key'], 0 , 5) == 'form-')
+						if(substr($value['key']??NULL, 0 , 5) == 'form-')
 						{
 							?>
 							<tr class="input_list">

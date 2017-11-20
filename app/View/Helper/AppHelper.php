@@ -5,36 +5,32 @@
  * This file is application-wide helper file. You can put all
  * application-wide helper-related methods here.
  *
- * PHP versions 4 and 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.cake
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
+ * @package       app.View.Helper
  * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('Helper', 'View');
 
 /**
- * This is a placeholder class.
- * Create the same file in app/app_helper.php
+ * Application helper
  *
  * Add your application-wide methods in the class below, your helpers
  * will inherit them.
  *
- * @package       cake
- * @subpackage    cake.cake
+ * @package       app.View.Helper
  */
-class AppHelper extends Helper 
-{	
-	function get_http() 
+class AppHelper extends Helper {
+    function get_http() 
 	{
 		return 'http'.(empty($_SERVER['HTTPS'])?'':'s').'://';
     }
@@ -68,4 +64,3 @@ class AppHelper extends Helper
         return $imagePath;
 	}
 }
-?>

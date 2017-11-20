@@ -14,7 +14,7 @@ class TypeMeta extends AppModel {
 		),
 		'key' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

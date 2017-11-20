@@ -3,7 +3,7 @@
 	<head>
 		<?php echo $this->Html->charset(); ?>
 		<title>
-			<?php echo $title_for_layout; ?>
+			<?php echo $this->fetch('title'); ?>
 		</title>
 		
 <!-- 		PREVENT PAGE CACHING -->						
@@ -83,7 +83,7 @@
         <?php
             echo $this->Html->script('admin');
             echo $this->Html->script('ajax');
-            echo $scripts_for_layout;    
+            echo $this->fetch('script');    
         ?>
 	</head>
 
@@ -93,7 +93,7 @@
 				<div class="content" style="margin: 0;">
 					<div id="child-content" class="media inner-content" style="margin: 0;">
 						<?php echo $this->Session->flash(); ?>
-						<?php echo $content_for_layout; ?>
+						<?php echo $this->fetch('content'); ?>
 					</div>
 				</div>
       		</div>

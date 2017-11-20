@@ -2,7 +2,7 @@
     $staticRecordTemplate = FALSE;
     
 	$this->Get->create($data);
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	
 	//setting add edit delete rules view
 	$pecah = explode('|', $user['Role']['privilege']);
@@ -20,11 +20,9 @@
 		{
 			$delete = 1;
 		}
-
 	}
 
-
-    $myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
+    $myAutomatic = $myChildType['TypeMeta'] ?? $myType['TypeMeta'] ?? [];
     $titlekey = "Title";
     $titleIsDate = false;
     foreach ($myAutomatic as $key => $value)
@@ -62,14 +60,14 @@
 		echo $this->element('admin_header', array(
 		    'extensionPaging' => $extensionPaging,
             'staticRecordTemplate' => $staticRecordTemplate,
-            'add' => $add
+            'add' => $add ?? NULL,
 		));
 		echo '<div class="inner-content '.(empty($popup)?'':'layout-content-popup').'" id="inner-content">';
 		echo '<div class="autoscroll" id="ajaxed">';
 	}
 	else
 	{
-		if($search == "yes")
+		if(($search??'') == "yes")
 		{
 			echo '<div class="autoscroll" id="ajaxed">';
 		}
@@ -111,7 +109,7 @@
 		
 		<?php if(empty($popup)): ?>
             // ADD & DELETE BUTTON have the same life fate !!
-            if($('a.get-started').length == 0 || <?php echo ($delete != 1?'true':'false'); ?> )
+            if($('a.get-started').length == 0 || <?php echo (($delete ?? NULL) != 1?'true':'false'); ?> )
             {
                 $('form#global-action > select > option[value=delete]').detach();
                 $('table#myTableList i.icon-trash').parent('a').detach();
@@ -181,7 +179,7 @@
 			// ---------------------------------------------------------------------- >>>
 			// FOR AJAX REASON !!
 			// ---------------------------------------------------------------------- >>>
-			$('p#id-title-description').html('Last updated by <a href="#"><?php echo (empty($lastModified['AccountModifiedBy']['username'])?$lastModified['AccountModifiedBy']['email']:$lastModified['AccountModifiedBy']['username']).'</a> at '.date_converter($lastModified['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?>');
+			$('p#id-title-description').html('Last updated by <a href="#"><?php echo ($lastModified['AccountModifiedBy']['username'] ?? $lastModified['AccountModifiedBy']['email'] ?? '').'</a> at '.date_converter($lastModified['Entry']['modified']??NULL, $mySetting['date_format'] , $mySetting['time_format']); ?>');
 			$('p#id-title-description').css('display','<?php echo (empty($totalList)?'none':'block'); ?>');
 			
 			// UPDATE TITLE HEADER !!
@@ -262,7 +260,7 @@
                 $sortASC = '&#9650;';
                 $sortDESC = '&#9660;';
     
-                echo $this->Html->link($titlekey.' ('.$totalList.')'.($_SESSION['order_by'] == 'title ASC'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == 'title DESC'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$_SESSION['order_by'] == 'title DESC'?"a_to_z":"z_to_a"));
+                echo $this->Html->link($titlekey.' ('.$totalList.')'.(($_SESSION['order_by']??'') == 'title ASC'?' <span class="sort-symbol">'.$sortASC.'</span>':(($_SESSION['order_by']??'') == 'title DESC'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>($_SESSION['order_by']??'') == 'title DESC'?"a_to_z":"z_to_a"));
             ?>
 		</th>
 		
@@ -270,7 +268,7 @@
 			// if this is a parent Entry !!
 			if(empty($myEntry) && empty($popup)) 
 			{
-				foreach ($myType['ChildType'] as $key10 => $value10)
+				foreach ($myType['ChildType'] ?? [] as $key10 => $value10)
 				{
 					echo '<th>'.$value10['name'].'</th>';
 				}
@@ -283,7 +281,7 @@
                     $entityTitle = $value['key'];
                     $hideKeyQuery = '';
                     $shortkey = substr($entityTitle, 5);
-                    if(!empty($popup) && $this->request->query['key'] == $shortkey)
+                    if(!empty($popup) && ($this->request->query['key']??NULL) == $shortkey)
                     {
                         $hideKeyQuery = 'hide';
                     }
@@ -304,7 +302,7 @@
                     }
 
                     echo "<th class='".$hideKeyQuery." ".$datefield."'>";
-                    echo $this->Html->link(string_unslug($shortkey).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' desc'?" asc":" desc") ));
+                    echo $this->Html->link(string_unslug($shortkey).(($_SESSION['order_by']??'') == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':(($_SESSION['order_by']??'') == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.(($_SESSION['order_by']??'') == $entityTitle.' desc'?" asc":" desc") ));
                     echo "</th>";
                 }
             }
@@ -318,13 +316,13 @@
 		<th class="date-field">
             <?php
                 $entityTitle = "modified";
-                echo $this->Html->link('last '.string_unslug($entityTitle).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' desc'?" asc":" desc") ));
+                echo $this->Html->link('last '.string_unslug($entityTitle).(($_SESSION['order_by']??'') == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':(($_SESSION['order_by']??'') == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.(($_SESSION['order_by']??'') == $entityTitle.' desc'?" asc":" desc") ));
             ?>
         </th>
 		<th>
 		    <?php
                 $entityTitle = "status";
-                echo $this->Html->link(string_unslug($entityTitle).($_SESSION['order_by'] == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':($_SESSION['order_by'] == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.($_SESSION['order_by'] == $entityTitle.' desc'?" asc":" desc") ));
+                echo $this->Html->link(string_unslug($entityTitle).(($_SESSION['order_by']??'') == $entityTitle.' asc'?' <span class="sort-symbol">'.$sortASC.'</span>':(($_SESSION['order_by']??'') == $entityTitle.' desc'?' <span class="sort-symbol">'.$sortDESC.'</span>':'')),array("action"=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'index',$paging,'?'=>$extensionPaging) , array("class"=>"ajax_mypage" , "escape" => false , "title" => "Click to Sort" , "alt"=>$entityTitle.(($_SESSION['order_by']??'') == $entityTitle.' desc'?" asc":" desc") ));
             ?>
 		</th>
 		<?php
@@ -362,7 +360,7 @@
 		foreach ($myList as $value):
 		$orderlist .= $value['Entry']['sort_order'].",";
     
-        // need to format title as date ??
+        // need to format title as date?
         if($titleIsDate)
         {
             $value['Entry']['title'] = date_converter($value['Entry']['title'], $mySetting['date_format']);
@@ -381,7 +379,7 @@
                 $editUrl = array('action'=>$myType['Type']['slug'].(empty($myEntry)?'':'/'.$myEntry['Entry']['slug']),'edit',$value['Entry']['slug'] ,'?'=> (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?array('type'=>$myChildType['Type']['slug']):'')   );
 			?>
 			<input class="slug-code" type="hidden" value="<?php echo $value['Entry']['slug']; ?>" />
-			<h5 class="title-code"><?php echo ($edit == 1?(empty($popup)?$this->Html->link($value['Entry']['title'],$editUrl):$value['Entry']['title']):$value['Entry']['title']); ?></h5>
+			<h5 class="title-code"><?php echo (($edit ?? NULL) == 1?(empty($popup)?$this->Html->link($value['Entry']['title'],$editUrl):$value['Entry']['title']):$value['Entry']['title']); ?></h5>
             <?php
                 if(!empty($value['Entry']['description']))
                 {
@@ -393,7 +391,7 @@
 		<?php
 			if(empty($myEntry) && empty($popup)) // if this is a parent Entry !!
 			{
-				foreach ($myType['ChildType'] as $key10 => $value10)
+				foreach ($myType['ChildType'] ?? [] as $key10 => $value10)
 				{
 					echo '<td><span class="badge badge-info">'.$this->Html->link((empty($value['EntryMeta']['count-'.$value10['slug']])?'0':$value['EntryMeta']['count-'.$value10['slug']]),array('action'=>$myType['Type']['slug'],$value['Entry']['slug'],'?'=>array('type'=>$value10['slug'], 'lang'=>$_SESSION['lang']))).'</span></td>';
 				}
@@ -404,9 +402,9 @@
                 if(substr($value10['key'], 0,5) == 'form-')
                 {
                     $shortkey = substr($value10['key'], 5);
-                    $displayValue = $value['EntryMeta'][$shortkey];
+                    $displayValue = $value['EntryMeta'][$shortkey]??'';
                     $hideKeyQuery = '';
-                    if(!empty($popup) && $this->request->query['key'] == $shortkey)
+                    if(!empty($popup) && ($this->request->query['key']??NULL) == $shortkey)
                     {
                         $hideKeyQuery = 'hide';
                     }
@@ -587,7 +585,7 @@
 <input type="hidden" value="<?php echo $left_limit; ?>" id="myLeftLimit"/>
 <input type="hidden" value="<?php echo $right_limit; ?>" id="myRightLimit"/>
 <?php
-	if($isAjax == 0 || $isAjax == 1 && $search == "yes")
+	if($isAjax == 0 || $isAjax == 1 && ($search??'') == "yes")
 	{
 		echo '</div>';
 		echo $this->element('admin_footer', array('extensionPaging' => $extensionPaging));

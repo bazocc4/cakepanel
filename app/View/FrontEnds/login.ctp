@@ -11,7 +11,7 @@
 	
 	<div class="layout-body">
 		<div class="content">				
-			<?php echo $this->Form->create(null, array ('url'=>'#'));?>
+			<?php echo $this->Form->create(); ?>
 				<fieldset>
 					<?php
 						$status = $this->Session->flash('auth');

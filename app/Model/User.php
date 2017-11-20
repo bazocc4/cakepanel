@@ -4,7 +4,7 @@ class User extends AppModel {
 	var $validate = array(
 		'firstname' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				'message' => 'Please complete all required fields.',
 				//'allowEmpty' => false,
 				//'required' => false,

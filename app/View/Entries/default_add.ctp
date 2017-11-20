@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	if($isAjax == 0)
 	{
 		echo $this->element('header_add');

@@ -204,26 +204,26 @@
 					<ul>
 						<?php
 							echo '<li id="myPagingFirst" class="'.($paging<=1?"disabled":"").'">';
-							echo $this->Html->link("First",array("action"=>"index",'1','?'=>$cakeUrl['?']) , array("class"=>"ajax_mypage"));
+							echo $this->Html->link("First",array("action"=>"index",'1','?'=>$cakeUrl['?']??[]) , array("class"=>"ajax_mypage"));
 							echo '</li>';
 							
 							echo '<li id="myPagingPrev" class="'.($paging<=1?"disabled":"").'">';
-							echo str_replace("amp;", "", $this->Html->link("&laquo;",array("action"=>"index",($paging-1),'?'=>$cakeUrl['?']), array("class"=>"ajax_mypage")));
+							echo str_replace("amp;", "", $this->Html->link("&laquo;",array("action"=>"index",($paging-1),'?'=>$cakeUrl['?']??[]), array("class"=>"ajax_mypage")));
 							echo '</li>';
 							
 							for ($i = $left_limit , $index = 1; $i <= $right_limit; $i++ , $index++)
 							{
 								echo '<li id="myPagingNum'.$index.'" class="'.($i==$paging?"active":"").'">';
-								echo $this->Html->link($i,array("action"=>"index",$i,'?'=>$cakeUrl['?']) , array("class"=>"ajax_mypage"));				
+								echo $this->Html->link($i,array("action"=>"index",$i,'?'=>$cakeUrl['?']??[]) , array("class"=>"ajax_mypage"));				
 								echo '</li>';
 							}
 						
 							echo '<li id="myPagingNext" class="'.($paging>=$countPage?"disabled":"").'">';
-							echo str_replace("amp;", "", $this->Html->link("&raquo;",array("action"=>"index",($paging+1),'?'=>$cakeUrl['?']) , array("class"=>"ajax_mypage")));
+							echo str_replace("amp;", "", $this->Html->link("&raquo;",array("action"=>"index",($paging+1),'?'=>$cakeUrl['?']??[]) , array("class"=>"ajax_mypage")));
 							echo '</li>';
 							
 							echo '<li id="myPagingLast" class="'.($paging>=$countPage?"disabled":"").'">';
-							echo $this->Html->link("Last",array("action"=>"index",$countPage,'?'=>$cakeUrl['?']), array("class"=>"ajax_mypage"));
+							echo $this->Html->link("Last",array("action"=>"index",$countPage,'?'=>$cakeUrl['?']??[]), array("class"=>"ajax_mypage"));
 							echo '</li>';
 						?>
 					</ul>

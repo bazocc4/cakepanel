@@ -32,7 +32,7 @@ class Account extends AppModel {
 		),
 		'username' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				'message' => 'Please complete all required fields.',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -68,7 +68,7 @@ class Account extends AppModel {
 		),
 		'password' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				'message' => 'Please complete all required fields.',
 				//'allowEmpty' => false,
 				//'required' => false,

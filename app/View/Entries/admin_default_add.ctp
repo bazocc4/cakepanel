@@ -1,8 +1,8 @@
 <?php
 	$this->Get->create($data);
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 
-    $myAutomatic = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
+    $myAutomatic = $myChildType['TypeMeta'] ?? $myType['TypeMeta'] ?? [];
     $titlekey = "title";
     $titleIsDate = false;
     foreach ($myAutomatic as $key => $value)
@@ -18,7 +18,7 @@
         }
     }
 
-	if($isAjax == 0)
+	if(($isAjax??NULL) == 0)
 	{
         $params_admin_header_add = [];
         if(!empty($myEntry) && $titleIsDate) // format title as date (temporary) !!
@@ -64,14 +64,14 @@
 	$myTranslation = ( empty($lang)||empty($myEntry) ? '' : (empty($myChildTypeLink)?'?':'&').'lang='.$lang);
 	$targetSubmit = (empty($myType)?'pages':$myType['Type']['slug']).(empty($myChildType)?'':'/'.$myParentEntry['Entry']['slug']).(empty($myEntry)?'/add':'/edit/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation;
 	$saveButton = (empty($myEntry)?'Add New':(empty($lang)?'Save Changes':'Add Translation'));
-	echo $this->Form->create('Entry', array('action'=>$targetSubmit,'type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));	
+	echo $this->Form->create('Entry', array('url'=>['action'=>$targetSubmit],'type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));	
 ?>
 	<fieldset>
 		<script>
 			$(document).ready(function(){
 				if($('p#id-title-description').length > 0)
 				{
-					$('p#id-title-description').html('Last updated by <a href="#"><?php echo (empty($myEntry['AccountModifiedBy']['username'])?$myEntry['AccountModifiedBy']['email']:$myEntry['AccountModifiedBy']['username']).'</a> at '.date_converter($myEntry['Entry']['modified'], $mySetting['date_format'] , $mySetting['time_format']); ?>');
+					$('p#id-title-description').html('Last updated by <a href="#"><?php echo ($myEntry['AccountModifiedBy']['username'] ?? $myEntry['AccountModifiedBy']['email'] ?? '').'</a> at '.date_converter($myEntry['Entry']['modified']??NULL, $mySetting['date_format'] , $mySetting['time_format']); ?>');
 					$('p#id-title-description').css('display','<?php echo (!empty($lang)?'none':'block'); ?>');
 				}
 				
@@ -102,7 +102,7 @@
 			$value['model'] = 'Entry';
 			$value['counter'] = 0;
 			$value['input_type'] = ($titleIsDate?'datepicker':'text');
-			$value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['title']);
+			$value['value'] = $_POST['data'][$value['model']][$value['counter']]['value'] ?? $myEntry[$value['model']]['title'] ?? '';
 			echo $this->element('input_'.$value['input_type'] , $value);
         
             if(!empty($myEntry) && empty($lang))
@@ -113,7 +113,7 @@
                 $value['model'] = 'Entry';
                 $value['counter'] = 4;
                 $value['input_type'] = 'text';
-                $value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['slug']);
+                $value['value'] = $_POST['data'][$value['model']][$value['counter']]['value'] ?? $myEntry[$value['model']]['slug'] ?? '';
                 
                 $value['display'] = 'none';
                 
@@ -160,12 +160,12 @@
 					{
 						$value['optionlist'] = $value['value'];
 					}
-					unset($value['value']);
+					$value['value'] = '';
 
 					// now get value from EntryMeta if existed !!
-					foreach ($myEntry['EntryMeta'] as $key10 => $value10) 
+					foreach ($myEntry['EntryMeta']??[] as $key10 => $value10) 
 					{						
-						if($value['key'] == $value10['key'])
+						if($value['key'] == ($value10['key']??NULL) )
 						{
 							$value['value'] = $value10['value'];
 							break;
@@ -193,9 +193,9 @@
 				}
 			}
 			// HIDE THE BROKEN INPUT TYPE !!!!!!!!!!!!!
-			foreach ($myEntry['EntryMeta'] as $key => $value)
+			foreach ($myEntry['EntryMeta']??[] as $key => $value)
 			{
-				if(substr($value['key'], 0 , 5) == 'form-')
+				if(substr($value['key']??NULL, 0 , 5) == 'form-')
 				{
 					$broken = 1;
 					foreach ($myAutomatic as $key20 => $value20) 
@@ -226,7 +226,7 @@
 			$value['model'] = 'Entry';
 			$value['counter'] = 1;
 			$value['input_type'] = 'ckeditor';
-			$value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['description']);
+			$value['value'] = $_POST['data'][$value['model']][$value['counter']]['value'] ?? $myEntry[$value['model']]['description'] ?? '';
 			echo $this->element('input_'.$value['input_type'] , $value);
 
 			// show status field if update (NEW ZPANEL FEATURE) !!
@@ -240,7 +240,7 @@
 			$value['list'][0]['name'] = 'Published';
 			$value['list'][1]['id'] = '0';
 			$value['list'][1]['name'] = 'Draft';
-            $value['value'] = (isset($_POST['data'][$value['model']][$value['counter']]['value'])?$_POST['data'][$value['model']][$value['counter']]['value']:$myEntry[$value['model']]['status']);
+            $value['value'] = $_POST['data'][$value['model']][$value['counter']]['value'] ?? $myEntry[$value['model']]['status'] ?? '';
 			$value['display'] = (empty($myEntry)||empty($myType)?'none':'');
 			echo $this->element('input_'.$value['input_type'] , $value);
 			
@@ -329,7 +329,7 @@
 <?php echo $this->Form->end(); ?>
 	<div class="clear"></div>
 <?php
-	if($isAjax == 0)
+	if(($isAjax??NULL) == 0)
 	{
 		echo '</div>';
 	}

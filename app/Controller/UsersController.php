@@ -24,7 +24,7 @@ class UsersController extends AppController {
 	**/
 	function admin_index($paging = 1) 
 	{
-		$popup = $this->request->query['popup'];		
+		$popup = $this->request->query['popup'] ?? '';		
 		if(!empty($popup) || $this->request->is('ajax'))
 		{
 			$this->layout = 'ajax';

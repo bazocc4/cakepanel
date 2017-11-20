@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	$_SESSION['now'] = str_replace('&amp;','&',htmlentities($_SERVER['REQUEST_URI']));
 	if($isAjax == 0)
 	{
@@ -111,7 +111,7 @@
 	}
 	else
 	{
-        if($search == "yes")
+        if(isset($search) && $search == "yes")
 		{
 			echo '<div id="ajaxed" class="list">';
 		}
@@ -176,7 +176,7 @@
 <!-- myTypeSlug is for media upload settings purpose !! -->
 <input type="hidden" value="<?php echo $myType['Type']['slug']; ?>" size="100" id="myTypeSlug"/>
 <?php
-	if($isAjax == 0 || $isAjax == 1 && $search == "yes")
+	if($isAjax == 0 || $isAjax == 1 && isset($search) && $search == "yes")
 	{
 		echo '</div>';
 		echo $this->element('admin_footer');

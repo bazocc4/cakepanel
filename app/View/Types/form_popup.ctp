@@ -34,7 +34,7 @@
 <div id="upload-popup" class="upload-popup form-popup">
 	<?php
 		$saveButton = ($state=='add'?'Add New':'Update Field');
-		echo $this->Form->create('Type', array('id'=>'TypeFormPopupForm','action'=>'form_popup/'.$state,'type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));
+		echo $this->Form->create('Type', array('id'=>'TypeFormPopupForm','url'=>['action'=>'form_popup/'.$state],'type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));
 	?>
 		<div class="layout-header">
 			<div class="sidebar-title">

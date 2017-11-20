@@ -481,7 +481,7 @@ class TypesController extends AppController {
 			$src['value']['option'] = trim($src['value']['option']); // SPECIAL CASE !!!
 			
 			// VALIDATE FIRST !!
-			if(empty($src['key']) || $src['validation']['min_length']['state'] == 'yes' && (empty($src['validation']['min_length']['value']) || !is_numeric($src['validation']['min_length']['value']) || $src['validation']['min_length']['value'] == 0) || $src['validation']['max_length']['state'] == 'yes' && (empty($src['validation']['max_length']['value']) || !is_numeric($src['validation']['max_length']['value']) || $src['validation']['max_length']['value'] == 0))
+			if(empty($src['key']) || ($src['validation']['min_length']['state']??NULL) == 'yes' && (empty($src['validation']['min_length']['value']) || !is_numeric($src['validation']['min_length']['value']) || $src['validation']['min_length']['value'] == 0) || ($src['validation']['max_length']['state']??NULL) == 'yes' && (empty($src['validation']['max_length']['value']) || !is_numeric($src['validation']['max_length']['value']) || $src['validation']['max_length']['value'] == 0))
 			{
 				$result['state'] = 'failed';
 			}
@@ -496,14 +496,14 @@ class TypesController extends AppController {
 				$result['frontKey'] = string_unslug($src['key']);
 				
 				$result['value'] = ($src['value']['state']=='exist' && empty($src['validation']['browse_module'])?$src['value']['option']:'');
-				$result['input_type'] = $src['input_type'];
+				$result['input_type'] = $src['input_type']??NULL;
 				$result['instruction'] = $src['instruction'];
 				$result['validation'] = '';
 				foreach ($src['validation'] as $key => $value) 
 				{	
 					if($key == 'min_length' || $key == 'max_length')
 					{
-						$result['validation'] .= ( $value['state'] == 'yes' ?$key.'_'.$value['value'].'|':'');
+						$result['validation'] .= ( ($value['state']??NULL) == 'yes' ?$key.'_'.$value['value'].'|':'');
 					}
 					else 
 					{

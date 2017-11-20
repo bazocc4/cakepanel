@@ -24,10 +24,13 @@ extract($data , EXTR_SKIP);
 // use Full Path ...
 $imagePath = $this->Get->host_name(); 
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
+    <head>
+        <title><?php echo $this->fetch('title'); ?></title>
+    </head>
 	<body style='font-family: "Courier New", Courier, monospace; font-size: 14px;'>
-		<pre><?php echo $content_for_layout;?></pre>
+		<pre><?php echo $this->fetch('content'); ?></pre>
 		<?php if(!empty($mySetting['title'])): ?>
 		<br/>
 		<br/>

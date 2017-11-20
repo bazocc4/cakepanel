@@ -150,7 +150,7 @@ class GetHelper extends AppHelper
 	function meta_details($passData = [])
 	{	
         extract($passData , EXTR_SKIP);
-		return $this->Entry->meta_details($slug , $entry_type , $parentId , $id , $ordering , $lang , $title , (!empty($this->request->params['admin'])?NULL:1) ); // default is from FRONT-END called !!
+		return $this->Entry->meta_details($slug??NULL , $entry_type??NULL , $parentId??NULL , $id??NULL , $ordering??NULL , $lang??NULL , $title??NULL , (!empty($this->request->params['admin'])?NULL:1) ); // default is from FRONT-END called !!
 	}
 	
 	function account_name($username = NULL, $id = NULL)
@@ -338,11 +338,11 @@ class GetHelper extends AppHelper
 		{	
 			if(empty($entry))
 			{
-				$data = $this->_get_list_entry($type , NULL , NULL , $orderField , $orderDirection , $language);
+				$data = $this->_get_list_entry($type , NULL , NULL , $orderField , $orderDirection , $language??NULL);
 			}
 			else 
 			{
-				$data = $this->_get_list_entry($type , $entry , (empty($childType)?$type:$childType) , $orderField , $orderDirection , $language);
+				$data = $this->_get_list_entry($type , $entry , (empty($childType)?$type:$childType) , $orderField , $orderDirection , $language??NULL);
 			}
 		}		
 		if(empty($raw))
@@ -453,7 +453,7 @@ class GetHelper extends AppHelper
 	function navigation($passData = array())
 	{
 		extract($passData , EXTR_SKIP);
-		$data = $this->_get_list_entry('pages',NULL,NULL,NULL,NULL,$language);
+		$data = $this->_get_list_entry('pages',NULL,NULL,NULL,NULL,$language??NULL);
 		if(empty($raw))
 		{
 			$result = array();
@@ -818,7 +818,7 @@ class GetHelper extends AppHelper
 		$data['mySetting'] = $this->data['mySetting'];
 		$data['myType'] = $myType;
 		$data['paging'] = $paging;
-		$data['popup'] = $this->data['popup'];
+		$data['popup'] = $this->data['popup']??NULL;
 		if(!empty($myEntry))
 		{			
 			$data['myEntry'] = $myEntry;

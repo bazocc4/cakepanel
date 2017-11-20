@@ -13,7 +13,7 @@
     </label>
 	<div class="controls">
 		<p><input class="input-xlarge" type="text" size="200" value="<?php echo $value; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/></p>
-		<p id='slug_source' class="help-block" style="display: inline-block"><?php echo $p; ?></p>
+		<p id='slug_source' class="help-block" style="display: inline-block"><?php echo $p ?? ''; ?></p>
 		<input class="input-medium" id='slug_value' style="display: none;" type="text" size="200" value=""/>
 		<a id="edit_slug" class="btn btn-info" onclick="javascript : $.fn.editSlug(<?php echo $id; ?>);" href="javascript:void(0)">Edit Slug</a>
 	</div>

@@ -6,5 +6,5 @@
 	header ("Content-Type: application/octet-stream; charset=UTF-8");
 	header ("Content-Disposition: attachment; filename='db-".get_slug($mySetting['title'])."-".date('d-m-Y').".sql'" );
 	header ("Content-Description: Generated Report" );
-	echo $content_for_layout;
+	echo $this->fetch('content');
 ?>

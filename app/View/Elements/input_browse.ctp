@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	$shortkey = substr($key, 5 );	
 
     $browse_slug = get_slug($shortkey);
@@ -61,8 +61,7 @@
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
-		
-		<input <?php echo $required; ?> <?php echo 'id="'.$browse_alias.'"'; ?> class="targetID input-xlarge" placeholder="<?php echo $placeholder; ?>" value="<?php echo (empty($metaDetails['EntryMeta']['name'])?$metaDetails['Entry']['title']:$metaDetails['EntryMeta']['name'].' ('.$metaDetails['Entry']['title'].')'); ?>" type="text" readonly="true"/>
+		<input <?php echo $required; ?> <?php echo 'id="'.$browse_alias.'"'; ?> class="targetID input-xlarge" placeholder="<?php echo $placeholder ?? ''; ?>" value="<?php echo (empty($metaDetails['EntryMeta']['name'])?($metaDetails['Entry']['title']??''):$metaDetails['EntryMeta']['name'].' ('.($metaDetails['Entry']['title']??'').')'); ?>" type="text" readonly="true"/>
         <?php
             $popupExtensions = array('popup'=>'init');
             if($browse_alias != $browse_slug)
@@ -70,7 +69,7 @@
                 $popupExtensions['alias'] = $browse_alias;
             }
         
-            if(is_array($request_query))
+            if(is_array($request_query??NULL))
             {
                 $popupExtensions = array_merge($popupExtensions, $request_query);
             }
@@ -87,11 +86,11 @@
 		
 		<p class="help-block">
 			Want to create new one? Click <?php echo $this->Html->link('here<img alt="External Icon" src="'.$imagePath.'img/external-icon.gif">',array('controller'=>'entries','action'=>$browse_slug.'/add'),array("onclick"=>"javascript:openRequestedSinglePopup(this.href); return false;","escape"=>false)); ?>.<br/>
-            <?php echo $p; ?>
+            <?php echo $p ?? ''; ?>
         </p>
 	</div>
 	<input type="hidden" value="<?php echo $key; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][key]"/>
 	<input type="hidden" value="<?php echo $input_type; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][input_type]"/>
 	<input type="hidden" value="<?php echo $validation; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][validation]"/>
-	<input type="hidden" value="<?php echo $p; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][instruction]"/>
+	<input type="hidden" value="<?php echo $p ?? ''; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][instruction]"/>
 </div>

@@ -16,8 +16,8 @@ class AccountsController extends AppController {
 	
 	public function admin_index($paging = 1) 
 	{
-		$popup = $this->request->query['popup'];
-		$popupRole = $this->request->query['role'];
+		$popup = $this->request->query['popup'] ?? '';
+		$popupRole = $this->request->query['role'] ?? '';
 		if(!empty($popup) || $this->request->is('ajax'))
 		{
 			$this->layout = 'ajax';

@@ -11,7 +11,7 @@
 	
 	<div class="layout-body">
 		<div class="content">				
-			<?php echo $this->Form->create('Account', array ('action'=>'forget'), array('class' => 'form-horizontal'));?>
+			<?php echo $this->Form->create('Account', array('class' => 'form-horizontal'));?>
 				<fieldset>
 					<?php
 						echo $this->Session->flash('auth');

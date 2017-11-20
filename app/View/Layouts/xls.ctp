@@ -6,5 +6,5 @@
 	header ("Content-Type: application/vnd.ms-excel; charset=UTF-8");
 	header ("Content-Disposition: attachment; filename=\"".$filename.".xls" );
 	header ("Content-Description: Generated Report" );
-	echo $content_for_layout;
+	echo $this->fetch('content');
 ?>

@@ -1,7 +1,7 @@
 <?php
     $twitter_username = '@bazocc4';
     if( empty( $this->Get->getData() ) )    $this->Get->create($data);
-    if(is_array($data)) extract($data , EXTR_SKIP);
+    if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo (empty($language)?'en':$language); ?>">
@@ -15,7 +15,7 @@
 		<meta name="author" content="<?php echo $mySetting['title']; ?>">		
 		<meta name="keywords" content="<?php echo $mySetting['tagline']; ?>">		
 		<meta name="description" content="<?php echo $mySetting['description']; ?>">
-		<title><?php echo $title_for_layout; ?></title>
+		<title><?php echo $this->fetch('title'); ?></title>
 		<?php
             // ----------------- Open Graph protocol ---------------------
             echo '<meta property="og:url" content="http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'" />';
@@ -147,7 +147,7 @@
 	    	echo $this->Html->script('number_format');
 			echo $this->Html->script('admin');
 			echo $this->Html->script('ajax');
-			echo $scripts_for_layout;
+			echo $this->fetch('script');
 			
 	    	// GOOGLE ANALYTICS CODES
 	    	if(!empty($mySetting['google_analytics_code']))
@@ -217,7 +217,7 @@
 				<div class="content span10">
 					<div id="child-content" class="media inner-content">
 						<?php echo $this->Session->flash(); ?>
-						<?php echo $content_for_layout; ?>
+						<?php echo $this->fetch('content'); ?>
 					</div>
 				</div>
       		</div><!--/row-->	

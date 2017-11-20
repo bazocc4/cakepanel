@@ -24,7 +24,7 @@
 <div class="inner-content">		
 
 <?php
-	echo $this->Form->create('Account', array('action'=>'add','type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));	
+	echo $this->Form->create('Account', array('type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));	
 ?>
 	<fieldset>
 		<p class="notes important" style="color: red;font-weight: bold;">* Red input MUST NOT be empty.</p>
@@ -32,8 +32,8 @@
 		<div class="control-group">            
 			<label style="color: red;" class="control-label">User ID</label>
 			<div class="controls">
-				<input REQUIRED id="user" class="input-medium" value="<?php echo $_POST['data']['temp']['username']; ?>" type="text" readonly="true" name="data[temp][username]"/>
-				<input type="hidden" name="data[Account][user_id]" value="<?php echo $_POST['data']['Account']['user_id']; ?>" />
+				<input REQUIRED id="user" class="input-medium" value="<?php echo $_POST['data']['temp']['username']??''; ?>" type="text" readonly="true" name="data[temp][username]"/>
+				<input type="hidden" name="data[Account][user_id]" value="<?php echo $_POST['data']['Account']['user_id']??''; ?>" />
 				<?php echo $this->Html->link('Browse',array('controller'=>'users','action'=>'index?popup=init','admin'=>true),array('class'=>'btn btn-info get-from-table'));	?>
 				<p class="help-block">Haven't been registered yet? Please <?php echo $this->Html->link('register<img style="max-width:100%;" alt="External Icon" src="'.$imagePath.'img/external-icon.gif">',array('controller'=>'users','action'=>'add'),array("onclick"=>"javascript:openRequestedSinglePopup(this.href); return false;" , "escape" => false)); ?> first as user.</p>	
 			</div>
@@ -42,7 +42,7 @@
 		<div class="control-group">            
 			<label style="color: red;" class="control-label">Username</label>
 			<div class="controls">				
-				<input REQUIRED value="<?php echo $_POST['data']['Account']['username']; ?>" class="input-xlarge input-username" type="text" name="data[Account][username]"/>
+				<input REQUIRED value="<?php echo $_POST['data']['Account']['username']??''; ?>" class="input-xlarge input-username" type="text" name="data[Account][username]"/>
 				<p class="help-block">Type as your nickname account</p>
 			</div>
 		</div>
@@ -71,7 +71,7 @@
 		<div class="control-group">            
 			<label style="color: red;" class="control-label">E-mail Login</label>
 			<div class="controls">				
-				<input REQUIRED class="input-xlarge" type="email" value="<?php echo $_POST['data']['Account']['email']; ?>" name="data[Account][email]"/>
+				<input REQUIRED class="input-xlarge" type="email" value="<?php echo $_POST['data']['Account']['email']??''; ?>" name="data[Account][email]"/>
 				<p class="help-block">Please enter a valid E-mail address as login authentication.</p>
 			</div>
 		</div>

@@ -4,7 +4,7 @@ class Entry extends AppModel {
 	var $validate = array(
 		'entry_type' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				'message' => 'Please complete all required fields.',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -14,7 +14,7 @@ class Entry extends AppModel {
 		),
 		'title' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				'message' => 'Please complete all required fields.',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -24,7 +24,7 @@ class Entry extends AppModel {
 		),
 		'slug' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				'message' => 'Please complete all required fields.',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -243,11 +243,11 @@ class Entry extends AppModel {
         $pecahlang = explode('-', $lang_code);
         
         $acuan = $this->findById($pecahlang[1]);
-        $bahasa_acuan = explode('-', $acuan['Entry']['lang_code']);        
+        $bahasa_acuan = explode('-', $acuan['Entry']['lang_code']??NULL);        
         $querysrc = $this->find('all', array(
             'conditions' => array(
-                'Entry.entry_type' => $acuan['Entry']['entry_type'],
-                'Entry.parent_id' => $acuan['Entry']['parent_id'],
+                'Entry.entry_type' => $acuan['Entry']['entry_type']??NULL,
+                'Entry.parent_id' => $acuan['Entry']['parent_id']??NULL,
                 'Entry.lang_code LIKE' => $bahasa_acuan[0].'-%'
             ),
             'order' => array('Entry.sort_order DESC')
@@ -272,7 +272,7 @@ class Entry extends AppModel {
         }
         
         // search acuan position !!
-        $acuankey = '';
+        $acuankey = 0;
         foreach($querysrc as $key => $value)
         {
             if($value['Entry']['id'] == $acuan['Entry']['id'])
@@ -1121,12 +1121,12 @@ class Entry extends AppModel {
     /*
     Check certain EntryType has gallery,etc feature turn ON / OFF !! (updated)
     */
-    function checkGalleryType($myAutomaticValidation = array(), $searchKey = NULL, $searchValue = NULL)
+    function checkGalleryType($myAutomaticValidation = [], $searchKey = NULL, $searchValue = NULL)
     {
         if(empty($searchKey)) $searchKey = 'gallery';
         if(empty($searchValue)) $searchValue = 'enable';
         
-        foreach ($myAutomaticValidation as $key => $value) 
+        foreach ($myAutomaticValidation??[] as $key => $value) 
         {
             if($value['key'] == $searchKey)
             {

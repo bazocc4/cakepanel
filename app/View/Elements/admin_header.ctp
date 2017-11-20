@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	$this->Html->addCrumb($myType['Type']['name'], '/admin/entries/'.$myType['Type']['slug']);
 	if(!empty($myEntry))
 	{
@@ -9,7 +9,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		var orderFlag = '';
-		switch('<?php echo $_SESSION['order_by']; ?>')
+		switch('<?php echo $_SESSION['order_by'] ?? ''; ?>')
 		{
             case '': // empty var ...
                 orderFlag = 'by_order';
@@ -93,7 +93,7 @@
 		<div class="title">
 			<h2><?php echo (empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title'].' - '.$myChildType['Type']['name']); ?></h2>
 			<?php
-				echo '<p class="title-description">'.(empty($myChildType)?$myType['Type']['description']:$myChildType['Type']['description']).'</p>';
+				echo '<p class="title-description">'.($myChildType['Type']['description'] ?? $myType['Type']['description'] ?? '').'</p>';
 				if($totalList > 0)
 				{
 					?>

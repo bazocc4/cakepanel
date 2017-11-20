@@ -4,7 +4,7 @@ class Setting extends AppModel {
 	var $validate = array(
 		'key' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -55,15 +55,15 @@ class Setting extends AppModel {
 	/* backup the db OR just a table */
 	function backup_tables($host,$user,$pass,$name,$tables = '*' , $delimiter = '/*cakepanel2014*/;')
 	{ 
-	  $link = mysql_connect($host,$user,$pass);
-	  mysql_select_db($name,$link);
+	  $link = mysqli_connect($host,$user,$pass);
+	  mysqli_select_db($link,$name);
 	  
 	  //get all of the tables
 	  if($tables == '*')
 	  {
 	    $tables = array();
-	    $result = mysql_query('SHOW TABLES');
-	    while($row = mysql_fetch_row($result))
+	    $result = mysqli_query($link,'SHOW TABLES');
+	    while($row = mysqli_fetch_row($result))
 	    {
 	      $tables[] = $row[0];
 	    }
@@ -77,16 +77,16 @@ class Setting extends AppModel {
 	  $return = "";
 	  foreach($tables as $table)
 	  {
-	    $result = mysql_query('SELECT * FROM '.$table);
-	    $num_fields = mysql_num_fields($result);
+	    $result = mysqli_query($link,'SELECT * FROM '.$table);
+	    $num_fields = mysqli_num_fields($result);
 
 	    $return.= 'DROP TABLE IF EXISTS '.$table.$delimiter;
-	    $row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE '.$table));
+	    $row2 = mysqli_fetch_row(mysqli_query($link,'SHOW CREATE TABLE '.$table));
 	    $return.= "\n\n".$row2[1].$delimiter."\n\n";
 	    
 	    for ($i = 0; $i < $num_fields; $i++) 
 	    {
-	      while($row = mysql_fetch_row($result))
+	      while($row = mysqli_fetch_row($result))
 	      {
 	        $return.= 'INSERT INTO '.$table.' VALUES(';
 	        for($j=0; $j<$num_fields; $j++) 
@@ -199,14 +199,14 @@ class Setting extends AppModel {
 	function executeSql($hostname,$db_user,$db_password,$database_name,$sqlFileToExecute)
 	{
 		$message = "success";
-		$link = mysql_connect($hostname, $db_user, $db_password);
+		$link = mysqli_connect($hostname, $db_user, $db_password);
 		if (!$link) 
 		{
 		    $message = "MySQL Connection error!";
 		    return $message;
 		}
 		
-		$db_selected = mysql_select_db($database_name, $link);
+		$db_selected = mysqli_select_db($link, $database_name);
 		if(!$db_selected)
 		{
 			$message = "Wrong MySQL Database!";
@@ -220,7 +220,7 @@ class Setting extends AppModel {
 		$sql_query = @fread(@fopen($sqlFileToExecute, 'r'), @filesize($sqlFileToExecute)) or die('problem!');
 		$sql_query = $this->split_sql_file($sql_query);
 		foreach($sql_query as $sql){
-			mysql_query($sql) or die('error in query!');
+			mysqli_query($link,$sql) or die('error in query!');
 		}
 		
 		unlink($sqlFileToExecute);

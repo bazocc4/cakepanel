@@ -68,7 +68,7 @@
 		</div>
 	</div>
 	<?php
-		echo $this->Form->create('Entry', array('action'=>'backup/restore','id'=>'restore','enctype'=>'multipart/form-data','class' => 'hide'));
+		echo $this->Form->create('Entry', array('url'=>['action'=>'backup/restore'],'id'=>'restore','type'=>'file','class' => 'hide'));
 	?>
 		<div class="control-group">
 			<div class="controls">

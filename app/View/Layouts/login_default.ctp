@@ -7,7 +7,7 @@
 	<meta name="description" content="<?php echo $mySetting['description']; ?>">
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $title_for_layout; ?>
+		<?php echo $this->fetch('title'); ?>
 	</title>
 <!-- 		FAVICON IMAGE -->		
 	<link rel="shortcut icon" href="<?php echo $imagePath."favicon.ico"; ?>" type="image/x-icon" />	
@@ -18,10 +18,10 @@
 			echo $this->Html->script('jquery-1.7.2.min');
 			echo $this->Html->script('jquery.color');
 			echo $this->Html->script('bootstrap.min');
-			echo $scripts_for_layout;
+			echo $this->fetch('script');
 		?>	
 </head>
 <body>
-<?php echo $content_for_layout; ?>
+<?php echo $this->fetch('content'); ?>
 </body>
 </html>

@@ -157,7 +157,7 @@ class EntriesController extends AppController {
 				$myTypeSlug = $this->request->params['pass'][$indent+0];
 				$myType = $this->Type->findBySlug($myTypeSlug);                
                 // check if Type has pagination field, then redirect to its first page ...
-                foreach($myType['TypeMeta'] as $key => $value){
+                foreach($myType['TypeMeta']??[] as $key => $value){
                     if($value['key'] == 'pagination')
                     {
                         $this->redirect('/'.$this->request->url.'1'.get_more_extension($this->request->query));
@@ -166,9 +166,9 @@ class EntriesController extends AppController {
                 $result = $this->_admin_default([
                     'myType' => $myType,
                     'paging' => 0,
-                    'myMetaKey' => $this->request->query['key'],
-                    'myMetaValue' => $this->request->query['value'],
-                    'searchMe' => $this->request->data['search'],
+                    'myMetaKey' => $this->request->query['key']??NULL,
+                    'myMetaValue' => $this->request->query['value']??NULL,
+                    'searchMe' => $this->request->data['search']??NULL,
                     'lang' => $language,
                 ]);
                 
@@ -386,7 +386,7 @@ class EntriesController extends AppController {
 		}
 		
 		// SAVE TO SHOPPING CART IF THIS IS FORM SUBMIT !!
-		if($_POST['type'] == 'addtocart')
+		if(($_POST['type']??'') == 'addtocart')
 		{
 			$temp['item_number'] = $_POST['item_number'];
 			$temp['quantity'] = $_POST['quantity'];
@@ -417,7 +417,7 @@ class EntriesController extends AppController {
 		// END OF SHOPPING CART !!
 
 		$this->onlyActiveEntries = FALSE;		
-		$this->setTitle(!empty($result['myChildType'])? $result['myChildType']['Type']['name'] : (!empty($result['myType'])? $result['myType']['Type']['name'] : ($thisIsHomeUrl?'':$myEntry['Entry']['title']) ) );
+		$this->setTitle(!empty($result['myChildType'])? $result['myChildType']['Type']['name'] : (!empty($result['myType'])? $result['myType']['Type']['name'] : (($thisIsHomeUrl??false)?'':$myEntry['Entry']['title']??'') ) );
 		$this->render($this->frontEndFolder.$myRenderFile);
 
 		// on detail entity page, is it allow using $_SERVER['HTTP_REFERER'] page to go back onto its master page ...
@@ -512,8 +512,7 @@ class EntriesController extends AppController {
 			}
 			else
 			{
-				header("Location: ".$_SESSION['now']);
-				exit;
+				$this->redirect( redirectSessionNow($_SESSION['now']) );
 			}
 		}
 	}
@@ -532,8 +531,7 @@ class EntriesController extends AppController {
 			if(empty($localcall))
 			{
 				$this->Session->setFlash('Invalid id for entry', 'failed');
-				header("Location: ".$_SESSION['now']);
-				exit;
+				$this->redirect( redirectSessionNow($_SESSION['now']) );
 			}
 			else
 			{
@@ -588,8 +586,7 @@ class EntriesController extends AppController {
         
         if(empty($localcall))
         {
-            header("Location: ".$_SESSION['now']);
-            exit;
+            $this->redirect( redirectSessionNow($_SESSION['now']) );
         }
         else
         {
@@ -704,8 +701,7 @@ class EntriesController extends AppController {
                 $this->Entry->deleteMedia($value);
             }            
             $this->Session->setFlash('All selected images have been deleted successfully!','success');
-            header("Location: ".$_SESSION['now']);
-            exit;
+            $this->redirect( redirectSessionNow($_SESSION['now']) );
         }
     }
 	
@@ -731,8 +727,7 @@ class EntriesController extends AppController {
 				$this->Session->setFlash('Media "'.$media_name['Entry']['title'].'" has been deleted','success');
 			}
 		}
-		header("Location: ".$_SESSION['now']);
-		exit;
+		$this->redirect( redirectSessionNow($_SESSION['now']) );
 	}
 	
 	/**
@@ -832,14 +827,14 @@ class EntriesController extends AppController {
 		// this general action is one for all...
         $this->_admin_default([
             'myType' => $myType,
-            'paging' => $this->request->params['page'],
-            'myEntry' => $myEntry,
-            'myMetaKey' => $this->request->query['key'],
-            'myMetaValue' => $this->request->query['value'],
-            'myChildTypeSlug' => $myChildTypeSlug,
-            'searchMe' => $this->request->data['search_by'],
-            'popup' => $this->request->query['popup'],
-            'lang' => strtolower($this->request->query['lang']),
+            'paging' => $this->request->params['page'] ?? NULL,
+            'myEntry' => $myEntry ?? NULL,
+            'myMetaKey' => $this->request->query['key'] ?? NULL,
+            'myMetaValue' => $this->request->query['value'] ?? NULL,
+            'myChildTypeSlug' => $myChildTypeSlug ?? NULL,
+            'searchMe' => $this->request->data['search_by'] ?? NULL,
+            'popup' => $this->request->query['popup'] ?? NULL,
+            'lang' => strtolower($this->request->query['lang'] ?? NULL),
         ]);
         
         $myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug);
@@ -954,7 +949,7 @@ class EntriesController extends AppController {
 		}
 		
 		// main add function ...
-		$this->_admin_default_add(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry , $myChildTypeSlug);
+		$this->_admin_default_add(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry??[] , $myChildTypeSlug??[]);
 		
 		$myTemplate = ($myType['Type']['slug']=='pages'?$myEntry['Entry']['slug']:(empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug)).'_add';
 		
@@ -1088,7 +1083,7 @@ class EntriesController extends AppController {
 		}
 		
 		// main edit function ...
-		$this->_admin_default_edit(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
+		$this->_admin_default_edit(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry , $myParentEntry??NULL , $myChildTypeSlug??NULL , strtolower($this->request->query['lang']??NULL));
 		
 		$myTemplate = ($myType['Type']['slug']=='pages'?$myEntry['Entry']['slug']:(empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug)).'_add';		
 		// send to each appropriate view
@@ -1211,7 +1206,7 @@ class EntriesController extends AppController {
 			$data['stream'] = (isset($this->request->query['stream'])?$this->request->query['stream']:NULL);
             $data['alias'] = (isset($this->request->query['alias'])?$this->request->query['alias']:NULL);
 		}	
-		if ($this->request->is('ajax') && empty($popup) || $popup == "ajax" || !empty($searchMe)) 
+		if ($this->request->is('ajax') && empty($popup) || ($popup??NULL) == "ajax" || !empty($searchMe)) 
 		{	
 			$data['isAjax'] = 1;
 			if($searchMe != NULL || !empty($lang) && !empty($this->request->params['admin']) )
@@ -1241,7 +1236,7 @@ class EntriesController extends AppController {
         
 		$data['myType'] = $myType;
 		$data['paging'] = $paging;
-		$data['popup'] = $popup;
+		$data['popup'] = $popup??NULL;
 		if(!empty($myEntry) && !empty($myChildTypeSlug) )
 		{			
 			$data['myEntry'] = $myEntry;
@@ -1250,8 +1245,8 @@ class EntriesController extends AppController {
 		}
         
         // $_SESSION['order_by'] Validation !!
-        $myAutomaticValidation = (empty($myChildType)?$myType['TypeMeta']:$myChildType['TypeMeta']);
-        if(substr($_SESSION['order_by'] , 0 , 5) == 'form-')
+        $myAutomaticValidation = $myChildType['TypeMeta'] ?? $myType['TypeMeta'] ?? [];
+        if(substr($_SESSION['order_by'] ?? NULL , 0 , 5) == 'form-')
         {
             $innerFieldMeta = FALSE;
             foreach( $myAutomaticValidation as $key => $value)
@@ -1281,7 +1276,7 @@ class EntriesController extends AppController {
         }
         
 		// set page title
-		$this->setTitle(empty($myEntry)?$myType['Type']['name']:$myEntry['Entry']['title']);
+		$this->setTitle($myEntry['Entry']['title'] ?? $myType['Type']['name'] ?? NULL);
 		
 		// set paging session...
 		$countPage = $this->countListPerPage;
@@ -1318,8 +1313,8 @@ class EntriesController extends AppController {
 		// our list conditions... --------------------------------------------------------------////
 		if(empty($myEntry))
 		{
-			$options['conditions'] = array('Entry.entry_type' => $myType['Type']['slug']);
-            if($myType['Type']['parent_id'] <= 0)
+			$options['conditions'] = array('Entry.entry_type' => $myType['Type']['slug']??NULL);
+            if(($myType['Type']['parent_id']??NULL) <= 0)
 			{
 				$options['conditions']['Entry.parent_id'] = 0;
 			}
@@ -1337,7 +1332,7 @@ class EntriesController extends AppController {
 			$options['conditions']['Entry.status'] = 1;
 		}
 
-		if($myType['Type']['slug'] != 'media')
+		if(($myType['Type']['slug']??NULL) != 'media')
 		{
 			$options['conditions']['Entry.lang_code LIKE'] = $_SESSION['lang'].'-%';
 			$data['language'] = $_SESSION['lang'];
@@ -1429,7 +1424,7 @@ class EntriesController extends AppController {
             {
                 // test if title_key contains "date" keyword !!
                 $explodeSorting = explode(' ', $_SESSION['order_by']);
-                if($explodeSorting[0] == 'title' && stripos( array_column($myAutomaticValidation, 'value', 'key')['title_key'] , 'date') !== false)
+                if($explodeSorting[0] == 'title' && stripos( array_column($myAutomaticValidation, 'value', 'key')['title_key'] ?? '' , 'date') !== false)
                 {
                     $options['order'] = array('STR_TO_DATE( Entry.title , "%m/%d/%Y") '.$explodeSorting[1]);
                 }
@@ -1649,8 +1644,8 @@ class EntriesController extends AppController {
 					$myValid = explode('|', $value['validation']);
 					foreach ($myValid as $key10 => $value10) 
 					{
-						$tempMsg = $this->Validation->blazeValidate( $value['value'] ,$value10 , $value['key']);
-						$errMsg .= ( strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
+						$tempMsg = $this->Validation->blazeValidate( $value['value']??NULL ,$value10 , $value['key']??NULL);
+						$errMsg .= ( !empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
 					}
 					// secondly DO checking validation from database !!!
 					foreach ($myAutomaticValidation as $key2 => $value2) // check for validation for each attribute key... 
@@ -1660,8 +1655,8 @@ class EntriesController extends AppController {
 							$myValid = explode('|' , $value2['validation']);
 							foreach ($myValid as $key3 => $value3) 
 							{
-								$tempMsg = $this->Validation->blazeValidate($value['value'],$value3 , $value['key']);
-								$errMsg .= ( strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
+								$tempMsg = $this->Validation->blazeValidate($value['value']??NULL,$value3 , $value['key']??NULL);
+								$errMsg .= ( !empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
 							}
 							break;
 						}
@@ -1863,7 +1858,7 @@ class EntriesController extends AppController {
 		{
 			$data['isAjax'] = 0;
 		}	
-		$this->setTitle('Edit '.$myEntry['Entry']['title']);
+		$this->setTitle('Edit '.($myEntry['Entry']['title']??''));
 		$myChildType = $this->Type->findBySlug($myChildTypeSlug);
 		$data['myType'] = $myType;		
 		$data['myEntry'] = $myEntry;
@@ -1897,14 +1892,14 @@ class EntriesController extends AppController {
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
 		$lang_opt = $this->Entry->find('all' , array(
 			'conditions' => array(
-				'Entry.lang_code LIKE' => '%-'.substr($myEntry['Entry']['lang_code'], 3)
+				'Entry.lang_code LIKE' => '%-'.substr($myEntry['Entry']['lang_code']??NULL, 3)
 			)
 		));
 		foreach ($lang_opt as $key => $value) 
 		{
 			$language_link[substr($value['Entry']['lang_code'], 0,2)] = $value['Entry']['slug'];
 		}
-		$data['language_link'] = $language_link;
+		$data['language_link'] = $language_link??NULL;
 		$data['lang'] = $lang;
 		if(!empty($myParentEntry) && $data['multi_language'])
 		{
@@ -1982,8 +1977,8 @@ class EntriesController extends AppController {
 						$myValid = explode('|', $value['validation']);
 						foreach ($myValid as $key10 => $value10) 
 						{
-							$tempMsg = $this->Validation->blazeValidate($value['value'],$value10 , $value['key']);
-							$errMsg .= ( strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
+							$tempMsg = $this->Validation->blazeValidate($value['value']??NULL,$value10 , $value['key']??NULL);
+							$errMsg .= ( !empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
 						}
 						// secondly DO checking validation from database !!!
 						foreach ($myAutomaticValidation as $key2 => $value2) // check for validation for each attribute key... 
@@ -1993,8 +1988,8 @@ class EntriesController extends AppController {
 								$myValid = explode('|' , $value2['validation']);
 								foreach ($myValid as $key3 => $value3) 
 								{
-									$tempMsg = $this->Validation->blazeValidate($value['value'],$value3 , $value['key']);
-									$errMsg .= ( strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
+									$tempMsg = $this->Validation->blazeValidate($value['value']??NULL,$value3 , $value['key']??NULL);
+									$errMsg .= ( !empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
 								}
 								break;
 							}
@@ -2092,7 +2087,7 @@ class EntriesController extends AppController {
                                 else
                                 {
                                     // check to delete older file !!
-                                    if($_POST['delete-'.substr($value['key'], 5)] == 'deleted')
+                                    if(($_POST['delete-'.substr($value['key'], 5)]??'') == 'deleted')
                                     {
                                         if(empty($this->EntryMeta->findByValue($value['value'])))
                                         {
@@ -2339,7 +2334,7 @@ class EntriesController extends AppController {
         }
         else
         {
-            if( ! is_null($this->request->data['search_by']) )
+            if( ! is_null($this->request->data['search_by']??NULL) )
             {
                 $this->set('search', 'yes');
 
@@ -2360,7 +2355,7 @@ class EntriesController extends AppController {
 		{
 			$temp = $this->Type->findBySlug($myTypeSlug);
 			$crop = -1;
-			foreach ($temp['TypeMeta'] as $key => $value) 
+			foreach ($temp['TypeMeta']??[] as $key => $value) 
 			{
 				if($value['key'] == 'display_crop')
 				{
@@ -2447,12 +2442,12 @@ class EntriesController extends AppController {
 	function meta_details($passData = [])
 	{
         extract($passData , EXTR_SKIP);
-		return $this->Entry->meta_details($slug , $entry_type , $parentId , $id , $ordering , $lang , $title ); // default is from BACK-END called !!
+		return $this->Entry->meta_details($slug??NULL , $entry_type??NULL , $parentId??NULL , $id??NULL , $ordering??NULL , $lang??NULL , $title??NULL ); // default is from BACK-END called !!
 	}
 
 	function admin_backup()
 	{
-		$mode = $this->request->params['mode'];
+		$mode = $this->request->params['mode']??NULL;
 
 		$myTitle = "Backup Database & Files";
 		$this->setTitle($myTitle);

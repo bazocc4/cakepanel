@@ -51,7 +51,7 @@ class SettingsController extends AppController {
                     foreach ($myValid as $key10 => $value10) 
                     {
                         $tempMsg = $this->Validation->blazeValidate($value['value'],$value10 , $value['key']);
-                        $errMsg .= ( strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
+                        $errMsg .= (!empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
                     }
                 }
 			}

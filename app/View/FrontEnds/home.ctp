@@ -1,6 +1,6 @@
 <?php
     $this->Get->create($data);
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 ?>
 <div>
 	<?php

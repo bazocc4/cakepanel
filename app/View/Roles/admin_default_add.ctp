@@ -1,5 +1,5 @@
 <?php
-	if(is_array($data)) extract($data , EXTR_SKIP);
+	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 	$this->Html->addCrumb('Master', '#');
 	$this->Html->addCrumb('Role', '/admin/master/roles');
 	if(empty($myRole))

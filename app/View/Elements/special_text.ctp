@@ -12,7 +12,7 @@
         <?php echo string_unslug(substr($key, 5 )); ?>
     </label>
 	<div class="controls">
-		<input class="input-xlarge" placeholder="<?php echo $placeholder; ?>" type="text" size="200" value="<?php echo $value; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
+		<input class="input-xlarge" placeholder="<?php echo $placeholder ?? ''; ?>" type="text" size="200" value="<?php echo $value; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"/>
 		<a alt="<?php echo $counter+1; ?>" href="javascript:void(0)" class="btn del_setting">Remove</a>
 		<?php
 			if(!empty($p))

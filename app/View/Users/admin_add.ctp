@@ -19,7 +19,7 @@
 <div class="inner-content">		
 
 <?php
-	echo $this->Form->create('User', array('action'=>'add','type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));	
+	echo $this->Form->create('User', array('type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));	
 ?>
 	<fieldset>
 		<p class="notes important" style="color: red;font-weight: bold;">* Red input MUST NOT be empty.</p>

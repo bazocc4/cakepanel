@@ -14,7 +14,7 @@ class EntryMeta extends AppModel {
 		),
 		'key' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -92,7 +92,7 @@ class EntryMeta extends AppModel {
 		{
 			foreach ($myEntry['EntryMeta'] as $key => $value) 
 			{
-				if(in_array($value['key'], $haystack) && empty($this->EntryMeta->findByValue($value['value'])) )
+				if(in_array($value['key']??NULL, $haystack) && empty($this->EntryMeta->findByValue($value['value'])) )
 				{
 					deleteFile($value['value']);
 				}
