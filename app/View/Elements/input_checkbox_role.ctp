@@ -1,5 +1,5 @@
 <?php
-	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
+	if(is_array($data)) extract($data , EXTR_SKIP);
 	$shortkey = substr($key, 5 );
 	
 	if(strpos(strtolower($validation), 'browse_module') !== FALSE)
@@ -37,6 +37,12 @@
 
 			if($('#'+val[0]+'_add').is(':checked'))
 			{
+				$('#'+val[0]+'_edit').attr('checked',true);
+				$('#'+val[0]+'_delete').attr('checked',true);
+			}
+			if($('#'+val[0]+'_delete').is(':checked'))
+			{
+				$('#'+val[0]+'_add').attr('checked',true);
 				$('#'+val[0]+'_edit').attr('checked',true);
 			}
 		});
@@ -111,8 +117,8 @@
 		</table>
 	</div>
 	<input type="hidden" value="<?php echo $key; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][key]"/>
-	<input type="hidden" value="<?php echo $optionlist ?? ''; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][optionlist]"/>	
+	<input type="hidden" value="<?php echo $optionlist; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][optionlist]"/>	
 	<input type="hidden" value="<?php echo $input_type; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][input_type]"/>
 	<input type="hidden" value="<?php echo $validation; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][validation]"/>
-	<input type="hidden" value="<?php echo $p ?? ''; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][instruction]"/>
+	<input type="hidden" value="<?php echo $p; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][instruction]"/>
 </div>

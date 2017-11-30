@@ -617,7 +617,7 @@ class GetHelper extends AppHelper
 			case 'textarea':
 				if(stripos($value, '</iframe>') !== FALSE) // skip if this is iframe.
 				{
-					$result = $value;
+					$result = htmlspecialchars($value);
 					break;
 				}
 
