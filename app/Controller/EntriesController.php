@@ -56,6 +56,23 @@ class EntriesController extends AppController {
         $temp_lang = $this->Entry->get_lang_url($this->RequestHandler->isRss()&&!empty($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:NULL);
 		$language = $temp_lang['language'];
 		$indent = $temp_lang['indent'];
+        
+        // ======================== >>>
+        // filter params slug first !!!
+        // ======================== >>>
+        if(!empty($this->request->params['pass'][$indent]))
+        {
+            $this->request->params['pass'][$indent] = $this->Entry->getModuleSlug($this->request->params['pass'][$indent]);
+            
+            // for SEO google optimization !!
+            $meta_tags = breakEntryMetas($this->Entry->find('first', [
+                'conditions' => [
+                    'Entry.entry_type' => 'meta-tags',
+                    'Entry.description' => $this->request->params['pass'][$indent],
+                    'Entry.lang_code LIKE' => $language.'-%',
+                ]
+            ]));
+        }
 
 		if( $this->RequestHandler->isRss() )
 		{
@@ -313,7 +330,7 @@ class EntriesController extends AppController {
                     // redirect to 1st page if content not found on page more than 1 ...
                     if(empty($result['myList']) && $myPaging > 1 )
                     {
-                        $this->redirect('/'.$url_lang.$myType['Type']['slug'].'/1'.get_more_extension($this->request->query));
+                        $this->redirect('/'.$url_lang.$this->Entry->getModuleAlias($myType['Type']['slug'], $language).'/1'.get_more_extension($this->request->query));
                     }
                     
 					$myRenderFile = $myTypeSlug;
@@ -363,7 +380,7 @@ class EntriesController extends AppController {
                 // redirect to 1st page if content not found on page more than 1 ...
                 if(empty($result['myList']) && $myPaging > 1 )
                 {
-                    $this->redirect('/'.$url_lang.$myType['Type']['slug'].'/'.$myParentEntry['Entry']['slug'].'/1'.get_more_extension($this->request->query));
+                    $this->redirect('/'.$url_lang.$this->Entry->getModuleAlias($myType['Type']['slug'], $language).'/'.$myParentEntry['Entry']['slug'].'/1'.get_more_extension($this->request->query));
                 }
                 
 				$myRenderFile = $this->request->query['type'];
@@ -415,6 +432,24 @@ class EntriesController extends AppController {
 			$this->Session->setFlash('Shopping Cart has been added. Please click <a href="'.$this->get_host_name().'shoppingcart/step1">Shopping Cart</a> menu for details.','success');
 		}
 		// END OF SHOPPING CART !!
+        
+        // SEO Process !!
+        if(!empty($myEntry['Entry']['title']))
+        {
+            $meta_tags['EntryMeta']['meta_title'] = (!empty($myParentEntry['Entry']['title'])?$myParentEntry['Entry']['title'].' - ':'').$myEntry['Entry']['title'];
+        }
+        if(!empty($myEntry['EntryMeta']['meta_description']))
+        {
+            $meta_tags['EntryMeta']['meta_description'] = $myEntry['EntryMeta']['meta_description'];
+        }
+        if(!empty($myEntry['EntryMeta']['meta_keywords']))
+        {
+            $meta_tags['EntryMeta']['meta_keywords'] = $myEntry['EntryMeta']['meta_keywords'];
+        }
+        if(!empty($meta_tags) && !$thisIsHomeUrl )
+        {
+            $this->set(compact('meta_tags'));
+        }
 
 		$this->onlyActiveEntries = FALSE;		
 		$this->setTitle(!empty($result['myChildType'])? $result['myChildType']['Type']['name'] : (!empty($result['myType'])? $result['myType']['Type']['name'] : (($thisIsHomeUrl??false)?'':$myEntry['Entry']['title']??'') ) );

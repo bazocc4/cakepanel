@@ -1,5 +1,5 @@
 <?php
-    $twitter_username = '@bazocc4';
+    $twitter_username = '@'.Inflector::slug(strtolower($mySetting['title']));
     if( empty( $this->Get->getData() ) )    $this->Get->create($data);
     if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 ?>
@@ -13,9 +13,9 @@
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<?php echo $this->Html->meta('rss' , '/entries/index.rss'); ?>
 		<meta name="author" content="<?php echo $mySetting['title']; ?>">		
-		<meta name="keywords" content="<?php echo $mySetting['tagline']; ?>">		
-		<meta name="description" content="<?php echo $mySetting['description']; ?>">
-		<title><?php echo $this->fetch('title'); ?></title>
+		<meta name="keywords" content="<?php echo $meta_tags['EntryMeta']['meta_keywords'] ?? $mySetting['tagline']; ?>">
+		<meta name="description" content="<?php echo $meta_tags['EntryMeta']['meta_description'] ?? $mySetting['description']; ?>">
+		<title><?php echo $meta_tags['EntryMeta']['meta_title'] ?? $this->fetch('title'); ?></title>
 		<?php
             // ----------------- Open Graph protocol ---------------------
             echo '<meta property="og:url" content="http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'" />';
@@ -34,8 +34,8 @@
                     echo '<meta property="og:title" content="'.$mySetting['title'].'" />';
                     echo '<meta name="twitter:title" content="'.$mySetting['title'].'">';
                     
-                    echo '<meta property="og:description" content="'.$mySetting['description'].'" />';
-                    echo '<meta name="twitter:description" content="'.$mySetting['description'].'">';
+                    echo '<meta property="og:description" content="'.($meta_tags['EntryMeta']['meta_description'] ?? $mySetting['description']).'" />';
+                    echo '<meta name="twitter:description" content="'.($meta_tags['EntryMeta']['meta_description'] ?? $mySetting['description']).'">';
                     
                     if(!empty($mySetting['homepage_share']))
                     {

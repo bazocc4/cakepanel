@@ -1139,4 +1139,40 @@ class Entry extends AppModel {
         }
         return false;
     }
+    
+    function getModuleAlias($slug, $lang = null)
+    {
+        $options = [
+            'conditions' => [
+                'Entry.entry_type' => 'meta-tags',
+                'Entry.description' => $slug,
+                'Entry.status' => 1,
+                'EntryMeta.key' => 'form-url_code',
+            ],
+            'fields' => ['value'],
+        ];
+        
+        if(!empty($lang))
+        {
+            $options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
+        }
+        
+        $sql = $this->EntryMeta->find('first', $options);
+        
+        return $sql['EntryMeta']['value'] ?? $slug ;
+    }
+    
+    function getModuleSlug($alias)
+    {
+        $sql = $this->EntryMeta->find('first', [
+            'conditions' => [
+                'Entry.entry_type' => 'meta-tags',
+                'EntryMeta.key' => 'form-url_code',
+                'EntryMeta.value' => $alias,
+            ],
+            'fields' => ['Entry.description'],
+        ]); // ignore meta status for this case !!
+        
+        return $sql['Entry']['description'] ?? $alias ;
+    }
 }

@@ -24,6 +24,30 @@ class GetHelper extends AppHelper
 	    
 	    parent::__construct($View);
 	}
+    
+    function getModuleAlias($slug, $lang = NULL)
+    {
+        return $this->Entry->getModuleAlias($slug, $lang);
+    }
+    
+    function getModuleTitle($slug, $lang = NULL)
+    {
+        $options = [
+            'conditions' => [
+                'Entry.entry_type' => 'meta-tags',
+                'Entry.description' => $slug,
+                'Entry.status' => 1,
+            ],
+            'fields' => 'title',
+        ];
+        if(!empty($lang))
+        {
+            $options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
+        }
+        
+        $sql = $this->Entry->find('first', $options);
+        return $sql['Entry']['title'] ?? $this->Type->findBySlug($slug)['Type']['name'];
+    }
 	
 	/**
 	* as a constructor for this helper class

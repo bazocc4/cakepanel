@@ -199,13 +199,16 @@
                             $haystack_cat = array_unique($haystack_cat);
                             foreach($haystack_cat as $key => $value)
                             {
-                                // later this place will be appended by jQuery below !!
-                                echo '<li class="separator"><a class="sidebar-menu" href="#">'.$value.'</a></li>';
-                                echo '<div style="display:none;"></div>';
+                                if(strtolower($value) != 'others')
+                                {
+                                    // later this place will be appended by jQuery below !!
+                                    echo '<li class="separator"><a class="sidebar-menu" href="#">'.$value.'</a></li>';
+                                    echo '<div style="display:none;"></div>';
+                                }
                             }
 						?>
 						
-						<li class='separator'><?php echo $this->Html->link('Others','#',array('class'=>'sidebar-menu')); ?></li>
+						<li class='separator'><?php echo $this->Html->link('others','#',array('class'=>'sidebar-menu')); ?></li>
                         <div style="display:none;">
                             <?php
                                 echo "<li>";
