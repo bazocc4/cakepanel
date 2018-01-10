@@ -2,6 +2,12 @@ var instance = '';
 var delayCloseWindow = 2000; // delay for closing window popup (in ms) !!
 var windowObjectReference = [];
 
+window.newLocation = function( location ) {
+    var newLocation = ( typeof location === "string" ) ? location : window.location.href,
+       appendType = ( newLocation.indexOf("?") < 0 ) ? "?" : "&";
+    window.location = newLocation + appendType + "_t=" + (new Date()).getTime();
+}
+
 function nl2br (str, is_xhtml) {   
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';    
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
@@ -28,12 +34,12 @@ function show_confirm(message , url)
 	var r=confirm(message);
 	if (r==true)
 	{
-		window.location = site+url;
+		window.newLocation(site+url);
 	}
 }
 function changeLocation(url)
 {
-	window.location = site+url;
+	window.newLocation(site+url);
 }
 
 function deleteChildPic(myobj)
@@ -380,7 +386,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 				imgName: imgName,
 				parentId: $('input[type=hidden]#parentId').val()
 			},function(){
-				window.location = site + $('input[type=hidden]#targetLocation').val() + '/' + $('input[type=hidden]#parentId').val();
+				window.newLocation(site + $('input[type=hidden]#targetLocation').val() + '/' + $('input[type=hidden]#parentId').val());
 			});
 		}
 	}
@@ -576,7 +582,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 				{					
 					if(confirm("Are you sure want to delete this image?"))
 					{
-					  	window.location = site+"entries/deleteMedia/"+tempURL[tempURL.length - 1];
+					  	window.newLocation(site+"entries/deleteMedia/"+tempURL[tempURL.length - 1]);
 					} 
 				}	
             });
