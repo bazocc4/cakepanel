@@ -3,15 +3,15 @@ class TypesController extends AppController {
 	public $name = 'Types';
 	public $components = array('RequestHandler','Session','Validation','Auth');
 	public $helpers = array('Form', 'Html', 'Js', 'Time', 'Get');
-	
+
 	public function beforeFilter()
 	{
-        parent::beforeFilter();		
+    parent::beforeFilter();
 		if($this->user['role_id'] > 1)
 		{
 			throw new NotFoundException('Error 404 - Not Found');
 		}
-    }
+  }
 
 	/**
 	 * fork our target routes for Type(database) CRUD
@@ -100,7 +100,7 @@ class TypesController extends AppController {
 		}
 		$this->render($myRenderFile);
 	}
-	
+
 	/**
 	* querying to get list of available database types.
 	* @param integer $paging[optional] contains selected page of lists you want to retrieve
@@ -109,23 +109,23 @@ class TypesController extends AppController {
 	* @public
 	**/
 	function _admin_default($paging = 1 , $myParentType = array())
-	{				
-		if ($this->request->is('ajax')) 
-		{	
+	{
+		if ($this->request->is('ajax'))
+		{
 			$this->layout = 'ajax';
 			$data['isAjax'] = 1;
-		} 
-		else 
+		}
+		else
 		{
 			$data['isAjax'] = 0;
-		}		
+		}
 		$data['paging'] = $paging;
 		$data['myParentType'] = $myParentType;
 		$countPage = $this->countListPerPage;
-		
+
 		// set page title
 		$this->setTitle(empty($myParentType)?'Database Master':$myParentType['Type']['name']);
-		
+
 		// our list conditions... ----------------------------------------------------------------------------------////
 		$options['conditions'] = array(
 			'Type.parent_id' => (empty($myParentType)?0:$myParentType['Type']['id'])
@@ -135,21 +135,21 @@ class TypesController extends AppController {
 		$lastModified = $this->Type->find('first' , $options);
 		$data['lastModified'] = $lastModified;
 		// end of last modified...
-		
+
 		$resultTotalList = $this->Type->find('count' , $options);
 		$data['totalList'] = $resultTotalList;
-		
+
         // set which page that will be shown ...
 		$options['offset'] = ($paging-1) * $countPage;
 		$options['limit'] = $countPage;
-			
+
 		$mysql = $this->Type->find('all' ,$options);
 		$data['myList'] = $mysql;
-		
+
 		// set New countPage
 		$newCountPage = ceil($resultTotalList * 1.0 / $countPage);
 		$data['countPage'] = $newCountPage;
-		
+
 		// set the paging limitation...
 		$left_limit = 1;
 		$right_limit = 5;
@@ -170,7 +170,7 @@ class TypesController extends AppController {
 			{
 				$right_limit = $newCountPage;
 				$left_limit = $newCountPage - 4;
-			}			
+			}
 		}
 		$data['left_limit'] = $left_limit;
 		$data['right_limit'] = $right_limit;
@@ -179,24 +179,24 @@ class TypesController extends AppController {
 
 	/**
 	* add new database type
-	* @param array $myParentType[optional] contains record query result of parent database type(used if want to add new database child for that type) 
+	* @param array $myParentType[optional] contains record query result of parent database type(used if want to add new database child for that type)
 	* @return void
 	* @public
 	**/
 	function _admin_default_add($myParentType = array())
-	{	
+	{
 		$this->setTitle('Add New Database');
 		$data['myParentType'] = $myParentType;
 		$this->set(compact('data'));
-		
+
 		// if form submit is taken...
-		if (!empty($this->request->data)) 
+		if (!empty($this->request->data))
 		{
 			$this->request->data['Type']['name'] = $this->request->data['Type'][0]['value'];
 			$this->request->data['Type']['slug'] = $this->get_slug($this->request->data['Type']['name']);
 			$this->request->data['Type']['description'] = $this->request->data['Type'][1]['value'];
 			// write my creator...
-			
+
 			$this->request->data['Type']['created_by'] = $this->user['id'];
 			$this->request->data['Type']['modified_by'] = $this->user['id'];
 			// write time created manually !!
@@ -205,7 +205,7 @@ class TypesController extends AppController {
 			$this->request->data['Type']['modified'] = $nowDate;
 			// set parent_id
 			$this->request->data['Type']['parent_id'] = (empty($myParentType)?0:$myParentType['Type']['id']);
-			
+
 			// now for validation !!
 			$this->Type->set($this->request->data);
 			if($this->Type->validates())
@@ -226,10 +226,10 @@ class TypesController extends AppController {
 					$this->Type->id = $myParentType['Type']['id'];
 					$this->Type->saveField('count' , $myParentType['Type']['count'] + 1);
 				}
-				
+
 				// NOW ADD TYPE METAS !!
 				$this->request->data['TypeMeta']['type_id'] = $typeId;
-				
+
 				// SAVE OTHER TYPE METAS (WITH LIMITED COUNTER) !!
 				for($i=2 ; $i <= 100 ; ++$i)
 				{
@@ -248,56 +248,56 @@ class TypesController extends AppController {
 						break;
 					}
 				}
-				
+
 				// save our MEDIA SETTINGS !!
 				for($i=1 ; $i <= 6 ; ++$i )
 				{
 					$this->request->data['TypeMeta']['key'] = strtolower(substr($this->request->data['TypeMeta'][$i+$mediaCounter]['key'], 5));
 					$this->request->data['TypeMeta']['value'] = $this->request->data['TypeMeta'][$i+$mediaCounter]['value'];
-					
+
 			// IF USE NO CROP / AUTOMATIC CROP, BUT SIZE NO DEFINED, IGNORE THAT CROP SETTING ! (EXCEPT MANUAL CROP)
 					$endKeyCode = substr($this->request->data['TypeMeta']['key'], -4);
 					if(!($endKeyCode=='crop' && $this->request->data['TypeMeta']['value'] < 2 && empty($this->request->data['TypeMeta'][$i+$mediaCounter-1]['value']) || $endKeyCode!='crop' && empty($this->request->data['TypeMeta']['value'])))
-					{	
+					{
 						$this->TypeMeta->create();
 						$this->TypeMeta->save($this->request->data);
 					}
 				}
-				
+
 				// NOW SAVE OTHER INPUT TYPES...
 				$i = $mediaCounter+7;
 				while(!empty($this->request->data['TypeMeta'][$i]))
 				{
 					$this->request->data['TypeMeta']['key'] = $this->request->data['TypeMeta'][$i++]['key'];
-					$this->request->data['TypeMeta']['value'] = $this->request->data['TypeMeta'][$i++]['value'];			
+					$this->request->data['TypeMeta']['value'] = $this->request->data['TypeMeta'][$i++]['value'];
 					$this->request->data['TypeMeta']['input_type'] = $this->request->data['TypeMeta'][$i++]['input_type'];
 					$this->request->data['TypeMeta']['validation'] = $this->request->data['TypeMeta'][$i++]['validation'];
 					$this->request->data['TypeMeta']['instruction'] = $this->request->data['TypeMeta'][$i++]['instruction'];
 					$this->TypeMeta->create();
 					$this->TypeMeta->save($this->request->data);
 				}
-                
+
                 // automatic ADD ROLES to SUPER ADMIN & ADMIN ONLY !!
                 $newRoles = [$this->request->data['Type']['slug'].'_view', $this->request->data['Type']['slug'].'_add', $this->request->data['Type']['slug'].'_edit', $this->request->data['Type']['slug'].'_delete'];
                 for($i = 1 ; $i <= 2 ; ++$i)
                 {
                     $injectRoles = implode('|', array_unique(array_filter(array_merge( explode('|', $this->Role->findById($i)['Role']['privilege']), $newRoles ))));
-                    
+
                     $this->Role->id = $i;
                     $this->Role->saveField('privilege', $injectRoles );
-                    
+
                     if($this->user['role_id'] == $i)
                     {
                         // update Auth Session !!
                         $this->Session->write('Auth.User.Role.privilege', $injectRoles);
                     }
                 }
-                
+
 				// NOW finally setFlash ^^
 				$this->Session->setFlash($this->request->data['Type']['name'].' has been added.','success');
 				$this->redirect (array('controller'=>'master','action' => 'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug'])));
 			}
-			else 
+			else
 			{
 				$this->Session->setFlash('Please complete all required fields.','failed');
 				$this->redirect (array('controller'=>'master','action' => 'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'add'));
@@ -308,45 +308,45 @@ class TypesController extends AppController {
 	/**
 	* update certain database type
 	* @param array $myType contains record query result of database type which is want to be edited
-	* @param array $myParentType[optional] contains record query result of parent database type(used if want to update its certain database child) 
+	* @param array $myParentType[optional] contains record query result of parent database type(used if want to update its certain database child)
 	* @return void
 	* @public
 	**/
 	function _admin_default_edit($myType = array() , $myParentType = array())
-	{	
+	{
 		$this->setTitle('Edit '.$myType['Type']['name']);
-        
+
 		// break TypeMeta value !!
-		foreach ($myType['TypeMeta'] as $key => $value) 
+		foreach ($myType['TypeMeta'] as $key => $value)
 		{
 			$myType['TypeMeta'][ $value['key'] ][0] = $value['value'];
 		}
 		$data['myType'] = $myType;
-		
+
 		$data['myParentType'] = $myParentType;
 		$this->set(compact('data'));
-		
+
 		// if form submit is taken...
 		if (!empty($this->request->data))
 		{
             $this->request->data['Type']['name'] = $this->request->data['Type'][0]['value'];
 			$this->request->data['Type']['description'] = $this->request->data['Type'][1]['value'];
 			// write my creator...
-			
+
 			$this->request->data['Type']['modified_by'] = $this->user['id'];
 			// write time created manually !!
 /*
-			$nowDate = $this->getNowDate();			
+			$nowDate = $this->getNowDate();
 			$this->request->data['Type']['modified'] = $nowDate;
 */
-			
+
 			// now for validation !!
 			$this->Type->set($this->request->data);
 			if($this->Type->validates())
 			{
 				// SPECIAL CASE FOR CHECKING MEDIA SETTINGS ...
 				$mediaCounter = 100;
-				
+
 				if(!empty($this->request->data['TypeMeta'][$mediaCounter+1]['value']) && !is_numeric($this->request->data['TypeMeta'][$mediaCounter+1]['value']) || !empty($this->request->data['TypeMeta'][$mediaCounter+2]['value']) && !is_numeric($this->request->data['TypeMeta'][$mediaCounter+2]['value']) || !empty($this->request->data['TypeMeta'][$mediaCounter+4]['value']) && !is_numeric($this->request->data['TypeMeta'][$mediaCounter+4]['value']) || !empty($this->request->data['TypeMeta'][$mediaCounter+5]['value']) && !is_numeric($this->request->data['TypeMeta'][$mediaCounter+5]['value']) || empty($this->request->data['TypeMeta'][$mediaCounter+1]['value']) && !empty($this->request->data['TypeMeta'][$mediaCounter+2]['value']) || !empty($this->request->data['TypeMeta'][$mediaCounter+1]['value']) && empty($this->request->data['TypeMeta'][$mediaCounter+2]['value']) || empty($this->request->data['TypeMeta'][$mediaCounter+4]['value']) && !empty($this->request->data['TypeMeta'][$mediaCounter+5]['value']) || !empty($this->request->data['TypeMeta'][$mediaCounter+4]['value']) && empty($this->request->data['TypeMeta'][$mediaCounter+5]['value']))
 				{
 					$this->Session->setFlash('Please edit media settings correctly.','failed');
@@ -354,26 +354,26 @@ class TypesController extends AppController {
 				}
 				$this->Type->id = $myType['Type']['id'];
 				$this->Type->save($this->request->data);
-				
+
 				// delete all the attributes, and then add again !!
-				$this->TypeMeta->deleteAll(array('TypeMeta.type_id' => $this->Type->id , 
+				$this->TypeMeta->deleteAll(array('TypeMeta.type_id' => $this->Type->id ,
 					'OR' => array(
 						array('TypeMeta.key LIKE' => 'form%'),
 						array('TypeMeta.key LIKE' => 'thumb%'),
 						array('TypeMeta.key LIKE' => 'display%')
 					)
 				));
-				
+
 				// NOW ADD TYPE METAS !!
 				$this->request->data['TypeMeta']['type_id'] = $this->Type->id;
-				
+
 				// SAVE OTHER TYPE METAS (WITH LIMITED COUNTER) !!
 				for($i=2 ; $i <= 100 ; ++$i)
 				{
 					if(!empty($this->request->data['TypeMeta'][$i]))
 					{
 						$this->request->data['TypeMeta']['key'] = strtolower(substr($this->request->data['TypeMeta'][$i]['key'], 5)); // omit the form_ prefix !!
-						
+
 						// check if data field is still exist ?
 						$checkTypeMetaField = $this->TypeMeta->find('first' , array(
 							'conditions' => array(
@@ -381,11 +381,11 @@ class TypesController extends AppController {
 								'TypeMeta.key' => $this->request->data['TypeMeta']['key']
 							)
 						));
-						
+
 						if(!empty($this->request->data['TypeMeta'][$i]['value']))
-						{	
+						{
 							$this->request->data['TypeMeta']['value'] = ($this->request->data['TypeMeta'][$i]['input_type'] == 'checkbox'?implode("|",$this->request->data['TypeMeta'][$i]['value']):$this->request->data['TypeMeta'][$i]['value']);
-							
+
 							if(empty($checkTypeMetaField)) // ADD NEW !!
 							{
 								$this->TypeMeta->create();
@@ -410,17 +410,17 @@ class TypesController extends AppController {
 						break;
 					}
 				}
-				
+
 				// save our MEDIA SETTINGS !!
 				for($i=1 ; $i <= 6 ; ++$i )
 				{
 					$this->request->data['TypeMeta']['key'] = strtolower(substr($this->request->data['TypeMeta'][$i+$mediaCounter]['key'], 5));
 					$this->request->data['TypeMeta']['value'] = $this->request->data['TypeMeta'][$i+$mediaCounter]['value'];
-					
+
 			// IF USE NO CROP / AUTOMATIC CROP, BUT SIZE NO DEFINED, IGNORE THAT CROP SETTING ! (EXCEPT MANUAL CROP)
 					$endKeyCode = substr($this->request->data['TypeMeta']['key'], -4);
 					if(!($endKeyCode=='crop' && $this->request->data['TypeMeta']['value'] < 2 && empty($this->request->data['TypeMeta'][$i+$mediaCounter-1]['value']) || $endKeyCode!='crop' && empty($this->request->data['TypeMeta']['value'])))
-					{	
+					{
 						$this->TypeMeta->create();
 						$this->TypeMeta->save($this->request->data);
 					}
@@ -442,7 +442,7 @@ class TypesController extends AppController {
 				$this->Session->setFlash($this->request->data['Type']['name'].' has been updated.','success');
 				$this->redirect (array('controller'=>'master','action' => 'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug'])));
 			}
-			else 
+			else
 			{
 				$this->Session->setFlash('Update failed. Please try again','failed');
 				$this->redirect (array('controller'=>'master','action' => 'types'.(empty($myParentType)?'':'/'.$myParentType['Type']['slug']),'edit',$myType['Type']['slug']));
@@ -455,8 +455,8 @@ class TypesController extends AppController {
 		// get bunch of input types...
 		$src = $this->get_view_dir().DS.'Elements';
 		$src = scandir($src);
-		foreach ($src as $key => $value) 
-		{			
+		foreach ($src as $key => $value)
+		{
 			if(substr($value, 0 , 6) == 'input_')
 			{
 				//$temp = strrpos($value, '.ctp');
@@ -473,13 +473,13 @@ class TypesController extends AppController {
 		$this->set(compact('state'));
 		// if form submit is taken...
 		if (!empty($this->request->data))
-		{			
+		{
 			$result = array();
 			$this->autoRender = FALSE;
 			$src = $this->request->data['TypeMeta'];
-			
+
 			$src['value']['option'] = trim($src['value']['option']); // SPECIAL CASE !!!
-			
+
 			// VALIDATE FIRST !!
 			if(empty($src['key']) || ($src['validation']['min_length']['state']??NULL) == 'yes' && (empty($src['validation']['min_length']['value']) || !is_numeric($src['validation']['min_length']['value']) || $src['validation']['min_length']['value'] == 0) || ($src['validation']['max_length']['state']??NULL) == 'yes' && (empty($src['validation']['max_length']['value']) || !is_numeric($src['validation']['max_length']['value']) || $src['validation']['max_length']['value'] == 0))
 			{
@@ -490,22 +490,22 @@ class TypesController extends AppController {
 				$result['state'] = 'minmax';
 			}
 			else
-			{	
+			{
 				$src['key'] = strtolower(Inflector::slug($src['key']));
 				$result['key'] = 'form-'.$src['key'];
 				$result['frontKey'] = string_unslug($src['key']);
-				
+
 				$result['value'] = ($src['value']['state']=='exist' && empty($src['validation']['browse_module'])?$src['value']['option']:'');
 				$result['input_type'] = $src['input_type']??NULL;
 				$result['instruction'] = $src['instruction'];
 				$result['validation'] = '';
-				foreach ($src['validation'] as $key => $value) 
-				{	
+				foreach ($src['validation'] as $key => $value)
+				{
 					if($key == 'min_length' || $key == 'max_length')
 					{
 						$result['validation'] .= ( ($value['state']??NULL) == 'yes' ?$key.'_'.$value['value'].'|':'');
 					}
-					else 
+					else
 					{
 						$result['validation'] .= ( $value == 'yes' ?$key.'|':'');
 					}
@@ -515,16 +515,16 @@ class TypesController extends AppController {
 		}
 	}
 
-	function delete($id = null) 
-	{	
+	function delete($id = null)
+	{
 		$this->autoRender = FALSE;
 		if (!$id) {
 			$this->Session->setFlash('Invalid id for type', 'failed');
 			header("Location: ".$_SESSION['now']);
 			exit;
-		}		
+		}
 		$title = $this->Type->findById($id);
-		
+
 		$test = $this->Entry->findByEntryType($title['Type']['slug']);
 		if(!empty($test))
 		{
@@ -533,14 +533,14 @@ class TypesController extends AppController {
 			exit;
 		}
 		$this->TypeMeta->deleteAll(array('TypeMeta.type_id' => $id));
-		$this->Type->delete($id);		
+		$this->Type->delete($id);
 		$myChildren = $this->Type->findAllByParentId($id);
-		foreach ($myChildren as $key => $value) 
+		foreach ($myChildren as $key => $value)
 		{
 			$this->TypeMeta->deleteAll(array('TypeMeta.type_id' => $value['Type']['id']));
 		}
 		$this->Type->deleteAll(array('Type.parent_id' => $id));
-		
+
 		// minus the count of parent Type...
 		if($title['Type']['parent_id'] > 0)
 		{
@@ -556,7 +556,7 @@ class TypesController extends AppController {
 	function slug_option_value($src)
 	{
 		$temp = explode(chr(13).chr(10), $src);
-		foreach ($temp as $key => $value) 
+		foreach ($temp as $key => $value)
 		{
 			$temp[$key] = Inflector::slug($value);
 		}

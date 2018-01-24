@@ -1,20 +1,20 @@
 <?php
 class AccountsController extends AppController {
 	public $name = 'Accounts';
-    public $components = array('RequestHandler','Session');
+	public $components = array('RequestHandler','Session');
 	public $helpers = array('Form', 'Html', 'Js', 'Time', 'Get');
-	
+
 	/**
-	 * BeforeFilter callback. Called before the controller action.
-	 * @return void
-	 * @public
-	 **/
-    public function beforeFilter(){
-        parent::beforeFilter();
-        $this->Auth->allow('forget','send_email','redirect_login','login');
-    }
-	
-	public function admin_index($paging = 1) 
+	* BeforeFilter callback. Called before the controller action.
+	* @return void
+	* @public
+	**/
+	public function beforeFilter(){
+		parent::beforeFilter();
+		$this->Auth->allow('forget','send_email','redirect_login','login');
+	}
+
+	public function admin_index($paging = 1)
 	{
 		$popup = $this->request->query['popup'] ?? '';
 		$popupRole = $this->request->query['role'] ?? '';
@@ -23,7 +23,7 @@ class AccountsController extends AppController {
 			$this->layout = 'ajax';
 		}
 		if ($this->request->is('ajax') && empty($popup) || $popup == "ajax")
-		{	
+		{
 			$this->set("isAjax",1);
 			if($this->request->data['search_by'] != NULL)
 			{
@@ -38,38 +38,38 @@ class AccountsController extends AppController {
 					$_SESSION['searchMe'] = $searchMe;
 				}
 			}
-		} 
-		else 
+		}
+		else
 		{
 			$this->set("isAjax",0);
 			unset($_SESSION['searchMe']);
 		}
 		$this->set(compact('paging', 'popup', 'popupRole'));
 		// set page title
-		$this->setTitle('Accounts');		
+		$this->setTitle('Accounts');
 		// set paging session...
 		$countPage = $this->countListPerPage;
-		
-		// our list conditions...		
+
+		// our list conditions...
 		if($this->user['role_id'] > 1)
-		{	
+		{
 			$options['conditions']['Role.name NOT LIKE'] = "super admin";
 		}
 		if(!empty($popup))
 		{
 			$options['conditions']['Role.name'] = $popupRole;
 		}
-		// find last modified...		
+		// find last modified...
 		$options['order'] = array('Account.modified DESC');
-		$lastModified = $this->Account->find('first' , $options);	
+		$lastModified = $this->Account->find('first' , $options);
 		$this->set(compact('lastModified'));
 		// end of last modified...
-		
+
 		$options['order'] = array('User.firstname' , 'User.lastname' , 'Account.role_id');
-        $options['recursive'] = 0;
+		$options['recursive'] = 0;
 		$mysql = $this->Account->find('all' ,$options);
 		// MODIFY OUR USERMETA FIRST !!
-		foreach ($mysql as $key => $value) 
+		foreach ($mysql as $key => $value)
 		{
 			$state = 0;
 			if(!empty($_SESSION['searchMe']))
@@ -90,15 +90,15 @@ class AccountsController extends AppController {
 		$resultTotalList = count($mysqlTemp);
 		$this->set('totalList' , $resultTotalList);
 		for($key = $offset ; $key < $endset && !empty($mysqlTemp[$key]) ; ++$key)
-		{	
+		{
 			$myList[] = $mysqlTemp[$key];
 		}
 		$this->set(compact('myList'));
-		
+
 		// set New countPage
 		$newCountPage = ceil($resultTotalList * 1.0 / $countPage);
 		$this->set('countPage' , $newCountPage);
-		
+
 		// set the paging limitation...
 		$left_limit = 1;
 		$right_limit = 5;
@@ -119,9 +119,9 @@ class AccountsController extends AppController {
 			{
 				$right_limit = $newCountPage;
 				$left_limit = $newCountPage - 4;
-			}			
+			}
 		}
-		
+
 		$this->set(compact('left_limit', 'right_limit'));
 	}
 
@@ -130,7 +130,7 @@ class AccountsController extends AppController {
 	* @return void
 	* @public
 	**/
-	function admin_add() 
+	function admin_add()
 	{
 		$this->setTitle('Add New Account');
 		$listRoles = $this->Role->find('all',array(
@@ -139,8 +139,8 @@ class AccountsController extends AppController {
 			)
 		));
 		$this->set(compact('listRoles'));
-		
-		if (!empty($this->request->data)) 
+
+		if (!empty($this->request->data))
 		{
 			$this->request->data['Account']['created_by'] = $this->user['id'];
 			$this->request->data['Account']['modified_by'] = $this->user['id'];
@@ -160,7 +160,7 @@ class AccountsController extends AppController {
 					$this->Session->setFlash('Add user account failed. Confirmation password must match with password. Please try again','failed');
 				}
 			}
-			else 
+			else
 			{
 				$this->_setFlashInvalidFields($this->Account->invalidFields());
 			}
@@ -168,32 +168,32 @@ class AccountsController extends AppController {
 	}
 
 	/**
-	 * update user account
- 	 * @param integer $id contains id of the user account
-	 * @return void
-	 * @public
-	 **/
-	function admin_edit($id) 
+	* update user account
+	* @param integer $id contains id of the user account
+	* @return void
+	* @public
+	**/
+	function admin_edit($id)
 	{
 		$this->setTitle('Edit Account');
 		if (!$id && empty($this->request->data)) {
 			$this->Session->setFlash('Invalid account', 'failed');
 			$this->redirect(array('action' => 'index'));
 		}
-        
+
 		$result = $this->Account->findById($id);
-        // second filter !!
-        if(!($this->user['role_id'] < $result['Account']['role_id'] || $this->user['id'] == $result['Account']['created_by'] || $this->user['email'] == $result['Account']['email']))
-        {
-            $this->Session->setFlash('Invalid account', 'failed');
+		// second filter !!
+		if(!($this->user['role_id'] < $result['Account']['role_id'] || $this->user['id'] == $result['Account']['created_by'] || $this->user['email'] == $result['Account']['email']))
+		{
+			$this->Session->setFlash('Invalid account', 'failed');
 			$this->redirect(array('action' => 'index'));
-        }
-        
-        $this->set(compact('id'));
+		}
+
+		$this->set(compact('id'));
 		$this->set('myData' , $result);
-		
-		if (!empty($this->request->data)) 
-		{	
+
+		if (!empty($this->request->data))
+		{
 			$this->request->data['Account']['modified_by'] = $this->user['id'];
 			$ignorePassword = (empty($this->request->data['Account']['confirm']));
 			if($ignorePassword)
@@ -209,7 +209,7 @@ class AccountsController extends AppController {
 				if($ignorePassword)
 				{
 					$success = 1;
-				}	
+				}
 				else
 				{
 					if($this->request->data['Account']['confirm']==$this->request->data['Account']['password'])
@@ -220,16 +220,16 @@ class AccountsController extends AppController {
 					{
 						$this->Session->setFlash('Update user account failed. Confirmation password must match with password. Please try again','failed');
 					}
-				}	
-					
+				}
+
 				if($success == 1)
-				{	
+				{
 					$this->Account->save($this->request->data);
 					$this->Session->setFlash('Update account success.','success');
 					$this->redirect (array('action' => 'index'));
 				}
 			}
-			else 
+			else
 			{
 				$this->_setFlashInvalidFields($this->Account->invalidFields());
 			}
@@ -237,29 +237,29 @@ class AccountsController extends AppController {
 	}
 
 	function delete($id = null) {
-        $invalid = false;        
-        if (!$id) {
+		$invalid = false;
+		if (!$id) {
 			$invalid = true;
 		}
-        else
-        {
-            $account = $this->Account->findById($id);            
-            if(!($this->user['role_id'] < $account['Account']['role_id'] || $this->user['id'] == $account['Account']['created_by']))
-            {
-                $invalid = true;
-            }
-        }
-        
-        // check decision !!
-        if($invalid)
-        {
-            $this->Session->setFlash('Invalid id for user account', 'failed');
-        }
-        else
-        {
-            $this->Account->delete($id);
-            $this->Session->setFlash('User account has been deleted', 'success');
-        }
+		else
+		{
+			$account = $this->Account->findById($id);
+			if(!($this->user['role_id'] < $account['Account']['role_id'] || $this->user['id'] == $account['Account']['created_by']))
+			{
+				$invalid = true;
+			}
+		}
+
+		// check decision !!
+		if($invalid)
+		{
+			$this->Session->setFlash('Invalid id for user account', 'failed');
+		}
+		else
+		{
+			$this->Account->delete($id);
+			$this->Session->setFlash('User account has been deleted', 'success');
+		}
 		$this->redirect(array('action'=>'index','admin'=>true));
 	}
 
@@ -269,22 +269,22 @@ class AccountsController extends AppController {
 		{
 			$this->redirect(array('controller'=>'settings','action'=>'index','admin'=>true));
 		}
-		else 
+		else
 		{
 			$this->redirect('/admin/login');
 		}
 	}
-    
-    function login() 
+
+	function login()
 	{
 		if($this->Auth->login())
 		{
-			$myAccount = $this->Auth->user();			
+			$myAccount = $this->Auth->user();
 			$this->Account->id = $myAccount['id'];
 			$this->Account->saveField('last_login' , $this->getNowDate());
 			$this->Account->saveField('modified' , $myAccount['modified']); // revert back modified time...
-            
-            // prepare going inside the dashboard !!
+
+			// prepare going inside the dashboard !!
 			$pecahurl = explode('/' , $this->request->url);
 			if(strtolower($pecahurl[0]) == 'admin')
 			{
@@ -336,30 +336,30 @@ class AccountsController extends AppController {
 			$this->layout = 'frontend';
 			$this->render('/FrontEnds/login');
 		}
-    }
-	
+	}
+
 	/**
-	 * Authorization for logging out from the admin panel
-	 * @return void
-	 * @public
-	 **/
-    function logout()
-    {
-    	$this->Session->destroy();
-    	$this->Session->setFlash('You have been logout.','forget_success');
-    	$this->redirect($this->Auth->logout());
-    }
-	
+	* Authorization for logging out from the admin panel
+	* @return void
+	* @public
+	**/
+	function logout()
+	{
+		$this->Session->destroy();
+		$this->Session->setFlash('You have been logout.','forget_success');
+		$this->redirect($this->Auth->logout());
+	}
+
 	function admin_logout()
 	{
 		$this->Session->destroy();
 		$this->Session->setFlash('You have been logout.','forget_success');
 		$this->redirect('/admin/login');
 	}
-	
+
 	function forget()
-    {
-    	if($this->Auth->login())
+	{
+		if($this->Auth->login())
 		{
 			if(substr($this->request->url, 0,5) == 'admin')
 			{
@@ -370,7 +370,7 @@ class AccountsController extends AppController {
 				$this->redirect('/');
 			}
 		}
-		
+
 		$is_admin = 0;
 		$this->setTitle('Forget Password');
 		if(substr($this->request->url, 0,5) == 'admin')
@@ -383,11 +383,11 @@ class AccountsController extends AppController {
 			$this->layout = 'frontend';
 		}
 		$this->set(compact('is_admin'));
-		
-        if(!empty($this->request->data))
-        {
-        	$row = array();
-        	if($is_admin == 1)
+
+		if(!empty($this->request->data))
+		{
+			$row = array();
+			if($is_admin == 1)
 			{
 				$row = $this->Account->findAllByRoleId(array(1,2));
 			}
@@ -395,30 +395,30 @@ class AccountsController extends AppController {
 			{
 				$row = $this->Account->findAllByEmail($this->request->data['Account']['email']);
 			}
-			
+
 			$success = -1;
-			foreach ($row as $key => $value) 
+			foreach ($row as $key => $value)
 			{
 				if($value['Account']['email'] == $this->request->data['Account']['email'])
 				{
 					//Update password and don't forget to hash the password
 					$newpassword = $this->Account->createRandomPassword(20);
-					
+
 					// prepare the email...
 					App::uses('CakeEmail', 'Network/Email');
-				    $Email = new CakeEmail();
+					$Email = new CakeEmail();
 
-				    $body = 'Hello, '.$value['User']['firstname'].'!<br/>';
-		            $body .= sprintf('Email: %s <br/>Your new password: %s<br/>',$this->request->data['Account']['email'] , $newpassword);
+					$body = 'Hello, '.$value['User']['firstname'].'!<br/>';
+					$body .= sprintf('Email: %s <br/>Your new password: %s<br/>',$this->request->data['Account']['email'] , $newpassword);
 					$body .= 'Thank you for your attention.';
 
 					try{
 						if( $Email->from(array('system@'.strtolower($_SERVER['SERVER_NAME'])=>'System'))
-					          ->to(array($this->request->data['Account']['email']=>$value['User']['firstname']))
-					          ->subject($this->mySetting['title'].' - Sending Recovery Account Password')
-					          ->emailFormat('html')
-					          ->template('default','default')
-					          ->send($body) )
+						->to(array($this->request->data['Account']['email']=>$value['User']['firstname']))
+						->subject($this->mySetting['title'].' - Sending Recovery Account Password')
+						->emailFormat('html')
+						->template('default','default')
+						->send($body) )
 						{
 							$this->Account->id = $value['Account']['id'];
 							$this->Account->saveField('password' , $newpassword);
@@ -443,24 +443,24 @@ class AccountsController extends AppController {
 			{
 				$this->Session->setFlash('Input email is incorrect!','forget_failure');
 			}
-        }
+		}
 
 		if($is_admin == 0)
 		{
 			$this->render('/FrontEnds/forget');
 		}
-    }	
+	}
 
 	function send_email()
 	{
 		$this->autoRender = FALSE;
-        if(!empty($this->request->data))
-        {
-        	// prepare the email...
+		if(!empty($this->request->data))
+		{
+			// prepare the email...
 			App::uses('CakeEmail', 'Network/Email');
-		    $Email = new CakeEmail();
+			$Email = new CakeEmail();
 
-		    $mybody = "First Name : ".$this->request->data['contact']['fname']."<br/>";
+			$mybody = "First Name : ".$this->request->data['contact']['fname']."<br/>";
 			$mybody .= "Last Name : ".$this->request->data['contact']['lname']."<br/>";
 			$mybody .= "Company : ".$this->request->data['contact']['company']."<br/>";
 			$mybody .= "Website : ".$this->request->data['contact']['website']."<br/>";
@@ -469,11 +469,11 @@ class AccountsController extends AppController {
 
 			try{
 				if( $Email->from(array($this->request->data['contact']['email']=>'System'))
-			          ->to(array($this->request->data['contact']['target']=>$this->request->data['contact']['fname'].' '.$this->request->data['contact']['lname']))
-			          ->subject($this->mySetting['title']." - Our Profile")
-			          ->emailFormat('html')
-			          ->template('default','default')
-			          ->send($mybody) )
+				->to(array($this->request->data['contact']['target']=>$this->request->data['contact']['fname'].' '.$this->request->data['contact']['lname']))
+				->subject($this->mySetting['title']." - Our Profile")
+				->emailFormat('html')
+				->template('default','default')
+				->send($mybody) )
 				{
 					echo "0";
 				}
@@ -485,6 +485,6 @@ class AccountsController extends AppController {
 				// Failure, with exception
 				echo "1";
 			}
-        }		
-    }
+		}
+	}
 }

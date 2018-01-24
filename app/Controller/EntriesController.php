@@ -3,17 +3,17 @@ class EntriesController extends AppController {
 	public $name = 'Entries';
     public $components = array('RequestHandler','Session','Validation','Auth');
 	public $helpers = array('Form', 'Html', 'Js', 'Time', 'Get','Paypal','Text','Rss');
-	
+
 	private $frontEndFolder = '/FrontEnds/';
 	private $backEndFolder = '/BackEnds/';
     private $generalOrder = 'sort_order DESC';
 	private $onlyActiveEntries = FALSE; // if it's in admin panel, show active/disabled, and if it's on the front, show only active pages !!
-	
+
 	public function beforeFilter(){
         parent::beforeFilter();
 		$this->Auth->allow('index','get_list_entry','get_detail_entry');
     }
-	
+
 	/**
 	 * fork our target routes for entry view (pages, entry, list of entries) in Front End web
 	 * FYI : (Front End Default URL Structure)
@@ -21,18 +21,18 @@ class EntriesController extends AppController {
 	 * www.domainmu.com/en	-->		--//--
 	 * www.domainmu.com		-->		--//--
 	 * filename: home.ctp
-	 * 
+	 *
 	 * en.domainmu.com/about-us							-->		view pages
 	 * filename: about-us.ctp (always parent language slug) !!
-	 * 
+	 *
 	 * en.domainmu.com/books/							-->		view all lists of books entries
 	 * en.domainmu.com/books/3							-->		same as above, but that is in page 3
 	 * en.domainmu.com/books/?key=author&value=abas		-->		same as above, but only entries that have certain key and certain value defined (value in URL must be already slugged)
 	 * filename: books.ctp
-	 * 
+	 *
 	 * en.domainmu.com/books/sport				-->		view the detail of the 'Sport' book
 	 * filename: books_detail.ctp
-	 * 
+	 *
 	 * en.domainmu.com/books/sport/?type=news 	-->		view all child lists from certain parent entry and certain entry type
 	 * en.domainmu.com/books/sport/3?type=news						-->	same as above, but that is in page 3
 	 * en.domainmu.com/books/sport/?type=news&key=author&value=abas	-->	same as above, but only entries that have certain key and certain value defined
@@ -52,18 +52,18 @@ class EntriesController extends AppController {
 		$myRenderFile = '';
 		$myDetailEntryMarkFile = 'detail';
 		$this->onlyActiveEntries = TRUE;
-		
+
         $temp_lang = $this->Entry->get_lang_url($this->RequestHandler->isRss()&&!empty($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:NULL);
 		$language = $temp_lang['language'];
 		$indent = $temp_lang['indent'];
-        
+
         // ======================== >>>
         // filter params slug first !!!
         // ======================== >>>
         if(!empty($this->request->params['pass'][$indent]))
         {
             $this->request->params['pass'][$indent] = $this->Entry->getModuleSlug($this->request->params['pass'][$indent]);
-            
+
             // for SEO google optimization !!
             $meta_tags = breakEntryMetas($this->Entry->find('first', [
                 'conditions' => [
@@ -90,8 +90,8 @@ class EntriesController extends AppController {
 					),
 					'order' => array('Type.id')
 				));
-				
-				foreach ($myTypes as $key => $value) 
+
+				foreach ($myTypes as $key => $value)
 				{
 					if($value['Type']['slug'] == 'media')  continue;
 					$myList = array_merge($myList , $this->_admin_default([
@@ -111,7 +111,7 @@ class EntriesController extends AppController {
                     'manualset' => 'manualset',
                 ])['myList']);
 			}
-			
+
 			// sort the feed !!
 			$myList = orderby_metavalue($myList, 'Entry' , 'created' , 'DESC');
 	        return $this->set(compact('myList'));
@@ -136,7 +136,7 @@ class EntriesController extends AppController {
 		{
 			$this->redirect('/'.(empty($indent)?'':$language.'/'));
 		}
-		
+
 		// ---------------------------------- >>>
 		// additional set to view file !!
 		// ---------------------------------- >>>
@@ -150,7 +150,7 @@ class EntriesController extends AppController {
 		// ---------------------------------- >>>
 		// end of additional set to view file !!
 		// ---------------------------------- >>>
-        
+
         // URL request query MULTI-LANGUAGE transition (single value each) !!
         if(count($this->mySetting['language']) > 1 && !empty($this->request->query['key']) && !empty($this->request->query['value']))
         {
@@ -164,7 +164,7 @@ class EntriesController extends AppController {
                 }
             }
         }
-		
+
 		// Tree of division beginsss !!
 		if(empty($this->request->params['pass'][$indent+1]))
 		{
@@ -172,7 +172,7 @@ class EntriesController extends AppController {
 			if(substr($this->request->url, strlen($this->request->url)-1) == '/' && $this->request->params['pass'][$indent+0] != 'home')
 			{
 				$myTypeSlug = $this->request->params['pass'][$indent+0];
-				$myType = $this->Type->findBySlug($myTypeSlug);                
+				$myType = $this->Type->findBySlug($myTypeSlug);
                 // check if Type has pagination field, then redirect to its first page ...
                 foreach($myType['TypeMeta']??[] as $key => $value){
                     if($value['key'] == 'pagination')
@@ -188,7 +188,7 @@ class EntriesController extends AppController {
                     'searchMe' => $this->request->data['search']??NULL,
                     'lang' => $language,
                 ]);
-                
+
                 if($myTypeSlug == 'contact')
 				{
 					// if submit contact form !!
@@ -197,7 +197,7 @@ class EntriesController extends AppController {
 						$this->submit_contact();
 					}
 				}
-                
+
 				$myRenderFile = $myTypeSlug;
 			}
 			else // if this want to view pages...
@@ -213,7 +213,7 @@ class EntriesController extends AppController {
 				{
 					$myEntry = $this->meta_details(['lang' => $language.'-'.$myEntry['Entry']['id']]);
 				}
-				
+
 				$tempdata = array();
 				swap_value($tempdata, $this->request->data);
 				$result = $this->_admin_default_edit(NULL , $myEntry);
@@ -241,7 +241,7 @@ class EntriesController extends AppController {
 					$globalresult = array();
 					$search_types = array('slideshow'); // array of module to be searched
 
-					foreach ($search_types as $key => $value) 
+					foreach ($search_types as $key => $value)
 					{
 						$globalresult = array_merge($globalresult, $this->_admin_default([
                             'myType' => $this->Type->findBySlug( $value ),
@@ -260,11 +260,11 @@ class EntriesController extends AppController {
 				else
 				{
 					if(empty($myEntry))
-					{						
+					{
 						$this->redirect(redirectSessionNow($_SERVER['REQUEST_URI'].'/'));
 					}
 				}
-				
+
 				// convert render file name to its parent language !!
 				if(substr(strtolower($this->mySetting['language'][0]), 0,2) != $language)
 				{
@@ -284,13 +284,13 @@ class EntriesController extends AppController {
 			{
 				$myTypeSlug = $this->request->params['pass'][$indent+0];
 				$myType = $this->Type->findBySlug($myTypeSlug);
-								
+
 				$myEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+1]);
 				$myEntry = $this->meta_details([
                     'slug' => $myEntrySlug,
                     'entry_type' => $myTypeSlug,
                 ]);
-				
+
 				$result = $this->_admin_default([
                     'myType' => $myType,
                     'paging' => 0,
@@ -307,7 +307,7 @@ class EntriesController extends AppController {
                     {
                         $this->redirect('/'.$this->request->url.'1'.get_more_extension($this->request->query));
                     }
-                }                
+                }
 				$myRenderFile = $this->request->query['type'];
 			}
 			else
@@ -316,7 +316,7 @@ class EntriesController extends AppController {
 				$myType = $this->Type->findBySlug($myTypeSlug);
 				// if this want to list all entries with paging limitation
 				if(is_numeric($this->request->params['pass'][$indent+1]))
-				{					
+				{
 					$myPaging = $this->request->params['pass'][$indent+1];
                     $result = $this->_admin_default([
                         'myType' => $myType,
@@ -326,28 +326,28 @@ class EntriesController extends AppController {
                         'searchMe' => $this->request->data['search'],
                         'lang' => $language,
                     ]);
-                    
+
                     // redirect to 1st page if content not found on page more than 1 ...
                     if(empty($result['myList']) && $myPaging > 1 )
                     {
                         $this->redirect('/'.$url_lang.$this->Entry->getModuleAlias($myType['Type']['slug'], $language).'/1'.get_more_extension($this->request->query));
                     }
-                    
+
 					$myRenderFile = $myTypeSlug;
 				}
 				else // if this want to view details of the entry...
-				{										
+				{
 					$myEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+1]);
 					$myEntry = $this->meta_details([
                         'slug' => $myEntrySlug,
                         'entry_type' => $myTypeSlug,
                     ]);
-					
+
 					$tempdata = array();
 					swap_value($tempdata, $this->request->data);
 					$result = $this->_admin_default_edit($myType , $myEntry);
 					swap_value($tempdata, $this->request->data);
-					
+
 					$myRenderFile = $myEntry['Entry']['entry_type'].'_'.$myDetailEntryMarkFile;
 				}
 			}
@@ -355,8 +355,8 @@ class EntriesController extends AppController {
 		else // MAX LEVEL...
 		{
 			$myTypeSlug = $this->request->params['pass'][$indent+0];
-			$myType = $this->Type->findBySlug($myTypeSlug);			
-			
+			$myType = $this->Type->findBySlug($myTypeSlug);
+
 			$myParentEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+1]);
 			$myParentEntry = $this->meta_details([
                 'slug' => $myParentEntrySlug,
@@ -364,7 +364,7 @@ class EntriesController extends AppController {
             ]);
 			// if this want to list all CHILD entries with paging limitation
 			if(is_numeric($this->request->params['pass'][$indent+2]))
-			{					
+			{
 				$myPaging = $this->request->params['pass'][$indent+2];
                 $result = $this->_admin_default([
                     'myType' => $myType,
@@ -376,32 +376,32 @@ class EntriesController extends AppController {
                     'searchMe' => $this->request->data['search'],
                     'lang' => $language,
                 ]);
-                
+
                 // redirect to 1st page if content not found on page more than 1 ...
                 if(empty($result['myList']) && $myPaging > 1 )
                 {
                     $this->redirect('/'.$url_lang.$this->Entry->getModuleAlias($myType['Type']['slug'], $language).'/'.$myParentEntry['Entry']['slug'].'/1'.get_more_extension($this->request->query));
                 }
-                
+
 				$myRenderFile = $this->request->query['type'];
 			}
 			else // if this want to view details of the child entry...
-			{				
+			{
 				$myEntrySlug = $this->Entry->_convertEntrySlug($this->request->params['pass'][$indent+2]);
 				$myEntry = $this->meta_details([
                     'slug' => $myEntrySlug,
                     'parentId' => $myParentEntry['Entry']['id'],
                 ]);
-				
+
 				$tempdata = array();
 				swap_value($tempdata, $this->request->data);
 				$result = $this->_admin_default_edit($myType , $myEntry , $myParentEntry , $myEntry['Entry']['entry_type']);
 				swap_value($tempdata, $this->request->data);
-				
+
 				$myRenderFile = $myEntry['Entry']['entry_type'].'_'.$myDetailEntryMarkFile;
 			}
 		}
-		
+
 		// SAVE TO SHOPPING CART IF THIS IS FORM SUBMIT !!
 		if(($_POST['type']??'') == 'addtocart')
 		{
@@ -414,7 +414,7 @@ class EntriesController extends AppController {
 			}
 			else
 			{
-				foreach ($_SESSION['shoppingcart'] as $key => $value) 
+				foreach ($_SESSION['shoppingcart'] as $key => $value)
 				{
 					if($value['item_number'] == $temp['item_number'])
 					{
@@ -424,7 +424,7 @@ class EntriesController extends AppController {
 					}
 				}
 			}
-			
+
 			if(!$duplicateProduct)
 			{
 				array_push($_SESSION['shoppingcart'] , $temp);
@@ -432,7 +432,7 @@ class EntriesController extends AppController {
 			$this->Session->setFlash('Shopping Cart has been added. Please click <a href="'.$this->get_host_name().'shoppingcart/step1">Shopping Cart</a> menu for details.','success');
 		}
 		// END OF SHOPPING CART !!
-        
+
         // SEO Process !!
         if(!empty($myEntry['Entry']['title']))
         {
@@ -451,7 +451,7 @@ class EntriesController extends AppController {
             $this->set(compact('meta_tags'));
         }
 
-		$this->onlyActiveEntries = FALSE;		
+		$this->onlyActiveEntries = FALSE;
 		$this->setTitle(!empty($result['myChildType'])? $result['myChildType']['Type']['name'] : (!empty($result['myType'])? $result['myType']['Type']['name'] : (($thisIsHomeUrl??false)?'':$myEntry['Entry']['title']??'') ) );
 		$this->render($this->frontEndFolder.$myRenderFile);
 
@@ -477,7 +477,7 @@ class EntriesController extends AppController {
             $this->set('recaptcha_error' , 'robot verification failed' );
             $valid = false;
         }
-        
+
         $result['success'] = 0;
         if($valid)
         {
@@ -496,7 +496,7 @@ class EntriesController extends AppController {
                         'mimetype' => $_FILES['filecontact']['type']
                     )
                 ));
-                
+
                 $mybody .= "Reference Image Upload : (attached)<br/>";
             }
             $mybody .= "<br/>Content :<br/>".nl2br($_POST['pesancontact'])."<br/>";
@@ -521,18 +521,18 @@ class EntriesController extends AppController {
 				$result['success'] = -2;
 			}
         }
-        
+
         $this->set('mail_response', $result);
-    }		
-	
+    }
+
 	function change_status($id, $status = NULL , $localcall = NULL)
 	{
 		$this->autoRender = false;
-		$data = $this->Entry->findById($id);		
+		$data = $this->Entry->findById($id);
 		$data_change = ( is_null($status) ? ($data['Entry']['status']==0?1:0)   : $status );
 		$this->Entry->id = $id;
 		$this->Entry->saveField('status', $data_change);
-        
+
         // update created date !!
         if($data_change == 1 && $data['Entry']['status'] != 1)
         {
@@ -551,17 +551,17 @@ class EntriesController extends AppController {
 			}
 		}
 	}
-	
+
 	/**
 	 * delete entry
 	 * @param integer $id contains id of the entry
 	 * @return void
 	 * @public
 	 **/
-	function delete($id = null, $localcall = NULL) 
+	function delete($id = null, $localcall = NULL)
 	{
 		$this->autoRender = FALSE;
-		if (!$id) 
+		if (!$id)
 		{
 			if(empty($localcall))
 			{
@@ -573,10 +573,10 @@ class EntriesController extends AppController {
 				return false;
 			}
 		}
-		
-		$title = $this->meta_details(['id' => $id]);        
+
+		$title = $this->meta_details(['id' => $id]);
         $statushapus = true;
-        
+
         // Parent Type !!
 		if($title['Entry']['parent_id'] > 0)
 		{
@@ -596,12 +596,12 @@ class EntriesController extends AppController {
                 // ===================================================== >>
 			}
 		}
-        
+
         if($statushapus)
         {
             // delete all the children !!
             $children = $this->Entry->findAllByParentId($id);
-            foreach ($children as $key => $value) 
+            foreach ($children as $key => $value)
             {
                 $this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $value['Entry']['id']));
                 $this->EntryMeta->remove_files( $this->Type->findBySlug($value['Entry']['entry_type']) , $value );
@@ -618,7 +618,7 @@ class EntriesController extends AppController {
                 $this->Session->setFlash($title['Entry']['title'].' has been deleted', 'success');
             }
         }
-        
+
         if(empty($localcall))
         {
             $this->redirect( redirectSessionNow($_SESSION['now']) );
@@ -633,14 +633,22 @@ class EntriesController extends AppController {
 	* display images info may have been used or not on pop up
 	* @param integer $id get media id
 	* @return void
-	**/	
+	**/
 	public function mediaused($id=NULL, $localcall = NULL)
 	{
 		$this->autoRender = FALSE;
 		if($id!=NULL)
 		{
             $print = "";
-            
+
+            // check for image used in Settings ...
+            $sql = $this->Setting->findByKeyAndValue('homepage_share', $id);
+            if(!empty($sql))
+            {
+                $print .= '"Web Settings" - Homepage Share
+';
+            }
+
 			// check for direct media_id in Entries...
 			$result = $this->Entry->find('all' , array(
 				'conditions' => array(
@@ -649,16 +657,16 @@ class EntriesController extends AppController {
 				),
 				'order' => array('Entry.'.$this->generalOrder)
 			));
-			
-			foreach ($result as $key => $value) 
+
+			foreach ($result as $key => $value)
 			{
 				$print .= '"' . $value['Entry']['entry_type'] . '" - ' . $value['Entry']['title'] . '
 ';
 			}
-			
+
 			// check for image used in EntryMeta too !!
 			$temp = $this->TypeMeta->findAllByInputType("image");
-			foreach ($temp as $key => $value) 
+			foreach ($temp as $key => $value)
 			{
 				$tempDetail = $this->EntryMeta->find("all" , array(
 					"conditions" => array(
@@ -666,20 +674,20 @@ class EntriesController extends AppController {
 						"EntryMeta.value" => $id
 					)
 				));
-				foreach ($tempDetail as $key10 => $value10) 
+				foreach ($tempDetail as $key10 => $value10)
 				{
 					$print .= '"' . $value10['Entry']['entry_type'] . '" - ' . $value10['Entry']['title'] . '
 ';
 				}
 			}
-			
+
 			// CHECK FOR HAVING CHILD IMAGE OR NOT !!
 			$temp = $this->Entry->findAllByParentId($id);
-			foreach ($temp as $key => $value) 
+			foreach ($temp as $key => $value)
 			{
 				$state = 0;
 				$searchEntryMeta = $this->EntryMeta->findAllByValue($value['Entry']['id']);
-				foreach ($searchEntryMeta as $key10 => $value10) 
+				foreach ($searchEntryMeta as $key10 => $value10)
 				{
 					$testImage = $this->TypeMeta->find('count' , array(
 						"conditions" => array(
@@ -701,12 +709,12 @@ class EntriesController extends AppController {
 					$this->Entry->deleteMedia($value['Entry']['id']);
 				}
 			}
-            
-            if(empty($localcall))   echo $print;            
+
+            if(empty($localcall))   echo $print;
             else                    return $print;
 		}
 	}
-    
+
     /**
 	 * delete multiple images from media library
 	 * @param string $ids contains all id of the image entries (separated by "|")
@@ -715,7 +723,7 @@ class EntriesController extends AppController {
 	 **/
     function deleteMediaBatch($ids)
     {
-        $ids = explode('|', $ids);        
+        $ids = explode('|', $ids);
         if( $this->request->is('ajax') ) // validate image deletion !!
         {
             $warning = "";
@@ -734,12 +742,12 @@ class EntriesController extends AppController {
             foreach($ids as $key => $value)
             {
                 $this->Entry->deleteMedia($value);
-            }            
+            }
             $this->Session->setFlash('All selected images have been deleted successfully!','success');
             $this->redirect( redirectSessionNow($_SESSION['now']) );
         }
     }
-	
+
 	/**
 	 * delete image from media library
 	 * @param integer $id contains id of the image entry
@@ -753,29 +761,29 @@ class EntriesController extends AppController {
 		{
 			$this->Session->setFlash('Invalid ID Media','failed');
 		}
-		else 
+		else
 		{
 			//////////// FIND MEDIA NAME BEFORE DELETED ////////////
 			$media_name = $this->Entry->findById($id);
 			if($this->Entry->deleteMedia($id))
-			{				
+			{
 				$this->Session->setFlash('Media "'.$media_name['Entry']['title'].'" has been deleted','success');
 			}
 		}
 		$this->redirect( redirectSessionNow($_SESSION['now']) );
 	}
-	
+
 	/**
 	 * target route for querying to get list of entries.
 	 * @return void
 	 * @public
 	 **/
-	function admin_index() 
+	function admin_index()
 	{
         // DEFINE THE ORDER...
 		if(!empty($this->request->data['order_by']))
-		{	
-			switch ($this->request->data['order_by']) 
+		{
+			switch ($this->request->data['order_by'])
 			{
                 case 'by_order':
                     unset($_SESSION['order_by']);
@@ -791,14 +799,14 @@ class EntriesController extends AppController {
 					break;
 				case 'oldest_first':
 					$_SESSION['order_by'] = 'created ASC';
-					break;	
+					break;
 				default:
 					$_SESSION['order_by'] = $this->request->data['order_by'];
 					break;
 			}
-		}		
+		}
 		// END OF DEFINE THE ORDER...
-		
+
 		if($this->request->params['type'] == 'pages')
 		{
 			// manually set pages data !!
@@ -815,10 +823,10 @@ class EntriesController extends AppController {
 		{
 			$myEntry = $this->Entry->findBySlug($this->request->params['entry']);
 			if(!empty($this->request->query['type']))
-			{				
+			{
 				$myChildTypeSlug = $this->request->query['type'];
 			}
-			else 
+			else
 			{
 				$myChildTypeSlug = $myType['Type']['slug'];
 			}
@@ -828,10 +836,10 @@ class EntriesController extends AppController {
 		if(!empty($this->request->data['action']))
 		{
 			$pecah = explode(',', $this->request->data['record']);
-			
+
 			if($this->request->data['action'] == 'active')
 			{
-				foreach ($pecah as $key => $value) 
+				foreach ($pecah as $key => $value)
 				{
 					$this->change_status($value, 1 , 'localcall');
 				}
@@ -839,7 +847,7 @@ class EntriesController extends AppController {
 			}
 			else if($this->request->data['action'] == 'disable')
 			{
-				foreach ($pecah as $key => $value) 
+				foreach ($pecah as $key => $value)
 				{
 					$this->change_status($value, 0 , 'localcall');
 				}
@@ -847,7 +855,7 @@ class EntriesController extends AppController {
 			}
 			else if($this->request->data['action'] == 'delete')
 			{
-				foreach ($pecah as $key => $value) 
+				foreach ($pecah as $key => $value)
 				{
 					$this->delete($value , 'localcall');
 				}
@@ -871,14 +879,14 @@ class EntriesController extends AppController {
             'popup' => $this->request->query['popup'] ?? NULL,
             'lang' => strtolower($this->request->query['lang'] ?? NULL),
         ]);
-        
+
         $myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug);
-		
+
 		// send to each appropriate view
 		$str = substr(WWW_ROOT, 0 , strlen(WWW_ROOT)-1); // buang DS trakhir...
 		$str = substr($str, 0 , strripos($str, DS)+1); // buang webroot...
 		$src = $str.'View'.str_replace('/', DS, $this->backEndFolder).$myTemplate.'.ctp';
-		
+
 		if(file_exists($src))
 		{
 			$this->render($this->backEndFolder.$myTemplate);
@@ -897,23 +905,23 @@ class EntriesController extends AppController {
 	function index_add()
 	{
 		$this->layout = 'frontend';
-		$myType = $this->Type->findBySlug($this->request->params['type']);	
+		$myType = $this->Type->findBySlug($this->request->params['type']);
 		// if this action is going to add CHILD list...
 		if(!empty($this->request->params['entry']))
 		{
 			$myEntry = $this->Entry->findBySlug($this->request->params['entry']);
 			if(!empty($this->request->query['type']))
-			{				
+			{
 				$myChildTypeSlug = $this->request->query['type'];
 			}
-			else 
+			else
 			{
 				$myChildTypeSlug = $myType['Type']['slug'];
 			}
 		}
 		$status = 0;
 		$nowType = (empty($myChildTypeSlug)?$myType:$this->Type->findBySlug($myChildTypeSlug));
-		foreach ($nowType['TypeMeta'] as $key => $value) 
+		foreach ($nowType['TypeMeta'] as $key => $value)
 		{
 			if($value['key'] == 'stagging' && $value['value']=='enable')
 			{
@@ -927,13 +935,13 @@ class EntriesController extends AppController {
 		}
 		// main add function ...
 		$this->_admin_default_add($myType , $myEntry , $myChildTypeSlug);
-		
-		$myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug).'_add';		
+
+		$myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug).'_add';
 		// send to each appropriate view
 		$str = substr(WWW_ROOT, 0 , strlen(WWW_ROOT)-1); // buang DS trakhir...
 		$str = substr($str, 0 , strripos($str, DS)+1); // buang webroot...
 		$src = $str.'View'.str_replace('/', DS, $this->frontEndFolder).$myTemplate.'.ctp';
-		
+
 		// add / edit must use the same view .ctp, but with different action !!
 		if(file_exists($src))
 		{
@@ -944,7 +952,7 @@ class EntriesController extends AppController {
 			$this->render('default_add');
 		}
 	}
-	
+
 	/**
 	* target route for adding new entry
 	* @return void
@@ -954,13 +962,13 @@ class EntriesController extends AppController {
 	{
 		if($this->request->params['type'] == 'pages')
 		{
-			
+
 			if($this->user['role_id'] > 1)
 			{
 				throw new NotFoundException('Error 404 - Not Found');
 			}
 			// manually set pages data !!
-			$myType['Type']['name'] = 'Pages';			
+			$myType['Type']['name'] = 'Pages';
 			$myType['Type']['slug'] = 'pages';
 			$myType['Type']['parent_id'] = 0;
 		}
@@ -968,31 +976,31 @@ class EntriesController extends AppController {
 		{
 			$myType = $this->Type->findBySlug($this->request->params['type']);
 		}
-		
+
 		// if this action is going to add CHILD list...
 		if(!empty($this->request->params['entry']))
 		{
 			$myEntry = $this->meta_details(['slug' => $this->request->params['entry']]);
 			if(!empty($this->request->query['type']))
-			{				
+			{
 				$myChildTypeSlug = $this->request->query['type'];
 			}
-			else 
+			else
 			{
 				$myChildTypeSlug = $myType['Type']['slug'];
 			}
 		}
-		
+
 		// main add function ...
 		$this->_admin_default_add(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry??[] , $myChildTypeSlug??[]);
-		
+
 		$myTemplate = ($myType['Type']['slug']=='pages'?$myEntry['Entry']['slug']:(empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug)).'_add';
-		
+
 		// send to each appropriate view
 		$str = substr(WWW_ROOT, 0 , strlen(WWW_ROOT)-1); // buang DS trakhir...
 		$str = substr($str, 0 , strripos($str, DS)+1); // buang webroot...
 		$src = $str.'View'.str_replace('/', DS, $this->backEndFolder).$myTemplate.'.ctp';
-		
+
 		// add / edit must use the same view .ctp, but with different action !!
 		if(file_exists($src))
 		{
@@ -1012,7 +1020,7 @@ class EntriesController extends AppController {
 	function index_edit()
 	{
 		$this->layout = 'frontend';
-		
+
 		$myType = $this->Type->findBySlug($this->request->params['type']);
 		$this->Entry->recursive = 2;
 		$myEntry = $this->meta_details([
@@ -1020,28 +1028,28 @@ class EntriesController extends AppController {
             'entry_type' => (!empty($this->request->query['type'])?$this->request->query['type']:$myType['Type']['slug']),
         ]);
 		$this->Entry->recursive = 1;
-        
+
         if(empty($myEntry))
         {
             throw new NotFoundException('Error 404 - Not Found');
         }
-		
+
 		// if this action is going to edit CHILD list...
 		if(!empty($this->request->params['entry_parent']))
-		{	
+		{
 			$myParentEntry = $this->Entry->findBySlug($this->request->params['entry_parent']);
 			if(!empty($this->request->query['type']))
-			{				
+			{
 				$myChildTypeSlug = $this->request->query['type'];
 			}
-			else 
+			else
 			{
 				$myChildTypeSlug = $myType['Type']['slug'];
 			}
 		}
 		$status = 0;
 		$nowType = (empty($myChildTypeSlug)?$myType:$this->Type->findBySlug($myChildTypeSlug));
-		foreach ($nowType['TypeMeta'] as $key => $value) 
+		foreach ($nowType['TypeMeta'] as $key => $value)
 		{
 			if($value['key'] == 'stagging' && $value['value']=='enable')
 			{
@@ -1055,13 +1063,13 @@ class EntriesController extends AppController {
 		}
 		// main edit function ...
 		$this->_admin_default_edit($myType , $myEntry , $myParentEntry , $myChildTypeSlug , strtolower($this->request->query['lang']));
-		
-		$myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug).'_add';		
+
+		$myTemplate = (empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug).'_add';
 		// send to each appropriate view
 		$str = substr(WWW_ROOT, 0 , strlen(WWW_ROOT)-1); // buang DS trakhir...
 		$str = substr($str, 0 , strripos($str, DS)+1); // buang webroot...
 		$src = $str.'View'.str_replace('/', DS, $this->frontEndFolder).$myTemplate.'.ctp';
-		
+
 		// add / edit must use the same view .ctp, but with different action !!
 		if(file_exists($src))
 		{
@@ -1072,14 +1080,14 @@ class EntriesController extends AppController {
 			$this->render('default_add');
 		}
 	}
-	
+
 	/**
 	* target route for editing certain entry based on passed url parameter
 	* @return void
 	* @public
 	**/
 	function admin_index_edit()
-	{	
+	{
 		if($this->request->params['type'] == 'pages')
 		{
 			// manually set pages data !!
@@ -1090,42 +1098,42 @@ class EntriesController extends AppController {
 		else
 		{
 			$myType = $this->Type->findBySlug($this->request->params['type']);
-		}		
+		}
 		$this->Entry->recursive = 2;
 		$myEntry = $this->meta_details([
             'slug' => $this->request->params['entry'],
             'entry_type' => (!empty($this->request->query['type'])?$this->request->query['type']:$myType['Type']['slug']),
         ]);
 		$this->Entry->recursive = 1;
-        
+
         if(empty($myEntry))
         {
             throw new NotFoundException('Error 404 - Not Found');
         }
-		
+
 		// if this action is going to edit CHILD list...
 		if(!empty($this->request->params['entry_parent']))
-		{	
+		{
 			$myParentEntry = $this->meta_details(['slug' => $this->request->params['entry_parent']]);
 			if(!empty($this->request->query['type']))
-			{				
+			{
 				$myChildTypeSlug = $this->request->query['type'];
 			}
-			else 
+			else
 			{
 				$myChildTypeSlug = $myType['Type']['slug'];
 			}
 		}
-		
+
 		// main edit function ...
 		$this->_admin_default_edit(($myType['Type']['slug']=='pages'?NULL:$myType) , $myEntry , $myParentEntry??NULL , $myChildTypeSlug??NULL , strtolower($this->request->query['lang']??NULL));
-		
-		$myTemplate = ($myType['Type']['slug']=='pages'?$myEntry['Entry']['slug']:(empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug)).'_add';		
+
+		$myTemplate = ($myType['Type']['slug']=='pages'?$myEntry['Entry']['slug']:(empty($myChildTypeSlug)?$myType['Type']['slug']:$myChildTypeSlug)).'_add';
 		// send to each appropriate view
 		$str = substr(WWW_ROOT, 0 , strlen(WWW_ROOT)-1); // buang DS trakhir...
 		$str = substr($str, 0 , strripos($str, DS)+1); // buang webroot...
 		$src = $str.'View'.str_replace('/', DS, $this->backEndFolder).$myTemplate.'.ctp';
-		
+
 		// add / edit must use the same view .ctp, but with different action !!
 		if(file_exists($src))
 		{
@@ -1152,7 +1160,7 @@ class EntriesController extends AppController {
 		{
 			// manually set pages data !!
 			$myType['Type']['name'] = 'Pages';
-			
+
 			$myType['Type']['slug'] = 'pages';
 			$myType['Type']['parent_id'] = 0;
 		}
@@ -1164,7 +1172,7 @@ class EntriesController extends AppController {
             'slug' => $myEntrySlug,
             'entry_type' => $myType['Type']['slug'],
         ]));
-		
+
 		$this->onlyActiveEntries = TRUE;
 		$json = $this->_admin_default([
             'myType' => $myType,
@@ -1173,12 +1181,12 @@ class EntriesController extends AppController {
             'myChildTypeSlug' => $myChildTypeSlug,
         ]);
 		$this->onlyActiveEntries = FALSE;
-		
+
 		echo json_encode($json);
 	}
-	
+
 	/**
-	* get specific entry from entry lists based on entry id 
+	* get specific entry from entry lists based on entry id
 	* @param integer $myEntryId contains id of the entry
 	* @return void echoing json result
 	* @public
@@ -1187,28 +1195,28 @@ class EntriesController extends AppController {
 	{
 		$this->autoRender = FALSE;
 		$myEntry = $this->meta_details(['id' => $myEntryId]);
-		
+
 		// if this is a child Entry...
 		if($myEntry['Entry']['parent_id'] > 0)
 		{
-			$myParentEntry = $this->Entry->findById($myEntry['Entry']['parent_id']);			
+			$myParentEntry = $this->Entry->findById($myEntry['Entry']['parent_id']);
 			$myType = $this->Type->findBySlug($myParentEntry['Entry']['entry_type']); // PARENT TYPE...
-			
+
 			$myChildTypeSlug = $myEntry['Entry']['entry_type'];
 		}
 		else // if this is a parent Entry ...
 		{
 			$myType = $this->Type->findBySlug($myEntry['Entry']['entry_type']);
 		}
-		
+
 		$tempdata = array();
 		swap_value($tempdata, $this->request->data);
 		$json = $this->_admin_default_edit($myType , $myEntry , $myParentEntry , $myChildTypeSlug);
 		swap_value($tempdata, $this->request->data);
-		
+
 		echo json_encode($json);
 	}
-	
+
 	/**
 	* querying to get a bunch of entries based on parameter given (core function)
 	* @param array $myType contains record query result of database type
@@ -1229,7 +1237,7 @@ class EntriesController extends AppController {
 	{
         set_time_limit(60); // 1 MINUTE time limit execution.
         extract($passData , EXTR_SKIP);
-        
+
         $data = [];
         if(is_null($paging))
 		{
@@ -1240,14 +1248,14 @@ class EntriesController extends AppController {
 			$this->layout = 'ajax';
 			$data['stream'] = (isset($this->request->query['stream'])?$this->request->query['stream']:NULL);
             $data['alias'] = (isset($this->request->query['alias'])?$this->request->query['alias']:NULL);
-		}	
-		if ($this->request->is('ajax') && empty($popup) || ($popup??NULL) == "ajax" || !empty($searchMe)) 
-		{	
+		}
+		if ($this->request->is('ajax') && empty($popup) || ($popup??NULL) == "ajax" || !empty($searchMe))
+		{
 			$data['isAjax'] = 1;
 			if($searchMe != NULL || !empty($lang) && !empty($this->request->params['admin']) )
 			{
 				$data['search'] = "yes";
-			}			
+			}
 			if($searchMe != NULL)
 			{
 				$searchMe = trim($searchMe);
@@ -1261,24 +1269,24 @@ class EntriesController extends AppController {
 				}
 			}
 			$_SESSION['lang'] = strtolower(empty($lang)?(empty($_SESSION['lang'])||empty($this->request->params['admin'])?substr($this->mySetting['language'][0], 0,2):$_SESSION['lang']):$lang);
-		} 
-		else 
+		}
+		else
 		{
 			$data['isAjax'] = 0;
 			unset($_SESSION['searchMe']);
 			$_SESSION['lang'] = strtolower(empty($lang)?substr($this->mySetting['language'][0], 0,2):$lang);
 		}
-        
+
 		$data['myType'] = $myType;
 		$data['paging'] = $paging;
 		$data['popup'] = $popup??NULL;
 		if(!empty($myEntry) && !empty($myChildTypeSlug) )
-		{			
+		{
 			$data['myEntry'] = $myEntry;
 			$myChildType = $this->Type->findBySlug($myChildTypeSlug);
 			$data['myChildType'] = $myChildType;
 		}
-        
+
         // $_SESSION['order_by'] Validation !!
         $myAutomaticValidation = $myChildType['TypeMeta'] ?? $myType['TypeMeta'] ?? [];
         if(substr($_SESSION['order_by'] ?? NULL , 0 , 5) == 'form-')
@@ -1291,14 +1299,14 @@ class EntriesController extends AppController {
                     $innerFieldMeta = $value['input_type'];
                     $innerFieldMetaNumeric = strpos($value['validation'], 'is_numeric'); // for order by type !!
                     break;
-                }                    
+                }
             }
             if(empty($innerFieldMeta))
             {
                 unset($_SESSION['order_by']);
             }
         }
-        
+
         // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
         if( !empty($this->request->params['admin']) )
         {
@@ -1309,10 +1317,10 @@ class EntriesController extends AppController {
         {
             $_SESSION['lang'] = strtolower(substr($this->mySetting['language'][0], 0,2));
         }
-        
+
 		// set page title
 		$this->setTitle($myEntry['Entry']['title'] ?? $myType['Type']['name'] ?? NULL);
-		
+
 		// set paging session...
 		$countPage = $this->countListPerPage;
 		if(!empty($paging))
@@ -1325,7 +1333,7 @@ class EntriesController extends AppController {
             {
                 if(empty($this->request->params['admin'])) // front-end
                 {
-                    foreach($myAutomaticValidation as $key => $value) 
+                    foreach($myAutomaticValidation as $key => $value)
                     {
                         if($value['key'] == 'pagination')
                         {
@@ -1344,7 +1352,7 @@ class EntriesController extends AppController {
                 }
             }
 		}
-		
+
 		// our list conditions... --------------------------------------------------------------////
 		if(empty($myEntry))
 		{
@@ -1372,7 +1380,7 @@ class EntriesController extends AppController {
 			$options['conditions']['Entry.lang_code LIKE'] = $_SESSION['lang'].'-%';
 			$data['language'] = $_SESSION['lang'];
 		}
-        
+
         // ========================================= >>
 		// FIND LAST MODIFIED !!
 		// ========================================= >>
@@ -1389,7 +1397,7 @@ class EntriesController extends AppController {
 		{
             $myMetaKey = array_map('trim', explode('|', $myMetaKey));
             $myMetaValue = array_map('trim', explode('|', $myMetaValue));
-            
+
             foreach($myMetaKey as $tempKey => $tempValue)
             {
                 if(!empty($tempValue) && !empty($myMetaValue[$tempKey]))
@@ -1400,31 +1408,31 @@ class EntriesController extends AppController {
                         $myMetaValue[$tempKey] = substr($myMetaValue[$tempKey] , 1);
                         $myMetaNot = 'NOT';
                     }
-                    
+
                     array_push($options['conditions'], array(
                         'REPLACE(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}form-'.$tempValue.'=", -1), "{#}", 1) , "-" , " "),"_"," ") '.$myMetaNot.' LIKE' => '%'.(strpos($myMetaValue[$tempKey],'_')!==false?$myMetaValue[$tempKey]:string_unslug($myMetaValue[$tempKey])).'%'
                     ));
-                    
+
                     unset($myMetaKey[$tempKey]);
                 }
             }
-            
+
             $myMetaKey = array_filter($myMetaKey);
             if(!empty($myMetaKey))
             {
                 $options['conditions']['NOT'] = array_map(function($value){ return array('EntryMeta.key_value LIKE' => '%{#}form-'.$value.'=%'); }, $myMetaKey);
             }
 		}
-        
+
 		if(!empty($_SESSION['searchMe']))
 		{
             $options['conditions']['OR'] = array(
-                array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'), 
+                array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'),
                 array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%'),
                 array('REPLACE(REPLACE(EntryMeta.key_value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%'),
             );
 		}
-        
+
         // ========================================= >>
         // FINAL SORT based on certain criteria !!
         // ========================================= >>
@@ -1432,7 +1440,7 @@ class EntriesController extends AppController {
         {
             $explodeSorting = explode(' ', $_SESSION['order_by']);
             if($innerFieldMeta == 'gallery')    $explodeSorting[0] = 'count-'.$explodeSorting[0];
-            
+
             $sqlOrderValue = 'LTRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}'.$explodeSorting[0].'=", -1), "{#}", 1))';
             if(strpos($innerFieldMeta, 'datetime') !== FALSE)
             {
@@ -1446,10 +1454,10 @@ class EntriesController extends AppController {
             {
                 $sqlOrderValue = 'CAST('.$sqlOrderValue.' AS SIGNED)';
             }
-            
+
             $options['order'] = array($sqlOrderValue.' '.$explodeSorting[1]);
         }
-        else 
+        else
         {
             if(empty($_SESSION['order_by']))
             {
@@ -1469,7 +1477,7 @@ class EntriesController extends AppController {
                 }
             }
         }
-        
+
         if(strpos( serialize($options) , 'EntryMeta.key_value') !== FALSE)
 		{
             $options['joins'] = array(array(
@@ -1479,7 +1487,7 @@ class EntriesController extends AppController {
 	            'conditions' => array('Entry.id = EntryMeta.entry_id')
 			));
 		}
-        
+
         // ========================================= >>
 		// EXECUTE MAIN QUERY !!
 		// ========================================= >>
@@ -1490,10 +1498,10 @@ class EntriesController extends AppController {
             $options['page'] = $paging;
         }
 		$data['myList'] = array_map('breakEntryMetas', $this->Entry->find('all' ,$options));
-        
+
         // set New countPage
 		$data['countPage'] = $newCountPage = ceil($data['totalList'] / $countPage);
-		
+
 		// set the paging limitation...
 		$left_limit = 1;
 		$right_limit = 5;
@@ -1514,22 +1522,22 @@ class EntriesController extends AppController {
 			{
 				$right_limit = $newCountPage;
 				$left_limit = $newCountPage - 4;
-			}			
+			}
 		}
 		$data['left_limit'] = $left_limit;
 		$data['right_limit'] = $right_limit;
-		
+
 		if( !empty($this->request->params['admin']) ) // back-end access ...
         {
             // check for image is used for this entries or not ??
             $data['imageUsed'] = (empty(array_filter(array_column(array_column($data['myList'], 'Entry'), 'main_image')))?0:1);
-            
+
             // for image input type reason...
             $data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');
-            
+
             // IS ALLOWING ORDER CHANGE OR NOT ??
             $data['isOrderChange'] = (empty($_SESSION['order_by']) || substr($_SESSION['order_by'], 0 , 10) == 'sort_order'?1:0);
-        
+
             // ---------------------------------------- LANGUAGE OPTION LINK ------------------------------------- //
             if(!empty($myEntry) && $data['multi_language'])
             {
@@ -1540,7 +1548,7 @@ class EntriesController extends AppController {
                     'recursive' => -1
                 ));
 
-                foreach ($temp100 as $key => $value) 
+                foreach ($temp100 as $key => $value)
                 {
                     $parent_language[ substr($value['Entry']['lang_code'], 0,2) ] = $value['Entry']['slug'];
                 }
@@ -1548,17 +1556,17 @@ class EntriesController extends AppController {
             }
             // ------------------------------------- END OF LANGUAGE OPTION LINK --------------------------------- //
         }
-        
+
 		if(empty($manualset))
 		{
 			$this->set(compact('data'));
 		}
-		
+
 		return $data;
 	}
 
 	/**
-	* add new entry 
+	* add new entry
 	* @param array $myType contains record query result of database type
 	* @param array $myEntry[optional] contains record query result of the selected Entry
 	* @param string $myChildTypeSlug[optional] contains slug of child type database (used if want to search certain child Entry)
@@ -1570,7 +1578,7 @@ class EntriesController extends AppController {
 		if($this->request['admin'])
 		{
 			$pecah_privilege = explode('|', $this->user['Role']['privilege']);
-			foreach ($pecah_privilege as $key) 
+			foreach ($pecah_privilege as $key)
 			{
 				if($key == $myType['Type']['slug'].'_add')
 				{
@@ -1582,19 +1590,19 @@ class EntriesController extends AppController {
 			{
 				throw new NotFoundException('Error 404 - Not Found');
 			}
-		} 
+		}
 
         $data = [];
 		$myChildType = $this->Type->findBySlug($myChildTypeSlug);
 		$data['myType'] = $myType;
 		$data['myParentEntry'] = $myEntry;
 		$data['myChildType'] = $myChildType;
-        
+
         // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
         $myAutomaticValidation = (empty($myEntry)?$myType['TypeMeta']:$myChildType['TypeMeta']);
         $data['gallery'] = $this->Entry->checkGalleryType($myAutomaticValidation);
         $data['multi_language'] = (count($this->mySetting['language']) > 1?$this->Entry->checkGalleryType($myAutomaticValidation, 'multi_language'):false);
-        
+
 		// for image input type reason...
 		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
@@ -1606,7 +1614,7 @@ class EntriesController extends AppController {
 				),
                 'recursive' => -1
 			));
-			foreach ($temp100 as $key => $value) 
+			foreach ($temp100 as $key => $value)
 			{
 				$parent_language[ substr($value['Entry']['lang_code'], 0,2) ] = $value['Entry']['slug'];
 			}
@@ -1614,21 +1622,21 @@ class EntriesController extends AppController {
 		}
 		$data['lang'] = strtolower(empty($myEntry)?(empty($_SESSION['lang'])? substr($this->mySetting['language'][0], 0,2):$_SESSION['lang']):substr($myEntry['Entry']['lang_code'], 0,2));
 		// ------------------------------------------ END OF LANGUAGE OPTION LINK -------------------------------------- //
-		
+
 		if(empty($prefield_slug))
 		{
 			$this->setTitle('Add New '.(empty($myEntry)?(empty($myType)?'Pages':$myType['Type']['name']):$myEntry['Entry']['title']));
 			$this->set(compact('data'));
 		}
-		
+
 		// if form submit is taken...
-		if (!empty($this->request->data)) 
+		if (!empty($this->request->data))
 		{
             if(empty($lang_code) && !empty($myEntry) && substr($myEntry['Entry']['lang_code'], 0,2) != $this->request->data['language'])
 			{
 				$myEntry = $this->Entry->findByLangCode($this->request->data['language'].substr($myEntry['Entry']['lang_code'], 2));
-			}	
-			// PREPARE DATA !!	
+			}
+			// PREPARE DATA !!
 			$this->request->data['Entry']['title'] = $this->request->data['Entry'][0]['value'];
 			$this->request->data['Entry']['description'] = $this->request->data['Entry'][1]['value'];
 			$this->request->data['Entry']['main_image'] = $this->request->data['Entry'][2]['value'];
@@ -1636,12 +1644,12 @@ class EntriesController extends AppController {
 			{
 				$this->request->data['Entry']['status'] = $this->request->data['Entry'][3]['value'];
 			}
-			
+
 			// set the type of this entry...
 			$this->request->data['Entry']['entry_type'] = (empty($myEntry)?(empty($myType)?'pages':$myType['Type']['slug']):$myChildType['Type']['slug']);
-			// generate slug from title...			
+			// generate slug from title...
 			$this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
-			// write my creator...			
+			// write my creator...
 			$this->request->data['Entry']['created_by'] = $this->user['id'];
 			$this->request->data['Entry']['modified_by'] = $this->user['id'];
 			// write time created manually !!
@@ -1651,11 +1659,11 @@ class EntriesController extends AppController {
 			// set parent_id
 			$this->request->data['Entry']['parent_id'] = (empty($myEntry)?0:$myEntry['Entry']['id']);
 			$this->request->data['Entry']['lang_code'] = strtolower(empty($lang_code)?$this->request->data['language']:$lang_code);
-			
+
 			// PREPARE FOR ADDITIONAL LINK OPTIONS !!
 			$myChildTypeLink = (!empty($myEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?'?type='.$myChildType['Type']['slug']:'');
 			$myTranslation = (empty($myChildTypeLink)?'?':'&').'lang='.substr($this->request->data['Entry']['lang_code'], 0,2);
-			
+
 			// now for validation !!
 			$this->Entry->set($this->request->data);
 			if($this->Entry->validates())
@@ -1663,8 +1671,8 @@ class EntriesController extends AppController {
 			    // --------------------------------- NOW for add / validate the details of this entry !!!
 				$myDetails = $this->request->data['EntryMeta'];
 				$errMsg = "";
-                
-				foreach ($myDetails as $key => $value) 
+
+				foreach ($myDetails as $key => $value)
 				{
                     if($value['input_type']=='file' && !empty($_FILES[$value['key']]['name']))
                     {
@@ -1677,18 +1685,18 @@ class EntriesController extends AppController {
 
 					// firstly DO checking validation from view layout !!!
 					$myValid = explode('|', $value['validation']);
-					foreach ($myValid as $key10 => $value10) 
+					foreach ($myValid as $key10 => $value10)
 					{
 						$tempMsg = $this->Validation->blazeValidate( $value['value']??NULL ,$value10 , $value['key']??NULL);
 						$errMsg .= ( !empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
 					}
 					// secondly DO checking validation from database !!!
-					foreach ($myAutomaticValidation as $key2 => $value2) // check for validation for each attribute key... 
+					foreach ($myAutomaticValidation as $key2 => $value2) // check for validation for each attribute key...
 					{
 						if($value['key'] == $value2['key']) // if find the same key...
 						{
 							$myValid = explode('|' , $value2['validation']);
-							foreach ($myValid as $key3 => $value3) 
+							foreach ($myValid as $key3 => $value3)
 							{
 								$tempMsg = $this->Validation->blazeValidate($value['value']??NULL,$value3 , $value['key']??NULL);
 								$errMsg .= ( !empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
@@ -1708,11 +1716,11 @@ class EntriesController extends AppController {
 				$this->Entry->save($this->request->data);
                 $newEntryId = $this->Entry->id;
                 if($data['gallery'])
-                {   
-                    foreach (array_reverse($this->request->data['Entry']['image']) as $key => $value) 
+                {
+                    foreach (array_reverse($this->request->data['Entry']['image']) as $key => $value)
                     {
                         $myImage = $this->Entry->findById($value);
-                        
+
                         $input = array();
                         $input['Entry']['entry_type'] = $this->request->data['Entry']['entry_type'];
                         $input['Entry']['title'] = $myImage['Entry']['title'];
@@ -1728,13 +1736,13 @@ class EntriesController extends AppController {
 
                 if(!empty($this->request->data['Entry']['fieldimage']))
                 {
-                	foreach ($this->request->data['Entry']['fieldimage'] as $fieldkey => $fieldvalue) 
+                	foreach ($this->request->data['Entry']['fieldimage'] as $fieldkey => $fieldvalue)
                 	{
-                		foreach (array_reverse($fieldvalue) as $key => $value) 
+                		foreach (array_reverse($fieldvalue) as $key => $value)
                 		{
                 			$myImage = $this->Entry->findById($value);
 
-                			$input = array();                        
+                			$input = array();
 	                        $input['Entry']['entry_type'] = $fieldkey;
 	                        $input['Entry']['title'] = $myImage['Entry']['title'];
 	                        $input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
@@ -1750,7 +1758,7 @@ class EntriesController extends AppController {
 
 				$this->request->data['EntryMeta']['entry_id'] = $newEntryId;
 				foreach ($myDetails as $key => $value)
-				{	
+				{
 					if(!empty($value['value']) && substr($value['key'], 0,5) == 'form-')
 					{
 						$this->request->data['EntryMeta']['key'] = $value['key'];
@@ -1770,7 +1778,7 @@ class EntriesController extends AppController {
 						{
 							$this->request->data['EntryMeta']['value'] = ($value['input_type'] == 'checkbox'?implode("|",$value['value']):$value['value']);
 						}
-						
+
                         // ONE MORE CHECKER STEP !!
                         if(strpos($value['validation'], 'is_numeric') !== FALSE)
                         {
@@ -1783,17 +1791,17 @@ class EntriesController extends AppController {
                         }
 					}
 				}
-				
+
 				// Upload File !!
 				if(isset($_FILES))
 				{
-					foreach ($_FILES as $key => $value) 
+					foreach ($_FILES as $key => $value)
 					{
 						if(!empty($value['name']))
 						{
 							$value['name'] = getValidFileName($value['name']);
 							uploadFile($value);
-							
+
                             // Save data to EntryMeta !!
                             $old_file = $this->EntryMeta->findByEntryIdAndKey($this->request->data['EntryMeta']['entry_id'], $key);
                             if(empty($old_file))
@@ -1811,16 +1819,16 @@ class EntriesController extends AppController {
 						}
 					}
 				}
-                
+
                 // reorder Entry.sort_order that just be translated !!
                 if(!empty($lang_code))
                 {
                     $this->Entry->_reorderAfterTranslate($lang_code);
                 }
-                
+
                 // ---------- ADD SHIPPING ID OR SOMETHING ELSE RELATED !! ------------- //
 				$this->_add_update_id_meta($myType['Type']['slug'] , $myChildTypeSlug , $myEntry);
-                
+
 				// NOW finally setFlash ^^
 				$this->Session->setFlash($this->request->data['Entry']['title'].' has been added.','success');
 				if( !empty($this->request->params['admin']) )
@@ -1833,13 +1841,13 @@ class EntriesController extends AppController {
 					$this->redirect( redirectSessionNow($_SESSION['now']) );
 				}
 			}
-			else 
+			else
 			{
 				$this->_setFlashInvalidFields($this->Entry->invalidFields());
 			}
 		}
 	}
-    
+
     /*
     * last action before setFlash from add/update selected Entry...
     */
@@ -1849,17 +1857,17 @@ class EntriesController extends AppController {
         $this->request->data = breakEntryMetas($this->request->data);
         $this->request->data['Entry']['id'] = $this->request->data['EntryMeta']['entry_id'];
         $this->request->data['imagePath'] = $this->get_linkpath();
-        
+
         // ADDITIONAL FUNCTION HERE AFTER INSERT / UPDATE RECORD !!
         // ...............
         // ===================================================== >>
 	}
 
 	/**
-	* update certain entry 
+	* update certain entry
 	* @param array $myType contains record query result of database type
 	* @param array $myEntry contains record query result of the selected Entry
-	* @param array $myParentEntry[optional] contains record query result of the parent Entry (used if want to search certain child Entry) 
+	* @param array $myParentEntry[optional] contains record query result of the parent Entry (used if want to search certain child Entry)
 	* @param string $myChildTypeSlug[optional] contains slug of child type database (used if want to search certain child Entry)
 	* @return array $result a selected entry with all of its attributes you'd requested
 	* @public
@@ -1869,7 +1877,7 @@ class EntriesController extends AppController {
 		if($this->request['admin'])
 		{
 			$pecah_privilege = explode('|', $this->user['Role']['privilege']);
-			foreach ($pecah_privilege as $key) 
+			foreach ($pecah_privilege as $key)
 			{
 				if($key == $myType['Type']['slug'].'_edit')
 				{
@@ -1882,24 +1890,24 @@ class EntriesController extends AppController {
 				throw new NotFoundException('Error 404 - Not Found');
 			}
 		}
-		
+
         $data = [];
-		if ($this->request->is('ajax')) 
-		{	
+		if ($this->request->is('ajax'))
+		{
 			$this->layout = 'ajax';
 			$data['isAjax'] = 1;
-		} 
-		else 
+		}
+		else
 		{
 			$data['isAjax'] = 0;
-		}	
+		}
 		$this->setTitle('Edit '.($myEntry['Entry']['title']??''));
 		$myChildType = $this->Type->findBySlug($myChildTypeSlug);
-		$data['myType'] = $myType;		
+		$data['myType'] = $myType;
 		$data['myEntry'] = $myEntry;
 		$data['myParentEntry'] = $myParentEntry;
 		$data['myChildType'] = $myChildType;
-        
+
         // SEARCH IF GALLERY MODE IS TURN ON / OFF ...
         $myAutomaticValidation = (empty($myParentEntry)?$myType['TypeMeta']:$myChildType['TypeMeta']);
         $data['gallery'] = $this->Entry->checkGalleryType($myAutomaticValidation);
@@ -1921,7 +1929,7 @@ class EntriesController extends AppController {
 
 	        $data['myEntry']['ChildEntry'] = array_map('breakEntryMetas', $this->Entry->find('all', $options) );
         }
-        
+
 		// for image input type reason...
 		$data['myImageTypeList'] = $this->EntryMeta->embedded_img_meta('type');
 		// --------------------------------------------- LANGUAGE OPTION LINK ------------------------------------------ //
@@ -1930,7 +1938,7 @@ class EntriesController extends AppController {
 				'Entry.lang_code LIKE' => '%-'.substr($myEntry['Entry']['lang_code']??NULL, 3)
 			)
 		));
-		foreach ($lang_opt as $key => $value) 
+		foreach ($lang_opt as $key => $value)
 		{
 			$language_link[substr($value['Entry']['lang_code'], 0,2)] = $value['Entry']['slug'];
 		}
@@ -1944,7 +1952,7 @@ class EntriesController extends AppController {
 				),
                 'recursive' => -1
 			));
-			foreach ($temp100 as $key => $value) 
+			foreach ($temp100 as $key => $value)
 			{
 				$parent_language[ substr($value['Entry']['lang_code'], 0,2) ] = $value['Entry']['slug'];
 			}
@@ -1952,7 +1960,7 @@ class EntriesController extends AppController {
 		}
 		// ------------------------------------------ END OF LANGUAGE OPTION LINK -------------------------------------- //
 		$this->set(compact('data'));
-		
+
 		// if form submit is taken...
 		if (!empty($this->request->data))
 		{
@@ -1973,14 +1981,14 @@ class EntriesController extends AppController {
                 {
                     $this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry'][4]['value']);
                 }
-                
+
 				$this->request->data['Entry']['description'] = $this->request->data['Entry'][1]['value'];
 				$this->request->data['Entry']['main_image'] = $this->request->data['Entry'][2]['value'];
 				if(is_numeric($this->request->data['Entry'][3]['value']))
 				{
 					$this->request->data['Entry']['status'] = $this->request->data['Entry'][3]['value'];
 				}
-                
+
                 // write my modifier ID...
 				$this->request->data['Entry']['modified_by'] = $this->user['id'];
 
@@ -1991,37 +1999,37 @@ class EntriesController extends AppController {
                 {
                     $this->request->data['Entry']['created'] = $nowDate;
                 }
-				
+
 				// PREPARE FOR ADDITIONAL LINK OPTIONS !!
 				$myChildTypeLink = (!empty($myParentEntry)&&$myType['Type']['slug']!=$myChildType['Type']['slug']?'?type='.$myChildType['Type']['slug']:'');
 				$myTranslation = (empty($myChildTypeLink)?'?':'&').'lang='.substr($myEntry['Entry']['lang_code'], 0,2);
-				
+
 				// now for validation !!
 				$this->Entry->set($this->request->data);
 				if($this->Entry->validates())
-				{		
+				{
 					// --------------------------------- NOW for validating the details of this entry !!!
 					$errMsg = "";
 					$myDetails = $this->request->data['EntryMeta'];
-					foreach ($myDetails as $key => $value) 
+					foreach ($myDetails as $key => $value)
 					{
 						if($value['input_type']=='file' || $value['input_type']=='password')	{continue;}
 						else if($value['input_type']=='multibrowse')	{$value['value'] = array_unique(array_filter($value['value']));}
-							
+
 						// firstly DO checking validation from view layout !!!
 						$myValid = explode('|', $value['validation']);
-						foreach ($myValid as $key10 => $value10) 
+						foreach ($myValid as $key10 => $value10)
 						{
 							$tempMsg = $this->Validation->blazeValidate($value['value']??NULL,$value10 , $value['key']??NULL);
 							$errMsg .= ( !empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
 						}
 						// secondly DO checking validation from database !!!
-						foreach ($myAutomaticValidation as $key2 => $value2) // check for validation for each attribute key... 
+						foreach ($myAutomaticValidation as $key2 => $value2) // check for validation for each attribute key...
 						{
 							if($value['key'] == $value2['key']) // if find the same key...
-							{					
+							{
 								$myValid = explode('|' , $value2['validation']);
-								foreach ($myValid as $key3 => $value3) 
+								foreach ($myValid as $key3 => $value3)
 								{
 									$tempMsg = $this->Validation->blazeValidate($value['value']??NULL,$value3 , $value['key']??NULL);
 									$errMsg .= ( !empty($tempMsg) && strpos($errMsg, $tempMsg) === FALSE ?$tempMsg:"");
@@ -2044,17 +2052,17 @@ class EntriesController extends AppController {
                     {
                         // delete all the child image, and then add again !!
                         $this->Entry->deleteAll(array('Entry.parent_id' => $galleryId,'Entry.entry_type' => $myEntry['Entry']['entry_type']));
-                        
+
                         // then, reset this gallery count in EntryMeta too !!
                         $this->EntryMeta->deleteAll(array(
                             'EntryMeta.entry_id'=> $myEntry['Entry']['id'] ,
                             'EntryMeta.key'     => 'count-'.$myEntry['Entry']['entry_type'],
                         ));
-                        
-                        foreach (array_reverse($this->request->data['Entry']['image']) as $key => $value) 
+
+                        foreach (array_reverse($this->request->data['Entry']['image']) as $key => $value)
                         {
                             $myImage = $this->Entry->findById($value);
-                            
+
                             $input = array();
                             $input['Entry']['entry_type'] = $myEntry['Entry']['entry_type'];
                             $input['Entry']['title'] = $myImage['Entry']['title'];
@@ -2082,13 +2090,13 @@ class EntriesController extends AppController {
 
                     if(!empty($this->request->data['Entry']['fieldimage']))
 	                {
-	                	foreach ($this->request->data['Entry']['fieldimage'] as $fieldkey => $fieldvalue) 
+	                	foreach ($this->request->data['Entry']['fieldimage'] as $fieldkey => $fieldvalue)
 	                	{
-	                		foreach (array_reverse($fieldvalue) as $key => $value) 
+	                		foreach (array_reverse($fieldvalue) as $key => $value)
 	                		{
 	                			$myImage = $this->Entry->findById($value);
 
-	                			$input = array();                        
+	                			$input = array();
 		                        $input['Entry']['entry_type'] = $fieldkey;
 		                        $input['Entry']['title'] = $myImage['Entry']['title'];
 		                        $input['Entry']['slug'] = $this->get_slug($myImage['Entry']['title']);
@@ -2110,7 +2118,7 @@ class EntriesController extends AppController {
                         {
                             $value['value'] = (!empty($value['value'])?md5($value['value']):$myEntry['EntryMeta'][substr($value['key'], 5)]);
                         }
-                        
+
 						if(!empty($value['value']) && substr($value['key'], 0,5) == 'form-')
 						{
 							if($value['input_type'] == 'file')
@@ -2155,7 +2163,7 @@ class EntriesController extends AppController {
 								{
 									$this->request->data['EntryMeta']['value'] = ($value['input_type'] == 'checkbox'?implode("|",$value['value']):$value['value']);
 								}
-								
+
                                 // ONE MORE CHECKER STEP !!
                                 if(strpos($value['validation'], 'is_numeric') !== FALSE)
                                 {
@@ -2173,15 +2181,15 @@ class EntriesController extends AppController {
 					// Upload File !!
 					if(isset($_FILES))
 					{
-						foreach ($_FILES as $key => $value) 
+						foreach ($_FILES as $key => $value)
 						{
 							if(!empty($value['name']))
 							{
-								if(!empty($value['value']) && empty($this->EntryMeta->findByValue($value['value'])) )    
+								if(!empty($value['value']) && empty($this->EntryMeta->findByValue($value['value'])) )
 								{
 									deleteFile($value['value']);
 								}
-								
+
 								$value['name'] = getValidFileName($value['name']);
 								uploadFile($value);
 								// Save data to EntryMeta !!
@@ -2192,10 +2200,10 @@ class EntriesController extends AppController {
 							}
 						}
 					}
-                    
+
                     // --------- UPDATE SHIPPING ID OR SOMETHING ELSE RELATED !! ----------- //
 				    $this->_add_update_id_meta($myType['Type']['slug'] , $myChildTypeSlug , $myParentEntry , $myEntry);
-                    
+
 					$this->Session->setFlash($this->request->data['Entry']['title'].' has been updated.','success');
 					if( !empty($this->request->params['admin']) )
 					{
@@ -2207,20 +2215,20 @@ class EntriesController extends AppController {
 						$this->redirect( redirectSessionNow($_SESSION['now']) );
 					}
 				}
-				else 
-				{	
+				else
+				{
 					$this->_setFlashInvalidFields($this->Entry->invalidFields());
 					return;
 				}
 			}
 			else // ADD NEW TRANSLATION LANGUAGE !!
-			{	
+			{
 				$this->_admin_default_add($myType , $myParentEntry , $myChildTypeSlug , $lang.substr( $myEntry['Entry']['lang_code'] , 2) , $myEntry['Entry']['slug']);
 			}
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * blueimp jQuery plugin function for initialize upload media image purpose
 	 * @return void
@@ -2231,9 +2239,9 @@ class EntriesController extends AppController {
 		$this->autoRender = FALSE;
 		App::import('Vendor', 'uploadhandler');
 		$upload_handler = new UploadHandler();
-		
+
 		$info = $upload_handler->post();
-		
+
 		// update database...
 		if(isset($info[0]->name) && (!isset($info[0]->error)))
 		{
@@ -2257,7 +2265,7 @@ class EntriesController extends AppController {
 
 				// DELETE ENTRY METAS TOO !!
 				$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $myid));
-                
+
                 // GIVE LATEST POS ORDER FOR THIS IMAGE !!
                 $frontOrderSide = $this->Entry->find('all', [
                     'conditions' => [
@@ -2276,10 +2284,10 @@ class EntriesController extends AppController {
                     {
                         $this->Entry->id = $value['Entry']['id'];
                         $this->Entry->saveField('sort_order', $overwriteOrder);
-                        
+
                         $overwriteOrder = $value['Entry']['sort_order'];
                     }
-                    
+
                     $this->Entry->id = $myid;
                     $this->Entry->saveField('sort_order', $overwriteOrder);
                 }
@@ -2292,23 +2300,23 @@ class EntriesController extends AppController {
 				// generate slug from title...
 				$this->request->data['Entry']['slug'] = $this->get_slug($this->request->data['Entry']['title']);
 				// write my creator...
-				
+
 				$this->request->data['Entry']['created_by'] = $this->user['id'];
 				$this->request->data['Entry']['modified_by'] = $this->user['id'];
 				$this->Entry->create();
 				$this->Entry->save($this->request->data);
-				
+
 				$myid = $this->Entry->id;
 			}
 
 			// rename the filename...
 			rename( WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$info[0]->name , WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$myid.'.'.$mytype);
-			
+
 			// now generate for display and thumb image according to the media settings...
 			$myType = $this->Type->findBySlug($this->request->data['Type']['slug']);
 			$myMediaSettings = $this->Entry->getMediaSettings($myType);
-			
-			// save the image type...			
+
+			// save the image type...
 			$this->request->data['EntryMeta']['entry_id'] = $myid;
 			$this->request->data['EntryMeta']['key'] = 'image_type';
 			$this->request->data['EntryMeta']['value'] = $mytype;
@@ -2319,10 +2327,10 @@ class EntriesController extends AppController {
 			$this->request->data['EntryMeta']['value'] = $this->Entry->createDisplay($myid , $mytype , $myMediaSettings);
 			$this->EntryMeta->create();
 			$this->EntryMeta->save($this->request->data);
-			
+
 			//Resize original file for thumb...
 			$this->Entry->createThumb($myid , $mytype , $myMediaSettings);
-			
+
 			// REMOVE ORIGINAL IMAGE FILE !!
 			unlink(WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$myid.'.'.$mytype);
 		}
@@ -2335,11 +2343,11 @@ class EntriesController extends AppController {
 	 * @public
 	 **/
 	public function upload_popup($myTypeSlug = NULL)
-	{			
-		$this->layout = 'ajax';	
+	{
+		$this->layout = 'ajax';
 		$this->set(compact('myTypeSlug'));
 	}
-	
+
 	/**
 	 * generate upload popup form for selecting image from media library
 	 * @param integer $paging[optional] contains selected page of lists you want to retrieve
@@ -2358,10 +2366,10 @@ class EntriesController extends AppController {
         {
             $paging = 1;
         }
-        
+
         $isAjax = (is_null($mycaller) && is_null($myTypeSlug)?1:0);
 		$this->set(compact('paging', 'myTypeSlug', 'isAjax'));
-        
+
         $searchMe = null;
         if(empty($isAjax))
         {
@@ -2384,13 +2392,13 @@ class EntriesController extends AppController {
                 }
             }
         }
-        
+
 		// DEFINE MY TYPE CROP !!
 		if(!empty($myTypeSlug))
 		{
 			$temp = $this->Type->findBySlug($myTypeSlug);
 			$crop = -1;
-			foreach ($temp['TypeMeta']??[] as $key => $value) 
+			foreach ($temp['TypeMeta']??[] as $key => $value)
 			{
 				if($value['key'] == 'display_crop')
 				{
@@ -2399,32 +2407,32 @@ class EntriesController extends AppController {
 			}
 			$this->set(compact('crop'));
 		}
-		
+
 		$countPage = $this->mediaPerPage;
-		
+
 		$options['conditions'] = array(
 			'Entry.entry_type' => 'media',
 			'Entry.parent_id' => 0
 		);
-        
+
         if(!empty($_SESSION['searchMe']))
 		{
             $options['conditions']['Entry.title LIKE'] = '%'.$_SESSION['searchMe'].'%';
 		}
-        
+
 		$resultTotalList = $this->Entry->find('count' , $options);
 		$this->set('totalList' , $resultTotalList);
-		
+
 		$options['order'] = array('Entry.'.$this->generalOrder);
 		$options['offset'] = ($paging-1) * $countPage;
 		$options['limit'] = $countPage;
 		$mysql = $this->Entry->find('all' ,$options);
 		$this->set('myList' , $mysql);
-		
+
 		// set New countPage
 		$newCountPage = ceil($resultTotalList / $countPage);
 		$this->set('countPage' , $newCountPage);
-		
+
 		// set the paging limitation...
 		$left_limit = 1;
 		$right_limit = 5;
@@ -2445,23 +2453,23 @@ class EntriesController extends AppController {
 			{
 				$right_limit = $newCountPage;
 				$left_limit = $newCountPage - 4;
-			}			
+			}
 		}
-		
+
         // set mycaller...
         if(is_null($mycaller))  $mycaller = 0;
         $this->set(compact('left_limit', 'right_limit', 'mycaller'));
-	}	
-	
+	}
+
 	function update_slug()
-	{		
+	{
 		$this->autoRender = FALSE;
 		$slug = $this->Entry->get_valid_slug(    $this->get_slug($this->request->data['slug'])   ,  $this->request->data['id']  );
 		$this->Entry->id = $this->request->data['id'];
 		$this->Entry->saveField('slug' , $slug);
 		echo $slug;
 	}
-	
+
 	/**
 	 * re-order entry sort_order for entries view order through ajax
 	 * @return void
@@ -2472,7 +2480,7 @@ class EntriesController extends AppController {
 		$this->autoRender = FALSE;
 		$this->Entry->_reorderList( explode(',', $this->request->data['src_order'] ) , explode(',', $this->request->data['dst_order'] ) , $this->request->data['lang'] );
 	}
-	
+
 	// imported from GET Helpers !!
 	function meta_details($passData = [])
 	{
@@ -2489,7 +2497,7 @@ class EntriesController extends AppController {
 		$this->set(compact('myTitle'));
 
 		if($mode == "clean")
-		{			
+		{
 			$this->Setting->cleanDatabase();
 			$this->Session->setFlash('Database has been cleaned successfully.', 'success');
 			$this->redirect (array('action' => 'backup'));
@@ -2517,7 +2525,7 @@ class EntriesController extends AppController {
 			$this->render($this->backEndFolder."sql");
 		}
 		else if($mode == "restore")
-		{	
+		{
 			$ext = pathinfo($this->request->data['fileurl']['name'], PATHINFO_EXTENSION);
 			if(strtolower($ext) == "sql")
 			{
