@@ -1,12 +1,12 @@
 <IfModule mod_rewrite.c>
    RewriteEngine on
 #   RewriteBase /
-   
+
    #if not already blog.website.com (.htaccess redirect to subdomain)
 #   RewriteCond %{HTTP_HOST} !^blog\.website\.com$ [NC]
    #if request is for blog/, go to blog.website.com
 #   RewriteRule ^blog/$ http://blog.website.com [L,NC,R=301]
-   
+
    #make .htaccess and subdomain working together
 #   RewriteCond %{HTTP_HOST} ^(www\.)?yourdomain.com$
    RewriteRule    ^$ app/webroot/    [L]
@@ -25,6 +25,7 @@
     ExpiresByType image/jpeg "access plus 1 month"
     ExpiresByType application/x-javascript "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 week"
+    ExpiresByType application/json "access plus 1 week"
     ExpiresByType application/x-icon "access plus 1 year"
 </IfModule>
 # END EXPIRES

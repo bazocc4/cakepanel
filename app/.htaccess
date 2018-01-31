@@ -16,6 +16,7 @@
     ExpiresByType image/jpeg "access plus 1 month"
     ExpiresByType application/x-javascript "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 week"
+    ExpiresByType application/json "access plus 1 week"
     ExpiresByType application/x-icon "access plus 1 year"
 </IfModule>
 # END EXPIRES

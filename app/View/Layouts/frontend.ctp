@@ -229,32 +229,32 @@
 		<!-- ADDITIONAL SCRIPT FOR LAYOUT -->
 		<script>
 			$(document).ready(function(){
-				// Target your .container, .wrapper, .post, etc.
+				  // Target your .container, .wrapper, .post, etc.
     			$("body").fitVids();
 
-                // make dynamic active menu-list !!
-                $('ul.nav li.menu-<?php echo (!empty($myType)?$myType['Type']['slug']:(!empty($myEntry)?$myEntry['Entry']['slug']:'home')); ?>').addClass('active');
+          // make dynamic active menu-list !!
+          $('ul.nav li.menu-<?php echo (!empty($myType)?$myType['Type']['slug']:(!empty($myEntry)?$myEntry['Entry']['slug']:'home')); ?>').addClass('active');
 
-                // table responsive class !!
-                $('table').parent(':not(.table-responsive)').wrapInner('<div class="table-responsive"></div>');
-
-                <?php
-                    if(!empty($this->request->query['target']))
-                    {
-                        ?>
-                $(window).load(function(){
-                    setTimeout(function(){
-                        if( $('#<?php echo $this->request->query['target']; ?>').length )
-                        {
-                            $('body').append('<a class="smooth-scrolling hidden" href="#<?php echo $this->request->query['target']; ?>"></a>');
-                            $('a.smooth-scrolling[href=#<?php echo $this->request->query['target']; ?>]')[0].click();
-                        }
-                    }, 100);
-                });
-                        <?php
-                    }
-                ?>
+          // table responsive class !!
+          $('table').parent(':not(.table-responsive)').wrapInner('<div class="table-responsive"></div>');
 		  	});
+
+        <?php
+            if(!empty($this->request->query['target']))
+            {
+                ?>
+        $(window).on('load',function(){
+            setTimeout(function(){
+                if( $('#<?php echo $this->request->query['target']; ?>').length )
+                {
+                    $('body').append('<a class="smooth-scrolling hidden" href="#<?php echo $this->request->query['target']; ?>"></a>');
+                    $('a.smooth-scrolling[href="#<?php echo $this->request->query['target']; ?>"]')[0].click();
+                }
+            }, 100);
+        });
+                <?php
+            }
+        ?>
 		</script>
 	</body>
 </html>
