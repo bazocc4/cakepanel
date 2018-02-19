@@ -185,41 +185,41 @@ class Entry extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-    
+
     private $Resize=null;
-	
+
 	// DATABASE MODEL...
 	var $Type = NULL;
 	var $TypeMeta = NULL;
 	var $Setting = NULL;
-    
+
     var $Entry = NULL;
 	var $EntryMeta = NULL;
 	var $Account = NULL;
-    
+
     // CURRENT USER DETAIL ...
     var $myCreator = NULL;
 
 	public function __construct( $id = false, $table = NULL, $ds = NULL )
 	{
 		parent::__construct($id, $table, $ds);
-		
+
 		App::uses('JqImgcropComponent' , 'Controller/Component');
 		$this->Resize = new JqImgcropComponent(new ComponentCollection()); //make instance
-		
+
 		// set needed database model ...
 		$this->Type = ClassRegistry::init('Type');
 		$this->TypeMeta = ClassRegistry::init('TypeMeta');
 		$this->Setting = ClassRegistry::init('Setting');
-        
+
         $this->Entry = $this; // just as alias ...
 		$this->EntryMeta = ClassRegistry::init('EntryMeta');
 		$this->Account = ClassRegistry::init('Account');
-        
+
         // set current user ...
         $this->myCreator = $this->getCurrentUser();
 	}
-    
+
     function _convertEntrySlug($slug)
     {
         $query = $this->EntryMeta->find('first', array(
@@ -228,22 +228,22 @@ class Entry extends AppModel {
                 'EntryMeta.value LIKE' => '%'.chr(10).$slug.chr(10).'%'
             )
         ));
-        
+
         if(!empty($query))
         {
             $result = $this->findById($query['EntryMeta']['entry_id']);
             $slug = $result['Entry']['slug'];
         }
-        
+
         return $slug;
     }
-    
+
     function _reorderAfterTranslate($lang_code)
     {
         $pecahlang = explode('-', $lang_code);
-        
+
         $acuan = $this->findById($pecahlang[1]);
-        $bahasa_acuan = explode('-', $acuan['Entry']['lang_code']??NULL);        
+        $bahasa_acuan = explode('-', $acuan['Entry']['lang_code']??NULL);
         $querysrc = $this->find('all', array(
             'conditions' => array(
                 'Entry.entry_type' => $acuan['Entry']['entry_type']??NULL,
@@ -252,8 +252,8 @@ class Entry extends AppModel {
             ),
             'order' => array('Entry.sort_order DESC')
         ));
-        
-        $target = $this->findByLangCode($lang_code);        
+
+        $target = $this->findByLangCode($lang_code);
         $querydst = $this->find('all', array(
             'conditions' => array(
                 'Entry.entry_type' => $target['Entry']['entry_type'],
@@ -263,14 +263,14 @@ class Entry extends AppModel {
             'order' => array('Entry.sort_order DESC')
         ));
         // INDEXING TARGET !!
-        $src = $dst = '';        
+        $src = $dst = '';
         foreach($querydst as $key => $value)
         {
-            $src .= $value['Entry']['sort_order'].',';            
+            $src .= $value['Entry']['sort_order'].',';
             $dst .= $value['Entry']['id'].',';
             $querydst[ $value['Entry']['lang_code'] ] = $value['Entry'];
         }
-        
+
         // search acuan position !!
         $acuankey = 0;
         foreach($querysrc as $key => $value)
@@ -281,7 +281,7 @@ class Entry extends AppModel {
                 break;
             }
         }
-        
+
         // BEGIN MAIN PROCESS !!
         $counter = 2;
         $maxlimit = count($querysrc) - 1;
@@ -289,7 +289,7 @@ class Entry extends AppModel {
         $resultid = 0;
         while(TRUE)
         {
-            $key = ( $counter%2==0 ? -1 : 1 );            
+            $key = ( $counter%2==0 ? -1 : 1 );
             $key *= floor($counter/2);
             $key += $acuankey;
             if($key >= 0 && $key <= $maxlimit) // array limit validation !!
@@ -312,24 +312,24 @@ class Entry extends AppModel {
                     break;
                 }
             }
-            $counter++;    
+            $counter++;
         }
-        
+
         if(!empty($resultid))
         {
             // turn string into array !!
             $src = explode(',', $src );
             $dst = explode(',', $dst );
-            
+
             // moving ID element !!
             $moving = array_splice($dst , 0 , 1);
             array_splice($dst , array_search($resultid , $dst ) + ( $counter%2==0 ? 1 : 0 ) , 0 , $moving );
-            
+
             // start reorderList !!
             $this->_reorderList($src , $dst );
         }
     }
-    
+
     /**
 	 * re-order entry sort_order for entries view order through ajax (cont. from Controller)
 	 * @return void
@@ -338,32 +338,32 @@ class Entry extends AppModel {
     function _reorderList($src = array() , $dst = array(), $lang = NULL)
     {
         unset($src[count($src)-1]);
-		unset($dst[count($dst)-1]);		
-		foreach ($dst as $key => $value) 
+		unset($dst[count($dst)-1]);
+		foreach ($dst as $key => $value)
 		{
 			$fast_dst[$value] = $src[$key];
 		}
-		
+
         $movedpos = array(); // helper variable for updating other language order !!
-		foreach ($src as $key => $value) 
-		{			
+		foreach ($src as $key => $value)
+		{
 			$temp = $this->findBySortOrder($value);
-            
+
             if($temp['Entry']['id'] != $dst[$key])
             {
                 $movedpos[$key] = $temp['Entry']['id'];
             }
-            
+
 			$this->id = $temp['Entry']['id'];
 			$result[$this->id] = $fast_dst[$this->id];
 		}
-        
-		foreach ($result as $key => $value) 
-		{			
+
+		foreach ($result as $key => $value)
+		{
 			$this->id = $key;
 			$this->saveField('sort_order' , $value);
 		}
-        
+
         // NEW FEATURE 2015 : Update sort_order in other language too !!
         if(!empty($movedpos) && !empty($lang))
         {
@@ -371,14 +371,14 @@ class Entry extends AppModel {
             $initkey = key($movedpos);
             $startid = current($movedpos);
             $finishid = current(array_reverse($movedpos));
-            
+
             next($movedpos);
-            
+
             if(current($movedpos) != $dst[$initkey])
             {
                 swap_value($startid , $finishid);
             }
-            
+
             $startquery = $this->findById($startid);
             $startlang = explode('-' , $startquery['Entry']['lang_code']);
             $startlist = $this->find('all', array(
@@ -387,11 +387,11 @@ class Entry extends AppModel {
                     'Entry.id <>' => $startid
                 )
             ));
-            
+
             $finishquery = $this->findById($finishid);
             $finishlang = explode('-', $finishquery['Entry']['lang_code']);
             $finishlist = $this->find('all', array(
-                'conditions' => array(                    
+                'conditions' => array(
                     'Entry.lang_code LIKE' => '%-'.$finishlang[1],
                     'Entry.id <>' => $finishid
                 )
@@ -405,7 +405,7 @@ class Entry extends AppModel {
                     $finishlist[$bahasa[0]] = $value['Entry'];
                 }
             }
-            
+
             // BEGIN MAIN PROCESS !!
             if(!empty($startlist))
             {
@@ -416,14 +416,14 @@ class Entry extends AppModel {
                     {
                         $so_awal = $value['Entry']['sort_order'];
                         $so_akhir = $finishlist[$bahasa[0]]['sort_order'];
-                        
+
                         $arahorder = 'ASC';
                         if($so_akhir < $so_awal)
                         {
                             swap_value($so_awal , $so_akhir);
                             $arahorder = 'DESC';
                         }
-                        
+
                         $querybetween = $this->find('all', array(
                             'conditions' => array(
                                 'Entry.entry_type' => $value['Entry']['entry_type'],
@@ -433,7 +433,7 @@ class Entry extends AppModel {
                             ),
                             'order' => array('Entry.sort_order '.$arahorder)
                         ));
-                        
+
                         $tempso = 0;
                         foreach($querybetween as $betkey => $betvalue)
                         {
@@ -446,7 +446,7 @@ class Entry extends AppModel {
                             {
                                 $this->saveField('sort_order' , $querybetween[count($querybetween)-1]['Entry']['sort_order'] );
                             }
-                            
+
                             $tempso = $betvalue['Entry']['sort_order'];
                         }
                     }
@@ -455,7 +455,7 @@ class Entry extends AppModel {
             // END OF SORTING OTHER LANGUAGE PROCESS !!
         }
     }
-	
+
 	/**
 	 * to get a valid slug entry process
 	 * @param string $slug contains source slug want to be processed
@@ -464,14 +464,14 @@ class Entry extends AppModel {
 	 * @public
 	 **/
 	function get_valid_slug($slug , $id = NULL)
-	{	
+	{
 		$counter = 0;
 		$mySlug = $slug;
         $options = array('conditions'=> array('EntryMeta.key' => 'backup-slug' ));
         $options_entry = array(); // check for second filter !!
 		if(!empty($id))
 		{
-			$options['conditions']['EntryMeta.entry_id <>'] = $options_entry['conditions']['Entry.id <>'] = $id; 
+			$options['conditions']['EntryMeta.entry_id <>'] = $options_entry['conditions']['Entry.id <>'] = $id;
 		}
 		while(TRUE)
 		{
@@ -480,7 +480,7 @@ class Entry extends AppModel {
 			if(empty($findSlug))
 			{
                 // second check !!
-                $options_entry['conditions']['Entry.slug'] = $mySlug;                
+                $options_entry['conditions']['Entry.slug'] = $mySlug;
                 $findSlug = $this->find('count' , $options_entry);
                 if(empty($findSlug))
                 {
@@ -491,7 +491,7 @@ class Entry extends AppModel {
 		}
 		return $mySlug;
 	}
-	
+
 	/**
 	 * function that be executed before save an entry (automated by cakephp)
 	 * @return boolean
@@ -502,7 +502,7 @@ class Entry extends AppModel {
 		if(!empty($this->data['Entry']['slug']))
 		{
 			$this->data['Entry']['slug'] = $this->get_valid_slug($this->data['Entry']['slug'] , $this->id);
-            
+
             if( $this->id ) // EDIT MODE !!
             {
                 $old_data = $this->find('first', [
@@ -522,7 +522,7 @@ class Entry extends AppModel {
                         ],
                         'fields' => ['Type.slug', 'TypeMeta.key'],
                     ]);
-                    
+
                     $metaConditions = array_map(function($value) use($old_data){
                         return [
                             'Entry.entry_type' => $value['Type']['slug'],
@@ -530,12 +530,12 @@ class Entry extends AppModel {
                             'EntryMeta.value LIKE' => '%'.$old_data['Entry']['slug'].'%',
                         ];
                     }, $metaKey);
-                    
+
                     $this->EntryMeta->updateAll(['EntryMeta.value' => "TRIM(BOTH '|' FROM REPLACE(CONCAT('|',EntryMeta.value,'|'), '|".$old_data['Entry']['slug']."|', '|".$this->data['Entry']['slug']."|'))" ], ['OR' => $metaConditions]);
                 }
             }
 		}
-        
+
         // renew the modifier !!
         if(!empty($this->myCreator))
         {
@@ -543,7 +543,7 @@ class Entry extends AppModel {
         }
 		return true;
 	}
-	
+
 	function updateCountField($parent_id , $myChildTypeSlug , $deletemode = false)
 	{
 		if($parent_id > 0)
@@ -559,7 +559,7 @@ class Entry extends AppModel {
 			{
 				$totalchild--;
 			}
-			
+
 			$updateCountType = $this->EntryMeta->find('first' , array(
 				'conditions' => array(
 					'EntryMeta.entry_id' => $parent_id,
@@ -583,7 +583,7 @@ class Entry extends AppModel {
 					$this->EntryMeta->save($input);
 				}
 			}
-			
+
 			//----------------------- add COUNT to parent Entry -------------------------- /////
 			$totalchild = $this->find('count', array(
 				'conditions' => array(
@@ -594,16 +594,16 @@ class Entry extends AppModel {
 			{
 				$totalchild--;
 			}
-			
+
 			$tempid = $this->id;
-			
+
 			$this->id = $parent_id;
 			$this->saveField('count' , $totalchild);
-			
+
 			$this->id = $tempid;
 		}
 	}
-	
+
 	/**
      * function that be executed after save a record (automated by cakephp)
      * @param boolean $created will be true if a new record was created (rather than an update).
@@ -611,7 +611,7 @@ class Entry extends AppModel {
      * @public
      **/
     function afterSave($created, $options = array())
-    {   
+    {
         if($created)
         {
             $temp = $this->field('sort_order');
@@ -634,7 +634,7 @@ class Entry extends AppModel {
 
             $this->updateCountField($this->field('parent_id') , $this->field('entry_type'));
         }
-        
+
         // NEW FEATURE 2015 : ADD SLUG HISTORY !!
         $query = $this->EntryMeta->find('first', array(
             'conditions' => array(
@@ -642,7 +642,7 @@ class Entry extends AppModel {
                 'EntryMeta.key' => 'backup-slug'
             )
         ));
-        
+
         if(empty($query))
         {
             $input = array();
@@ -663,7 +663,7 @@ class Entry extends AppModel {
             }
         }
     }
-	
+
 	/**
      * function that be executed before delete an entry (automated by cakephp)
      * @return boolean
@@ -674,7 +674,7 @@ class Entry extends AppModel {
 		$this->updateCountField($this->field('parent_id') , $this->field('entry_type') , true);
 		return true;
 	}
-	
+
 	/**
 	* delete selected media from database and dir img/upload
 	* @param integer $id get media id
@@ -682,11 +682,11 @@ class Entry extends AppModel {
 	* @public
 	**/
 	public function deleteMedia($id = NULL)
-	{	
+	{
 		if($id!=NULL)
 		{
 			$row=$this->findById($id);
-			foreach ($row['EntryMeta'] as $key => $value) 
+			foreach ($row['EntryMeta'] as $key => $value)
 			{
 				if($value['key'] == 'image_type')
 				{
@@ -694,38 +694,38 @@ class Entry extends AppModel {
 					break;
 				}
 			}
-			
+
 			$file=sprintf('%s.%s',$row['Entry']['id'],$imageType);
-			
+
 			// Delete File from directory first
 			$destDisplay=sprintf('%simg'.DS.'upload'.DS.'%s',WWW_ROOT,$file);
 			$destThumb=sprintf('%simg'.DS.'upload'.DS.'thumb'.DS.'%s',WWW_ROOT,$file);
 			$destThumbnails=sprintf('%simg'.DS.'upload'.DS.'thumbnails'.DS.'%s.%s',WWW_ROOT,$row['Entry']['title'],$imageType);
-			
+
 			// Delete file
 			unlink($destThumb);
 			unlink($destDisplay);
 			unlink($destThumbnails);
-			
+
 			// special case deleter !!
 			if(strtolower($imageType) == 'jpg' || strtolower($imageType) == 'jpeg')
 			{
 				unlink(sprintf('%simg'.DS.'upload'.DS.'thumbnails'.DS.'%s.jpg',WWW_ROOT,$row['Entry']['title']));
 				unlink(sprintf('%simg'.DS.'upload'.DS.'thumbnails'.DS.'%s.jpeg',WWW_ROOT,$row['Entry']['title']));
 			}
-			
+
 			$this->delete($id);
 			$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $id));
 			return true;
-		}		
+		}
 		return false;
 	}
 
 	public function makeChildImageEntry($data = array() , $myType = array())
 	{
-		$parentImage = $this->findById($data['value']);        
+		$parentImage = $this->findById($data['value']);
         $parentImage = breakEntryMetas($parentImage);
-        
+
         // set the type of this entry...
 		$input['Entry']['entry_type'] = 'media';
 		$input['Entry']['title'] = $parentImage['Entry']['title'];
@@ -745,7 +745,7 @@ class Entry extends AppModel {
 			$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $this->id));
 		}
 		$this->save($input);
-		
+
 		// save the image type...
 		$myid = $this->id;
 		$input['EntryMeta']['entry_id'] = $myid;
@@ -753,16 +753,16 @@ class Entry extends AppModel {
 		$input['EntryMeta']['value'] = $parentImage['EntryMeta']['image_type'];
 		$this->EntryMeta->create();
 		$this->EntryMeta->save($input);
-		
+
 		// save the image size...
 		$input['EntryMeta']['key'] = 'image_size';
 		$input['EntryMeta']['value'] = $this->createChildDisplay($parentImage['Entry']['id'] , $parentImage['EntryMeta']['image_type'] , $myid , $data['w'] , $data['h'] , $data['x1'] , $data['y1']);
 		$this->EntryMeta->create();
 		$this->EntryMeta->save($input);
-		
+
 		$myMediaSettings = $this->getMediaSettings($myType);
 		$this->createChildThumb($myid , $parentImage['EntryMeta']['image_type'] , $myMediaSettings);
-		
+
 		// SAVE OTHER ATTRIBUTE OF NEW CROPPED IMAGES !!
 		if(is_numeric($data['x1']) && is_numeric($data['y1']) && is_numeric($data['w']) && is_numeric($data['h']))
 		{
@@ -795,17 +795,28 @@ class Entry extends AppModel {
 	 * @public
 	 **/
 	public function createThumb($myid , $mytype , $myMediaSettings)
-	{		
+	{
 		$src = WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$myid.'.'.$mytype;
 		$dest = WWW_ROOT.'img'.DS.'upload'.DS.'thumb'.DS.$myid.'.'.$mytype;
 		return $this->Resize->thumb_resize($src, $dest, $myMediaSettings['thumb_width'], $myMediaSettings['thumb_height'] , $myMediaSettings['thumb_crop']);
 	}
 
 	public function createChildThumb($myid , $mytype , $myMediaSettings)
-	{		
+	{
 		$src = WWW_ROOT.'img'.DS.'upload'.DS.$myid.'.'.$mytype;
 		$dest = WWW_ROOT.'img'.DS.'upload'.DS.'thumb'.DS.$myid.'.'.$mytype;
 		return $this->Resize->thumb_resize($src, $dest, $myMediaSettings['thumb_width'], $myMediaSettings['thumb_height'] , $myMediaSettings['thumb_crop']);
+	}
+
+	public function createFavicon($filename, $dimension = [], $prefix = null)
+	{
+		$src = WWW_ROOT.'favicon'.DS.$filename;
+		$dest = WWW_ROOT.'favicon'.DS.$prefix.'-icon-';
+		$ext = pathinfo($filename)['extension'];
+
+		foreach ($dimension as $key => $value) {
+			$this->Resize->thumb_resize($src, $dest.$value.'x'.$value.'.'.$ext , $value, $value);
+		}
 	}
 
 	/**
@@ -817,19 +828,19 @@ class Entry extends AppModel {
 	 * @public
 	 **/
 	public function createDisplay($myid , $mytype , $myMediaSettings)
-	{	
+	{
 		$src = WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$myid.'.'.$mytype;
 		$dest = WWW_ROOT.'img'.DS.'upload'.DS.$myid.'.'.$mytype;
 		return $this->Resize->image_resize($src, $dest, $myMediaSettings['display_width'], $myMediaSettings['display_height'] , $myMediaSettings['display_crop']);
 	}
-	
+
 	public function createChildDisplay($myid , $mytype , $myChildId , $width , $height , $x , $y)
-	{	
+	{
 		$src = WWW_ROOT.'img'.DS.'upload'.DS.$myid.'.'.$mytype;
 		$dest = WWW_ROOT.'img'.DS.'upload'.DS.$myChildId.'.'.$mytype;
 		return $this->Resize->image_resize($src, $dest, $width, $height , 2 , $x , $y);
 	}
-	
+
 	/**
 	 * retrieve media settings from certain type meta, if doesn't exist, then retrieve from global settings.
 	 * @param array $myType contains query data from selected entry type
@@ -842,7 +853,7 @@ class Entry extends AppModel {
 		$result = $this->Setting->get_settings();
 		// if in type meta exist, use that :D
 		$myTypeMeta = $this->TypeMeta->findAllByTypeId($myType['Type']['id']);
-		foreach ($myTypeMeta as $key => $value) 
+		foreach ($myTypeMeta as $key => $value)
 		{
 			if($value['TypeMeta']['key'] == 'display_width')
 			{
@@ -886,12 +897,12 @@ class Entry extends AppModel {
 		{
 			$lang_pos = 1;
 			$indentation = $lang_pos;
-		}		
+		}
 		// ----------- END OF LANGUAGE URL POSITION ------------------------- //
 		$domain_lang = strtolower(substr($_SERVER['SERVER_NAME'], 0,2));
 		$mySetting = $this->Setting->get_settings();
-		
-		foreach ($mySetting['language'] as $key => $value) 
+
+		foreach ($mySetting['language'] as $key => $value)
 		{
 			if($domain_lang == strtolower(substr($value, 0,2)))
 			{
@@ -910,11 +921,11 @@ class Entry extends AppModel {
         else
         {
             $url_set = explode('/', strtolower($_SERVER['REQUEST_URI']));
-        }		
-		foreach ($mySetting['language'] as $key => $value) 
+        }
+		foreach ($mySetting['language'] as $key => $value)
 		{
 			if($url_set[$lang_pos] == strtolower(substr($value, 0,2)))
-			{	
+			{
 				$result['language'] = $url_set[$lang_pos];
 				$result['indent'] = $indentation;
 				return $result;
@@ -932,7 +943,7 @@ class Entry extends AppModel {
 		if(!is_null($slug))
 		{
 			$options['conditions']['Entry.slug'] = $slug;
-		}		
+		}
 		if(!is_null($entry_type))
 		{
 			$options['conditions']['Entry.entry_type'] = $entry_type;
@@ -964,7 +975,7 @@ class Entry extends AppModel {
 		{
 			$options['conditions']['Entry.title '.(strpos($title,'%')!==FALSE?'LIKE':'')] = $title;
 		}
-        
+
         $result = array();
         // Skip if no options parameter !!
         if(!empty($options))
@@ -973,8 +984,8 @@ class Entry extends AppModel {
             {
                 $options['conditions']['Entry.status'] = $status;
             }
-            
-            $result = $this->find('first',$options);            
+
+            $result = $this->find('first',$options);
             if(!empty($result))
             {
                 $result = breakEntryMetas($result);
@@ -982,16 +993,16 @@ class Entry extends AppModel {
         }
 		return $result;
 	}
-	
+
 	// ---------------------------------------------- >>
 	// for batch upload image in media library !!
 	// ---------------------------------------------- >>
 	public function autoUploadImage($filename , $myTypeSlug = 'products')
 	{
 		$default_path = WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$filename;
-		
+
 		$path_parts = pathinfo($filename);
-		
+
 		if(!file_exists($default_path))
 		{
 			$search_image = $this->find('first', array(
@@ -1000,7 +1011,7 @@ class Entry extends AppModel {
 					'Entry.title' => $path_parts['filename']
 				)
 			));
-			
+
 			if(empty($search_image))
 			{
 				return 0;
@@ -1010,7 +1021,7 @@ class Entry extends AppModel {
 				return $search_image['Entry']['id'];
 			}
 		}
-		
+
 		$input = array();
 		$input['Entry']['entry_type'] = 'media';
 		$input['Entry']['title'] = $path_parts['filename'];
@@ -1018,18 +1029,18 @@ class Entry extends AppModel {
 		$input['Entry']['slug'] = get_slug($input['Entry']['title']);
 		$this->create();
 		$this->save($input);
-		
+
 		$myid = $this->id;
 		$mytype = $path_parts['extension'];
 		// rename the filename...
 		rename( $default_path , WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$myid.'.'.$mytype);
-		
+
 		// now generate for display and thumb image according to the media settings...
 		$myType = $this->Type->findBySlug($myTypeSlug);
 		$myMediaSettings = $this->getMediaSettings($myType);
-		
+
 		// save the image type...
-		$input = array();		
+		$input = array();
 		$input['EntryMeta']['entry_id'] = $myid;
 		$input['EntryMeta']['key'] = 'image_type';
 		$input['EntryMeta']['value'] = $mytype;
@@ -1040,16 +1051,16 @@ class Entry extends AppModel {
 		$input['EntryMeta']['value'] = $this->createDisplay($myid , $mytype , $myMediaSettings);
 		$this->EntryMeta->create();
 		$this->EntryMeta->save($input);
-		
+
 		//Resize original file for thumb...
 		$this->createThumb($myid , $mytype , $myMediaSettings);
-		
+
 		// REMOVE ORIGINAL IMAGE FILE !!
 		unlink(WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$myid.'.'.$mytype);
-		
+
 		return $myid;
 	}
-	
+
     // for trans ID, minimum of x digits...
 	public function billFormatNumber($entry_type , $limit = 4 , $bill_sample = NULL , $delimiter = '.')
     {
@@ -1057,7 +1068,7 @@ class Entry extends AppModel {
         {
             $bill_sample = date('ym' , gmt_adjustment());
         }
-        
+
         $trans = $this->find('first' , array(
             'conditions' => array(
                 'Entry.entry_type' => $entry_type,
@@ -1065,7 +1076,7 @@ class Entry extends AppModel {
             ),
             'order' => array('Entry.id DESC')
         ));
-        
+
         $result = '';
         $index = 1;
         if(!empty($trans))
@@ -1073,7 +1084,7 @@ class Entry extends AppModel {
             $pecah = explode($delimiter, $trans['Entry']['title']);
             $index = $pecah[count($pecah) - 1] + 1;
         }
-        
+
         $result = $bill_sample.$delimiter.sprintf('%0'.$limit.'d' , $index);
         return $result;
     }
@@ -1107,17 +1118,17 @@ class Entry extends AppModel {
                         'TypeMeta.value' => 'enable',
                     ],
                 ]);
-                
+
                 if(!empty($multiLang))
                 {
                     return $entry['Entry']['slug'];
                 }
 			}
 		}
-		
+
 		return false;
 	}
-    
+
     /*
     Check certain EntryType has gallery,etc feature turn ON / OFF !! (updated)
     */
@@ -1125,8 +1136,8 @@ class Entry extends AppModel {
     {
         if(empty($searchKey)) $searchKey = 'gallery';
         if(empty($searchValue)) $searchValue = 'enable';
-        
-        foreach ($myAutomaticValidation??[] as $key => $value) 
+
+        foreach ($myAutomaticValidation??[] as $key => $value)
         {
             if($value['key'] == $searchKey)
             {
@@ -1139,7 +1150,7 @@ class Entry extends AppModel {
         }
         return false;
     }
-    
+
     function getModuleAlias($slug, $lang = null)
     {
         $options = [
@@ -1151,17 +1162,17 @@ class Entry extends AppModel {
             ],
             'fields' => ['value'],
         ];
-        
+
         if(!empty($lang))
         {
             $options['conditions']['Entry.lang_code LIKE'] = $lang.'-%';
         }
-        
+
         $sql = $this->EntryMeta->find('first', $options);
-        
+
         return $sql['EntryMeta']['value'] ?? $slug ;
     }
-    
+
     function getModuleSlug($alias)
     {
         $sql = $this->EntryMeta->find('first', [
@@ -1172,7 +1183,7 @@ class Entry extends AppModel {
             ],
             'fields' => ['Entry.description'],
         ]); // ignore meta status for this case !!
-        
+
         return $sql['Entry']['description'] ?? $alias ;
     }
 }

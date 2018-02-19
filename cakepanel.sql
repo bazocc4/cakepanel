@@ -46,7 +46,7 @@ CREATE TABLE `cms_accounts` (
 
 LOCK TABLES `cms_accounts` WRITE;
 /*!40000 ALTER TABLE `cms_accounts` DISABLE KEYS */;
-INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','1d77e03c6e6da258ed15229d957001d56298169e','2018-01-19 16:57:00','2013-01-04 00:00:00',1,'2017-08-04 10:37:59',1);
+INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','1d77e03c6e6da258ed15229d957001d56298169e','2018-02-19 16:15:00','2013-01-04 00:00:00',1,'2017-08-04 10:37:59',1);
 INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andybasuki88@gmail.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2017-11-27 16:11:24','2013-01-15 03:42:56',1,'2016-05-23 13:18:51',2);
 INSERT INTO `cms_accounts` VALUES (3,2,3,'regular1','regular@yahoo.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2017-09-22 14:18:21','2013-01-15 04:17:47',2,'2014-07-24 11:05:12',1);
 INSERT INTO `cms_accounts` VALUES (7,3,2,'hanatania8','hanatania@yahoo.com','29536df66160e1ff6a6fe6e0395dd8767140657b','2014-07-24 11:40:17','2014-07-24 11:06:29',1,'2014-07-24 11:40:30',7);
@@ -78,7 +78,7 @@ CREATE TABLE `cms_entries` (
   `lang_code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=1295 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1296 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,7 +272,7 @@ CREATE TABLE `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3512 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3537 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1240,8 +1240,8 @@ CREATE TABLE `cms_roles` (
 
 LOCK TABLES `cms_roles` WRITE;
 /*!40000 ALTER TABLE `cms_roles` DISABLE KEYS */;
-INSERT INTO `cms_roles` VALUES (1,'Super Admin','Administrator who has all access for the web without exceptions.','slideshow_view|slideshow_add|slideshow_edit|slideshow_delete|books_view|books_add|books_edit|books_delete|magazine_view|magazine_add|magazine_edit|magazine_delete|meta-tags_view|meta-tags_add|meta-tags_edit|meta-tags_delete',1);
-INSERT INTO `cms_roles` VALUES (2,'Admin','Administrator from the clients.','slideshow_view|slideshow_add|slideshow_edit|slideshow_delete|books_view|books_add|books_edit|books_delete|magazine_view|magazine_add|magazine_edit|magazine_delete|meta-tags_view|meta-tags_add|meta-tags_edit|meta-tags_delete',NULL);
+INSERT INTO `cms_roles` VALUES (1,'Super Admin','Administrator who has all access for the web without exceptions.','slideshow_view|slideshow_add|slideshow_edit|slideshow_delete|books_view|books_add|books_edit|books_delete|magazine_view|magazine_add|magazine_edit|magazine_delete|meta-tags_view|meta-tags_add|meta-tags_edit|meta-tags_delete|favicon_view|favicon_add|favicon_edit|favicon_delete',1);
+INSERT INTO `cms_roles` VALUES (2,'Admin','Administrator from the clients.','slideshow_view|slideshow_add|slideshow_edit|slideshow_delete|books_view|books_add|books_edit|books_delete|magazine_view|magazine_add|magazine_edit|magazine_delete|meta-tags_view|meta-tags_add|meta-tags_edit|meta-tags_delete|favicon_view|favicon_add|favicon_edit|favicon_delete',NULL);
 INSERT INTO `cms_roles` VALUES (3,'Regular User','Anyone with no access to admin panel.',NULL,NULL);
 /*!40000 ALTER TABLE `cms_roles` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1307,7 +1307,7 @@ CREATE TABLE `cms_type_metas` (
   `validation` text,
   `instruction` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=710 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=715 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1369,6 +1369,11 @@ INSERT INTO `cms_type_metas` VALUES (706,19,'form-url_code','','text','not_empty
 INSERT INTO `cms_type_metas` VALUES (707,19,'form-meta_title','','text','','Maximum character for best SEO is 70 chars.');
 INSERT INTO `cms_type_metas` VALUES (708,19,'form-meta_description','','textarea','','Maximum character for best SEO is 150 chars.');
 INSERT INTO `cms_type_metas` VALUES (709,19,'form-meta_keywords','','textarea','','SEO Meta Keywords (use comma to separate each other keywords).');
+INSERT INTO `cms_type_metas` VALUES (710,20,'category','others',NULL,NULL,NULL);
+INSERT INTO `cms_type_metas` VALUES (711,20,'form-general_favicon','','file','not_empty|','Please upload .ico favicon file.');
+INSERT INTO `cms_type_metas` VALUES (712,20,'form-apple_favicon','','file','not_empty|','please upload .png apple favicon file.');
+INSERT INTO `cms_type_metas` VALUES (713,20,'form-android_favicon','','file','not_empty|','please upload .png android favicon file.');
+INSERT INTO `cms_type_metas` VALUES (714,20,'form-microsoft_favicon','','file','not_empty|','please upload .png microsoft favicon file.');
 /*!40000 ALTER TABLE `cms_type_metas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1392,7 +1397,7 @@ CREATE TABLE `cms_types` (
   `modified_by` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1408,6 +1413,7 @@ INSERT INTO `cms_types` VALUES (5,'Blogs','blogs','People\'s Blogs.',3,0,'2013-0
 INSERT INTO `cms_types` VALUES (11,'Magazine','magazine','Zpanel Magazine Library.',0,0,'2013-12-09 16:16:50',1,'2016-03-07 13:04:42',1);
 INSERT INTO `cms_types` VALUES (12,'Slideshow','slideshow','Cakepanel home slideshow',0,0,'2014-09-03 10:42:57',1,'2015-03-05 12:11:11',1);
 INSERT INTO `cms_types` VALUES (19,'Meta Tags','meta-tags','SEO meta tags for each module.',0,0,'2017-12-14 11:07:31',1,'2017-12-14 11:07:31',1);
+INSERT INTO `cms_types` VALUES (20,'Favicon','favicon','Favicon image settings.',0,0,'2018-02-19 11:53:04',1,'2018-02-19 11:53:04',1);
 /*!40000 ALTER TABLE `cms_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1505,4 +1511,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-31 17:03:55
+-- Dump completed on 2018-02-19 17:21:48

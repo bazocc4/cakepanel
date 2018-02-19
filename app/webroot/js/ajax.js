@@ -8,8 +8,27 @@ window.newLocation = function( location ) {
     window.location = newLocation + appendType + "_t=" + (new Date()).getTime();
 }
 
-function nl2br (str, is_xhtml) {   
-    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';    
+function checkfile(sender, validExts)
+{
+    if (validExts == null) {
+      validExts = new Array(".xls",".xlsx");
+    }
+    var fileExt = sender.value;
+    fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+    if (validExts.indexOf(fileExt) < 0) {
+
+      alert("Invalid file selected, valid files are of " +
+               validExts.toString() + " types.");
+
+      $(sender).val("");
+
+      return false;
+    }
+    else return true;
+}
+
+function nl2br (str, is_xhtml) {
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
 }
 
@@ -43,7 +62,7 @@ function changeLocation(url)
 }
 
 function deleteChildPic(myobj)
-{	
+{
 	$(myobj).parents("div.photo").animate({opacity : 0 , width : 0, marginRight : 0},1000,function(){
 		var pictureWrapper = $(this).closest('.inner-content.pictures');
 		$(this).detach();
@@ -53,14 +72,14 @@ function deleteChildPic(myobj)
 	});
 }
 
-function openRequestedSinglePopup(strUrl , targetName) 
+function openRequestedSinglePopup(strUrl , targetName)
 {
     if(window.name.length > 0)  targetName = window.name;
     else if(targetName == null) targetName = "SingleSecondaryWindowName";
-    
+
     var i = 1;
     while($.inArray(targetName+i, windowObjectReference) >= 0)  ++i;
-    
+
     targetName += i;
     windowObjectReference.push(targetName);
     window.open(strUrl,targetName, "toolbar=yes,resizable=yes,scrollbars=yes,status=yes").focus();
@@ -78,12 +97,12 @@ function openRequestedSinglePopup(strUrl , targetName)
            return results[1] || 0;
         }
     }
-    
+
 	$.fn.checkNumeric = function(e){
 		// Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
              // Allow: Ctrl+A
-            (e.keyCode == 65 && e.ctrlKey === true) || 
+            (e.keyCode == 65 && e.ctrlKey === true) ||
              // Allow: home, end, left, right
             (e.keyCode >= 35 && e.keyCode <= 39)) {
                  // let it happen, don't do anything
@@ -93,37 +112,37 @@ function openRequestedSinglePopup(strUrl , targetName)
         // Ensure that it is a number and stop the keypress
         return !((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105));
 	}
-	
+
 	$.fn.isOnScreen = function(){
         if( ! this.is(':visible') )
         {
             return false;
         }
-        
+
 	    var win = $(window);
-	    
+
 	    var viewport = {
 	        top : win.scrollTop(),
 	        left : win.scrollLeft()
 	    };
 	    viewport.right = viewport.left + win.width();
 	    viewport.bottom = viewport.top + win.height();
-	    
+
 	    var bounds = this.offset();
 	    bounds.right = bounds.left + this.outerWidth();
 	    bounds.bottom = bounds.top + this.outerHeight();
-	    
+
 	    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
 	};
-    
+
     /*
     Top down scrollbar in html table
     ================================
     You could create a new dummy element above the real one, with the same amount of content width to get an extra scrollbar, then tie the scrollbars together with onscroll events.
-    */    
-    $.fn.doubleScroll = function(targetClass){        
+    */
+    $.fn.doubleScroll = function(targetClass){
         var scrollClass = 'double-scroll-top';
-        var element = document.getElementsByClassName(targetClass)[0];        
+        var element = document.getElementsByClassName(targetClass)[0];
         if(element.scrollWidth > element.offsetWidth )
         {
             // drop old scrollbars first if exist ...
@@ -131,7 +150,7 @@ function openRequestedSinglePopup(strUrl , targetName)
             {
                 $('div.'+targetClass).prev('div.'+scrollClass).detach();
             }
-            
+
             var scrollbar= document.createElement('div');
             scrollbar.appendChild(document.createElement('div'));
             scrollbar.className = scrollClass;
@@ -149,7 +168,7 @@ function openRequestedSinglePopup(strUrl , targetName)
             element.parentNode.insertBefore(scrollbar, element);
         }
     }
-    
+
     /* ENABLE / DISABLE ATTACH BUTTON ON POPUP */
     $.fn.updateAttachButton = function(){
         $('input#check-all').attr('checked', ($('input.check-record:not(:checked)').length?false:true) );
@@ -157,51 +176,51 @@ function openRequestedSinglePopup(strUrl , targetName)
 		{
             var checked_data = $('#checked-data').val();
             var total_checked = checked_data.split(',').length - 2;
-            
+
 			if(total_checked > 0)    $('#attach-checked-data').removeClass('disabled');
-			else                     $('#attach-checked-data').addClass('disabled');	
+			else                     $('#attach-checked-data').addClass('disabled');
 		}
 	}
-	
+
 	$.fn.fixedHeaderTable = function(header_class){
 		if ( $('table.fixed_body_scroll').length ) {
             var fixed_header_table=$( '<table aria-hidden="true" class="fixed_header_table table list" style="border-left: 1px solid #DDDDDD;border-right: 1px solid #DDDDDD;border-top: 1px solid #DDDDDD;margin-bottom:0px;overflow-x:hidden;"><thead><tr><th></th></tr></thead></table>' );
             var scroll_div='<div class="fixed_body_scroll '+header_class+'"></div>';
-                
+
             //inject table that will hold stationary row header; inject the div that will get scrolled
             $('table.fixed_body_scroll').before( fixed_header_table ).before( scroll_div );
-            
+
             $('table.fixed_body_scroll').each(function (index) {
                 //to minimize FUOC, I like to set the relevant variables before manipulating the DOM
                 var columnWidths = [];
                 var $targetDataTable=$(this);
                 var $targetHeaderTable=$("table.fixed_header_table").eq(index);
                 var $targetDataTableFooter=$targetDataTable.find('tfoot');
-                
+
                 // Get column widths
                 $($targetDataTable).find('thead tr th').each(function (index) {
                     columnWidths[index] = $(this).width();
                 });
-                
+
                 //place target table inside of relevant scrollable div (using jQuery eq() and index)
                 $('div.fixed_body_scroll').eq(index).prepend( $targetDataTable );
-                
+
                 // hide original caption, header, and footer from sighted users
                 $($targetDataTable).children('caption, thead, tfoot').hide();
-                
+
                 // insert header data into static table
                 $($targetHeaderTable).find('thead').replaceWith( $( $targetDataTable ).children('caption, thead').clone().show() );
-                
+
                 // modify column width for header
                 $($targetHeaderTable).find('thead tr th').each(function (index) {
                     $(this).css('width', columnWidths[index]);
                 });
-                
+
                 // make sure table data still lines up correctly
                 $($targetDataTable).find('tbody tr:first td').each(function (index) {
                     $(this).css('width', columnWidths[index]);
                 });
-                
+
                 //if our target table has a footer, create a visual copy of it after the scrollable div
                 if ( $targetDataTableFooter.length ) {
                      $('div.fixed_body_scroll').eq(index).after('<div class="table_footer">'+ $targetDataTableFooter.text() +'</div>');
@@ -209,12 +228,12 @@ function openRequestedSinglePopup(strUrl , targetName)
             });
         }
 	}
-	
+
 	$.fn.parseTime = function(s){
 		var c = s.split(':');
    		return parseInt(c[0],10) * 60 + parseInt(c[1],10);
 	}
-    
+
     $.fn.customParseDate = function(dateObj){
         var d = new Date(dateObj);
         var day = d.getDate();
@@ -229,7 +248,7 @@ function openRequestedSinglePopup(strUrl , targetName)
         }
         return month + "/" + day + "/" + year;
     }
-	
+
 	$.fn.convertDate = function(phpDate){
         var t = phpDate.split(/[\/ :]/);
         var result = new Date(t[2] , t[0] , t[1] , t[3] , t[4]);
@@ -241,35 +260,35 @@ function openRequestedSinglePopup(strUrl , targetName)
     	{
     		// delete old instance first !!
 			var instances = CKEDITOR.instances;
-			for (var z in instances) 
+			for (var z in instances)
 			{
 				if(CKEDITOR.instances[z])
-				{				
+				{
 					delete CKEDITOR.instances[z];
 				}
 			}
-			
+
 			// transform textarea to be ckeditor again !!
 			$('textarea.ckeditor').ckeditor();
     	}
 	}
-	
+
 	$.fn.slug = function(src){
 		var result = src.replace(/\s/g,'-').replace(/[^a-zA-Z0-9\-]/g,'-').toLowerCase();
 		return result;
 	}
-	
-	$.fn.editSlug = function(id){		
+
+	$.fn.editSlug = function(id){
 		if($('a#edit_slug').html() == 'Edit Slug')
 		{
 			var tempText = $('p#slug_source').html();
-			$('a#edit_slug').html('Save Slug');						
+			$('a#edit_slug').html('Save Slug');
 			$('input[type=text]#slug_value').val(tempText.substring(tempText.lastIndexOf('/')+1));
 			$('input[type=text]#slug_value').show();
 			$('p#slug_source').html(tempText.substring(0 , tempText.lastIndexOf('/') + 1));
 		}
 		else
-		{			
+		{
 			$.ajaxSetup({cache: false});
 			$.post(site+'entries/update_slug',{
 				id: id,
@@ -283,7 +302,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 	}
 
 	$.fn.removePicture = function(myImageId , crop)
-	{	
+	{
 		// for remove cover image embedded in title area...
 		if(myImageId == null)
 		{
@@ -308,12 +327,12 @@ function openRequestedSinglePopup(strUrl , targetName)
 	}
 
 	$.fn.updateChildPic = function(imgId , imgType , imgName , crop){
-		// for cover book image...		
+		// for cover book image...
 		if($('input#mycaller').val().indexOf('myEditCoverImage') == 0)
-		{	
+		{
 			var temp = $('input#mycaller').val().split('_');
 			var myImageId = temp[temp.length-1];
-			
+
 			if(crop == 2)
 			{
 				jcrop_api[myImageId].setImage(site+'img/upload/'+imgId+'.'+imgType);
@@ -330,7 +349,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 		{
 			$('img#mySelectCoverAlbum').attr('src',site+'img/upload/thumb/'+imgId+'.'+imgType);
 			$('input[type=hidden]'+($('input[type=hidden]#mySelectCoverId').length > 0?'#':'.')+'mySelectCoverId').attr('value',imgId);
-			
+
 			var tes = $('.select').html();
 			if (tes == 'Select Cover')
 			{
@@ -359,7 +378,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 		// for CK Editor
 		else if($('input#mycaller').val() == 'ckeditor')
 		{
-			var imgsrc = linkpath+'img/upload/'+imgId+'.'+imgType;			
+			var imgsrc = linkpath+'img/upload/'+imgId+'.'+imgType;
 			window.opener.CKEDITOR.tools.callFunction( $('input#CKEditorFuncNum').val() , imgsrc , function(){
 			  // Get the reference to a dialog window.
 			  var element, dialog = this.getDialog();
@@ -377,7 +396,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 
 		$.colorbox.close();
 		$("a#upload").removeClass("active");
-				
+
 		if($('input#mycaller').val() == 'refresh')
 		{
 			$.ajaxSetup({cache: false});
@@ -390,19 +409,19 @@ function openRequestedSinglePopup(strUrl , targetName)
 			});
 		}
 	}
-	
+
 	$.fn.my_ckeditor = function (){
 		// inject media URL to ckeditor config >>
 		var mediaURL = site+'entries/media_popup_single/1/ckeditor/'+$('input#myTypeSlug').val();
 		CKEDITOR.config.filebrowserBrowseUrl = mediaURL;
 		CKEDITOR.config.filebrowserImageBrowseUrl = mediaURL;
 		CKEDITOR.config.filebrowserImageUploadUrl = mediaURL;
-        
+
         // upload custom file !!
         CKEDITOR.config.filebrowserUploadUrl = site+'entry_metas/cke_upload_url';
 
         // callback event on instanceReady !!
-		CKEDITOR.on('instanceReady', function (event) {		
+		CKEDITOR.on('instanceReady', function (event) {
 			// update sidebar line css, if ckeditor existed ...
 			var content_height = $('.content').height();
 			var sidebar_height = $('.sidebar').height();
@@ -422,7 +441,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 			}
 		});
 	}
-	
+
 	$.fn.del_param_lang = function(src){
 		var temp = src.indexOf('lang=');
 		if(temp == -1)
@@ -431,11 +450,11 @@ function openRequestedSinglePopup(strUrl , targetName)
 		}
 		else
 		{
-			var temp2 = src.substr(temp);			
-			var temp3 = temp2.indexOf('&');			
+			var temp2 = src.substr(temp);
+			var temp3 = temp2.indexOf('&');
 			if(temp3 == -1)
 			{
-				return src.substring(0,temp-1); 
+				return src.substring(0,temp-1);
 			}
 			else
 			{
@@ -443,12 +462,12 @@ function openRequestedSinglePopup(strUrl , targetName)
 			}
 		}
 	}
-	
+
 	$.fn.ajax_mylink = function (myobj , myid , heightspin , setpaging , altforurl){
 		var ajax_con = (myobj.closest('#colorbox').length > 0?myobj.closest('#colorbox').find('div#'+myid+':first'):$('div#'+myid+':first'));
 		var url = myobj.attr(altforurl==null?'href':'alt');
 		var spinner = '<div class="loading" style="height:'+ajax_con.height()+'px"></div>';
-		
+
 		// prepare ajax POST params !!
 		var ajax_params = {};
 		if(myobj.hasClass('searchMeLink'))
@@ -459,7 +478,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 		{
 			ajax_params['order_by'] = myobj.attr('alt');
 		}
-		
+
 		$.ajaxSetup({cache: false});
 		ajax_con.empty();
         if($('input#searchMe').length > 0 && $.isEmptyObject(ajax_params))  $('input#searchMe').focus();
@@ -486,14 +505,14 @@ function openRequestedSinglePopup(strUrl , targetName)
 			{
 				paging = url.substring(url.lastIndexOf('/') + 1);
 			}
-			
+
 			if($.isNumeric(paging))
 			{
 				$.fn.update_paging(address , paging , url_params);
 			}
-			
+
 			if(myobj.attr('alt')!=null && altforurl==null)
-			{	
+			{
 				$('a.order_by').each(function(){
 					$(this).html( string_unslug($(this).attr('alt')) + (myobj.attr('alt')==$(this).attr('alt')?' <i class="icon-ok"></i>':'') );
 				});
@@ -511,14 +530,14 @@ function openRequestedSinglePopup(strUrl , targetName)
 			}
 		});
 	};
-	
+
 	$.fn.update_paging = function (address , paging , url_params)
 	{
 		paging = parseInt(paging);
 		var left_limit = parseInt($('input#myLeftLimit').val());
 		var right_limit = parseInt($('input#myRightLimit').val());
 		var myCountPage = parseInt($('input#myCountPage').val());
-		
+
 		// set Prev Paging
 		if(paging <= 1)
 		{
@@ -531,7 +550,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 			$('li#myPagingPrev').attr("class" , "");
 		}
 		$('li#myPagingPrev a').attr("href" , address+"/"+(paging-1)+url_params);
-		
+
 		// set Next Paging
 		if(paging >= myCountPage)
 		{
@@ -544,11 +563,11 @@ function openRequestedSinglePopup(strUrl , targetName)
 			$('li#myPagingNext').attr("class" , "");
 		}
 		$('li#myPagingNext a').attr("href" , address+"/"+(paging+1)+url_params);
-		
+
 		// set Page Numbering
 		$("li[id^='myPagingNum']").removeClass("active");
 		for(var i=left_limit , index=1 ; i <= right_limit ; ++i , ++index)
-		{	
+		{
 			$('li#myPagingNum'+index+" a").html(i);
 			$('li#myPagingNum'+index+" a").attr("href" , address+"/"+i+url_params);
 			if(i == paging)
@@ -556,21 +575,21 @@ function openRequestedSinglePopup(strUrl , targetName)
 				$('li#myPagingNum'+index).addClass('active');
 			}
 		}
-		
+
 		// UPDATE ORDER BY LINK !!
 		if($('a.order_by').length > 0)
         {
             $('a.order_by').attr("href" , address+"/"+paging+url_params);
         }
 	}
-	
+
 	$(function() {
 		$('div#child-content').on("click", 'a#myDeleteMedia', function(e){
 			e.preventDefault();
 			$.ajaxSetup({cache: false});
 			var url = $(this).attr('href');
 			var tempURL = url.split("/");
-			
+
 			$.get(url,function(result){
 				if(result.length > 0)
 				{
@@ -579,39 +598,39 @@ function openRequestedSinglePopup(strUrl , targetName)
 					alert(header + result + footer);
 				}
 				else
-				{					
+				{
 					if(confirm("Are you sure want to delete this image?"))
 					{
 					  	window.newLocation(site+"entries/deleteMedia/"+tempURL[tempURL.length - 1]);
-					} 
-				}	
+					}
+				}
             });
 		});
-		
+
 		// call CK editor script...
 		if($('textarea.ckeditor').length > 0)
-		{			
+		{
 			$.fn.my_ckeditor();
 		}
-		
+
 		// disable link for NOW breadcrumb
 		$('div.breadcrumbs p > a:last').attr('href' , 'javascript:void(0)');
 		$('div.breadcrumbs p > a:last').css('text-decoration' , 'none');
 		$('div.breadcrumbs p > a:last').css('cursor' , 'default');
-		
+
 		// NEW ZPANEL CMS...
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("click",'.ajax_mypage',function(e){
 			e.preventDefault();
 			if(!($(this).parent("li").hasClass("disabled") || $(this).parent("li").hasClass("active")))
-			{				
+			{
 				$.fn.ajax_mylink($(this),($(this).hasClass('searchMeLink')||$(this).hasClass('langLink')?"inner-content":"ajaxed") , null , null, ($(this).attr('href')==null?'altforurl':null));
 			}
 		});
-		
+
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("click",'a.clear-date',function(e){
-			$(this).parent().find("input[type=text].dpicker").val("");	
+			$(this).parent().find("input[type=text].dpicker").val("");
 		});
-		
+
 		// DELETE INPUT LIST IN EDIT TYPE MODEL ...
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("click",'tbody#myInputWrapper a.delete-field',function(e){
 			var r=confirm('Deleting this field will delete all values related, on all entries. Are you sure?');
@@ -622,8 +641,8 @@ function openRequestedSinglePopup(strUrl , targetName)
 				});
 			}
 		});
-// ------------------------------------------------------------------------------------------------------------------- //		
-// ----------------------------------- SETTINGS MASTER --------------------------------------------------------------- //		
+// ------------------------------------------------------------------------------------------------------------------- //
+// ----------------------------------- SETTINGS MASTER --------------------------------------------------------------- //
 // ------------------------------------------------------------------------------------------------------------------- //
 		// DELETE SETTINGS !!
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("click",'a.del_setting',function(e){
@@ -638,7 +657,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 				});
 			}
 		});
-		
+
 		// ADD SETTINGS !!
 		$('a.add_setting').click(function(){
 			if($(this).next('a.cancel_setting').css('display') == 'none')
@@ -656,49 +675,49 @@ function openRequestedSinglePopup(strUrl , targetName)
 					alert('Invalid Key! Please try again..');
 					return;
 				}
-				
+
 				var myobj = $(this);
 				$.ajaxSetup({cache: false});
 				$.post(site+'settings/add',{
 					key: key
 				},function(data){
-					data.counter = parseInt(data.counter);					
+					data.counter = parseInt(data.counter);
 					var contents = '<div class="control-group">';
-					contents += '<label class="control-label">'+data.slug_key+'</label>';					
+					contents += '<label class="control-label">'+data.slug_key+'</label>';
 					contents += '<div class="controls">';
 					contents += '<input class="input-xlarge" type="text" size="200" value="" name="data[Setting]['+data.counter+'][value]"/>';
 					contents += '&nbsp;<a alt="'+(data.counter+1)+'" href="javascript:void(0)" class="btn del_setting">Remove</a>';
 					contents += '</div>';
 					contents += '</div>';
 					$('div#inputWrapper').append(contents);
-					
+
 					myobj.html('Add More Settings...');
 					myobj.prev('input[type=text]').hide();
 					myobj.next('a.cancel_setting').hide();
 				},'json');
 			}
 		});
-		
+
 		// CANCEL SETTINGS !!
 		$('a.cancel_setting').click(function(){
 			var myobj = $(this).prev('a.add_setting');
-			
+
 			myobj.html('Add More Settings...');
 			myobj.prev('input[type=text]').hide();
 			myobj.next('a.cancel_setting').hide();
 		});
-		
+
 		// instantly add setting while pressing Enter on Input Field !!
 		$('input[type=text].input_add_setting').keypress(function(event){
         	var keycode = (event.keyCode ? event.keyCode : event.which);
-            if (keycode == 13) 
+            if (keycode == 13)
             {
                 $('a.add_setting').click();
                 return false;
             }
         });
-// -------------------------------------------------------------------------------------------------------------- //		
-// ------------------------------ END OF SETTINGS MASTER -------------------------------------------------------- //		
-// -------------------------------------------------------------------------------------------------------------- //		
-	});	
+// -------------------------------------------------------------------------------------------------------------- //
+// ------------------------------ END OF SETTINGS MASTER -------------------------------------------------------- //
+// -------------------------------------------------------------------------------------------------------------- //
+	});
 })(jQuery);

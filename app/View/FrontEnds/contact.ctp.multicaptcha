@@ -5,7 +5,7 @@
              'sitekey' : $(this).data("sitekey"),
              'theme' : $(this).data("theme"),
          }) );
-     });  
+     });
     };
 </script>
 <script src="https://www.google.com/recaptcha/api.js?onload=ReCaptchaCallback&render=explicit" async defer></script>
@@ -14,14 +14,14 @@
 	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 ?>
 
-<!-- 
+<!--
 html here ...
  -->
 <form class="recaptcha-reset-form" action="#" method="POST" role="form" enctype="multipart/form-data" accept-charset="utf-8">
     <div class="g-recaptcha center-block" data-theme="light" data-sitekey="6LfKQBkTAAAAADjqRH2tGuaNHobpjmZ3EVGRqWzV" style="width: 304px;"></div>
     <br>
     <input type="submit" value="Reset Recaptcha (Light Theme)">
-</form> 
+</form>
 <form class="recaptcha-reset-form" action="#" method="POST" role="form" enctype="multipart/form-data" accept-charset="utf-8">
     <div class="g-recaptcha center-block" data-theme="dark" data-sitekey="6LfKQBkTAAAAADjqRH2tGuaNHobpjmZ3EVGRqWzV" style="width: 304px;"></div>
     <br>
@@ -35,7 +35,7 @@ html here ...
             e.preventDefault();
             grecaptcha.reset($(this).find('.g-recaptcha').data('id'));
         });
-        
+
         <?php if(isset($_POST['submitcontact'])): ?>
             var endnote = '\n\nbest regards,\n<?php echo addslashes(html_entity_decode($mySetting['title'], ENT_COMPAT, 'UTF-8')); ?>';
             <?php
@@ -66,7 +66,7 @@ html here ...
                         <?php
                     }
                     ?>
-//                $('a[href=#contact-area]')[0].click(); // focus to contact area...
+//                $('a[href="#contact-area"]')[0].click(); // focus to contact area...
                     <?php
                 }
             ?>

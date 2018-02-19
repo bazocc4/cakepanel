@@ -4,7 +4,7 @@
 	if(isset($data) && is_array($data)) extract($data , EXTR_SKIP);
 ?>
 
-<!-- 
+<!--
 html here ...
  -->
 <a class="smooth-scrolling" href="#contact-form" style="display:none;"></a>
@@ -19,7 +19,7 @@ html here ...
     function onSubmit(token) {
         $('#contact-form').trigger('submit', ['verified']);
     }
-    
+
     $(document).ready(function(){
         $('#contact-form').submit(function(e, verified){
             if(verified == null)
@@ -29,11 +29,11 @@ html here ...
             }
         }).find(':input:not(textarea)').on('keyup keypress', function(e) {
           var keyCode = e.keyCode || e.which;
-          if (keyCode === 13) { 
+          if (keyCode === 13) {
             e.preventDefault();
           }
         });
-        
+
         <?php if(!empty($_POST['emailcontact'])): ?>
             var endnote = '\n\nbest regards,\n<?php echo addslashes(html_entity_decode($mySetting['title'], ENT_COMPAT, 'UTF-8')); ?>';
             <?php
@@ -65,12 +65,12 @@ html here ...
                     }
                     ?>
                 // focus to contact area...
-                $(window).load(function(){
-                    if( $('a[href=#contact-form]').length )
-                    {
-                        $('a[href=#contact-form]')[0].click();
-                    }
-                });
+								$(window).on('load',function(){
+									if( $('a[href="#contact-form"]').length )
+									{
+											$('a[href="#contact-form"]')[0].click();
+									}
+				        });
                     <?php
                 }
             ?>

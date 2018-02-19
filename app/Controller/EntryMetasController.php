@@ -24,17 +24,31 @@ class EntryMetasController extends AppController {
 	/* Trigger file download from frontend page. */
 	function download($file)
 	{
-		$file = getTempFolderPath().$file;
-
-		if(file_exists($file))
+		$filepath = getTempFolderPath().$file;
+		if(file_exists($filepath))
 		{
-			promptDownloadFile($file);
+			promptDownloadFile($filepath);
 			exit;
 		}
-		else
+
+		$filepath = WWW_ROOT.'favicon'.DS.$file;
+		if(file_exists($filepath))
 		{
-			throw new NotFoundException('Error 404 - Not Found');
+			promptDownloadFile($filepath);
+			exit;
 		}
+
+		// maybe favicon.ico file ??
+		if ($file == 'favicon.ico') {
+			$filepath = WWW_ROOT.$file;
+			if(file_exists($filepath))
+			{
+				promptDownloadFile($filepath);
+				exit;
+			}
+		}
+
+		throw new NotFoundException('Error 404 - Not Found');
 	}
 
 	/*

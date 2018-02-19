@@ -1800,7 +1800,29 @@ class EntriesController extends AppController {
 											if(!empty($value['name']))
 											{
 												$value['name'] = getValidFileName($value['name']);
-												uploadFile($value);
+												if ($key == 'form-apple_favicon' || $key == 'form-android_favicon' || $key == 'form-microsoft_favicon') {
+													uploadFile($value, 'favicon');
+													$dimension = [];
+													switch ($key) {
+														case 'form-apple_favicon':
+															$dimension = [180, 152, 144, 120, 114, 76, 72, 60, 57];
+															break;
+														case 'form-android_favicon':
+															$dimension = [192, 144, 96, 72, 48, 36];
+															break;
+														default: // microsoft_favicon
+															$dimension = [144];
+															break;
+													}
+													$this->Entry->createFavicon($value['name'], $dimension, substr($key, 5, -8) );
+												}
+												elseif ($key == 'form-general_favicon') {
+													$value['name'] = 'favicon.ico';
+													uploadFile($value, '');
+												}
+												else {
+													uploadFile($value);
+												}
 
 												// Save data to EntryMeta !!
 												$old_file = $this->EntryMeta->findByEntryIdAndKey($this->request->data['EntryMeta']['entry_id'], $key);
@@ -2191,7 +2213,30 @@ class EntriesController extends AppController {
 												}
 
 												$value['name'] = getValidFileName($value['name']);
-												uploadFile($value);
+												if ($key == 'form-apple_favicon' || $key == 'form-android_favicon' || $key == 'form-microsoft_favicon') {
+													uploadFile($value, 'favicon');
+													$dimension = [];
+													switch ($key) {
+														case 'form-apple_favicon':
+															$dimension = [180, 152, 144, 120, 114, 76, 72, 60, 57];
+															break;
+														case 'form-android_favicon':
+															$dimension = [192, 144, 96, 72, 48, 36];
+															break;
+														default: // microsoft_favicon
+															$dimension = [144];
+															break;
+													}
+													$this->Entry->createFavicon($value['name'], $dimension, substr($key, 5, -8) );
+												}
+												elseif ($key == 'form-general_favicon') {
+													$value['name'] = 'favicon.ico';
+													uploadFile($value, '');
+												}
+												else {
+													uploadFile($value);
+												}
+
 												// Save data to EntryMeta !!
 												$this->request->data['EntryMeta']['key'] = $key;
 												$this->request->data['EntryMeta']['value'] = $value['name'];

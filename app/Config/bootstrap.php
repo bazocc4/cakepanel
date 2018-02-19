@@ -124,8 +124,8 @@ spl_autoload_register(function($class) {
 
 function barcodeGenerator()
 {
-    App::import('Vendor', 'BarcodeGenerator', array('file' => 'BarcodeGenerator/BarcodeGenerator.php'));    
-    App::import('Vendor', 'BarcodeGeneratorPNG', array('file' => 'BarcodeGenerator/BarcodeGeneratorPNG.php'));    
+    App::import('Vendor', 'BarcodeGenerator', array('file' => 'BarcodeGenerator/BarcodeGenerator.php'));
+    App::import('Vendor', 'BarcodeGeneratorPNG', array('file' => 'BarcodeGenerator/BarcodeGeneratorPNG.php'));
     App::import('Vendor', 'BarcodeGeneratorHTML', array('file' => 'BarcodeGenerator/BarcodeGeneratorHTML.php'));
     return [
         'PNG' => new Picqer\Barcode\BarcodeGeneratorPNG(),
@@ -138,9 +138,9 @@ function barcodeGenerator()
 	 * @param mixed $text all kind of text want to be printed
 	 * @return true
 	 * @public
-	 **/ 
+	 **/
 function dpr($text)
-{	
+{
 	echo '<pre>';
 	print_r($text);
 	echo '</pre>';
@@ -178,7 +178,7 @@ function get_slug($value)
 	* @public
 	**/
 function date_converter($value , $date , $time=NULL)
-{	
+{
 	$value = strtotime($value);
 	$newDate = date($date , $value);
 	$newTime = date($time , $value);
@@ -203,7 +203,7 @@ function get_input_attrib($src , $value)
 	{
 		$result = "";
 	}
-	else 
+	else
 	{
 		$src = substr($src, $temp); //  ???|??|MIN_LENGTH_5|???|??  => MIN_LENGTH_5|???|???
 		$pos = strpos($src, '|');
@@ -244,16 +244,16 @@ function get_more_extension($url)
 {
 	$moreExtension = "";
 	$start = 0;
-	foreach ($url as $key => $value) 
+	foreach ($url as $key => $value)
 	{
 		if($key != "url")
 		{
 			if($start == 0)
-			{								
+			{
 				$moreExtension .= $key."=".$value;
 				$start = 1;
 			}
-			else 
+			else
 			{
 				$moreExtension .= "&".$key."=".$value;
 			}
@@ -307,7 +307,7 @@ function file_get_contents_curl($url) {
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);       
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 
     $data = curl_exec($ch);
     curl_close($ch);
@@ -326,17 +326,17 @@ function orderby_metavalue($data = array() , $metatable = NULL , $metakey , $sor
 {
     $sortorder = ( empty($sortorder) ? "ASC" : strtoupper($sortorder) );
     if($input_type == 'gallery')    $metakey = 'count-form-'.$metakey;
-    
+
     $keysort = array_keys($data);
     $valuesort = array_map(function($value) use ($metatable, $metakey){
         return trim(empty($metatable)?$value[$metakey]:$value[$metatable][$metakey]);
     } , $data);
-    
+
     if(strpos($input_type, 'date') !== FALSE)
     {
         $valuesort = array_map( function($value){ return date('Y-m-d H:i:s' , strtotime( strstr($value.'|', '|', TRUE) )); } , $valuesort);
     }
-	
+
 	array_multisort($valuesort , ($sortorder == "DESC"? SORT_DESC : SORT_ASC ) , $keysort);
     return array_map(function($value) use ($data){ return $data[$value]; } , $keysort);
 }
@@ -374,10 +374,10 @@ function convertExcelVersion($inputPath,$outputPath, $insertLogo = false, $passw
 
     $inputFileType = PHPExcel_IOFactory::identify($inputPath);
     $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-  
+
     $objExcel = $objReader->load($inputPath);
 	$objExcel->setActiveSheetIndex(0); // set first sheet as active (default) ...
-    
+
     // draw logo image ...
     if($insertLogo)
     {
@@ -389,18 +389,18 @@ function convertExcelVersion($inputPath,$outputPath, $insertLogo = false, $passw
         $objDrawing->setHeight(80);
         $objDrawing->setWorksheet($objExcel->getActiveSheet());
     }
-    
+
     // Set password for readonly activesheet
     if(!empty($password))
     {
         $objExcel->getActiveSheet()->getProtection()->setSheet(true)->setPassword($password);
     }
-    
+
     if(!empty($hideGridlines))
     {
         $objExcel->getActiveSheet()->setShowGridlines(false);
     }
-    
+
     if(!empty($freezePane))
     {
         $objExcel->getActiveSheet()->freezePane($freezePane);
@@ -431,7 +431,7 @@ function parseExcelDate($inputDate){
     $seconds_in_a_day = 86400;
     // Unix timestamp to Excel date difference in seconds
     $ut_to_ed_diff = ($seconds_in_a_day * 25570) - 61200;
-    
+
     $result = ( strtotime($inputDate) + $ut_to_ed_diff) / $seconds_in_a_day;
     return $result;
 }
@@ -452,7 +452,7 @@ function promptDownloadFile($file , $filename = NULL)
     if(empty($filename))
 	{
 		$filename = str_replace(" ", "_", basename($file) );
-	}	
+	}
 	header('Content-Description: File Transfer');
 	header('Content-Type: application/octet-stream');
 	header('Content-Disposition: attachment; filename='.$filename);
@@ -469,9 +469,9 @@ function promptDownloadFile($file , $filename = NULL)
 /*
  * Upload Single File Function >>>
  * */
-function uploadFile($image)
+function uploadFile($image, $pathFolder = 'files')
 {
-	$upFile = WWW_ROOT.'files'.DS.$image['name'];
+	$upFile = WWW_ROOT.(empty($pathFolder)?'':$pathFolder.DS).$image['name'];
 	move_uploaded_file($image['tmp_name'], $upFile);
 	chmod ($upFile , 0777);
 }
@@ -479,10 +479,10 @@ function uploadFile($image)
 function getValidFileName($fullname)
 {
 	$counter = 0;
-	$path_parts = pathinfo($fullname);	
-	
+	$path_parts = pathinfo($fullname);
+
 	$mySlug = $slug = Inflector::slug($path_parts['filename']);
-	
+
 	$path = WWW_ROOT.'files'.DS;
 	while(TRUE)
 	{
@@ -508,8 +508,8 @@ function deleteFile($title)
 /*
  * End Of Upload Single File Function >>>
  * */
- 
-function makeClickableLinks($s) 
+
+function makeClickableLinks($s)
 {
   return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank">$1</a>', $s);
 }
@@ -566,7 +566,7 @@ function parseQueryStringUrl($url)
 
 		$pecah1 = explode('&' , $potong1);
 
-		foreach ($pecah1 as $key => $value) 
+		foreach ($pecah1 as $key => $value)
 		{
 			$subpecah = explode('=' , $value);
 			$result[$subpecah[0]] = $subpecah[1];
@@ -579,7 +579,7 @@ function composeQueryStringUrl($query = array())
 {
 	$chainUrl = '';
 	$counter = 0;
-	foreach ($query as $key => $value) 
+	foreach ($query as $key => $value)
 	{
 		$chainUrl .= ($counter==0?'?':'&').$key.'='.$value;
 		$counter++;
@@ -589,7 +589,7 @@ function composeQueryStringUrl($query = array())
 
 function breakEntryMetas($myEntry , $metatable = 'EntryMeta')
 {
-	foreach ($myEntry[$metatable] as $key => $value) 
+	foreach ($myEntry[$metatable] as $key => $value)
 	{
         if(!empty($value['key']))
         {
@@ -658,7 +658,7 @@ function Zip($source, $destination)
                 continue;
 
             $file = realpath($file);
-            
+
             if (is_dir($file) === true)
             {
                 $zip->addEmptyDir( substr(str_replace($source , '', $file . '/'),1) );
@@ -677,7 +677,7 @@ function Zip($source, $destination)
 	$zip->close();
 
 	$file = $destination;
-	if(file_exists($file)) 
+	if(file_exists($file))
 	{
 		promptDownloadFile($file);
 		unlink($file); // delete temp files.
@@ -686,18 +686,18 @@ function Zip($source, $destination)
 	else
 	{
 		return false;
-	} 
+	}
 }
 
 function teasering($html, $maxchar = 200)
 {
     $result = strip_tags($html);
-    
+
     if(strlen($result) > $maxchar)
     {
         $result = substr($result, 0,  strpos($result, ' ', $maxchar)  ).' ...';
     }
-    
+
     return $result;
 }
 
