@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2017 at 05:44 AM
+-- Generation Time: Feb 19, 2018 at 11:30 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -47,7 +47,7 @@ CREATE TABLE `cms_accounts` (
 --
 
 INSERT INTO `cms_accounts` (`id`, `user_id`, `role_id`, `username`, `email`, `password`, `last_login`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 1, 'admin', 'admin@yahoo.com', '1d77e03c6e6da258ed15229d957001d56298169e', '2017-12-14 11:42:43', '2013-01-04 00:00:00', 1, '2013-01-04 00:00:00', 1),
+(1, 1, 1, 'admin', 'admin@yahoo.com', '1d77e03c6e6da258ed15229d957001d56298169e', '2018-02-19 17:26:16', '2013-01-04 00:00:00', 1, '2013-01-04 00:00:00', 1),
 (2, 2, 2, 'Andy Basuki', 'andybasuki88@gmail.com', 'd82dff1679e0137a0bab60cc67cc6a2ad36f10a0', '2017-09-20 11:58:58', '2015-07-17 10:54:24', 1, '2015-07-17 10:54:24', 1);
 
 -- --------------------------------------------------------
@@ -120,8 +120,8 @@ CREATE TABLE `cms_roles` (
 --
 
 INSERT INTO `cms_roles` (`id`, `name`, `description`, `privilege`, `count`) VALUES
-(1, 'Super Admin', 'Administrator who has all access for the web without exceptions.', 'slideshow_view|slideshow_add|slideshow_edit|slideshow_delete|meta-tags_view|meta-tags_add|meta-tags_edit|meta-tags_delete', 1),
-(2, 'Admin', 'Administrator from the clients.', 'slideshow_view|slideshow_add|slideshow_edit|slideshow_delete|meta-tags_view|meta-tags_add|meta-tags_edit|meta-tags_delete', NULL),
+(1, 'Super Admin', 'Administrator who has all access for the web without exceptions.', 'slideshow_view|slideshow_add|slideshow_edit|slideshow_delete|meta-tags_view|meta-tags_add|meta-tags_edit|meta-tags_delete|favicon_view|favicon_add|favicon_edit|favicon_delete', 1),
+(2, 'Admin', 'Administrator from the clients.', 'slideshow_view|slideshow_add|slideshow_edit|slideshow_delete|meta-tags_view|meta-tags_add|meta-tags_edit|meta-tags_delete|favicon_view|favicon_add|favicon_edit|favicon_delete', NULL),
 (3, 'Regular User', 'Anyone with no access to admin panel.', 'slideshow_view|slideshow_add', NULL);
 
 -- --------------------------------------------------------
@@ -189,7 +189,8 @@ CREATE TABLE `cms_types` (
 INSERT INTO `cms_types` (`id`, `name`, `slug`, `description`, `parent_id`, `count`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 'Media Library', 'media', 'All media image is stored here.', 0, 0, '2013-01-15 03:35:14', 1, '2013-01-15 03:35:14', 1),
 (3, 'Slideshow', 'slideshow', 'Home slideshow with details.', 0, 0, '2014-09-03 10:35:08', 1, '2015-03-05 16:15:35', 1),
-(4, 'Meta Tags', 'meta-tags', 'SEO meta tags for each module.', 0, 0, '2017-12-14 11:43:08', 1, '2017-12-14 11:43:08', 1);
+(4, 'Meta Tags', 'meta-tags', 'SEO meta tags for each module.', 0, 0, '2017-12-14 11:43:08', 1, '2017-12-14 11:43:08', 1),
+(5, 'Favicon', 'favicon', 'Favicon image settings.', 0, 0, '2018-02-19 17:29:44', 1, '2018-02-19 17:29:44', 1);
 
 -- --------------------------------------------------------
 
@@ -220,7 +221,12 @@ INSERT INTO `cms_type_metas` (`id`, `type_id`, `key`, `value`, `input_type`, `va
 (7, 4, 'form-url_code', '', 'text', 'not_empty|', 'Alias URL code for this module.'),
 (8, 4, 'form-meta_title', '', 'text', '', 'Maximum character for best SEO is 70 chars.'),
 (9, 4, 'form-meta_description', '', 'textarea', '', 'Maximum character for best SEO is 150 chars.'),
-(10, 4, 'form-meta_keywords', '', 'textarea', '', 'SEO Meta Keywords (use comma to separate each other keywords).');
+(10, 4, 'form-meta_keywords', '', 'textarea', '', 'SEO Meta Keywords (use comma to separate each other keywords).'),
+(11, 5, 'category', 'others', NULL, NULL, NULL),
+(12, 5, 'form-general_favicon', '', 'file', 'not_empty|', 'Please upload .ico favicon file.'),
+(13, 5, 'form-apple_favicon', '', 'file', 'not_empty|', 'please upload .png apple favicon file.'),
+(14, 5, 'form-android_favicon', '', 'file', 'not_empty|', 'please upload .png android favicon file.'),
+(15, 5, 'form-microsoft_favicon', '', 'file', 'not_empty|', 'please upload .png microsoft favicon file.');
 
 -- --------------------------------------------------------
 
@@ -389,13 +395,13 @@ ALTER TABLE `cms_settings`
 -- AUTO_INCREMENT for table `cms_types`
 --
 ALTER TABLE `cms_types`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `cms_type_metas`
 --
 ALTER TABLE `cms_type_metas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `cms_users`
