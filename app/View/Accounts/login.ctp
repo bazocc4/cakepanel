@@ -1,6 +1,10 @@
 <div class="login">
 	<div class="header">
-		<img src="<?php echo $imagePath; ?>images/logo.png" />
+		<?php if (empty($mySetting['homepage_share'])): ?>
+			<img src="<?php echo $imagePath; ?>images/logo.png" />
+		<?php else: ?>
+			<img src="<?php echo $this->Get->image_link(array('id'=>$mySetting['homepage_share']))['display']; ?>"/>
+		<?php endif; ?>
 	</div>
 
 	<div class="layout-header">
@@ -8,9 +12,9 @@
 			<h4>Login</h4>
 		</div>
 	</div>
-	
+
 	<div class="layout-body">
-		<div class="content">				
+		<div class="content">
 			<?php echo $this->Form->create(); ?>
 				<fieldset>
 					<?php
@@ -28,7 +32,7 @@
 							echo $status;
 						}
 					?>
-					
+
 					<?php echo $this->Form->input('email',array('label' => false, 'placeholder'=>'Email address', 'class' => 'input-xlarge')); ?>
 					<?php echo $this->Form->input('password',array('label' => false, 'placeholder'=>'Password', 'class' => 'input-xlarge')); ?>
 					<div class="control-action">

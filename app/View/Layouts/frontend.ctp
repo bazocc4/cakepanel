@@ -197,7 +197,11 @@
 		<div class="container-fluid">
 			<div class="header row-fluid">
 				<div class="span7">
-					<img src="<?php echo $imagePath; ?>images/logo.png" />
+          <?php if (empty($mySetting['homepage_share'])): ?>
+            <img src="<?php echo $imagePath; ?>images/logo.png" />
+          <?php else: ?>
+            <img src="<?php echo $this->Get->image_link(array('id'=>$mySetting['homepage_share']))['display']; ?>"/>
+          <?php endif; ?>
 				</div>
 
 				<div class="username span5">
