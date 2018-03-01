@@ -413,6 +413,23 @@ function convertExcelVersion($inputPath,$outputPath, $insertLogo = false, $passw
 }
 
 /**
+	* Displaying excel file in a browser. PHPExcel
+	* @param string $inputPath contains location path of file excel to be displayed
+	* @return true
+	* @public
+	**/
+function excelViewer($inputPath)
+{
+	App::import('Vendor', 'phpexcel');
+	$inputFileType = PHPExcel_IOFactory::identify($inputPath);
+	$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+  $objPHPExcel = $objReader->load($inputPath);
+  $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'HTML');
+  $objWriter->save('php://output');
+  exit;
+}
+
+/**
 	* convert Excel Date to PHP Date Timestamp
     * @public
 	**/
