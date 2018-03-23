@@ -54,7 +54,10 @@ class EntryMetasController extends AppController {
 	/*
 	Cron Jobs Function ( run daily @ 03.00 AM ) !!
 	==============================================
-	Cron Jobs Command: curl http://www.example.com/entry_metas/cron/test >/dev/null 2>&1
+	Cron Jobs Command: curl -s 'http://www.example.com/entry_metas/cron/test' >/dev/null 2>&1
+	ref: https://unix.stackexchange.com/questions/286598/running-a-cron-job-randomly-for-every-one-hour
+	result: 0 * * * * sleep $((RANDOM*3600/32768)) && command
+	nb: reading RANDOM gives a randomly-selected integer between 0 and 32767. Multiplying that by 3600 and dividing by 32768 results in an integer between 0 and 3599, and interpreting that in seconds gives a duration between nothing and just under one hour.
 	*/
 	public function cron($fakeauth)
 	{

@@ -616,7 +616,7 @@ function breakEntryMetas($myEntry , $metatable = 'EntryMeta')
 	return $myEntry;
 }
 
-function checkExpired($expired_date)
+function checkExpired($expired_date, $diff_days = 0)
 {
 	if(empty($expired_date))
 	{
@@ -625,8 +625,15 @@ function checkExpired($expired_date)
 	else
 	{
 		$expired_date = new DateTime($expired_date);
-	    $now = new DateTime(date('m/d/Y'));
-	    return $expired_date < $now;
+	  $now = new DateTime();
+		if (!empty($diff_days)) {
+			if ($diff_days > 0) {
+				$now->modify('+'.$diff_days.' day');
+			}else {
+				$now->modify($diff_days.' day');
+			}
+		}
+	  return $expired_date < $now;
 	}
 }
 
