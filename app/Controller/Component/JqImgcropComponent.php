@@ -1,4 +1,4 @@
-<?php 
+<?php
 	/**
 	*	Title:
 	*		Image cropping component
@@ -38,7 +38,7 @@ class JqImgcropComponent extends Component {
 
         if(empty($uploadedInfo)) {
                   return false;
-                }  
+                }
 
         if (isset($uploadedInfo['name'])){
             move_uploaded_file($userfile_tmp, $uploadTarget );
@@ -67,7 +67,7 @@ class JqImgcropComponent extends Component {
         $height = $sizes[1];
         return $height;
     }
-	
+
 	/**
 	 * Retrieve width of an image
 	 * @param string $image contains location address of the image
@@ -95,8 +95,14 @@ class JqImgcropComponent extends Component {
 	  $w = $this->getWidth($src);
 	  $h = $this->getHeight($src);
 	  $type = strtolower(substr(basename($src), strrpos(basename($src), ".") + 1));
-	  if($type == 'jpeg') $type = 'jpg';
-	  
+	  if($type == 'jpeg'){
+			$type = 'jpg';
+		}elseif ($type == 'svg') {
+			copy($src, $dst);
+			chmod($dst, 0777);
+	    return filesize($dst);
+		}
+
 	  $img = "";
 	  switch($type)
 	  {
@@ -105,10 +111,10 @@ class JqImgcropComponent extends Component {
 	    case 'jpg': $img = imagecreatefromjpeg($src); break;
 	    case 'png': $img = imagecreatefrompng($src); break;
 	  }
-	  
+
 	  $resize_width = $w;
 	  $resize_height = $h;
-	
+
 	  // resize
 	  if($crop == 1)
 	  {
@@ -120,18 +126,18 @@ class JqImgcropComponent extends Component {
 			$resize_height = ceil($h * 1.0 * $ratio);
 			$resize_width = ceil($w * 1.0 * $ratio);
 			if($tempScaleX > $tempScaleY)
-			{	
+			{
 				$dst_y = -(abs($resize_height - $height) / 2.0);
-			}					
+			}
 			else
-			{	
+			{
 				$dst_x = -(abs($resize_width - $width) / 2.0);
 			}
 	  	}
 		else if($w >= $width)
 		{
 			$dst_x = -(abs($resize_width - $width) / 2.0);
-			$height = $resize_height; 
+			$height = $resize_height;
 		}
 		else if($h >= $height)
 		{
@@ -172,13 +178,13 @@ class JqImgcropComponent extends Component {
 			$ratio = min($tempScaleX , $tempScaleY);
 			$resize_height = ceil($h * 1.0 * $ratio);
 			$resize_width = ceil($w * 1.0 * $ratio);
-			
+
 			if($tempScaleX > $tempScaleY)
 			{
 				$width = $resize_width;
 			}
 			else
-			{		
+			{
 				$height = $resize_height;
 			}
 	  	}
@@ -188,13 +194,13 @@ class JqImgcropComponent extends Component {
 			$height = $resize_height;
 		}
 	  }
-	
-	  $new = imagecreatetruecolor($width, $height);	
+
+	  $new = imagecreatetruecolor($width, $height);
 	  // preserve transparency
 	  if($type == "gif" || $type == "png")
       {
           $transindex = imagecolortransparent($img);
-          
+
           if($transindex >= 0)
           {
               $transcol = imagecolorsforindex($img, $transindex);
@@ -210,16 +216,16 @@ class JqImgcropComponent extends Component {
               imagesavealpha($new, true);
           }
       }
-	
+
 	  imagecopyresampled($new, $img, $dst_x, $dst_y, $src_x, $src_y, $resize_width, $resize_height, $w, $h);
-	  
+
 	  switch($type){
 	    case 'bmp': imagewbmp($new, $dst); break;
 	    case 'gif': imagegif($new, $dst); break;
 	    case 'jpg': imagejpeg($new, $dst , 100); break;
 	    case 'png': imagepng($new, $dst,9); break;
 	  }
-	  
+
 	  chmod($dst, 0777);
       return filesize($dst);
 	}
@@ -239,8 +245,14 @@ class JqImgcropComponent extends Component {
 	  $w = $this->getWidth($src);
 	  $h = $this->getHeight($src);
 	  $type = strtolower(substr(basename($src), strrpos(basename($src), ".") + 1));
-	  if($type == 'jpeg') $type = 'jpg';
-	  
+	  if($type == 'jpeg'){
+			$type = 'jpg';
+		}elseif ($type == 'svg') {
+			copy($src, $dst);
+			chmod($dst, 0777);
+	    return filesize($dst);
+		}
+
 	  $img = "";
 	  switch($type){
 	    case 'bmp': $img = imagecreatefromwbmp($src); break;
@@ -248,14 +260,14 @@ class JqImgcropComponent extends Component {
 	    case 'jpg': $img = imagecreatefromjpeg($src); break;
 	    case 'png': $img = imagecreatefrompng($src); break;
 	  }
-	  
+
 	  $src_x = 0;
 	  $src_y = 0;
 	  $dst_x = 0;
 	  $dst_y = 0;
 	  $resize_width = $w;
 	  $resize_height = $h;
-	
+
 	  // resize
 	  if($crop)
 	  {
@@ -267,11 +279,11 @@ class JqImgcropComponent extends Component {
 			$resize_height = ceil($h * 1.0 * $ratio);
 			$resize_width = ceil($w * 1.0 * $ratio);
 			if($tempScaleX > $tempScaleY)
-			{	
+			{
 				$dst_y = -(abs($resize_height - $height) / 2.0);
-			}					
+			}
 			else
-			{	
+			{
 				$dst_x = -(abs($resize_width - $width) / 2.0);
 			}
 	  	}
@@ -285,7 +297,7 @@ class JqImgcropComponent extends Component {
 			else
 			{
 				$height = $resize_height;
-			} 
+			}
 		}
 		else if($h >= $height)
 		{
@@ -322,7 +334,7 @@ class JqImgcropComponent extends Component {
 			$ratio = min($tempScaleX , $tempScaleY);
 			$resize_height = ceil($h * 1.0 * $ratio);
 			$resize_width = ceil($w * 1.0 * $ratio);
-			
+
 			if($type == "gif" or $type == "png")
 			{
 				if($tempScaleX > $tempScaleY)
@@ -331,7 +343,7 @@ class JqImgcropComponent extends Component {
 				}
 				else
 				{
-					$dst_y = +(abs($resize_height - $height) / 2.0); 
+					$dst_y = +(abs($resize_height - $height) / 2.0);
 				}
 			}
 			else
@@ -341,7 +353,7 @@ class JqImgcropComponent extends Component {
 					$width = $resize_width;
 				}
 				else
-				{		
+				{
 					$height = $resize_height;
 				}
 			}
@@ -360,14 +372,14 @@ class JqImgcropComponent extends Component {
 			}
 		}
 	  }
-	
+
 	  $new = imagecreatetruecolor($width, $height);
-	
+
 	  // preserve transparency
       if($type == "gif" || $type == "png")
       {
           $transindex = imagecolortransparent($img);
-          
+
           if($transindex >= 0)
           {
               $transcol = imagecolorsforindex($img, $transindex);
@@ -383,16 +395,16 @@ class JqImgcropComponent extends Component {
               imagesavealpha($new, true);
           }
       }
-	
+
 	  imagecopyresampled($new, $img, $dst_x, $dst_y, $src_x, $src_y, $resize_width, $resize_height, $w, $h);
-	
+
 	  switch($type){
 	    case 'bmp': imagewbmp($new, $dst); break;
 	    case 'gif': imagegif($new, $dst); break;
 	    case 'jpg': imagejpeg($new, $dst , 100); break;
 	    case 'png': imagepng($new, $dst,9); break;
 	  }
-	  
+
 	  chmod($dst, 0777);
       return filesize($dst);
 	}

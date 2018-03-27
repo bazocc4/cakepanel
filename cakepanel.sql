@@ -46,7 +46,7 @@ CREATE TABLE `cms_accounts` (
 
 LOCK TABLES `cms_accounts` WRITE;
 /*!40000 ALTER TABLE `cms_accounts` DISABLE KEYS */;
-INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','1d77e03c6e6da258ed15229d957001d56298169e','2018-03-06 15:02:12','2013-01-04 00:00:00',1,'2017-08-04 10:37:59',1);
+INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','1d77e03c6e6da258ed15229d957001d56298169e','2018-03-27 14:26:53','2013-01-04 00:00:00',1,'2017-08-04 10:37:59',1);
 INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andybasuki88@gmail.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2017-11-27 16:11:24','2013-01-15 03:42:56',1,'2016-05-23 13:18:51',2);
 INSERT INTO `cms_accounts` VALUES (3,2,3,'regular1','regular@yahoo.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2017-09-22 14:18:21','2013-01-15 04:17:47',2,'2014-07-24 11:05:12',1);
 INSERT INTO `cms_accounts` VALUES (7,3,2,'hanatania8','hanatania@yahoo.com','29536df66160e1ff6a6fe6e0395dd8767140657b','2014-07-24 11:40:17','2014-07-24 11:06:29',1,'2014-07-24 11:40:30',7);
@@ -78,7 +78,7 @@ CREATE TABLE `cms_entries` (
   `lang_code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=1296 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1298 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,8 +172,8 @@ INSERT INTO `cms_entries` VALUES (282,'form-group_photo','Chrysanthemum','chrysa
 INSERT INTO `cms_entries` VALUES (283,'form-group_photo_2','Hydrangeas','hydrangeas-1',NULL,108,145,1,0,'2014-11-21 11:19:31',1,'2014-11-21 11:19:31',1,283,'en-283');
 INSERT INTO `cms_entries` VALUES (284,'form-group_photo_2','Thursday20September2012014818slide1','thursday20september2012014818slide1-1',NULL,117,145,1,0,'2014-11-21 11:19:31',1,'2014-11-21 11:19:31',1,284,'en-284');
 INSERT INTO `cms_entries` VALUES (206,'slideshow','slider good library','slider-library','',29,0,1,0,'2014-09-03 10:44:11',1,'2017-11-17 14:43:49',1,206,'en-206');
-INSERT INTO `cms_entries` VALUES (207,'slideshow','slider coffee cream','slider-coffee','',43,0,1,0,'2014-09-03 10:46:56',1,'2017-11-17 14:43:32',1,207,'en-207');
-INSERT INTO `cms_entries` VALUES (208,'slideshow','slider traffic','slider-traffic','',1270,0,0,0,'2014-09-03 10:47:43',1,'2017-11-20 14:09:06',1,208,'en-208');
+INSERT INTO `cms_entries` VALUES (207,'slideshow','slider coffee cream','slider-coffee','',1296,0,1,0,'2014-09-03 10:46:56',1,'2018-03-27 15:30:35',1,207,'en-207');
+INSERT INTO `cms_entries` VALUES (208,'slideshow','slider traffic','slider-traffic','',1297,0,0,0,'2014-09-03 10:47:43',1,'2018-03-27 15:03:02',1,208,'en-208');
 INSERT INTO `cms_entries` VALUES (215,'pages','Kontak kami','kontak-kami','<p>\r\n	Ini adalah alamat baru perusahaan kami.</p>\r\n',36,0,1,0,'2014-09-05 17:04:25',1,'2015-03-17 17:02:32',1,525,'id-64');
 INSERT INTO `cms_entries` VALUES (1287,'form-group_photo_2','slider','slider-2',NULL,137,161,1,0,'2017-11-17 16:45:26',1,'2017-11-17 16:45:26',1,1287,'en-1287');
 INSERT INTO `cms_entries` VALUES (1286,'form-group_photo_2','avengers_vs_x_men_babies_by_skottieyoung-d4raoid','avengers-vs-x-men-babies-by-skottieyoung-d4raoid-23',NULL,55,161,1,0,'2017-11-17 16:45:26',1,'2017-11-17 16:45:26',1,1286,'en-1286');
@@ -256,6 +256,8 @@ INSERT INTO `cms_entries` VALUES (1277,'form-group_photo','avengers_vs_x_men_bab
 INSERT INTO `cms_entries` VALUES (1270,'media','clara_berdiri','clara-berdiri',NULL,0,0,1,0,'2017-11-17 16:44:35',1,'2017-11-17 16:44:35',1,1270,'en-1270');
 INSERT INTO `cms_entries` VALUES (1241,'media','Tulips','tulips-31',NULL,0,131,1,0,'2017-11-17 15:39:49',1,'2017-11-17 16:23:01',1,1241,'en-1241');
 INSERT INTO `cms_entries` VALUES (1271,'magazine','Batgirl_Issue_10_by_Artgerm','batgirl-issue-10-by-artgerm-36',NULL,56,161,1,0,'2017-11-17 16:45:24',1,'2017-11-17 16:45:24',1,1271,'en-1271');
+INSERT INTO `cms_entries` VALUES (1296,'media','word-pizza-font-independent','word-pizza-font-independent',NULL,0,0,1,0,'2018-03-27 13:46:07',1,'2018-03-27 13:46:07',1,1296,'en-1296');
+INSERT INTO `cms_entries` VALUES (1297,'media','story-word','story-word',NULL,0,0,1,0,'2018-03-27 15:02:42',1,'2018-03-27 15:02:42',1,1297,'en-1297');
 /*!40000 ALTER TABLE `cms_entries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +274,7 @@ CREATE TABLE `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3537 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3547 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,8 +431,8 @@ INSERT INTO `cms_entry_metas` VALUES (1014,145,'form-books','Dark Magic|World Wa
 INSERT INTO `cms_entry_metas` VALUES (1013,145,'count-form-group_photo_2','4');
 INSERT INTO `cms_entry_metas` VALUES (811,84,'count-news','0');
 INSERT INTO `cms_entry_metas` VALUES (3250,206,'form-url_link','http://www.facebook.com');
-INSERT INTO `cms_entry_metas` VALUES (3247,207,'form-url_link','http://www.google.com');
-INSERT INTO `cms_entry_metas` VALUES (3480,208,'form-url_link','http://www.twitter.com');
+INSERT INTO `cms_entry_metas` VALUES (3546,207,'form-datetimepicker','11/17/2017 14:32');
+INSERT INTO `cms_entry_metas` VALUES (3544,208,'form-datetimepicker','11/20/2017 14:09');
 INSERT INTO `cms_entry_metas` VALUES (2552,30,'backup-slug','\nblur\n');
 INSERT INTO `cms_entry_metas` VALUES (2388,872,'backup-slug','\nlighthouse-4\n');
 INSERT INTO `cms_entry_metas` VALUES (2716,980,'backup-slug','\nbatgirl-issue-10-by-artgerm-16\n');
@@ -1110,7 +1112,7 @@ INSERT INTO `cms_entry_metas` VALUES (3225,1218,'backup-slug','\nsuper-mario-bro
 INSERT INTO `cms_entry_metas` VALUES (3226,1219,'backup-slug','\n20110530-061908-53\n');
 INSERT INTO `cms_entry_metas` VALUES (3227,1220,'backup-slug','\navengers-vs-x-men-babies-by-skottieyoung-d4raoid-19\n');
 INSERT INTO `cms_entry_metas` VALUES (3238,207,'backup-slug','\nslider-coffee\n');
-INSERT INTO `cms_entry_metas` VALUES (3248,207,'form-datetimepicker','11/17/2017 14:32');
+INSERT INTO `cms_entry_metas` VALUES (3545,207,'form-url_link','http://www.google.com');
 INSERT INTO `cms_entry_metas` VALUES (3249,206,'backup-slug','\nslider-library\n');
 INSERT INTO `cms_entry_metas` VALUES (3251,206,'form-datetimepicker','11/17/2017 14:43');
 INSERT INTO `cms_entry_metas` VALUES (3252,1226,'backup-slug','\n3rd-anniv\n');
@@ -1183,7 +1185,7 @@ INSERT INTO `cms_entry_metas` VALUES (3476,161,'form-dropme','drop dua');
 INSERT INTO `cms_entry_metas` VALUES (3477,161,'form-fake_ckeditor','<p>makan nasi goreng</p>\r\n');
 INSERT INTO `cms_entry_metas` VALUES (3478,161,'form-biggy_text','biggy text');
 INSERT INTO `cms_entry_metas` VALUES (3479,161,'form-warnaku','#ff00ff');
-INSERT INTO `cms_entry_metas` VALUES (3481,208,'form-datetimepicker','11/20/2017 14:09');
+INSERT INTO `cms_entry_metas` VALUES (3543,208,'form-url_link','http://www.twitter.com');
 INSERT INTO `cms_entry_metas` VALUES (3482,1289,'backup-slug','\nbooks\n');
 INSERT INTO `cms_entry_metas` VALUES (3483,1289,'form-url_code','books');
 INSERT INTO `cms_entry_metas` VALUES (3484,1289,'form-meta_title','meta books title');
@@ -1214,6 +1216,12 @@ INSERT INTO `cms_entry_metas` VALUES (3508,1294,'form-url_code','chinese-magazin
 INSERT INTO `cms_entry_metas` VALUES (3509,1294,'form-meta_title','meta ZH magazine title');
 INSERT INTO `cms_entry_metas` VALUES (3510,1294,'form-meta_description','meta ZH magazine description');
 INSERT INTO `cms_entry_metas` VALUES (3511,1294,'form-meta_keywords','meta ZH magazine keywords');
+INSERT INTO `cms_entry_metas` VALUES (3537,1296,'backup-slug','\nword-pizza-font-independent\n');
+INSERT INTO `cms_entry_metas` VALUES (3538,1296,'image_type','svg');
+INSERT INTO `cms_entry_metas` VALUES (3539,1296,'image_size','50361');
+INSERT INTO `cms_entry_metas` VALUES (3540,1297,'backup-slug','\nstory-word\n');
+INSERT INTO `cms_entry_metas` VALUES (3541,1297,'image_type','svg');
+INSERT INTO `cms_entry_metas` VALUES (3542,1297,'image_size','36741');
 /*!40000 ALTER TABLE `cms_entry_metas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1511,4 +1519,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-23 16:43:33
+-- Dump completed on 2018-03-27 17:29:51
