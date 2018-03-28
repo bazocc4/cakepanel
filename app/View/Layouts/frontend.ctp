@@ -87,12 +87,14 @@
     <link rel="apple-touch-icon" sizes="144x144" href="<?php echo $imagePath."favicon/apple-icon-144x144.png"; ?>">
     <link rel="apple-touch-icon" sizes="152x152" href="<?php echo $imagePath."favicon/apple-icon-152x152.png"; ?>">
     <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $imagePath."favicon/apple-icon-180x180.png"; ?>">
+    <!--
     <link rel="icon" type="image/png" sizes="36x36"  href="<?php echo $imagePath."favicon/android-icon-36x36.png"; ?>">
     <link rel="icon" type="image/png" sizes="48x48"  href="<?php echo $imagePath."favicon/android-icon-48x48.png"; ?>">
     <link rel="icon" type="image/png" sizes="72x72"  href="<?php echo $imagePath."favicon/android-icon-72x72.png"; ?>">
     <link rel="icon" type="image/png" sizes="96x96"  href="<?php echo $imagePath."favicon/android-icon-96x96.png"; ?>">
     <link rel="icon" type="image/png" sizes="144x144"  href="<?php echo $imagePath."favicon/android-icon-144x144.png"; ?>">
     <link rel="icon" type="image/png" sizes="192x192"  href="<?php echo $imagePath."favicon/android-icon-192x192.png"; ?>">
+     -->
     <link rel="manifest" href="<?php echo $imagePath."favicon/manifest.json"; ?>">
     <meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="<?php echo $imagePath."favicon/microsoft-icon-144x144.png"; ?>">
