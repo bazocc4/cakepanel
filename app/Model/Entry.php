@@ -706,6 +706,9 @@ class Entry extends AppModel {
 			unlink($destThumb);
 			unlink($destDisplay);
 			unlink($destThumbnails);
+			unlink(WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$row['Entry']['id'].'-1200w.'.$imageType);
+			unlink(WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$row['Entry']['id'].'-768w.'.$imageType);
+			unlink(WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$row['Entry']['id'].'-0w.'.$imageType);
 
 			// special case deleter !!
 			if(strtolower($imageType) == 'jpg' || strtolower($imageType) == 'jpeg')
@@ -831,7 +834,26 @@ class Entry extends AppModel {
 	{
 		$src = WWW_ROOT.'img'.DS.'upload'.DS.'original'.DS.$myid.'.'.$mytype;
 		$dest = WWW_ROOT.'img'.DS.'upload'.DS.$myid.'.'.$mytype;
-		return $this->Resize->image_resize($src, $dest, $myMediaSettings['display_width'], $myMediaSettings['display_height'] , $myMediaSettings['display_crop']);
+		$filesize = $this->Resize->image_resize($src, $dest, $myMediaSettings['display_width'], $myMediaSettings['display_height'] , $myMediaSettings['display_crop']);
+
+		if ($mytype != 'svg') {
+			$imgWidth = $this->Resize->getWidth($dest);
+			$imgHeight = $this->Resize->getHeight($dest);
+			if ($imgWidth >= 768) {
+				$destMobile = WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$myid.'-0w.'.$mytype;
+				$this->Resize->image_resize($dest, $destMobile, 767, $imgHeight);
+				if ($imgWidth >= 1200) {
+					$destTablet = WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$myid.'-768w.'.$mytype;
+					$this->Resize->image_resize($dest, $destTablet, 1199, $imgHeight);
+					if ($imgWidth >= 1301) {
+						$destDesktop = WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$myid.'-1200w.'.$mytype;
+						$this->Resize->image_resize($dest, $destDesktop, 1300, $imgHeight);
+					}
+				}
+			}
+		}
+
+		return $filesize;
 	}
 
 	public function createChildDisplay($myid , $mytype , $myChildId , $width , $height , $x , $y)

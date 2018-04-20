@@ -2307,6 +2307,9 @@ class EntriesController extends AppController {
 								// REMOVE OLD IMAGE FILE !!
 								unlink(WWW_ROOT.'img'.DS.'upload'.DS.$myid.'.'.$mytype);
 								unlink(WWW_ROOT.'img'.DS.'upload'.DS.'thumb'.DS.$myid.'.'.$mytype);
+								unlink(WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$myid.'-1200w.'.$mytype);
+								unlink(WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$myid.'-768w.'.$mytype);
+								unlink(WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$myid.'-0w.'.$mytype);
 
 								// DELETE ENTRY METAS TOO !!
 								$this->EntryMeta->deleteAll(array('EntryMeta.entry_id' => $myid));

@@ -46,7 +46,7 @@ CREATE TABLE `cms_accounts` (
 
 LOCK TABLES `cms_accounts` WRITE;
 /*!40000 ALTER TABLE `cms_accounts` DISABLE KEYS */;
-INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','1d77e03c6e6da258ed15229d957001d56298169e','2018-03-27 14:26:53','2013-01-04 00:00:00',1,'2017-08-04 10:37:59',1);
+INSERT INTO `cms_accounts` VALUES (1,1,1,'admin','admin@yahoo.com','1d77e03c6e6da258ed15229d957001d56298169e','2018-04-20 10:29:43','2013-01-04 00:00:00',1,'2017-08-04 10:37:59',1);
 INSERT INTO `cms_accounts` VALUES (2,2,2,'bazocc4','andybasuki88@gmail.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2017-11-27 16:11:24','2013-01-15 03:42:56',1,'2016-05-23 13:18:51',2);
 INSERT INTO `cms_accounts` VALUES (3,2,3,'regular1','regular@yahoo.com','d82dff1679e0137a0bab60cc67cc6a2ad36f10a0','2017-09-22 14:18:21','2013-01-15 04:17:47',2,'2014-07-24 11:05:12',1);
 INSERT INTO `cms_accounts` VALUES (7,3,2,'hanatania8','hanatania@yahoo.com','29536df66160e1ff6a6fe6e0395dd8767140657b','2014-07-24 11:40:17','2014-07-24 11:06:29',1,'2014-07-24 11:40:30',7);
@@ -78,7 +78,7 @@ CREATE TABLE `cms_entries` (
   `lang_code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=1298 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1302 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,6 @@ INSERT INTO `cms_entries` VALUES (33,'media','bokeh_art_by_noobieku','bokeh-art-
 INSERT INTO `cms_entries` VALUES (35,'media','Christmas_tree_sxc_hu','christmas-tree-sxc-hu',NULL,0,0,1,0,'2013-01-15 06:03:03',1,'2017-09-20 11:23:48',1,35,'');
 INSERT INTO `cms_entries` VALUES (36,'media','contact','contact',NULL,0,0,1,0,'2013-01-15 06:04:15',1,'2017-08-30 15:15:49',1,36,'');
 INSERT INTO `cms_entries` VALUES (37,'media','Fire-Stock-Texture','fire-stock-texture',NULL,0,0,1,0,'2013-01-15 06:04:16',1,'2017-08-30 15:15:49',1,37,'');
-INSERT INTO `cms_entries` VALUES (38,'media','dep_2160234-Abstract-sketch-in-monochrome-colors','dep-2160234-abstract-sketch-in-monochrome-colors',NULL,0,0,1,0,'2013-01-15 06:04:16',1,'2017-09-20 11:23:48',1,38,'');
 INSERT INTO `cms_entries` VALUES (39,'media','darth-maul-1-0','darth-maul-1-0',NULL,0,0,1,0,'2013-01-15 06:04:16',1,'2017-08-30 15:15:49',1,39,'');
 INSERT INTO `cms_entries` VALUES (41,'media','hot-coffee-wallpapers_8908_1680x1050','hot-coffee-wallpapers-8908-1680x1050',NULL,0,0,1,0,'2013-01-15 06:04:17',1,'2017-08-30 16:12:43',1,41,'en-41');
 INSERT INTO `cms_entries` VALUES (42,'media','lily_valley3_22896791_by_stockproject1-d30nxz4','lily-valley3-22896791-by-stockproject1-d30nxz4',NULL,0,0,1,0,'2013-01-15 06:04:18',1,'2017-08-30 15:15:49',1,42,'en-42');
@@ -274,7 +273,7 @@ CREATE TABLE `cms_entry_metas` (
   `key` varchar(500) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3547 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3559 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -312,8 +311,6 @@ INSERT INTO `cms_entry_metas` VALUES (65,33,'image_type','jpeg');
 INSERT INTO `cms_entry_metas` VALUES (66,33,'image_size','69422');
 INSERT INTO `cms_entry_metas` VALUES (2538,137,'backup-slug','\nslider\n');
 INSERT INTO `cms_entry_metas` VALUES (74,37,'image_size','76968');
-INSERT INTO `cms_entry_metas` VALUES (75,38,'image_type','jpeg');
-INSERT INTO `cms_entry_metas` VALUES (76,38,'image_size','84683');
 INSERT INTO `cms_entry_metas` VALUES (77,39,'image_type','jpeg');
 INSERT INTO `cms_entry_metas` VALUES (78,39,'image_size','79164');
 INSERT INTO `cms_entry_metas` VALUES (79,40,'image_type','jpeg');
@@ -391,7 +388,6 @@ INSERT INTO `cms_entry_metas` VALUES (2549,35,'backup-slug','\nchristmas-tree-sx
 INSERT INTO `cms_entry_metas` VALUES (2550,33,'backup-slug','\nbokeh-art-by-noobieku\n');
 INSERT INTO `cms_entry_metas` VALUES (1170,99,'form-publish_date','1/19/2013');
 INSERT INTO `cms_entry_metas` VALUES (1169,99,'form-author','Basuki Oke');
-INSERT INTO `cms_entry_metas` VALUES (2546,38,'backup-slug','\ndep-2160234-abstract-sketch-in-monochrome-colors\n');
 INSERT INTO `cms_entry_metas` VALUES (1171,99,'form-approval','Approve');
 INSERT INTO `cms_entry_metas` VALUES (2553,29,'backup-slug','\n4440611861-d8494f0a1c-b\n');
 INSERT INTO `cms_entry_metas` VALUES (357,89,'image_height','238');
@@ -1519,4 +1515,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-28 14:32:08
+-- Dump completed on 2018-04-20 12:09:49
