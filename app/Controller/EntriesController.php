@@ -1426,11 +1426,19 @@ class EntriesController extends AppController {
 
 							if(!empty($_SESSION['searchMe']))
 							{
-								$options['conditions']['OR'] = array(
-									array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'),
-									array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%'),
-									array('REPLACE(REPLACE(EntryMeta.key_value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%'),
-								);
+								if (($myType['Type']['slug']??NULL) == 'media') {
+									if (substr($_SESSION['searchMe'], 0, 1) == '.') {
+										$options['conditions']['SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}image_type=", -1), "{#}", 1)'] = substr($_SESSION['searchMe'], 1);
+									}else {
+										$options['conditions']['Entry.title LIKE'] = '%'.$_SESSION['searchMe'].'%';
+									}
+								}else {
+									$options['conditions']['OR'] = array(
+										array('Entry.title LIKE' => '%'.$_SESSION['searchMe'].'%'),
+										array('Entry.description LIKE' => '%'.$_SESSION['searchMe'].'%'),
+										array('REPLACE(REPLACE(EntryMeta.key_value , "-" , " "),"_"," ") LIKE' => '%'.string_unslug($_SESSION['searchMe']).'%'),
+									);
+								}
 							}
 
 							// ========================================= >>
@@ -2465,7 +2473,17 @@ class EntriesController extends AppController {
 
 						if(!empty($_SESSION['searchMe']))
 						{
-							$options['conditions']['Entry.title LIKE'] = '%'.$_SESSION['searchMe'].'%';
+							if (substr($_SESSION['searchMe'], 0, 1) == '.') {
+								$options['conditions']['SUBSTRING_INDEX(SUBSTRING_INDEX(EntryMeta.key_value, "{#}image_type=", -1), "{#}", 1)'] = substr($_SESSION['searchMe'], 1);
+								$options['joins'] = array(array(
+									'table' => '(SELECT EntryMeta.entry_id, CONCAT("{#}", GROUP_CONCAT(EntryMeta.key, "=", EntryMeta.value ORDER BY EntryMeta.id SEPARATOR "{#}"), "{#}") as key_value FROM cms_entry_metas as EntryMeta GROUP BY EntryMeta.entry_id)',
+									'alias' => 'EntryMeta',
+									'type' => 'LEFT',
+									'conditions' => array('Entry.id = EntryMeta.entry_id')
+								));
+							}else {
+								$options['conditions']['Entry.title LIKE'] = '%'.$_SESSION['searchMe'].'%';
+							}
 						}
 
 						$resultTotalList = $this->Entry->find('count' , $options);
