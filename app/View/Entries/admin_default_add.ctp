@@ -41,16 +41,15 @@
 				<?php if(!empty($this->request->query['anchor'])): ?>
 					$('div#form-<?php echo $this->request->query['anchor']; ?>').prevAll('a.get-from-library:first').focus();
 				<?php endif; ?>
-                
-                // Hide main_image !!
-//                $('div.thumbs').hide();
-//                $('div.change-pic').hide();
+
+        // Hide main_image !!
+        // $('div.thumbs, div.change-pic').hide();
 			});
 		</script>
 		<?php
 		echo '<div id="ajaxed" class="inner-content">';
 	}
-	else 
+	else
 	{
 		?>
 		<script>
@@ -64,7 +63,7 @@
 	$myTranslation = ( empty($lang)||empty($myEntry) ? '' : (empty($myChildTypeLink)?'?':'&').'lang='.$lang);
 	$targetSubmit = (empty($myType)?'pages':$myType['Type']['slug']).(empty($myChildType)?'':'/'.$myParentEntry['Entry']['slug']).(empty($myEntry)?'/add':'/edit/'.$myEntry['Entry']['slug']).$myChildTypeLink.$myTranslation;
 	$saveButton = (empty($myEntry)?'Add New':(empty($lang)?'Save Changes':'Add Translation'));
-	echo $this->Form->create('Entry', array('url'=>['action'=>$targetSubmit],'type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));	
+	echo $this->Form->create('Entry', array('url'=>['action'=>$targetSubmit],'type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));
 ?>
 	<fieldset>
 		<script>
@@ -74,7 +73,7 @@
 					$('p#id-title-description').html('Last updated by <a href="#"><?php echo ($myEntry['AccountModifiedBy']['username'] ?? $myEntry['AccountModifiedBy']['email'] ?? '').'</a> at '.date_converter($myEntry['Entry']['modified']??NULL, $mySetting['date_format'] , $mySetting['time_format']); ?>');
 					$('p#id-title-description').css('display','<?php echo (!empty($lang)?'none':'block'); ?>');
 				}
-				
+
 				// media sortable
 				if($("div#myPictureWrapper").length > 0)
 				{
@@ -82,7 +81,7 @@
 					// print total pictures...
 					$('div#myPictureWrapper').prevAll('.galleryCount:first').find('span').html( $('div#myPictureWrapper').find('div.photo').length );
 				}
-				
+
 				// save as draft button !!
 				$('button#save-as-draft').click(function(){
 					// set last status button as draft & submit form !!
@@ -104,7 +103,7 @@
 			$value['input_type'] = ($titleIsDate?'datepicker':'text');
 			$value['value'] = $_POST['data'][$value['model']][$value['counter']]['value'] ?? $myEntry[$value['model']]['title'] ?? '';
 			echo $this->element('input_'.$value['input_type'] , $value);
-        
+
             if(!empty($myEntry) && empty($lang))
             {
                 $value = array();
@@ -114,11 +113,11 @@
                 $value['counter'] = 4;
                 $value['input_type'] = 'text';
                 $value['value'] = $_POST['data'][$value['model']][$value['counter']]['value'] ?? $myEntry[$value['model']]['slug'] ?? '';
-                
+
                 $value['display'] = 'none';
-                
+
                 $value['p'] = 'URL slug code for this entry data.<br>Rules: <strong style=\'color:red;\'>No white-space, lowercase alphanumeric only!</strong>';
-                
+
                 echo $this->element('input_'.$value['input_type'] , $value);
             }
 		?>
@@ -136,7 +135,7 @@
                             'slug' => $myEntry['EntryMeta']['category'],
                             'entry_type' => 'category',
                         ]);
-                        
+
                         // check language is matching or not !!
                         if(!empty($lang) && !empty($subcat_optvalue))
                         {
@@ -153,7 +152,7 @@
                                 }
                             }
                         }
-                        
+
 						$value['optionlist'] = $subcat_optvalue['EntryMeta']['subcategory'];
 					}
 					else
@@ -163,8 +162,8 @@
 					$value['value'] = '';
 
 					// now get value from EntryMeta if existed !!
-					foreach ($myEntry['EntryMeta']??[] as $key10 => $value10) 
-					{						
+					foreach ($myEntry['EntryMeta']??[] as $key10 => $value10)
+					{
 						if($value['key'] == ($value10['key']??NULL) )
 						{
 							$value['value'] = $value10['value'];
@@ -174,13 +173,13 @@
 					$value['model'] = 'EntryMeta';
 					$value['counter'] = $counter++;
 					$value['p'] = $value['instruction'];
-					switch ($value['input_type']) 
+					switch ($value['input_type'])
 					{
 						case 'checkbox':
 						case 'radio':
 						case 'dropdown':
 							$temp = explode(chr(13).chr(10), $value['optionlist']);
-							foreach ($temp as $key50 => $value50) 
+							foreach ($temp as $key50 => $value50)
 							{
 								$value['list'][$key50]['id'] = $value['list'][$key50]['name'] = $value50;
 							}
@@ -198,7 +197,7 @@
 				if(substr($value['key']??NULL, 0 , 5) == 'form-')
 				{
 					$broken = 1;
-					foreach ($myAutomatic as $key20 => $value20) 
+					foreach ($myAutomatic as $key20 => $value20)
 					{
 						if($value['key'] == $value20['key'])
 						{
@@ -215,9 +214,9 @@
 					}
 				}
 			}
-		?>		
+		?>
 		<!-- END OF META ATTRIBUTES -->
-		
+
 		<?php
 			// Our CKEditor Description Field !!
 			$value = array();
@@ -243,19 +242,19 @@
             $value['value'] = $_POST['data'][$value['model']][$value['counter']]['value'] ?? $myEntry[$value['model']]['status'] ?? '';
 			$value['display'] = (empty($myEntry)||empty($myType)?'none':'');
 			echo $this->element('input_'.$value['input_type'] , $value);
-			
+
 			// is used gallery function ...
             if($gallery)
             {
                 echo '<strong class="galleryCount">Gallery Pictures (<span></span>)</strong>';
 
-                $nowTypeSlug = (empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']);                
+                $nowTypeSlug = (empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']);
                 echo $this->Html->link('Add Picture',array('action'=>'media_popup_single',1,'myPictureWrapper',$nowTypeSlug,'admin'=>false),array('class'=>'btn btn-inverse fr get-from-library'));
-                
+
                 echo '<div class="inner-content pictures" id="myPictureWrapper">';
                 if(!empty($this->request->data['Entry']['image']) && is_array($this->request->data['Entry']['image']) )
                 {
-                	foreach ($this->request->data['Entry']['image'] as $key => $value) 
+                	foreach ($this->request->data['Entry']['image'] as $key => $value)
                 	{
                 		$myImage = $this->Get->meta_details([
                             'entry_type' => 'media',
@@ -292,15 +291,15 @@
                                         <a href="javascript:void(0)" onclick="javascript:deleteChildPic(this);" class="icon-remove icon-white"></a>
                                     </div>
                                     <input type="hidden" value="<?php echo $findDetail['main_image']; ?>" name="data[Entry][image][]" />
-                                </div>                          
-                            <?php                            
+                                </div>
+                            <?php
                         }
                     }
                 }
                 echo '</div>';
-            }			
+            }
 		?>
-		
+
 		<!-- myTypeSlug is for media upload settings purpose !! -->
 		<input type="hidden" value="<?php echo (empty($myChildType)?$myType['Type']['slug']:$myChildType['Type']['slug']); ?>" id="myTypeSlug"/>
 	<!-- SAVE BUTTON -->
