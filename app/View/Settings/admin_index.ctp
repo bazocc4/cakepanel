@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("a#settings").addClass("active");
-		
+
 		$.fn.add_new_lang = function(src){
 			var content = '<div class="control-group group-checkbox">';
 			content += '<input type="hidden" value="'+src+'">';
@@ -16,7 +16,7 @@
 			content += '</div>';
 			return content;
 		}
-		
+
 		$.fn.validate_lang = function(mycode , mylang){
 			// FIRST CHECK !!
 			if(mycode.length <= 0 || !isNaN(mycode) || mylang.length <= 0 || !isNaN(mylang))
@@ -28,17 +28,17 @@
 			$("div#optlang div.group-checkbox").each(function(){
 				var temp = $(this).find('input[type=hidden]').val().split('_');
 				if($.trim(temp[0]).toLowerCase() == mycode.toLowerCase() || $.trim(temp[1]).toLowerCase() == mylang.toLowerCase())
-				{	
+				{
 					state = 0;
 					return;
 				}
 			});
 			return (state==1?true:false);
-		}		
-		
+		}
+
 		$("input[type=checkbox]#multilanguage").change(function(){
 			if($(this).is(':checked'))
-			{	
+			{
 				$("div#optlang").slideDown('fast',function(){
 					$("a.cancel_lang").click();
 				});
@@ -62,7 +62,7 @@
 		});
 		$('div#optlang div.group-checkbox input[type=checkbox][value=nofixed]').on("change",function(){
 			if(!$(this).is(':checked'))
-			{	
+			{
 				$(this).parents('div.group-checkbox').animate({opacity : 0 , height : 0, marginBottom : 0},1000,function(){
 					$("select#default_language").find("option[value="+$(this).find('input[type=hidden]').val()+"]").detach();
 					$(this).detach();
@@ -108,8 +108,8 @@
 		<p class="title-description">All kinds of web settings.</p>
 	</div>
 </div>
-	
-<div class="inner-content">		
+
+<div class="inner-content">
 <?php
 	echo $this->Form->create('Setting', array('type'=>'file','class'=>'notif-change form-horizontal fl','inputDefaults' => array('label' =>false , 'div' => false)));
 ?>
@@ -118,7 +118,7 @@
 <!-- 		Basic Setting -->
 		<div class="alert alert-info full fl">
 			<strong>Basic Setting</strong>
-		</div>		
+		</div>
 		<?php
 			// Title...
 			$value['counter'] = 0;
@@ -128,34 +128,34 @@
 			$value['model'] = 'Setting';
 			$value['input_type'] = 'text';
 			echo $this->element('input_'.$value['input_type'] , $value);
-			
+
 			// Tagline...
 			$value['counter'] = 1;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
-			$value['model'] = 'Setting';			
+			$value['model'] = 'Setting';
 			$value['input_type'] = 'textarea';
-            $value['p'] = 'Tagline for improving website SEO (Search Engine Optimization).';
+      $value['p'] = 'Tagline keywords for improving website SEO (Search Engine Optimization).';
 			echo $this->element('input_'.$value['input_type'] , $value);
-			
+
 			// Description...
 			$value['counter'] = 2;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
-			$value['model'] = 'Setting';			
+			$value['model'] = 'Setting';
 			$value['input_type'] = 'textarea';
 			$value['p'] = 'About 150 words recommended';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['p']);
-			
+
 			// Date Format...
 			$value['counter'] = 3;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = 'not_empty';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
-			$value['model'] = 'Setting';			
+			$value['model'] = 'Setting';
 			$value['input_type'] = 'dropdown';
 			$value['list'][0]['id'] = 'Y-m-d';
 			$value['list'][1]['id'] = 'd-m-Y';
@@ -166,7 +166,7 @@
 			for ($i=0; $i <= 5 ; $i++) $value['list'][$i]['name'] = date($value['list'][$i]['id'] , gmt_adjustment());
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['list']);
-			
+
 			// Time Format...
 			$value['counter'] = 4;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
@@ -181,10 +181,10 @@
 			for ($i=0; $i <= 3 ; $i++) $value['list'][$i]['name'] = date($value['list'][$i]['id'] , gmt_adjustment());
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['list']);
-		?>		
-<!-- 		LANGUAGE SETTINGS -->		
+		?>
+<!-- 		LANGUAGE SETTINGS -->
     <div class="language-settings <?= ($user['role_id'] > 1?'hide':''); ?>">
-        <div class="control-group" style="margin-bottom: 18px;">            
+        <div class="control-group" style="margin-bottom: 18px;">
 			<label style="color: red;" class="control-label">Default Language</label>
 			<div class="controls inline">
 				<select id="default_language" name="data[Setting][15][value]" class="field_type">
@@ -205,18 +205,18 @@
 				</select>
 				<p class="help-block">For more languages, please refer to <a target="_blank" href="http://www.w3schools.com/tags/ref_language_codes.asp">ISO Language Codes</a></p>
 			</div>
-			
+
 			<div class="controls inline">
-				<input class="normal-checkbox" id="multilanguage" type="checkbox" name="data[Setting][15][multilanguage]" value="yes" <?php echo (strpos($mySetting[15]['Setting']['value'] , chr(13).chr(10))===FALSE?'':'CHECKED'); ?>/>						
+				<input class="normal-checkbox" id="multilanguage" type="checkbox" name="data[Setting][15][multilanguage]" value="yes" <?php echo (strpos($mySetting[15]['Setting']['value'] , chr(13).chr(10))===FALSE?'':'CHECKED'); ?>/>
 				<label class="control-label label-checkbox">Multi Language</label>
 			</div>
 		</div>
-		
+
 		<div id="optlang" <?php echo (strpos($mySetting[15]['Setting']['value'] , chr(13).chr(10))===FALSE?'style="display:none"':''); ?>>
 			<div class="container-box small" style="margin-top: -10px;">
 				<?php
-					foreach ($langlist as $key10 => $value10) 
-					{	
+					foreach ($langlist as $key10 => $value10)
+					{
 						echo '<div class="control-group group-checkbox">';
 						echo '<input type="hidden" value="'.$value10.'">';
 						echo '<div class="controls inline">';
@@ -227,7 +227,7 @@
 					}
 				?>
 			</div>
-			
+
 			<div id="lang_interaction" class="control-group">
 				<div class="controls">
 					<input style="display: none" maxlength="2" class="input-xmini" type="text" value="" placeholder="Code"/>
@@ -239,30 +239,30 @@
 		</div>
     </div>
 <!-- 		END OF LANGUAGE SETTINGS -->
-		<?php			
+		<?php
 			// Google Analytics Code ...
 			$value['counter'] = 8;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
-			$value['model'] = 'Setting';			
+			$value['model'] = 'Setting';
 			$value['input_type'] = 'text';
 			echo $this->element('input_'.$value['input_type'] , $value);
-			
+
 			// Homepage Share on social media ...
 			$value['counter'] = 16;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
-			$value['model'] = 'Setting';			
+			$value['model'] = 'Setting';
 			$value['input_type'] = 'image';
-			
+
 			$value['p'] = "Website logo for sharing homepage on social media.<br><span style='color:red;'>NB: Minimum image dimensions are 200 x 200 pixels.</span>";
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['p']);
 		?>
-		
-	<div class="<?= ($user['role_id'] > 1?'hide':''); ?>">	
+
+	<div class="<?= ($user['role_id'] > 1?'hide':''); ?>">
 		<div class="alert alert-info full fl">
 			<strong>Page Inserts</strong>
 		</div>
@@ -272,39 +272,39 @@
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
-			$value['model'] = 'Setting';			
+			$value['model'] = 'Setting';
 			$value['input_type'] = 'textarea';
 			$value['p'] = 'Usually you can add external CSS or JavaScript. HTML is OK.';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['p']);
-			
+
 			// TOP INSERT...
 			$value['counter'] = 6;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
-			$value['model'] = 'Setting';			
+			$value['model'] = 'Setting';
 			$value['input_type'] = 'textarea';
 			$value['p'] = 'Insert codes right after the body tag starts.';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['p']);
-			
+
 			// BOTTOM INSERT ...
 			$value['counter'] = 7;
 			$value['key'] = 'form-'.string_unslug($mySetting[$value['counter']]['Setting']['key']);
 			$value['validation'] = '';
 			$value['value'] = $mySetting[$value['counter']]['Setting']['value'];
-			$value['model'] = 'Setting';			
+			$value['model'] = 'Setting';
 			$value['input_type'] = 'textarea';
 			$value['p'] = 'Insert codes right before the body tag end.';
 			echo $this->element('input_'.$value['input_type'] , $value);
 			unset($value['p']);
 		?>
-		
+
 		<div class="alert alert-info full fl">
 			<strong>Media Settings</strong>
-		</div>		
-		<div class="control-group">            
+		</div>
+		<div class="control-group">
 			<label style="color: red;" class="control-label">Display Image</label>
 			<div class="controls dimension">
 				<input REQUIRED name="data[Setting][9][value]" type="text" class="small" value="<?php echo $mySetting[9]['Setting']['value']; ?>" placeholder="Width" /> <span>x</span>
@@ -319,8 +319,8 @@
 				<input <?php echo (empty($mySetting[11]['Setting']['value'])?'':'CHECKED'); ?> type="checkbox" name="data[Setting][11][value]" value="1"/><label>Enable Cropping</label>
 			</div>
 		</div>
-		
-		<div class="control-group">            
+
+		<div class="control-group">
 			<label style="color: red;" class="control-label">Thumbnail Image</label>
 			<div class="controls dimension">
 				<input REQUIRED name="data[Setting][12][value]" type="text" class="small" value="<?php echo $mySetting[12]['Setting']['value']; ?>" placeholder="Width" /> <span>x</span>
@@ -335,18 +335,18 @@
 				<input <?php echo (empty($mySetting[14]['Setting']['value'])?'':'CHECKED'); ?> type="checkbox" name="data[Setting][14][value]" value="1"/><label>Enable Cropping</label>
 			</div>
 		</div>
-   
+
         <div id="overwrite_image"></div>
     </div>
-		
+
 	<!-- PAGE STATUS -->
 		<div class="alert alert-info full fl">
 			<strong>Additional Info</strong>
 		</div>
 		<div id="inputWrapper">
 		<?php
-			// ADDITIONAL INFO ...			
-			foreach ($mySetting as $key10 => $value10) 
+			// ADDITIONAL INFO ...
+			foreach ($mySetting as $key10 => $value10)
 			{
 				if(is_numeric($key10) && substr($value10['Setting']['key'], 0,7) == 'custom-')
 				{
@@ -355,7 +355,7 @@
 
 					// prepare element data ...
 					$value = array();
-					$value['validation'] = '';					
+					$value['validation'] = '';
 					$value['counter'] = $value10['Setting']['id'] - 1;
 					$value['key'] = 'form-'.string_unslug($value10['Setting']['key']);
 					$value['value'] = $value10['Setting']['value'];
@@ -373,7 +373,7 @@
         // MOVE ELEMENT POSITION !!
         $('#inputWrapper .control-group .control-label:contains("Overwrite Image")').closest('.control-group').appendTo( $('#overwrite_image') );
     });
-</script>   
+</script>
                         <?php
                     }
                     else

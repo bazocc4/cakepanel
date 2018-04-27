@@ -340,7 +340,7 @@ function openRequestedSinglePopup(strUrl , targetName)
 			}
 			else
 			{
-				$('img#myEditCoverImage_'+myImageId).attr('src',site+'img/upload/thumb/'+imgId+'.'+imgType);
+				$('img#myEditCoverImage_'+myImageId).attr('src',site+'img/upload/thumb/'+imgId+'.'+imgType).css('max-width', imgType.toLowerCase() == 'svg'?'200px':'' );
 			}
 			$('input#myEditCoverId_'+myImageId).attr('value',imgId);
 		}

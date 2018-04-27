@@ -7,10 +7,10 @@
 	{
 		$required = 'REQUIRED';
 	}
-	
+
 	$value = (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:(empty($value)?0:$value));
 	$p = (empty($p)?'JPG, PNG, or GIF and 1MB max':$p);
-	
+
 	// find use manual crop or not !!
 	$crop = -1;
     foreach ( $myChildType['TypeMeta'] ?? $myType['TypeMeta'] ?? [] as $key10 => $value10)
@@ -21,7 +21,7 @@
 			break;
 		}
 	}
-	
+
 	// IN EDIT MODE, WITH LAST CROP X1, Y1, X2, Y2
 	$childImage = array();
 	if($crop == 2 && $value > 0)
@@ -48,12 +48,12 @@
               $('#w_<?php echo $counter; ?>').val(c.w);
               $('#h_<?php echo $counter; ?>').val(c.h);
             }
-            
+
             function clearCoords_<?php echo $counter; ?>()
             {
               $('div#imageinfo_<?php echo $counter; ?> input').val('');
             }
-        
+
             $('img#myEditCoverImage_<?php echo $counter; ?>').one('load', function() {
                 // Activate jCrop Plugin ...
                 jcrop_api[<?php echo $counter; ?>] = $.Jcrop('img#myEditCoverImage_<?php echo $counter; ?>', {
@@ -61,7 +61,7 @@
                     onSelect:   showCoords_<?php echo $counter; ?>,
                     onRelease:  clearCoords_<?php echo $counter; ?>,
                     bgColor:    'black',
-                                    
+
                     <?php if(!empty($childImage) && ($childImage['Entry']['parent_id'] > 0 && is_numeric($childImage['EntryMeta']['image_x']??NULL) && is_numeric($childImage['EntryMeta']['image_y']??NULL) && is_numeric($childImage['EntryMeta']['image_width']??NULL) && is_numeric($childImage['EntryMeta']['image_height']??NULL) || is_numeric($_POST['data'][$model][$counter]['x1']??NULL) && is_numeric($_POST['data'][$model][$counter]['x2']??NULL) && is_numeric($_POST['data'][$model][$counter]['y1']??NULL) && is_numeric($_POST['data'][$model][$counter]['y2']??NULL) )): ?>
                     setSelect:  [ <?php echo (is_numeric($_POST['data'][$model][$counter]['x1']??NULL)?$_POST['data'][$model][$counter]['x1']:$childImage['EntryMeta']['image_x']); ?>,
                     <?php echo (is_numeric($_POST['data'][$model][$counter]['y1']??NULL)?$_POST['data'][$model][$counter]['y1']:$childImage['EntryMeta']['image_y']); ?>,
@@ -69,7 +69,7 @@
                     <?php echo (is_numeric($_POST['data'][$model][$counter]['y2']??NULL)?$_POST['data'][$model][$counter]['y2']:$childImage['EntryMeta']['image_y'] + $childImage['EntryMeta']['image_height']); ?> ]
                     <?php endif; ?>
                 });
-                
+
                 // SET CROP SELECTION MANUALLY FROM INPUT TYPES !!
                 $('input[type=text]#x1_<?php echo $counter; ?>').change(function(){
                     $.fn.jCropSetSelectCoord(<?php echo $counter; ?>);
@@ -95,13 +95,13 @@
 		<?php endif; ?>
 	});
 </script>
-<div class="control-group control-image" <?php echo (empty($display)?'':'style="display:none"'); ?>>            
+<div class="control-group control-image" <?php echo (empty($display)?'':'style="display:none"'); ?>>
 	<label class="control-label" <?php echo (!empty($required)?'style="color: red;"':''); ?>>
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
 		<?php
-			echo $this->Html->image('upload/'.($crop==2?'':'thumb/').$value.'.'.(empty($value)?'jpg':$myImageTypeList[$value]),array('id'=>'myEditCoverImage_'.$counter));
+			echo $this->Html->image('upload/'.($crop==2?'':'thumb/').$value.'.'.(empty($value)?'jpg':$myImageTypeList[$value]),array('style'=> (!empty($value) && strtolower($myImageTypeList[$value])=='svg'?'max-width:200px':''), 'id'=>'myEditCoverImage_'.$counter));
 		?>
 	</div>
 	<div class="controls" style="margin-top:10px">
