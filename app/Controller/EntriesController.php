@@ -147,6 +147,23 @@ class EntriesController extends AppController {
 				}
 				$this->set(compact('language', 'url_lang'));
 				$this->set('langPath', $this->get_linkpath().$url_lang );
+
+				// query all avaliable menu !!
+				$menuHeader = $this->EntryMeta->find('all', [
+					'conditions' => [
+						'Entry.entry_type' => 'meta-tags',
+						'Entry.status' => 1,
+						'EntryMeta.key' => 'form-url_code',
+					],
+					'order' => 'Entry.'.$this->generalOrder,
+				]);
+
+				$menuDict = [];
+				foreach ($menuHeader as $key => $value) {
+					$menuDict[ $value['Entry']['description'] ] = $value['EntryMeta']['value'];
+				}
+
+				$this->set(compact('menuHeader', 'menuDict'));
 				// ---------------------------------- >>>
 				// end of additional set to view file !!
 				// ---------------------------------- >>>

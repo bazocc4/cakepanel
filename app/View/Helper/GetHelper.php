@@ -503,6 +503,7 @@ class GetHelper extends AppHelper
     * @param string $site contains CORS basic URL (optional)
     * @param string $dataSource contains another data source to be loaded (optional)
 		* @param integer $responsive contains responsive type id (0 => retina, 1 => desktop, 2 => tablet, 3 => mobile)
+		* @param integer $svgView contains whether SVG image will be shown as SVG HTML tag (1) or not (0).
 	* @return array $result contains all images link from selected id
 	* @public
 	**/
@@ -547,6 +548,9 @@ class GetHelper extends AppHelper
 				$responsiveDict = ['', '-1200w', '-768w', '-0w'];
 				if (!empty($responsive) && file_exists(WWW_ROOT.'img'.DS.'upload'.DS.'responsive'.DS.$name.$responsiveDict[$responsive].'.'.$ext) ) {
 					$result['display'] = $site.'img/upload/responsive/'.$name.$responsiveDict[$responsive].'.'.$ext;
+				}elseif ($svgView == 1) { // CONVERT SVG TO CODE
+					$svg_file = file_get_contents(parent::get_http().$_SERVER['SERVER_NAME'].$result['display']);
+					$result['svgView'] = substr($svg_file, strpos($svg_file, '<svg') );
 				}
 
         return $result;
