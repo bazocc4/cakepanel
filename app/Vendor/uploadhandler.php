@@ -25,7 +25,7 @@ class UploadHandler
             'delete_type' => 'DELETE',
             // The php.ini settings upload_max_filesize and post_max_size
             // take precedence over the following max_file_size setting:
-            'max_file_size' => 1048576,
+            'max_file_size' => 2097152,
             'min_file_size' => 1,
             'accept_file_types' => '/\.(gif|jpe?g|png|svg)$/i',
             'max_number_of_files' => null,

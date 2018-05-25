@@ -1,7 +1,7 @@
 var jcrop_api = new Array();
-(function($){    
+(function($){
     // colorbox initialization !!
-    $.fn.generalColorbox = function(objclass){        
+    $.fn.generalColorbox = function(objclass){
         var $colorbox_params = {
             reposition: false,
 //            fixed: true,
@@ -9,12 +9,12 @@ var jcrop_api = new Array();
 //            maxHeight:'95%',
             current: ( $('.'+objclass).attr('data-current') == 'false' ? "" : "image {current} of {total}" ),
         };
-        
+
         if($('.'+objclass+'[rel]').length)
         {
             $('.'+objclass+'[rel]').colorbox($colorbox_params);
         }
-        
+
         if($('.'+objclass+':not([rel])').length)
         {
             $(document).on('click', '.'+objclass+':not([rel])' , function(e){
@@ -26,16 +26,16 @@ var jcrop_api = new Array();
             });
         }
     }
-    
+
     $(document).ready(function()
 	{
         $.fn.generalColorbox('popup-image');
-        
+
 		// disable right-click for image !!
 		$('img').bind('contextmenu', function(e) {
 			return false;
 		});
-        
+
         // Disable input form field but still send the value !!
         $('form').bind('submit', function(){
             $(this).find(':disabled').removeAttr('disabled');
@@ -45,26 +45,26 @@ var jcrop_api = new Array();
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("change",'form.notif-change',function(e){
 	        window.onbeforeunload=function()
 			{
-	             return 'You have unsaved changes. Are you sure you want to leave this page?';    
+	             return 'You have unsaved changes. Are you sure you want to leave this page?';
 	        };
 	    });
-	    
+
 		($('#colorbox').length>0&&$('#colorbox').is(':visible')?$('#colorbox').children().last().children():$(document)).on("submit",'form.notif-change',function(e){
 	    	window.onbeforeunload=function(){};
 	    });
-	    
+
 	    $(document).on('click','a.removeID',function(e){
             e.preventDefault();
             $(this).siblings("input[type=hidden] , input.targetID").val("").trigger('change');
         });
-	    
+
 	    // AJAX IN EDIT FORM (CHANGE LANGUAGE)
 		$('div#child-content').on("click", '.ajax_myform', function(e){
 			e.preventDefault();
 			var myobj = $(this);
 			var myid = 'ajaxed';
 			var url = myobj.attr('href');
-			
+
 			if(url == "#")
 			{
 				// just change now language
@@ -82,12 +82,18 @@ var jcrop_api = new Array();
 					// get hidden data
 					var now_language = $('input[type=hidden]#myLanguage').val().toUpperCase();
 					var entry_title = $('input[type=text].Title').val();
+          if (entry_title === undefined) {
+            entry_title = $('textarea.Title').val();
+            if (entry_title === undefined) {
+              entry_title = '#';
+            }
+          }
 					var entry_image_id = $('input[type=hidden]#mySelectCoverId').val();
 					var entry_image_type = $('input[type=hidden]#entry_image_type').val();
-					
+
 					// change now language
 					$('a#lang_identifier').html( now_language );
-					
+
 					// change form title
 					$('h2#form-title-entry').html(url.indexOf('lang=') >= 0? 'TRANSLATE ('+entry_title+')' : entry_title);
 					// refresh ckeditor...
@@ -95,7 +101,7 @@ var jcrop_api = new Array();
 					// refresh cover image...
 					$('img#mySelectCoverAlbum').attr('src',site+'img/upload/thumb/'+entry_image_id+'.'+entry_image_type);
 					if(entry_image_id == 0)
-					{	
+					{
 						$('.select').html('Select Cover');
 						$('.remove').hide();
 					}
@@ -107,7 +113,7 @@ var jcrop_api = new Array();
 				});
 			}
 		});
-		
+
 		// ------------------------ JCROP FUNCTION ------------------------ //
 		$.fn.jCropSetSelectCoord = function(counter){
 			var x1 = $('input[type=text]#x1_'+counter).val();
@@ -116,7 +122,7 @@ var jcrop_api = new Array();
 			var y2 = $('input[type=text]#y2_'+counter).val();
 			jcrop_api[counter].setSelect([x1 , y1 , x2 , y2]);
 		}
-		
+
 		$.fn.jCropSetSelectSize = function(counter){
 			var x1 = $('input[type=text]#x1_'+counter).val();
 			var y1 = $('input[type=text]#y1_'+counter).val();

@@ -8,7 +8,7 @@
 	<head>
 		<?php echo $this->Html->charset(); ?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<?php echo $this->Html->meta('rss' , '/entries/index.rss'); ?>

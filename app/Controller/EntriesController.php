@@ -153,6 +153,7 @@ class EntriesController extends AppController {
 					'conditions' => [
 						'Entry.entry_type' => 'meta-tags',
 						'Entry.status' => 1,
+						'Entry.lang_code LIKE' => $language.'-%',
 						'EntryMeta.key' => 'form-url_code',
 					],
 					'order' => 'Entry.'.$this->generalOrder,

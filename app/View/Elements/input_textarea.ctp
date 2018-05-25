@@ -9,6 +9,13 @@
 		$required = 'REQUIRED';
 	}
 
+	// add class title if the field is title !!
+	$classtitle = "";
+	if($model == 'Entry' && $counter == 0)
+	{
+		$classtitle = "Title";
+	}
+
 	// characters limitation !!
 	$maxchar = 0;
 	$posMaxLength = strpos($validation, 'max_length');
@@ -26,18 +33,18 @@
 		}
 	}
 ?>
-<div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>            
+<div class="control-group" <?php echo (empty($display)?'':'style="display:none"'); ?>>
 	<label class="control-label" <?php echo (!empty($required)?'style="color: red;"':''); ?>>
         <?php echo string_unslug($shortkey); ?>
     </label>
 	<div class="controls">
-		<textarea rows="5" <?php echo ($maxchar > 0?'maxlength="'.$maxchar.'"':''); ?> <?php echo $required; ?> class="medium <?php echo $shortkey; ?>" type="text" placeholder="<?php echo $placeholder ?? ''; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"><?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?></textarea>
+		<textarea rows="5" <?php echo ($maxchar > 0?'maxlength="'.$maxchar.'"':''); ?> <?php echo $required; ?> class="<?php echo $shortkey; ?> medium <?= $classtitle; ?>" type="text" placeholder="<?php echo $placeholder ?? ''; ?>" name="data[<?php echo $model; ?>][<?php echo $counter; ?>][value]"><?php echo (isset($_POST['data'][$model][$counter]['value'])?$_POST['data'][$model][$counter]['value']:$value); ?></textarea>
 		<?php
 			if(!empty($p))
 			{
 				echo '<p class="help-block">'.$p.'</p>';
 			}
-        
+
             if($maxchar > 0)
             {
                 ?>
