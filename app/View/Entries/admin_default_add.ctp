@@ -188,7 +188,7 @@
 							break;
 					}
 					echo $this->element('input_'.$value['input_type'] , $value);
-                    echo '<div class="clear"></div>';
+          echo '<div class="clear"></div>';
 				}
 			}
 			// HIDE THE BROKEN INPUT TYPE !!!!!!!!!!!!!
@@ -297,6 +297,7 @@
                     }
                 }
                 echo '</div>';
+								echo '<div class="clear"></div>';
             }
 		?>
 

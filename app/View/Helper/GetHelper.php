@@ -30,6 +30,11 @@ class GetHelper extends AppHelper
         return $this->Entry->getModuleAlias($slug, $lang);
     }
 
+		function getModuleSlug($alias)
+		{
+				return $this->Entry->getModuleSlug($alias);
+		}
+
     function getModuleTitle($slug, $lang = NULL)
     {
         $options = [
@@ -110,7 +115,7 @@ class GetHelper extends AppHelper
 	**/
 	function changeLangUrl($url , $slugs = array())
 	{
-        $url = urldecode($url);
+    $url = urldecode($url);
 		$pecahurl = array();
 		$langslugs = array();
 
@@ -120,9 +125,10 @@ class GetHelper extends AppHelper
 			$temp_lang = $this->Entry->get_lang_url();
 			if(strtolower($temp_lang['language']) == strtolower($pecahurl[0])) // link contain language !!
 			{
-				// terminate language in url !!
-				array_shift($pecahurl);
+				array_shift($pecahurl); // terminate language in url !!
 			}
+			// convert alias entry_type to REAL entry_type !!
+			$pecahurl[0] = $this->getModuleSlug($pecahurl[0]);
 
 			foreach ($slugs as $key => $value)
 			{
@@ -133,10 +139,14 @@ class GetHelper extends AppHelper
 		$result = array();
 		foreach ($this->data['mySetting']['language'] as $key => $value)
 		{
-			$newlang = implode("/", $pecahurl);
 			$mylang = strtolower(substr($value, 0,2));
-			$result[$mylang] = "";
 
+			// convert entry_type language (based on meta tags module) !!
+			$langPecahURL = $pecahurl;
+			$langPecahURL[0] = $this->getModuleAlias($langPecahURL[0], $mylang);
+			$newlang = implode("/", $langPecahURL);
+
+			$result[$mylang] = "";
 			if($key > 0) // NOT default language !!
 			{
 				$result[$mylang] = $mylang.'/';
@@ -152,16 +162,16 @@ class GetHelper extends AppHelper
 					{
 						$newlang = strrev( preg_replace('/'.strrev($subkey).'/', strrev($temp_entry['Entry']['slug']) , strrev($newlang) , 1 ) );
 					}
-                    else if($subvalue['Entry']['entry_type'] == 'pages')
-                    {
-                        $newlang = $subvalue['Entry']['slug'];
-                        break;
-                    }
-                    else // if entry not found, then throw url link to home !!
-                    {
-                        unset($newlang);
-                        break;
-                    }
+          else if($subvalue['Entry']['entry_type'] == 'pages')
+          {
+              $newlang = $subvalue['Entry']['slug'];
+              break;
+          }
+          else // if entry not found, then throw url link to home !!
+          {
+              unset($newlang);
+              break;
+          }
 				}
 			}
 
