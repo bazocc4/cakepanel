@@ -120,9 +120,9 @@
 				<div class="span7">
 					<a target="_blank" alt="homepage" href="<?php echo $imagePath; ?>">
 						<?php if (empty($mySetting['homepage_share'])): ?>
-	            <img src="<?php echo $imagePath; ?>images/logo.png" />
+	            <img src="<?php echo $imagePath; ?>images/logo.png" style="max-width: 160px;" />
 	          <?php else: ?>
-	            <img src="<?php echo $this->Get->image_link(array('id'=>$mySetting['homepage_share']))['display']; ?>"/>
+	            <img src="<?php echo $this->Get->image_link(array('id'=>$mySetting['homepage_share']))['display']; ?>" style="max-width: 160px;" />
 	          <?php endif; ?>
 					</a>
 				</div>

@@ -109,7 +109,7 @@ class Type extends AppModel {
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
-			'order' => 'ChildType.id ASC',
+			'order' => 'ChildType.modified ASC',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
@@ -117,7 +117,7 @@ class Type extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-	
+
 	/**
 	 * to get a valid slug database process
 	 * @param string $slug contains source slug want to be processed
@@ -148,14 +148,14 @@ class Type extends AppModel {
 		}
 		return $mySlug;
 	}
-	
+
 	/**
 	 * function that be executed before save an entry (automated by cakephp)
 	 * @return boolean
 	 * @public
 	 **/
 	function beforeSave($options = array())
-	{		
+	{
 		if(!empty($this->data['Type']['slug']))
 		{
 			$this->data['Type']['slug'] = $this->get_valid_slug($this->data['Type']['slug']);

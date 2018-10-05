@@ -25,6 +25,10 @@
  * how to customize the loading of plugin routes.
  */
 CakePlugin::routes();
+if(empty($_SERVER['HTTPS']) && !isLocalhost() )
+{
+	header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
+}
 
 /**
  * Rss Initialization
@@ -61,10 +65,10 @@ Router::connect('/admin/entries/backup/:mode', array('controller' => 'entries', 
 if(in_array($controller, [
     'accounts',
 	'configs',
-	'entries',	
+	'entries',
 	'entry_metas',
 	'pages',
-	'roles',	
+	'roles',
 	'settings',
 	'type_metas',
 	'types',
@@ -88,7 +92,7 @@ if(in_array($controller, [
 			Router::connect('/admin/entries/:type/index/:page', array('controller' => 'entries', 'action' => 'index' , 'admin'=>true));
 			Router::connect('/admin/entries/:type/add', array('controller' => 'entries', 'action' => 'index_add' , 'admin'=>true));
 			Router::connect('/admin/entries/:type/edit/:entry', array('controller' => 'entries', 'action' => 'index_edit' , 'admin'=>true));
-			
+
 			// go to children entries...
 			Router::connect('/admin/entries/:type/:entry', array('controller' => 'entries', 'action' => 'index' , 'admin'=>true));
 			Router::connect('/admin/entries/:type/:entry/index/:page', array('controller' => 'entries', 'action' => 'index' , 'admin'=>true));
@@ -101,17 +105,17 @@ else
 {
 	// --------------------------  SHOPPING CART ---------------------------- //
 	Router::connect('/shoppingcart/:step', array('controller' => 'instant_payment_notifications', 'action' => 'shoppingcart'));
-	
+
 	// ---------------------------- STAGGING ROUTING ---------------------------------------------- //
 	Router::connect('/:type/add', array('controller' => 'entries', 'action' => 'index_add'));
 	Router::connect((strlen($controller) == 2?'/:lang/:type':'/:type/:entry').'/add', array('controller' => 'entries', 'action' => 'index_add'));
 	Router::connect('/:lang/:type/:entry/add', array('controller' => 'entries', 'action' => 'index_add'));
-	
+
 	Router::connect('/:type/edit/:entry', array('controller' => 'entries', 'action' => 'index_edit'));
 	Router::connect((strlen($controller) == 2?'/:lang/:type':'/:type/:entry_parent').'/edit/:entry', array('controller' => 'entries', 'action' => 'index_edit'));
 	Router::connect('/:lang/:type/:entry_parent/edit/:entry', array('controller' => 'entries', 'action' => 'index_edit'));
 	// ------------------------ END OF STAGGING ROUTING ---------------------------------------------- //
-	
+
 	// LAST DECISION !!
 	Router::connect('/*', array('controller' => 'entries', 'action' => 'index'));
 	// Router::connect('/*', array('controller' => 'settings', 'action' => 'error404'));
